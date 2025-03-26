@@ -1,0 +1,18 @@
+:root {
+    --sidebar-background-color: #1E293B !important;
+    --topbar-background-color: #fafafa !important;
+}
+
+.fi-sidebar {
+
+}
+.fi-topbar > nav {
+    background-color: inherit !important;
+    outline: none;
+    box-shadow: none !important;
+
+}.fi-sidebar-header {
+    background-color: inherit !important;
+    outline: none;
+    box-shadow: none !important;
+}
