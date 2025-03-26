@@ -30,7 +30,6 @@ class CreateNhaCungCap extends CreateRecord
 //        DB::table('dummy')->insert([
 //            'id' => 123,
 //        ]);
-
         return static::getModel()::create($data);
     }
 
