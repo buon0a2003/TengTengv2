@@ -11,6 +11,7 @@ class NhaCungCap extends Model
 {
     use HasFactory;
 
+
     protected $table = 'nhacungcap';
 
     protected $fillable = [
