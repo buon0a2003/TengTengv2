@@ -4,7 +4,8 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\NhaCungCapResource\Pages;
 use App\Filament\Resources\NhaCungCapResource\RelationManagers;
-use App\Models\NhaCungCap;
+use App\Filament\Resources\NhaCungCapResource\RelationManagers\PhieunhapRelationManager;
+use App\Models\nhacungcap;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
@@ -26,7 +27,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class NhaCungCapResource extends Resource
 {
-    protected static ?string $model = NhaCungCap::class;
+    protected static ?string $model = nhacungcap::class;
 
     public static function getBreadcrumb(): string
     {
@@ -112,7 +113,7 @@ class NhaCungCapResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            PhieunhapRelationManager::class,
         ];
     }
 

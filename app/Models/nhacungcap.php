@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class NhaCungCap extends Model
+class nhacungcap extends Model
 {
     use HasFactory;
 
@@ -25,6 +25,6 @@ class NhaCungCap extends Model
     ];
     public function phieunhap(): HasMany
     {
-        return $this->hasMany(PhieuNhap::class);
+        return $this->hasMany(phieunhap::class);
     }
 }

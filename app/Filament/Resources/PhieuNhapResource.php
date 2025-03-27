@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PhieuNhapResource\Pages;
 use App\Filament\Resources\PhieuNhapResource\RelationManagers;
-use App\Models\PhieuNhap;
+use App\Models\phieunhap;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PhieuNhapResource extends Resource
 {
-    protected static ?string $model = PhieuNhap::class;
+    protected static ?string $model = phieunhap::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-newspaper';
     protected static ?string $navigationLabel = 'Phiếu nhập';
@@ -40,6 +40,7 @@ class PhieuNhapResource extends Resource
                     ->label('Nhà cung cấp'),
 
                 TextColumn::make('NgayNhap')
+                    ->label('Ngày nhập')
                     ->date('d/m/Y')
                     ->searchable(),
 

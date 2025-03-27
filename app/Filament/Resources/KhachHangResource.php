@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\KhachHangResource\Pages;
 use App\Filament\Resources\KhachHangResource\RelationManagers;
-use App\Models\KhachHang;
+use App\Models\khachhang;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class KhachHangResource extends Resource
 {
-    protected static ?string $model = KhachHang::class;
+    protected static ?string $model = khachhang::class;
 
     public static function getBreadcrumb(): string
     {
@@ -39,15 +39,21 @@ class KhachHangResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('Thông tin bắt buộc')->schema([
+                Section::make('Thông tin bắt buộc')
+                    ->description('Thông tin chi tiết của khách hàng mới')
+                    ->aside()
+                    ->schema([
                     TextInput::make('TenKH')->label('Tên khách hàng')->required(),
                     TextInput::make('Sdt')->label('Số điện thoại')->tel()->required(),
                     TextInput::make('DiaChi')->label('Địa chỉ')->required(),
-                ])->columnSpan(1),
-                Section::make('Thông tin không bắt buộc')->schema([
+                ])->columnSpanFull(),
+
+                Section::make('Thông tin không bắt buộc')
+                    ->aside()
+                    ->schema([
                     TextInput::make('Email'),
                     TextInput::make('GhiChu')->label('Ghi chú'),
-                ])->columnSpan(1),
+                ])->columnSpanFull(),
 
             ]);
     }
