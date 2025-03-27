@@ -7,6 +7,7 @@ use App\Filament\Resources\PhieuNhapResource\RelationManagers;
 use App\Models\chitietphieunhap;
 use App\Models\phieunhap;
 use App\Models\vattu;
+use Filament\Notifications\Notification;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms;
 use Filament\Forms\Components\Repeater;
@@ -187,25 +188,66 @@ class PhieuNhapResource extends Resource
                 //
             ])
             ->actions([
-
                 ActionGroup::make([
                     Tables\Actions\EditAction::make()->color('primary'),
                     ViewAction::make(),
                     Action::make('duyet')
                         ->action(function ($record, $data) {
-                            $record->update(['TrangThai' => 1]);
 
-//                            DB::table('another_table')->insert([
-//                                'phieunhap_id' => $record->id,
-//                                'updated_at' => now(),
-//                                'created_at' => now(),
-//                                // Add additional fields as necessary
-//                            ]);
+                            $chiTietPhieuNhapRecords = DB::table('chitietphieunhap')
+                                ->where('phieunhap_id', $record->id)
+                                ->get()
+                                ->toArray();
+
+                            if (count($chiTietPhieuNhapRecords) > 0)
+                            {
+                                $allHaveVitriId = collect($chiTietPhieuNhapRecords)->every(fn($value) => !is_null($value->vitri_id));
+                                if ($allHaveVitriId){
+                                    foreach ($chiTietPhieuNhapRecords as $value)
+                                    {
+                                        $existingRecord = DB::table('tonkho')
+                                            ->where('vattu_id', $value->vattu_id)
+                                            ->where('vitri_id', $value->vitri_id)
+                                            ->first();
+
+                                        if ($existingRecord) {
+                                            DB::table('tonkho')
+                                                ->where('id', $existingRecord->id)
+                                                ->update([
+                                                    'SoLuong' => $existingRecord->SoLuong + $value->SoLuong,
+                                                    'updated_at' => now(),
+                                                ]);
+                                        } else {
+                                            DB::table('tonkho')->insert([
+                                                'vattu_id' => $value->vattu_id,
+                                                'SoLuong' => $value->SoLuong,
+                                                'kho_id' => $record->kho_id,
+                                                'vitri_id' => $value->vitri_id,
+                                                'created_at' => now(),
+                                                'updated_at' => now(),
+                                            ]);
+                                        }
+                                    }
+
+                                    Notification::make()
+                                        ->title('Update tồn kho!')
+                                        ->success()
+                                        ->send();
+
+                                    $record->update(['TrangThai' => 1]);
+                                } else {
+                                    Notification::make()
+                                        ->title('Chưa cập nhật vị trí cho dữ liệu')
+                                        ->danger()
+                                        ->send();
+                                }
+                            } else {
+                                Notification::make()
+                                    ->title('Chưa có dữ liệu nhập kho')
+                                    ->danger()
+                                    ->send();
+                            }
 //
-//                            Notification::make()
-//                                ->title('Record updated successfully!')
-//                                ->success()
-//                                ->send();
                         })
                         ->hidden(fn ($record): bool => $record->TrangThai == 1)
                         ->label('Duyệt')
