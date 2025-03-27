@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class kho extends Model
 {
@@ -18,4 +19,9 @@ class kho extends Model
         'DiaChi',
         'GhiChu',
     ];
+
+    public function phieunhap(): hasMany
+    {
+        return $this->hasMany(PhieuNhap::class);
+    }
 }

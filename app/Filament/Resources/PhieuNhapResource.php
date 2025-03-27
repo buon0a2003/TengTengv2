@@ -47,17 +47,25 @@ class PhieuNhapResource extends Resource
                     ->label('Người nhập')
                     ->searchable(),
 
-                TextColumn::make('MaKho'),
+                TextColumn::make('kho.TenKho')
+                ->label('Kho'),
 
-                TextColumn::make('LyDo'),
+                TextColumn::make('LyDo')
+                    ->label('Lý do')
+                    ->formatStateUsing(fn ($record) => $record->LyDo == 1 ? 'Nhập nguyên vật liệu' : 'Nhập sản xuất')
+                    ->badge()
+                    ->color(fn ($record): string =>  $record->LyDo == 1 ? 'success' : 'secondary')
+                    ->searchable(),
 
-                TextColumn::make('GhiChu'),
+                TextColumn::make('GhiChu')
+                    ->label('Ghi chú'),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                // xoá thì phải để oncasade cho chi tiet phieu nhap nua
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
