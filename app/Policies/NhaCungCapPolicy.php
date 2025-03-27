@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\NhaCungCap;
+use App\Models\nhacungcap;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class NhaCungCapPolicy
@@ -21,7 +21,7 @@ class NhaCungCapPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, NhaCungCap $nhaCungCap): bool
+    public function view(User $user, nhacungcap $nhaCungCap): bool
     {
         return $user->can('view_nha::cung::cap');
     }
@@ -37,7 +37,7 @@ class NhaCungCapPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, NhaCungCap $nhaCungCap): bool
+    public function update(User $user, nhacungcap $nhaCungCap): bool
     {
         return $user->can('update_nha::cung::cap');
     }
@@ -45,7 +45,7 @@ class NhaCungCapPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, NhaCungCap $nhaCungCap): bool
+    public function delete(User $user, nhacungcap $nhaCungCap): bool
     {
         return $user->can('delete_nha::cung::cap');
     }
@@ -61,7 +61,7 @@ class NhaCungCapPolicy
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, NhaCungCap $nhaCungCap): bool
+    public function forceDelete(User $user, nhacungcap $nhaCungCap): bool
     {
         return $user->can('force_delete_nha::cung::cap');
     }
@@ -77,7 +77,7 @@ class NhaCungCapPolicy
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, NhaCungCap $nhaCungCap): bool
+    public function restore(User $user, nhacungcap $nhaCungCap): bool
     {
         return $user->can('restore_nha::cung::cap');
     }
@@ -93,7 +93,7 @@ class NhaCungCapPolicy
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, NhaCungCap $nhaCungCap): bool
+    public function replicate(User $user, nhacungcap $nhaCungCap): bool
     {
         return $user->can('replicate_nha::cung::cap');
     }

@@ -22,6 +22,6 @@ class kho extends Model
 
     public function phieunhap(): hasMany
     {
-        return $this->hasMany(PhieuNhap::class);
+        return $this->hasMany(phieunhap::class);
     }
 }

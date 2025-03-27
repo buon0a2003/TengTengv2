@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class PhieuNhap extends Model
+class phieunhap extends Model
 {
     use HasFactory;
     protected $primaryKey = 'id';
@@ -30,7 +30,7 @@ class PhieuNhap extends Model
 
     public function nhacungcap(): BelongsTo
     {
-        return $this->belongsTo(NhaCungCap::class);
+        return $this->belongsTo(nhacungcap::class);
     }
 
     public function user(): belongsTo
@@ -41,5 +41,10 @@ class PhieuNhap extends Model
     public function kho(): BelongsTo
     {
         return $this->belongsTo(kho::class);
+    }
+
+    public function chitietphieunhap(): HasMany
+    {
+        return $this->hasMany(chitietphieunhap::class);
     }
 }

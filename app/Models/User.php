@@ -60,6 +60,6 @@ class User extends Authenticatable
 
     public function phieunhap(): HasMany
     {
-        return $this->hasMany(PhieuNhap::class);
+        return $this->hasMany(phieunhap::class);
     }
 }

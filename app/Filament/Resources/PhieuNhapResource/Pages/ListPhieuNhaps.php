@@ -10,6 +10,7 @@ class ListPhieuNhaps extends ListRecords
 {
     protected static string $resource = PhieuNhapResource::class;
 
+    protected static ?string $title = 'Quản lý phiếu nhập';
     protected function getHeaderActions(): array
     {
         return [

@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ChiTietPhieuNhapResource\Pages;
 use App\Filament\Resources\ChiTietPhieuNhapResource\RelationManagers;
-use App\Models\ChiTietPhieuNhap;
+use App\Models\chitietphieunhap;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ChiTietPhieuNhapResource extends Resource
 {
-    protected static ?string $model = ChiTietPhieuNhap::class;
+    protected static ?string $model = chitietphieunhap::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static bool $shouldRegisterNavigation = false;

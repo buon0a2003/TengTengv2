@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\KhachHang;
+use App\Models\khachhang;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class KhachHangPolicy
@@ -21,7 +21,7 @@ class KhachHangPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, KhachHang $khachHang): bool
+    public function view(User $user, khachhang $khachHang): bool
     {
         return $user->can('view_khach::hang');
     }
@@ -37,7 +37,7 @@ class KhachHangPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, KhachHang $khachHang): bool
+    public function update(User $user, khachhang $khachHang): bool
     {
         return $user->can('update_khach::hang');
     }
@@ -45,7 +45,7 @@ class KhachHangPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, KhachHang $khachHang): bool
+    public function delete(User $user, khachhang $khachHang): bool
     {
         return $user->can('delete_khach::hang');
     }
@@ -61,7 +61,7 @@ class KhachHangPolicy
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, KhachHang $khachHang): bool
+    public function forceDelete(User $user, khachhang $khachHang): bool
     {
         return $user->can('force_delete_khach::hang');
     }
@@ -77,7 +77,7 @@ class KhachHangPolicy
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, KhachHang $khachHang): bool
+    public function restore(User $user, khachhang $khachHang): bool
     {
         return $user->can('restore_khach::hang');
     }
@@ -93,7 +93,7 @@ class KhachHangPolicy
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, KhachHang $khachHang): bool
+    public function replicate(User $user, khachhang $khachHang): bool
     {
         return $user->can('replicate_khach::hang');
     }
