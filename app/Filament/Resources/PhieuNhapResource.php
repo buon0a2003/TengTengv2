@@ -7,18 +7,23 @@ use App\Filament\Resources\PhieuNhapResource\RelationManagers;
 use App\Models\chitietphieunhap;
 use App\Models\phieunhap;
 use App\Models\vattu;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\DB;
 use function Laravel\Prompts\select;
 
 class PhieuNhapResource extends Resource
@@ -46,6 +51,8 @@ class PhieuNhapResource extends Resource
                                     Forms\Components\Radio::make('LyDo')
 //                                        ->required()
                                         ->inline()
+                                        ->default('0')
+                                        ->live()
                                         ->label('Lý do nhập hàng?')
                                         ->options([
                                             '0' => 'Nhập sản xuất',
@@ -68,6 +75,7 @@ class PhieuNhapResource extends Resource
                                         ->label('Nhà cung cấp')
                                         ->relationship('nhacungcap', 'TenNCC')
                                         ->preload()
+                                        ->hidden(fn (Get $get): bool => $get('LyDo') == '0')
                                         ->searchable(),
 
                                     Select::make('kho_id')
@@ -133,6 +141,7 @@ class PhieuNhapResource extends Resource
                     ->label('Mã phiếu'),
 
                 TextColumn::make('nhacungcap.TenNCC')
+                    ->placeholder('N/A')
                     ->label('Nhà cung cấp'),
 
                 TextColumn::make('NgayNhap')
@@ -155,6 +164,20 @@ class PhieuNhapResource extends Resource
                     ->searchable(),
 
                 TextColumn::make('TrangThai')
+                    ->alignCenter()
+                    ->formatStateUsing(fn ($record) => match ($record->TrangThai) {
+                        0 => 'Đang xử lý',
+                        1 => 'Đã xử lý',
+                        2 =>'Đã huỷ',
+                        default => ''
+                    })
+                    ->badge()
+                    ->color(fn ($record): string =>  match ($record->TrangThai) {
+                        0 => 'warning',
+                        1 => 'success',
+                        2 =>'danger',
+                        default => ''
+                    })
                     ->label('Trạng thái'),
 
                 TextColumn::make('GhiChu')
@@ -164,7 +187,31 @@ class PhieuNhapResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+
+                ActionGroup::make([
+                    Tables\Actions\EditAction::make()->color('primary'),
+                    ViewAction::make(),
+                    Action::make('duyet')
+                        ->action(function ($record, $data) {
+                            $record->update(['TrangThai' => 1]);
+
+//                            DB::table('another_table')->insert([
+//                                'phieunhap_id' => $record->id,
+//                                'updated_at' => now(),
+//                                'created_at' => now(),
+//                                // Add additional fields as necessary
+//                            ]);
+//
+//                            Notification::make()
+//                                ->title('Record updated successfully!')
+//                                ->success()
+//                                ->send();
+                        })
+                        ->hidden(fn ($record): bool => $record->TrangThai == 1)
+                        ->label('Duyệt')
+                        ->icon('heroicon-s-check')
+                        ->color('info'),
+                ]),
                 // xoá thì phải để oncasade cho chi tiet phieu nhap nua
             ])
             ->bulkActions([

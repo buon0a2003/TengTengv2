@@ -24,4 +24,9 @@ class kho extends Model
     {
         return $this->hasMany(phieunhap::class);
     }
+
+    public function vitri(): hasMany
+    {
+        return $this->hasMany(vitri::class);
+    }
 }

@@ -31,4 +31,11 @@ class CreatePhieuNhap extends CreateRecord
 
         return $record;
     }
+
+    protected function getCreateFormAction(): \Filament\Actions\Action
+    {
+        return parent::getCreateFormAction()
+            ->label('Tạo mới')
+            ->icon('heroicon-s-plus');
+    }
 }

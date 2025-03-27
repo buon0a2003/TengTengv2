@@ -31,4 +31,9 @@ class chitietphieunhap extends Model
     {
         return $this->belongsTo(vattu::class);
     }
+
+    public function vitri(): belongsTo
+    {
+        return $this->belongsTo(vitri::class);
+    }
 }

@@ -14,7 +14,15 @@ class ListPhieuNhaps extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->icon('heroicon-o-plus')
+                ->label('Tạo mới'),
+
+            Actions\CreateAction::make()
+                ->label('xuất excel')
+                ->icon('heroicon-o-arrow-down-tray')
+                ->color('primary')
         ];
     }
+
 }
