@@ -37,4 +37,9 @@ class PhieuNhap extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function kho(): BelongsTo
+    {
+        return $this->belongsTo(kho::class);
+    }
 }
