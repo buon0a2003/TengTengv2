@@ -32,8 +32,7 @@ class NhaCungCapResource extends Resource
     {
         return 'Nhà cung cấp';
     }
-    protected static ?string $navigationIcon = 'heroicon-o-circle-stack';
-
+    protected static ?string $navigationIcon = 'heroicon-o-briefcase';
     protected static ?int $navigationSort = 1;
     protected static ?string $navigationLabel = 'Nhà cung cấp';
     protected static ?string $navigationGroup = 'Quản lý danh mục';
@@ -84,7 +83,7 @@ class NhaCungCapResource extends Resource
                 TextColumn::make('DiaChi')->searchable()->label('Địa chỉ')->wrap(),
                 TextColumn::make('MaSoThue')->searchable()->label('Mã Số thuế')->wrap(),
                 TextColumn::make('GhiChu')->label('Ghi chú')->wrap(),
-                TextColumn::make('created_at')->sortable(),
+//                TextColumn::make('created_at')->sortable(),
 
             ])
             ->striped()

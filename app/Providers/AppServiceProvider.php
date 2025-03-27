@@ -7,7 +7,9 @@ namespace App\Providers;
 use App\Filament\Resources\UserResource\Pages\EditUser;
 use Filament\Facades\Filament;
 use Filament\Navigation\NavigationItem;
+use Filament\Pages\Page;
 use Filament\Support\Assets\Css;
+use Filament\Support\Enums\Alignment;
 use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Support\ServiceProvider;
 
@@ -29,5 +31,7 @@ class AppServiceProvider extends ServiceProvider
         FilamentAsset::register([
             Css::make('custom-stylesheet', __DIR__ . '/../../resources/css/custom.css'),
         ]);
+
+        Page::formActionsAlignment(Alignment::Left);
     }
 }

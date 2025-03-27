@@ -60,6 +60,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->navigationGroups([
                 'Quản lý danh mục',
+                'Quản lý Nhập & Xuất',
                 'Quản lý tài khoản',
                 'External',
             ])
