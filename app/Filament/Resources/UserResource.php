@@ -55,11 +55,13 @@ class UserResource extends Resource
 
                             Forms\Components\DatePicker::make('Birth')
                                 ->label('Ngày sinh')
+
                                 ->displayFormat('d/m/Y'),
                         ]),
 
                     Forms\Components\Section::make('Chức vụ')
                         ->schema([
+
                             Forms\Components\Checkbox::make('Active')
                                 ->visibleOn('edit'),
                             Forms\Components\Select::make('roles')

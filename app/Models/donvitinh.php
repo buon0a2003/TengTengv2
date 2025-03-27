@@ -8,23 +8,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class NhaCungCap extends Model
+class donvitinh extends Model
 {
     use HasFactory;
 
-    protected $table = 'nhacungcap';
-
+    protected $table = 'donvitinh';
     protected $fillable = [
         'id',
-        'TenNCC',
-        'Sdt',
-        'DiaChi',
-        'Email',
-        'MaSoThue',
-        'GhiChu',
+        'TenDVT',
+        'Mota',
     ];
-    public function phieunhap(): HasMany
+
+    public function vattu(): hasMany
     {
-        return $this->hasMany(PhieuNhap::class);
+        return $this->hasMany(vattu::class);
     }
 }

@@ -2,23 +2,16 @@
 
 namespace App\Filament\Resources;
 
-//use App\View\Components\CustomTable;
-use App\Forms\Components\CustomTable;
-use App\Filament\Resources\NhaCungCapResource\Pages;
-use App\Filament\Resources\NhaCungCapResource\RelationManagers;
-use App\Models\NhaCungCap;
+use App\Filament\Resources\KhachHangResource\Pages;
+use App\Filament\Resources\KhachHangResource\RelationManagers;
+use App\Models\KhachHang;
 use Filament\Forms;
-use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
@@ -28,60 +21,32 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class NhaCungCapResource extends Resource
+class KhachHangResource extends Resource
 {
-    protected static ?string $model = NhaCungCap::class;
+    protected static ?string $model = KhachHang::class;
 
     public static function getBreadcrumb(): string
     {
-        return 'Nhà cung cấp';
+        return 'Khách hàng';
     }
-    protected static ?string $navigationIcon = 'heroicon-o-briefcase';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+
     protected static ?int $navigationSort = 1;
-    protected static ?string $navigationLabel = 'Nhà cung cấp';
+    protected static ?string $navigationLabel = 'Khách hàng';
     protected static ?string $navigationGroup = 'Quản lý danh mục';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-
                 Section::make('Thông tin bắt buộc')->schema([
-                    TextInput::make('TenNCC')
-                        ->required()
-                        ->label('Tên'),
-                    TextInput::make('Sdt')
-                        ->required()
-                        ->label('Số điện thoại'),
-                    TextInput::make('DiaChi')
-                        ->required()
-                        ->label('Địa chỉ'),
-                    TextInput::make('MaSoThue')
-                        ->required()
-                        ->label('Mã Số thuế'),
+                    TextInput::make('TenKH')->label('Tên khách hàng')->required(),
+                    TextInput::make('Sdt')->label('Số điện thoại')->tel()->required(),
+                    TextInput::make('DiaChi')->label('Địa chỉ')->required(),
                 ])->columnSpan(1),
-
-                Section::make("amen")->schema([
-                    CustomTable::make('product_table')
-                        ->columns(['Tên sản phẩm', 'Số lượng'])
-                        ->data([
-                            ['iPhone 15', 10],
-                            ['Laptop Asus', 5],
-                            ['Bàn phím cơ', 20],
-                        ]),
-
-
-                ]),
-
-
                 Section::make('Thông tin không bắt buộc')->schema([
-                    TextInput::make('Email')
-                        ->email()
-                        ->label('Email'),
-                    Textarea::make('GhiChu')
-                        ->label('Ghi chú')
-                        ->rows(3)
-                        ->columnSpan(1),
+                    TextInput::make('Email'),
+                    TextInput::make('GhiChu')->label('Ghi chú'),
                 ])->columnSpan(1),
 
             ]);
@@ -92,18 +57,13 @@ class NhaCungCapResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')->label('Mã'),
-                TextColumn::make('TenNCC')
-                    ->searchable()->label('Tên'),
-
+                TextColumn::make('TenKH')->searchable()->label('Tên khách hàng')->wrap(),
                 TextColumn::make('Sdt')->searchable()->label('Số điện thoại')->wrap(),
-                TextColumn::make('Email')->label('Email')->wrap(),
+                TextColumn::make('Email')->searchable()->wrap(),
                 TextColumn::make('DiaChi')->searchable()->label('Địa chỉ')->wrap(),
-                TextColumn::make('MaSoThue')->searchable()->label('Mã Số thuế')->wrap(),
                 TextColumn::make('GhiChu')->label('Ghi chú')->wrap(),
-//                TextColumn::make('created_at')->sortable(),
-
-            ])
-            ->striped()
+                TextColumn::make('created_at')->sortable(),
+            ])->striped()
             ->filters([
                 SelectFilter::make('DiaChi')
                     ->label('Địa chỉ')
@@ -136,9 +96,9 @@ class NhaCungCapResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListNhaCungCaps::route('/'),
-            'create' => Pages\CreateNhaCungCap::route('/create'),
-            'edit' => Pages\EditNhaCungCap::route('/{record}/edit'),
+            'index' => Pages\ListKhachHangs::route('/'),
+            'create' => Pages\CreateKhachHang::route('/create'),
+            'edit' => Pages\EditKhachHang::route('/{record}/edit'),
         ];
     }
 }
