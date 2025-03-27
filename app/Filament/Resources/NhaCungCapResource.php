@@ -2,13 +2,17 @@
 
 namespace App\Filament\Resources;
 
+//use App\View\Components\CustomTable;
+use App\Forms\Components\CustomTable;
 use App\Filament\Resources\NhaCungCapResource\Pages;
 use App\Filament\Resources\NhaCungCapResource\RelationManagers;
 use App\Models\NhaCungCap;
 use Filament\Forms;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -57,6 +61,19 @@ class NhaCungCapResource extends Resource
                         ->required()
                         ->label('Mã Số thuế'),
                 ])->columnSpan(1),
+
+                Section::make("amen")->schema([
+                    CustomTable::make('product_table')
+                        ->columns(['Tên sản phẩm', 'Số lượng'])
+                        ->data([
+                            ['iPhone 15', 10],
+                            ['Laptop Asus', 5],
+                            ['Bàn phím cơ', 20],
+                        ]),
+
+
+                ]),
+
 
                 Section::make('Thông tin không bắt buộc')->schema([
                     TextInput::make('Email')
