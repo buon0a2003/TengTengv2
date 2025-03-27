@@ -42,4 +42,9 @@ class phieunhap extends Model
     {
         return $this->belongsTo(kho::class);
     }
+
+    public function chitietphieunhap(): HasMany
+    {
+        return $this->hasMany(chitietphieunhap::class);
+    }
 }

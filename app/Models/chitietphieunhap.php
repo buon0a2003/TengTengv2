@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class chitietphieunhap extends Model
 {
@@ -13,12 +14,21 @@ class chitietphieunhap extends Model
 
     protected $table = 'chitietphieunhap';
     protected $fillable = [
-        'MaPN',
-        'MaVT',
-        'MaViTri',
+        'id',
+        'phieunhap_id',
+        'vattu_id',
+        'vitri_id',
         'SoLuong',
         'GhiChu',
     ];
 
+    public function phieunhap(): belongsTo
+    {
+        return $this->belongsTo(phieunhap::class);
+    }
 
+    public function vattu(): belongsTo
+    {
+        return $this->belongsTo(vattu::class);
+    }
 }

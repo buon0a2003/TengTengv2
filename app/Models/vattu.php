@@ -7,6 +7,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class vattu extends Model
 {
@@ -33,5 +34,10 @@ class vattu extends Model
     public function donvitinh(): BelongsTo
     {
         return $this->belongsTo(donvitinh::class);
+    }
+
+    public function chitietphieunhap(): hasMany
+    {
+        return $this->hasMany(chitietphieunhap::class);
     }
 }
