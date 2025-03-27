@@ -37,8 +37,8 @@ class DonvitinhResource extends Resource
                     ->aside()
                     ->schema([
                         TextInput::make('TenDVT')
-                            ->label('Tên đơn vị tính'),
-
+                            ->label('Tên đơn vị tính')
+                            ->required(),
                         Textarea::make('Mota')
                             ->label('Mô tả'),
                     ]),

@@ -38,9 +38,11 @@ class KhoResource extends Resource
                     ->aside()
                     ->schema([
                         TextInput::make('TenKho')
+                            ->required()
                             ->label('Tên kho'),
 
                         TextInput::make('DiaChi')
+                            ->required()
                             ->label('Địa chỉ'),
 
                         Textarea::make('GhiChu')
