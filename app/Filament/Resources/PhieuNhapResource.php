@@ -6,6 +6,7 @@ use App\Filament\Resources\PhieuNhapResource\Pages;
 use App\Filament\Resources\PhieuNhapResource\RelationManagers;
 use App\Models\chitietphieunhap;
 use App\Models\phieunhap;
+use App\Models\Tonkho;
 use App\Models\vattu;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\ActionGroup;
@@ -192,37 +193,34 @@ class PhieuNhapResource extends Resource
                     Tables\Actions\EditAction::make()->color('primary'),
                     ViewAction::make(),
                     Action::make('duyet')
-                        ->action(function ($record, $data) {
-
-                            $chiTietPhieuNhapRecords = DB::table('chitietphieunhap')
-                                ->where('phieunhap_id', $record->id)
-                                ->get()
-                                ->toArray();
+                        ->action(function ($record) {
+                            $chiTietPhieuNhapRecords = chitietphieunhap::where('phieunhap_id', $record->id)
+                                ->get();
 
                             if (count($chiTietPhieuNhapRecords) > 0)
                             {
                                 $allHaveVitriId = collect($chiTietPhieuNhapRecords)->every(fn($value) => !is_null($value->vitri_id));
+
                                 if ($allHaveVitriId){
                                     foreach ($chiTietPhieuNhapRecords as $value)
                                     {
-                                        $existingRecord = DB::table('tonkho')
-                                            ->where('vattu_id', $value->vattu_id)
+                                        $existingRecord = Tonkho::where('vattu_id', $value->vattu_id)
                                             ->where('vitri_id', $value->vitri_id)
                                             ->first();
 
                                         if ($existingRecord) {
-                                            DB::table('tonkho')
-                                                ->where('id', $existingRecord->id)
-                                                ->update([
-                                                    'SoLuong' => $existingRecord->SoLuong + $value->SoLuong,
-                                                    'updated_at' => now(),
-                                                ]);
+                                            $existingRecord->update([
+                                                'SoLuong' => $existingRecord->SoLuong + $value->SoLuong,
+                                                'NgayCapNhat' => now(),
+                                                'updated_at' => now(),
+                                            ]);
                                         } else {
-                                            DB::table('tonkho')->insert([
+                                            Tonkho::create([
                                                 'vattu_id' => $value->vattu_id,
                                                 'SoLuong' => $value->SoLuong,
                                                 'kho_id' => $record->kho_id,
                                                 'vitri_id' => $value->vitri_id,
+                                                'NgayCapNhat' => now(),
                                                 'created_at' => now(),
                                                 'updated_at' => now(),
                                             ]);

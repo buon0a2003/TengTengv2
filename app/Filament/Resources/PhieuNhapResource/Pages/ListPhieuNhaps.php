@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\PhieuNhapResource\Pages;
 
 use App\Filament\Resources\PhieuNhapResource;
@@ -11,6 +13,7 @@ class ListPhieuNhaps extends ListRecords
     protected static string $resource = PhieuNhapResource::class;
 
     protected static ?string $title = 'Quản lý phiếu nhập';
+
     protected function getHeaderActions(): array
     {
         return [
@@ -21,8 +24,7 @@ class ListPhieuNhaps extends ListRecords
             Actions\CreateAction::make()
                 ->label('xuất excel')
                 ->icon('heroicon-o-arrow-down-tray')
-                ->color('primary')
+                ->color('primary'),
         ];
     }
-
 }

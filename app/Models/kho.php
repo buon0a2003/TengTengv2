@@ -29,4 +29,9 @@ class kho extends Model
     {
         return $this->hasMany(vitri::class);
     }
+
+    public function tonkho(): hasMany
+    {
+        return $this->hasMany(tonkho::class);
+    }
 }
