@@ -25,15 +25,30 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use function Laravel\Prompts\select;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 
-class PhieuNhapResource extends Resource
+class PhieuNhapResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = phieunhap::class;
     public static function getBreadcrumb(): string
     {
         return 'Phiếu nhập';
+    }
+
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view',
+            'view_any',
+            'create',
+            'update',
+            'delete',
+            'delete_any',
+            'duyetphieunhap'
+        ];
     }
     protected static ?string $navigationIcon = 'heroicon-o-newspaper';
     protected static ?string $navigationLabel = 'Phiếu nhập';
@@ -190,9 +205,11 @@ class PhieuNhapResource extends Resource
             ])
             ->actions([
                 ActionGroup::make([
-                    Tables\Actions\EditAction::make()->color('primary'),
+                    Tables\Actions\EditAction::make()
+                        ->color('primary'),
                     ViewAction::make(),
-                    Action::make('duyet')
+                    Action::make('duyetphieunhap')
+                        ->authorize(fn (): bool => Auth::user()->can('duyetphieunhap_phieu::nhap'))
                         ->action(function ($record) {
                             $chiTietPhieuNhapRecords = chitietphieunhap::where('phieunhap_id', $record->id)
                                 ->get();

@@ -18,7 +18,8 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_user');
+//        return $user->can('view_any_user');
+        return true;
     }
 
     /**
@@ -29,7 +30,8 @@ class UserPolicy
      */
     public function view(User $user): bool
     {
-        return $user->can('view_user');
+//        return $user->can('view_user');
+        return true;
     }
 
     /**
@@ -51,8 +53,10 @@ class UserPolicy
      */
     public function update(User $user): bool
     {
-        return $user->can('update_user');
+//        return $user->can('update_user');
+        return true;
     }
+
 
     /**
      * Determine whether the user can delete the model.
