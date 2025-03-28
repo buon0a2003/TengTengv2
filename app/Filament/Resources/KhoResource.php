@@ -19,7 +19,7 @@ use Illuminate\Support\HtmlString;
 class KhoResource extends Resource
 {
     protected static ?string $model = Kho::class;
-
+    protected static ?string $modelLabel = 'Kho';
     public static function getBreadcrumb(): string
     {
         return 'Kho';

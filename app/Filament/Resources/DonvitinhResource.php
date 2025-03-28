@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class DonvitinhResource extends Resource
 {
     protected static ?string $model = Donvitinh::class;
+    protected static ?string $modelLabel = 'Đơn vị tính';
     public static function getBreadcrumb(): string
     {
         return 'Đơn vị tính';

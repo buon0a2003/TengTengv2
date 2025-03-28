@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class ChiTietPhieuNhapResource extends Resource
 {
     protected static ?string $model = chitietphieunhap::class;
-
+    protected static ?string $modelLabel = 'Chi tiết phiếu nhập';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static bool $shouldRegisterNavigation = false;
 

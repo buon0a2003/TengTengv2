@@ -33,6 +33,7 @@ use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 class PhieuNhapResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = phieunhap::class;
+    protected static ?string $modelLabel = 'Phiếu nhập';
     public static function getBreadcrumb(): string
     {
         return 'Phiếu nhập';
