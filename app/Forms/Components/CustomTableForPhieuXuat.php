@@ -19,6 +19,7 @@ class CustomTableForPhieuXuat extends Field
         return $this;
     }
 
+
     public function data(array $data): static
     {
         $this->data = $data;

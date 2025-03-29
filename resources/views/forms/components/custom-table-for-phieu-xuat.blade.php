@@ -34,39 +34,39 @@
 @endphp
 
 <div x-data="{
-    selectedItems: {},
-    quantities: {},
+    matonkho: {},
+    soluong: {},
     init() {
         // Khởi tạo state từ Livewire nếu có
         if (@json($getState())) {
             const savedState = @json($getState());
-            this.selectedItems = savedState.selectedItems || {};
-            this.quantities = savedState.quantities || {};
+            this.matonkho = savedState.matonkho || {};
+            this.soluong = savedState.soluong || {};
         }
 
         // Theo dõi thay đổi và cập nhật state
-        this.$watch('selectedItems', () => this.updateState(), { deep: true });
-        this.$watch('quantities', () => this.updateState(), { deep: true });
+        this.$watch('matonkho', () => this.updateState(), { deep: true });
+        this.$watch('soluong', () => this.updateState(), { deep: true });
     },
     updateState() {
         $wire.set('{{ $statePath }}', {
-            selectedItems: this.selectedItems,
-            quantities: this.quantities
+            matonkho: this.matonkho,
+            soluong: this.soluong
         });
     },
     toggleAll(event) {
         const isChecked = event.target.checked;
         this.data.forEach(item => {
-            this.selectedItems[item[1]] = isChecked; // item[1] là cột Mã
+            this.matonkho[item[1]] = isChecked; // item[1] là cột Mã
             if (isChecked) {
-                this.quantities[item[1]] = this.quantities[item[1]] || '';
+                this.soluong[item[1]] = this.soluong[item[1]] || '';
             } else {
-                delete this.quantities[item[1]];
+                delete this.soluong[item[1]];
             }
         });
     }
 }" wire:ignore>
-    <table class="min-w-full divide-y divide-gray-200">
+    <table class="w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
         <tr>
 
@@ -83,7 +83,7 @@
                 <td class="px-6 py-4 whitespace-nowrap">
                     <input
                         type="checkbox"
-                        x-model="selectedItems['{{ $row[1] }}']"
+                        x-model="matonkho['{{ $row[1] }}']"
                         class="rounded border-gray-300 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50"
                     >
                 </td>
@@ -92,8 +92,8 @@
                         @if($key === 4) {{-- Cột số lượng xuất --}}
                         <input
                             type="number"
-                            x-model="quantities['{{ $row[1] }}']"
-                            x-bind:disabled="!selectedItems['{{ $row[1] }}']"
+                            x-model="soluong['{{ $row[1] }}']"
+                            x-bind:disabled="!matonkho['{{ $row[1] }}']"
                             class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50"
                         >
                         @else
@@ -106,5 +106,5 @@
         </tbody>
     </table>
 
-    <input type="hidden" name="{{ $statePath }}" x-model="JSON.stringify({selectedItems, quantities})">
+    <input type="hidden" name="{{ $statePath }}" x-model="JSON.stringify({matonkho, soluong})">
 </div>
