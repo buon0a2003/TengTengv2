@@ -10,7 +10,7 @@ return [
     'column.name' => 'Name',
     'column.guard_name' => 'Guard Name',
     'column.team' => 'Team',
-    'column.roles' => 'Roles',
+    'column.roles' => 'Chức vụ',
     'column.permissions' => 'Permissions',
     'column.updated_at' => 'Updated At',
 
@@ -20,13 +20,13 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'field.name' => 'Name',
+    'field.name' => 'Tên',
     'field.guard_name' => 'Guard Name',
-    'field.permissions' => 'Permissions',
+    'field.permissions' => 'Các quyền',
     'field.team' => 'Team',
     'field.team.placeholder' => 'Select a team ...',
-    'field.select_all.name' => 'Select All',
-    'field.select_all.message' => 'Enables/Disables all Permissions for this role',
+    'field.select_all.name' => 'Chọn tất cả',
+    'field.select_all.message' => 'Bật/Tắt tất cả quyền cho chức vụ này',
 
     /*
     |--------------------------------------------------------------------------
@@ -37,8 +37,8 @@ return [
     'nav.group' => 'Quản lý tài khoản',
     'nav.role.label' => 'Roles',
     'nav.role.icon' => 'heroicon-o-shield-check',
-    'resource.label.role' => 'Role',
-    'resource.label.roles' => 'Roles',
+    'resource.label.role' => 'Chức vụ',
+    'resource.label.roles' => 'Các chức vụ',
 
     /*
     |--------------------------------------------------------------------------
@@ -47,7 +47,7 @@ return [
     */
 
     'section' => 'Entities',
-    'resources' => 'Resources',
+    'resources' => 'Quyền',
     'widgets' => 'Widgets',
     'pages' => 'Pages',
     'custom' => 'Custom Permissions',
@@ -67,17 +67,18 @@ return [
     */
 
     'resource_permission_prefixes_labels' => [
-        'view' => 'View',
-        'view_any' => 'View Any',
-        'create' => 'Create',
-        'update' => 'Update',
-        'delete' => 'Delete',
-        'delete_any' => 'Delete Any',
+        'view' => 'Xem bản ghi',
+        'view_any' => 'Xem danh sách',
+        'create' => 'Tạo',
+        'update' => 'Sửa',
+        'delete' => 'Xoá',
+        'delete_any' => 'Xoá hàng loạt',
         'force_delete' => 'Force Delete',
         'force_delete_any' => 'Force Delete Any',
         'restore' => 'Restore',
         'reorder' => 'Reorder',
         'restore_any' => 'Restore Any',
         'replicate' => 'Replicate',
+        'duyetphieunhap' => 'Duyệt phiếu nhập'
     ],
 ];

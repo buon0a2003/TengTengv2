@@ -9,31 +9,25 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class vattu extends Model
+class vitri extends Model
 {
     use HasFactory;
 
-    protected $table = 'vattu';
+    protected $table = 'vitri';
     protected $fillable = [
         'id',
-        'TenVT',
-        'LaTP',
-        'donvitinh_id',
-        'KichThuoc',
-        'MauSac',
-        'DacDiem',
+        'kho_id',
+        'Mota',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'LaTP' => 'boolean',
-        ];
-    }
+//    public function phieunhap(): hasMany
+//    {
+//        return $this->hasMany(phieunhap::class);
+//    }
 
-    public function donvitinh(): BelongsTo
+    public function kho(): BelongsTo
     {
-        return $this->belongsTo(donvitinh::class);
+        return $this->BelongsTo(kho::class);
     }
 
     public function chitietphieunhap(): hasMany
@@ -44,5 +38,6 @@ class vattu extends Model
     public function tonkho(): hasMany
     {
         return $this->hasMany(tonkho::class);
+
     }
 }

@@ -24,4 +24,14 @@ class kho extends Model
     {
         return $this->hasMany(phieunhap::class);
     }
+
+    public function vitri(): hasMany
+    {
+        return $this->hasMany(vitri::class);
+    }
+
+    public function tonkho(): hasMany
+    {
+        return $this->hasMany(tonkho::class);
+    }
 }

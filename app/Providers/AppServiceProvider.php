@@ -11,6 +11,7 @@ use Filament\Pages\Page;
 use Filament\Support\Assets\Css;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Facades\FilamentAsset;
+use Filament\Tables\Table;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -33,5 +34,10 @@ class AppServiceProvider extends ServiceProvider
         ]);
 
         Page::formActionsAlignment(Alignment::Left);
+
+        Table::configureUsing(function (Table $table): void {
+            $table
+               ->striped();
+        });
     }
 }

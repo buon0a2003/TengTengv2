@@ -32,7 +32,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class NhaCungCapResource extends Resource
 {
     protected static ?string $model = nhacungcap::class;
-
+    protected static ?string $modelLabel = 'Nhà cung cấp';
     public static function getBreadcrumb(): string
     {
         return 'Nhà cung cấp';

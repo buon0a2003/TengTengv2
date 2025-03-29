@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class VattuResource extends Resource
 {
     protected static ?string $model = Vattu::class;
+    protected static ?string $modelLabel = 'Vật tư';
     public static function getBreadcrumb(): string
     {
         return 'Vật tư';

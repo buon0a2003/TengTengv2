@@ -25,6 +25,7 @@ class KhachHangResource extends Resource
 {
     protected static ?string $model = khachhang::class;
 
+    protected static ?string $modelLabel = 'Khách hàng';
     public static function getBreadcrumb(): string
     {
         return 'Khách hàng';
