@@ -30,8 +30,8 @@ class UserPolicy
      */
     public function view(User $user): bool
     {
-//        return $user->can('view_user');
-        return true;
+        return $user->can('view_user');
+//        return true;
     }
 
     /**
@@ -53,8 +53,8 @@ class UserPolicy
      */
     public function update(User $user): bool
     {
-//        return $user->can('update_user');
-        return true;
+        return $user->can('update_user');
+//        return true;
     }
 
 
