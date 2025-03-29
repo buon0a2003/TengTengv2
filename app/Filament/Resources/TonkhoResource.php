@@ -2,16 +2,20 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Exports\TonkhoExporter;
 use App\Filament\Resources\TonkhoResource\Pages;
 use App\Filament\Resources\TonkhoResource\RelationManagers;
 use App\Models\donvitinh;
+use App\Models\kho;
 use App\Models\Tonkho;
+use Filament\Tables\Actions\SelectAction;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -57,14 +61,18 @@ class TonkhoResource extends Resource
                     ->date('d-m-Y')
                     ->label('Ngày cập nhật'),
             ])
+            ->defaultPaginationPageOption(25)
             ->emptyStateHeading('Không có thông tin tồn kho')
+//            ->headerActions([
+//                Tables\Actions\ExportAction::make(),
+//            ])
             ->filters([
                 Tables\Filters\SelectFilter::make('kho_id')
                     ->relationship('kho', 'TenKho')
                     ->preload()
                     ->searchable()
-                    ->label('Kho'),
-            ])
+                    ->label('Chọn kho'),
+            ], layout: FiltersLayout::AboveContent)
             ->actions([
                 Tables\Actions\ViewAction::make(),
             ])
@@ -72,6 +80,11 @@ class TonkhoResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+                Tables\Actions\ExportBulkAction::make()
+                    ->label('Xuất Excel')
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->color('primary')
+                    ->exporter(TonkhoExporter::class),
             ]);
     }
 

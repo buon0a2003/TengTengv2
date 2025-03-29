@@ -20,6 +20,7 @@ use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -206,7 +207,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
             ])
             ->actions([
                 ActionGroup::make([
-                    Tables\Actions\EditAction::make()
+                    EditAction::make()
                         ->color('primary'),
                     ViewAction::make(),
                     Action::make('duyetphieunhap')
@@ -265,10 +266,24 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                             }
 //
                         })
-                        ->hidden(fn ($record): bool => $record->TrangThai == 1)
+                        ->hidden(fn ($record): bool => !$record->TrangThai == 0)
                         ->label('Duyệt')
                         ->icon('heroicon-s-check')
                         ->color('info'),
+
+                    Action::make('huyphieunhap')
+                        ->authorize(fn (): bool => Auth::user()->can('duyetphieunhap_phieu::nhap'))
+                        ->action(function ($record) {
+                            $record->update(['TrangThai' => 2]);
+                            Notification::make()
+                                ->title('Đã huỷ phiếu nhập')
+                                ->danger()
+                                ->send();
+                        })
+                        ->hidden(fn ($record): bool => !$record->TrangThai == 0)
+                        ->label('Huỷ')
+                        ->icon('heroicon-s-trash')
+                        ->color('danger'),
                 ]),
                 // xoá thì phải để oncasade cho chi tiet phieu nhap nua
             ])
