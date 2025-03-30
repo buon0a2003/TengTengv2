@@ -43,7 +43,10 @@ class NhaCungCapResource extends Resource
         return $form
             ->schema([
 
-                Section::make('Thông tin bắt buộc')->schema([
+                Section::make('Thông tin bắt buộc')
+                ->description('Nhập thông tin chi tiết nhà cung cấp')
+                ->aside()
+                ->schema([
                     TextInput::make('TenNCC')
                         ->required()
                         ->label('Tên'),
@@ -56,9 +59,12 @@ class NhaCungCapResource extends Resource
                     TextInput::make('MaSoThue')
                         ->required()
                         ->label('Mã Số thuế'),
-                ])->columnSpan(1),
+                ])->columnSpan(2),
 
-                Section::make('Thông tin không bắt buộc')->schema([
+                Section::make('Thông tin không bắt buộc')
+                ->description('Nhập thông tin khác của nhà cung cấp')
+                ->aside()
+                ->schema([
                     TextInput::make('Email')
                         ->email()
                         ->label('Email'),
@@ -66,7 +72,7 @@ class NhaCungCapResource extends Resource
                         ->label('Ghi chú')
                         ->rows(3)
                         ->columnSpan(1),
-                ])->columnSpan(1),
+                ])->columnSpan(2),
 
             ]);
     }

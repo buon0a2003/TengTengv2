@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers\Filament;
 
 use App\Filament\Auth\CustomLogin;
+use App\Filament\Auth\CustomProfile;
 use App\Filament\Resources\UserResource;
 use App\Filament\Resources\UserResource\Pages\EditUser;
 use Exception;
@@ -41,7 +42,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login(CustomLogin::class)
             ->databaseNotifications()
-            ->profile(EditProfile::class)
+            ->profile(CustomProfile::class)
             ->colors([
                 'primary' => Color::Lime,
             ])
