@@ -84,7 +84,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
 
                                     TextInput::make('id')
                                         ->placeholder('eg: PN001/xx/xx')
-                                        ->unique()
+                                        ->unique(ignoreRecord: true)
 //                                        ->required()
                                         ->label('Mã phiếu nhập'),
 
@@ -282,7 +282,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                             }
                             //
                         })
-                        ->hidden(fn ($record): bool => ! $record->TrangThai === 0)
+                        ->hidden(fn ($record): bool => ! $record->TrangThai == 0)
                         ->label('Duyệt')
                         ->icon('heroicon-s-check')
                         ->color('info'),
@@ -296,7 +296,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                 ->danger()
                                 ->send();
                         })
-                        ->hidden(fn ($record): bool => ! $record->TrangThai === 0)
+                        ->hidden(fn ($record): bool => ! $record->TrangThai == 0)
                         ->label('Huỷ')
                         ->icon('heroicon-s-trash')
                         ->color('danger'),
