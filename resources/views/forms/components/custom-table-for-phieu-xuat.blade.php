@@ -49,8 +49,9 @@
         this.$watch('soluong', () => this.updateState(), { deep: true });
     },
     updateState() {
+        const listmatonkho = Object.keys(this.matonkho);
         $wire.set('{{ $statePath }}', {
-            matonkho: this.matonkho,
+            matonkho: listmatonkho,
             soluong: this.soluong
         });
     },
@@ -69,7 +70,6 @@
     <table class="w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
         <tr>
-
             @foreach($columns as $column)
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     {{ $column }}
@@ -106,5 +106,4 @@
         </tbody>
     </table>
 
-    <input type="hidden" name="{{ $statePath }}" x-model="JSON.stringify({matonkho, soluong})">
 </div>

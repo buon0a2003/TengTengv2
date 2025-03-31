@@ -4,16 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @property int    $id
- * @property int    $vatu_id
- * @property int    $created_at
- * @property int    $updated_at
- * @property int    $idPX
- * @property int    $idVT
- * @property string $phieuxuat_id
- * @property string $GhiChu
- */
+///**
+// * @property int    $id
+// * @property int    $vatu_id
+// * @property int    $created_at
+// * @property int    $updated_at
+// * @property int    $idPX
+// * @property int    $idVT
+// * @property string $phieuxuat_id
+// * @property string $GhiChu
+// */
 class Chitietphieuxuat extends Model
 {
     /**
@@ -43,7 +43,7 @@ class Chitietphieuxuat extends Model
      * @var array
      */
     protected $fillable = [
-        'phieuxuat_id', 'vatu_id', 'SoLuong', 'GhiChu', 'created_at', 'updated_at', 'idPX', 'idVT', 'SoLuong', 'GhiChu', 'created_at', 'updated_at'
+        'phieuxuat_id', 'vatu_id', 'SoLuong', 'GhiChu', 'created_at', 'updated_at', 'created_at', 'updated_at'
     ];
 
     /**

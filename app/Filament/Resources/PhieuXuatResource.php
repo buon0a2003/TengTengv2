@@ -128,18 +128,12 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                         ])
                         ->data(TonKho::with(['vattu.donvitinh', 'vitri'])->get()->map(function ($item) {
                             return [
-                                '<input type="checkbox" name="selected[]" value="' . $item->id . '"  x-model="selected[' . $item->id . ']" class="checkbox-toggle">', // 🆕 Input số lượng xuất,
+                                null,
                                 $item->id,
                                 $item->vattu->TenVT ?? 'N/A', // Lấy tên vật tư từ bảng vattu
                                 $item->vattu->donvitinh->TenDVT ?? 'N/A',
                                 $item->SoLuong,
-                                '<input type="number"
-                                name="soluong_xuat[' . $item->id . ']"
-                                class="border px-2 py-1 rounded w-full"
-                                style="visibility: hidden;"
-                                x-bind:style="selected[' . $item->id . '] ? \'visibility: visible;\' : \'visibility: hidden;\'"
-                                x-bind:disabled="!selected[' . $item->id . ']"
-                                >',
+                                null,
                                 $item->vitri->Mota ?? 'N/A',
                             ];
                         })->toArray())

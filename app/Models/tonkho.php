@@ -1,46 +1,94 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class tonkho extends Model
+/**
+ * @property int $id
+ * @property int $vattu_id
+ * @property int $vitri_id
+ * @property int $created_at
+ * @property int $updated_at
+ */
+class Tonkho extends Model
 {
-    use HasFactory;
+    /**
+     * The connection name for the model.
+     *
+     * @var string
+     */
+    protected $connection = 'mysql';
+
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'tonkho';
+
+    /**
+     * The primary key for the model.
+     *
+     * @var string
+     */
     protected $primaryKey = 'id';
 
-    protected $table = 'tonkho';
+    /**
+     * Attributes that should be mass-assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
-        'id',
-        'kho_id',
-        'vattu_id',
-        'SoLuong',
-        'vitri_id',
-        'NgayCapNhat',
+        'vattu_id', 'SoLuong', 'vitri_id', 'created_at', 'updated_at'
     ];
 
-    public function vitri(): BelongsTo
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = [
+
+    ];
+
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'int', 'vattu_id' => 'int', 'vitri_id' => 'int', 'created_at' => 'timestamp', 'updated_at' => 'timestamp'
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'created_at', 'updated_at'
+    ];
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var boolean
+     */
+    public $timestamps = false;
+
+    // Scopes...
+
+    // Functions ...
+
+    // Relations ...
+    public function vattu()
     {
-        return $this->belongsTo(vitri::class);
+        return $this->belongsTo(VatTu::class, 'vattu_id');
     }
 
-    public function kho(): belongsTo
+    public function vitri()
     {
-        return $this->belongsTo(kho::class);
+        return $this->belongsTo(ViTri::class, 'vitri_id');
     }
-
-    public function vattu(): BelongsTo
-    {
-        return $this->belongsTo(vattu::class);
-    }
-
-//    public function chitietphieunhap(): HasMany
-//    {
-//        return $this->hasMany(chitietphieunhap::class);
-//    }
 }
