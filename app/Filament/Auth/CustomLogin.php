@@ -86,7 +86,7 @@ class CustomLogin extends Login
             Filament::auth()->logout();
 
             throw ValidationException::withMessages([
-                'data.login' => __('Your account is suspended.'),
+                'data.login' => __('Tài khoản bị khoá, liên hệ admin.'),
             ]);
         }
 

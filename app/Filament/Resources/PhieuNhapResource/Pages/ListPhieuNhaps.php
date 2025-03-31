@@ -36,7 +36,7 @@ class ListPhieuNhaps extends ListRecords
             ->badge($this->getModel()::count())];
 
 
-        $tabs['nhapsx'] = Tab::make('Nhập sản xuất')
+        $tabs['nhaptp'] = Tab::make('Nhập thành phẩm')
             ->modifyQueryUsing(function ($query) {
                 return $query->where('LyDo', 0);
             })

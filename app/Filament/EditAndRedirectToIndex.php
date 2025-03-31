@@ -12,4 +12,3 @@ class EditAndRedirectToIndex extends EditRecord
     }
 }
 
-?>

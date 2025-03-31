@@ -12,4 +12,3 @@ class CreateAndRedirectToIndex extends CreateRecord
     }
 }
 
-?>

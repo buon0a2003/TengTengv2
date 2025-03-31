@@ -54,6 +54,8 @@ class TonkhoResource extends Resource
                     ->searchable()
                     ->formatStateUsing(fn ($record): string => (donvitinh::find($record->vattu_id)->TenDVT))
                     ->label('Đơn vị tính'),
+                TextColumn::make('kho.TenKho')
+                    ->label('Kho'),
                 TextColumn::make('vitri.Mota')
                     ->searchable()
                     ->label('Vị trí'),

@@ -9,6 +9,29 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * 
+ *
+ * @property int $id
+ * @property int|null $kho_id
+ * @property string|null $Mota
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\chitietphieunhap> $chitietphieunhap
+ * @property-read int|null $chitietphieunhap_count
+ * @property-read \App\Models\kho|null $kho
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\tonkho> $tonkho
+ * @property-read int|null $tonkho_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|vitri newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|vitri newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|vitri query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|vitri whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|vitri whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|vitri whereKhoId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|vitri whereMota($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|vitri whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class vitri extends Model
 {
     use HasFactory;

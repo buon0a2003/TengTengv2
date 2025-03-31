@@ -80,7 +80,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                         ->live()
                                         ->label('Lý do nhập hàng?')
                                         ->options([
-                                            '0' => 'Nhập sản xuất',
+                                            '0' => 'Nhập thành phẩm',
                                             '1' => 'Nhập nguyên vật liệu',
                                         ]),
 
@@ -195,7 +195,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
 
                 TextColumn::make('LyDo')
                     ->label('Lý do')
-                    ->formatStateUsing(fn ($record) => $record->LyDo === 1 ? 'Nhập nguyên vật liệu' : 'Nhập sản xuất')
+                    ->formatStateUsing(fn ($record) => $record->LyDo === 1 ? 'Nhập nguyên vật liệu' : 'Nhập thành phẩm')
                     ->badge()
                     ->color(fn ($record): string => $record->LyDo === 1 ? 'success' : 'info')
                     ->searchable(),
@@ -221,11 +221,12 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                     ->label('Ghi chú'),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('LyDo')
-                    ->label('Lý do nhập')
+                Tables\Filters\SelectFilter::make('TrangThai')
+                    ->label('Trạng thái')
                     ->options([
-                        '0' => 'Nhập sản xuất',
-                        '1' => 'Nhập nguyên vật liệu',
+                        '0' => 'Đang xử lý',
+                        '1' => 'Đã xử lý',
+                        '2' => 'Đã huỷ',
                     ]),
             ])
             ->actions([
