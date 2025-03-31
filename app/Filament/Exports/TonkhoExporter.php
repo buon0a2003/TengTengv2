@@ -28,7 +28,7 @@ class TonkhoExporter extends Exporter
 
     public static function getCompletedNotificationBody(Export $export): string
     {
-        $body = 'Dữ liệu tồn kho đã hoàn thành, ' . number_format($export->successful_rows) . ' ' . str('row')->plural($export->successful_rows) . ' đã được xuất.';
+        $body = 'Dữ liệu tồn kho đã hoàn thành, ' . number_format($export->successful_rows) . ' ' . str('dòng')->plural($export->successful_rows) . ' đã được xuất.';
 
         if ($failedRowsCount = $export->getFailedRowsCount()) {
             $body .= ' ' . number_format($failedRowsCount) . ' ' . str('row')->plural($failedRowsCount) . ' xuất không thành công.';

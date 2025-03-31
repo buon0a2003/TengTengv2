@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ExportBulkAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -32,7 +33,7 @@ class VattuResource extends Resource
     protected static ?int $navigationSort = 1;
     protected static ?string $navigationLabel = 'Vật tư';
     protected static ?string $navigationGroup = 'Quản lý danh mục';
-
+    protected static ?string $slug = 'vattu';
     public static function form(Form $form): Form
     {
         return $form
@@ -114,6 +115,11 @@ class VattuResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+                ExportBulkAction::make()
+                    ->exporter(\App\Filament\Exports\VattuExporter::class)
+                    ->label('Xuất excel')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->color('primary'),
             ]);
     }
 

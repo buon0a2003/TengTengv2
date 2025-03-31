@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Providers\Filament;
 
+use App\Filament\Auth\CustomLogin;
+use App\Filament\Auth\CustomProfile;
 use App\Filament\Resources\UserResource;
 use App\Filament\Resources\UserResource\Pages\EditUser;
+use Exception;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -28,17 +31,21 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 class AdminPanelProvider extends PanelProvider
 {
+    /**
+     * @throws Exception
+     */
     public function panel(Panel $panel): Panel
     {
         return $panel
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
+            ->login(CustomLogin::class)
             ->databaseNotifications()
-            ->profile(EditProfile::class)
+            ->profile(CustomProfile::class)
             ->colors([
                 'primary' => Color::Lime,
+                'amber' => Color::Amber,
             ])
             ->brandLogo(asset('images/logo.svg'))
             ->brandName('Quản lý kho vận')
@@ -77,11 +84,13 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                \Hasnayeen\Themes\Http\Middleware\SetTheme::class,
             ])
             ->authMiddleware([
                 Authenticate::class,
             ])
             ->plugins([
+                \Hasnayeen\Themes\ThemesPlugin::make(),
                 FilamentShieldPlugin::make()
                     ->gridColumns([
                         'default' => 1,

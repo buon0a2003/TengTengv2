@@ -11,6 +11,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\ExportBulkAction;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -28,7 +29,7 @@ class KhoResource extends Resource
     protected static ?int $navigationSort = 1;
     protected static ?string $navigationLabel = 'Kho';
     protected static ?string $navigationGroup = 'Quản lý danh mục';
-
+    protected static ?string $slug = 'kho';
     public static function form(Form $form): Form
     {
         return $form
@@ -82,6 +83,11 @@ class KhoResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+                ExportBulkAction::make()
+                    ->label('Xuất excel')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->exporter(\App\Filament\Exports\KhoExporter::class)
+                    ->color('primary'),
             ]);
     }
 

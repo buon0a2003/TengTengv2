@@ -40,7 +40,8 @@ class TonkhoPolicy
      */
     public function update(User $user, Tonkho $tonkho): bool
     {
-        return $user->can('update_tonkho');
+       return $user->can('update_tonkho');
+        // return false;
     }
 
     /**
@@ -48,7 +49,8 @@ class TonkhoPolicy
      */
     public function delete(User $user, Tonkho $tonkho): bool
     {
-        return $user->can('delete_tonkho');
+//        return $user->can('delete_tonkho');
+        return false;
     }
 
     /**
@@ -56,7 +58,8 @@ class TonkhoPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_tonkho');
+//        return $user->can('delete_any_tonkho');
+        return false;
     }
 
     /**

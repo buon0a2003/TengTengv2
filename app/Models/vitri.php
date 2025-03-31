@@ -1,85 +1,66 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @property int    $id
- * @property int    $kho_id
- * @property int    $created_at
- * @property int    $updated_at
- * @property string $Mota
+ *
+ *
+ * @property int $id
+ * @property int|null $kho_id
+ * @property string|null $Mota
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\chitietphieunhap> $chitietphieunhap
+ * @property-read int|null $chitietphieunhap_count
+ * @property-read \App\Models\kho|null $kho
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\tonkho> $tonkho
+ * @property-read int|null $tonkho_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|vitri newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|vitri newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|vitri query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|vitri whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|vitri whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|vitri whereKhoId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|vitri whereMota($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|vitri whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
-class Vitri extends Model
+class vitri extends Model
 {
-    /**
-     * The connection name for the model.
-     *
-     * @var string
-     */
-    protected $connection = 'mysql';
+    use HasFactory;
 
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
     protected $table = 'vitri';
-
-    /**
-     * The primary key for the model.
-     *
-     * @var string
-     */
-    protected $primaryKey = 'id';
-
-    /**
-     * Attributes that should be mass-assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
-        'kho_id', 'Mota', 'created_at', 'updated_at'
+        'id',
+        'kho_id',
+        'Mota',
     ];
 
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        
-    ];
+//    public function phieunhap(): hasMany
+//    {
+//        return $this->hasMany(phieunhap::class);
+//    }
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'int', 'kho_id' => 'int', 'Mota' => 'string', 'created_at' => 'timestamp', 'updated_at' => 'timestamp'
-    ];
+    public function kho(): BelongsTo
+    {
+        return $this->BelongsTo(kho::class);
+    }
 
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'created_at', 'updated_at'
-    ];
+    public function chitietphieunhap(): hasMany
+    {
+        return $this->hasMany(chitietphieunhap::class);
+    }
 
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var boolean
-     */
-    public $timestamps = false;
+    public function tonkho(): hasMany
+    {
+        return $this->hasMany(tonkho::class);
 
-    // Scopes...
-
-    // Functions ...
-
-    // Relations ...
+    }
 }

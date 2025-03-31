@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\DonvitinhResource\Pages;
 
+use App\Filament\Exports\DonvitinhExporter;
 use App\Filament\Resources\DonvitinhResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
@@ -19,7 +20,8 @@ class ListDonvitinhs extends ListRecords
                 ->icon('heroicon-o-plus')
                 ->label('Tạo mới'),
 
-            Actions\CreateAction::make()
+            Actions\ExportAction::make()
+                ->exporter(DonvitinhExporter::class)
                 ->label('xuất excel')
                 ->icon('heroicon-o-arrow-down-tray')
                 ->color('primary')

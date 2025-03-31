@@ -232,6 +232,14 @@ CREATE TABLE IF NOT EXISTS `khachhang` (
   UNIQUE KEY `MaKH` (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `khachhang`
+--
+
+INSERT INTO `khachhang` (`id`, `TenKH`, `Sdt`, `Email`, `DiaChi`, `GhiChu`, `created_at`, `updated_at`) VALUES
+(1, 'Nguyễn A', '0123456789', NULL, 'Hải Phòng', NULL, '2025-03-30 19:08:24', '2025-03-30 19:08:24'),
+(2, 'Nguyễn B', '0123456789', NULL, 'Hà Nội', NULL, '2025-03-30 19:08:58', '2025-03-30 19:08:58');
+
 -- --------------------------------------------------------
 
 --
@@ -714,8 +722,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `Active`, `Birth`, `Phone`, `Address`) VALUES
 (1, 'admin', 'a@gmail.com', NULL, '$2y$12$gJ1MPFLmx0u4NLcTvyuBOuIcZA2jhfMa8Jv5MwxdFpnQgRDt5PCdm', '1XyWPlLBqRdzFZ3tDtT0vZKF4DnJy4hsa8N7gb49d2YfVmUFLAROgvHL8bmN', '2025-03-25 23:54:49', '2025-03-25 23:54:49', 1, '2023-03-26', '08654829203', 'Hải Phòng'),
 (2, 'sơn', 'son123@gmail.com', NULL, '$2y$12$X.I0JMKdM53MCUQyNwy.ounKVgEtsewXq3JPlZvgl8Iz4mSbf54rK', NULL, '2025-03-26 00:03:04', '2025-03-26 00:03:04', 1, '2022-01-23', '076342123', 'Hải Phòng'),
-(5, 'Phan Công Lý', 'anhlycuckeo123@gmail.com', NULL, '$2y$12$UNAgYzE4oRwUZgTDlxW3MewBdkUWk2PEPeHe7fXbXofjiKm3I9bei', NULL, '2025-03-26 03:18:58', '2025-03-26 03:18:58', 1, NULL, '1141421', 'Hà Nội');
-
+(5, 'Phan Công Lý', 'anhlycuckeo123@gmail.com', NULL, '$2y$12$UNAgYzE4oRwUZgTDlxW3MewBdkUWk2PEPeHe7fXbXofjiKm3I9bei', NULL, '2025-03-26 03:18:58', '2025-03-26 03:18:58', 1, NULL, '1141421', 'Hà Nội'),
+(6, 'Loc', 'loc@gmail.com', NULL, '$2y$12$2BvKpgAoZZRqG1VWMtKuBe3WtN15Yfr5DR6tBNm7hiejSbIM4u58a', NULL, '2025-03-30 19:09:44', '2025-03-30 19:09:44', 1, '2003-07-07', '0906135518', 'Hải Phòng');
 -- --------------------------------------------------------
 
 --

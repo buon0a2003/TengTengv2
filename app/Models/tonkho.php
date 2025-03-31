@@ -1,94 +1,73 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @property int $id
+ *
+ *
+ * @property int $kho_id
  * @property int $vattu_id
- * @property int $vitri_id
- * @property int $created_at
- * @property int $updated_at
+ * @property string|null $SoLuong
+ * @property int|null $vitri_id
+ * @property string|null $NgayCapNhat
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $id
+ * @property-read \App\Models\kho|null $kho
+ * @property-read \App\Models\vattu|null $vattu
+ * @property-read \App\Models\vitri|null $vitri
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|tonkho newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|tonkho newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|tonkho query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|tonkho whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|tonkho whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|tonkho whereKhoId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|tonkho whereNgayCapNhat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|tonkho whereSoLuong($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|tonkho whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|tonkho whereVattuId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|tonkho whereVitriId($value)
+ * @mixin \Eloquent
  */
-class Tonkho extends Model
+class tonkho extends Model
 {
-    /**
-     * The connection name for the model.
-     *
-     * @var string
-     */
-    protected $connection = 'mysql';
-
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'tonkho';
-
-    /**
-     * The primary key for the model.
-     *
-     * @var string
-     */
+    use HasFactory;
     protected $primaryKey = 'id';
 
-    /**
-     * Attributes that should be mass-assignable.
-     *
-     * @var array
-     */
+    protected $table = 'tonkho';
     protected $fillable = [
-        'vattu_id', 'SoLuong', 'vitri_id', 'created_at', 'updated_at'
+        'id',
+        'kho_id',
+        'vattu_id',
+        'SoLuong',
+        'vitri_id',
+        'NgayCapNhat',
     ];
 
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = [
-
-    ];
-
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'int', 'vattu_id' => 'int', 'vitri_id' => 'int', 'created_at' => 'timestamp', 'updated_at' => 'timestamp'
-    ];
-
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'created_at', 'updated_at'
-    ];
-
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var boolean
-     */
-    public $timestamps = false;
-
-    // Scopes...
-
-    // Functions ...
-
-    // Relations ...
-    public function vattu()
+    public function vitri(): BelongsTo
     {
-        return $this->belongsTo(VatTu::class, 'vattu_id');
+        return $this->belongsTo(vitri::class);
     }
 
-    public function vitri()
+    public function kho(): belongsTo
     {
-        return $this->belongsTo(ViTri::class, 'vitri_id');
+        return $this->belongsTo(kho::class);
     }
+
+    public function vattu(): BelongsTo
+    {
+        return $this->belongsTo(vattu::class);
+    }
+
+//    public function chitietphieunhap(): HasMany
+//    {
+//        return $this->hasMany(chitietphieunhap::class);
+//    }
 }

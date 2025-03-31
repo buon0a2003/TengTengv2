@@ -6,6 +6,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PhieuNhapResource\Pages;
 use App\Filament\Resources\PhieuNhapResource\RelationManagers;
+use App\Filament\Resources\PhieuNhapResource\RelationManagers\ChitietphieunhapRelationManager;
 use App\Models\chitietphieunhap;
 use App\Models\phieunhap;
 use App\Models\Tonkho;
@@ -28,6 +29,7 @@ use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
+use Guava\FilamentModalRelationManagers\Actions\Table\RelationManagerAction;
 
 class PhieuNhapResource extends Resource implements HasShieldPermissions
 {
@@ -40,7 +42,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
     protected static ?string $navigationLabel = 'Phiếu nhập';
 
     protected static ?string $navigationGroup = 'Quản lý Nhập & Xuất';
-
+    protected static ?string $slug = 'phieunhap';
     public static function getBreadcrumb(): string
     {
         return 'Phiếu nhập';
@@ -78,13 +80,13 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                         ->live()
                                         ->label('Lý do nhập hàng?')
                                         ->options([
-                                            '0' => 'Nhập sản xuất',
+                                            '0' => 'Nhập thành phẩm',
                                             '1' => 'Nhập nguyên vật liệu',
                                         ]),
 
                                     TextInput::make('id')
                                         ->placeholder('eg: PN001/xx/xx')
-                                        ->unique()
+                                        ->unique(ignoreRecord: true)
 //                                        ->required()
                                         ->label('Mã phiếu nhập'),
 
@@ -167,6 +169,9 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
     public static function table(Table $table): Table
     {
         return $table
+            // ->modifyQueryUsing(function ($query) {
+            //     $query->with(['chitietphieunhap']);
+            // })
             ->defaultSort('TrangThai', 'asc')
             ->columns([
                 TextColumn::make('id')
@@ -190,7 +195,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
 
                 TextColumn::make('LyDo')
                     ->label('Lý do')
-                    ->formatStateUsing(fn ($record) => $record->LyDo === 1 ? 'Nhập nguyên vật liệu' : 'Nhập sản xuất')
+                    ->formatStateUsing(fn ($record) => $record->LyDo === 1 ? 'Nhập nguyên vật liệu' : 'Nhập thành phẩm')
                     ->badge()
                     ->color(fn ($record): string => $record->LyDo === 1 ? 'success' : 'info')
                     ->searchable(),
@@ -216,11 +221,12 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                     ->label('Ghi chú'),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('LyDo')
-                    ->label('Lý do nhập')
+                Tables\Filters\SelectFilter::make('TrangThai')
+                    ->label('Trạng thái')
                     ->options([
-                        '0' => 'Nhập sản xuất',
-                        '1' => 'Nhập nguyên vật liệu',
+                        '0' => 'Đang xử lý',
+                        '1' => 'Đã xử lý',
+                        '2' => 'Đã huỷ',
                     ]),
             ])
             ->actions([
@@ -282,7 +288,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                             }
                             //
                         })
-                        ->hidden(fn ($record): bool => ! $record->TrangThai === 0)
+                        ->hidden(fn ($record): bool => ! $record->TrangThai == 0)
                         ->label('Duyệt')
                         ->icon('heroicon-s-check')
                         ->color('info'),
@@ -296,10 +302,16 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                 ->danger()
                                 ->send();
                         })
-                        ->hidden(fn ($record): bool => ! $record->TrangThai === 0)
+                        ->hidden(fn ($record): bool => ! $record->TrangThai == 0)
                         ->label('Huỷ')
                         ->icon('heroicon-s-trash')
                         ->color('danger'),
+
+                    RelationManagerAction::make('chitietphieunhap')
+                    ->label('Xem danh sách vật tư')
+                    ->icon('heroicon-o-list-bullet')
+                    ->color('amber')
+                    ->relationManager(ChitietphieunhapRelationManager::make()),
                 ]),
                 // xoá thì phải để oncasade cho chi tiet phieu nhap nua
             ])

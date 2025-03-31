@@ -2,18 +2,14 @@
 
 namespace App\Filament\Resources;
 
-//use App\View\Components\CustomTable;
-use App\Forms\Components\CustomTable;
 use App\Filament\Resources\NhaCungCapResource\Pages;
 use App\Filament\Resources\NhaCungCapResource\RelationManagers;
 use App\Filament\Resources\NhaCungCapResource\RelationManagers\PhieunhapRelationManager;
 use App\Models\nhacungcap;
 use Filament\Forms;
-use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -22,6 +18,8 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ExportAction;
+use Filament\Tables\Actions\ExportBulkAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -41,13 +39,16 @@ class NhaCungCapResource extends Resource
     protected static ?int $navigationSort = 1;
     protected static ?string $navigationLabel = 'Nhà cung cấp';
     protected static ?string $navigationGroup = 'Quản lý danh mục';
-
+    protected static ?string $slug = 'nhacungcap';
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
 
-                Section::make('Thông tin bắt buộc')->schema([
+                Section::make('Thông tin bắt buộc')
+                ->description('Nhập thông tin chi tiết nhà cung cấp')
+                ->aside()
+                ->schema([
                     TextInput::make('TenNCC')
                         ->required()
                         ->label('Tên'),
@@ -60,22 +61,12 @@ class NhaCungCapResource extends Resource
                     TextInput::make('MaSoThue')
                         ->required()
                         ->label('Mã Số thuế'),
-                ])->columnSpan(1),
+                ])->columnSpan(2),
 
-                Section::make("amen")->schema([
-                    CustomTable::make('product_table')
-                        ->columns(['Tên sản phẩm', 'Số lượng'])
-                        ->data([
-                            ['iPhone 15', 10],
-                            ['Laptop Asus', 5],
-                            ['Bàn phím cơ', 20],
-                        ]),
-
-
-                ]),
-
-
-                Section::make('Thông tin không bắt buộc')->schema([
+                Section::make('Thông tin không bắt buộc')
+                ->description('Nhập thông tin khác của nhà cung cấp')
+                ->aside()
+                ->schema([
                     TextInput::make('Email')
                         ->email()
                         ->label('Email'),
@@ -83,7 +74,7 @@ class NhaCungCapResource extends Resource
                         ->label('Ghi chú')
                         ->rows(3)
                         ->columnSpan(1),
-                ])->columnSpan(1),
+                ])->columnSpan(2),
 
             ]);
     }
@@ -124,6 +115,11 @@ class NhaCungCapResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+                ExportBulkAction::make()
+                    ->label('Xuất Excel')
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->color('primary')
+                    ->exporter(\App\Filament\Exports\NhacungcapExporter::class)
             ]);
     }
 

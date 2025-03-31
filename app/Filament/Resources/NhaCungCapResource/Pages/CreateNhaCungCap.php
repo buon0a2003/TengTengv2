@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\NhaCungCapResource\Pages;
 
+use App\Filament\CreateAndRedirectToIndex;
 use App\Filament\Resources\NhaCungCapResource;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class CreateNhaCungCap extends CreateRecord
+class CreateNhaCungCap extends CreateAndRedirectToIndex
 {
     protected static string $resource = NhaCungCapResource::class;
 
