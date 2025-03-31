@@ -7,7 +7,7 @@ use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Validation\ValidationException;
 
-class CustomLogin extends Login 
+class CustomLogin extends Login
 {
     protected function getForms(): array
     {
@@ -50,5 +50,6 @@ class CustomLogin extends Login
             'data.login' => __('Thông tin đăng nhập sai'),
         ]);
     }
+
 
 }

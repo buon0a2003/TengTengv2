@@ -37,7 +37,7 @@ class NhaCungCapResource extends Resource
     protected static ?int $navigationSort = 1;
     protected static ?string $navigationLabel = 'Nhà cung cấp';
     protected static ?string $navigationGroup = 'Quản lý danh mục';
-
+    protected static ?string $slug = 'nhacungcap';
     public static function form(Form $form): Form
     {
         return $form

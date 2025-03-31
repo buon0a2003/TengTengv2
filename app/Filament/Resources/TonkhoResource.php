@@ -32,7 +32,7 @@ class TonkhoResource extends Resource
 
     protected static ?string $navigationGroup = 'Quản lý Nhập & Xuất';
     protected static ?string $navigationIcon = 'heroicon-o-inbox-stack';
-
+    protected static ?string $slug = 'tonkho';
     public static function form(Form $form): Form
     {
         return $form

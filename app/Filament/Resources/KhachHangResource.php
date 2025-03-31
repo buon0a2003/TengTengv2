@@ -35,7 +35,7 @@ class KhachHangResource extends Resource
     protected static ?int $navigationSort = 1;
     protected static ?string $navigationLabel = 'Khách hàng';
     protected static ?string $navigationGroup = 'Quản lý danh mục';
-
+    protected static ?string $slug = 'khachhang';
     public static function form(Form $form): Form
     {
         return $form

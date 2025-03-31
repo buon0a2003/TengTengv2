@@ -40,7 +40,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
     protected static ?string $navigationLabel = 'Phiếu nhập';
 
     protected static ?string $navigationGroup = 'Quản lý Nhập & Xuất';
-
+    protected static ?string $slug = 'phieunhap';
     public static function getBreadcrumb(): string
     {
         return 'Phiếu nhập';

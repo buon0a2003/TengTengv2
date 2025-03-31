@@ -29,6 +29,7 @@ class DonvitinhResource extends Resource
     protected static ?string $navigationLabel = 'Đơn vị tính';
     protected static ?string $navigationGroup = 'Quản lý danh mục';
 
+    protected static ?string $slug = 'donvitinh';
     public static function form(Form $form): Form
     {
         return $form
