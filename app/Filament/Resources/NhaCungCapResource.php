@@ -18,6 +18,8 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ExportAction;
+use Filament\Tables\Actions\ExportBulkAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -113,6 +115,11 @@ class NhaCungCapResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+                ExportBulkAction::make()
+                    ->label('Xuất Excel')
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->color('primary')
+                    ->exporter(\App\Filament\Exports\NhacungcapExporter::class)
             ]);
     }
 

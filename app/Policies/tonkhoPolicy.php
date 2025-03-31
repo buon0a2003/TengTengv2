@@ -40,8 +40,8 @@ class TonkhoPolicy
      */
     public function update(User $user, Tonkho $tonkho): bool
     {
-//        return $user->can('update_tonkho');
-        return false;
+       return $user->can('update_tonkho');
+        // return false;
     }
 
     /**

@@ -24,7 +24,8 @@ class ListVattus extends ListRecords
                 ->icon('heroicon-o-plus')
                 ->label('Tạo mới'),
 
-            Actions\CreateAction::make()
+            Actions\ExportAction::make()
+                ->exporter(\App\Filament\Exports\VattuExporter::class)
                 ->label('xuất excel')
                 ->icon('heroicon-o-arrow-down-tray')
                 ->color('primary')
