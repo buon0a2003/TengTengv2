@@ -6,6 +6,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PhieuNhapResource\Pages;
 use App\Filament\Resources\PhieuNhapResource\RelationManagers;
+use App\Filament\Resources\PhieuNhapResource\RelationManagers\ChitietphieunhapRelationManager;
 use App\Models\chitietphieunhap;
 use App\Models\phieunhap;
 use App\Models\Tonkho;
@@ -28,6 +29,7 @@ use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
+use Guava\FilamentModalRelationManagers\Actions\Table\RelationManagerAction;
 
 class PhieuNhapResource extends Resource implements HasShieldPermissions
 {
@@ -303,6 +305,12 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                         ->label('Huỷ')
                         ->icon('heroicon-s-trash')
                         ->color('danger'),
+
+                    RelationManagerAction::make('chitietphieunhap')
+                    ->label('Xem danh sách vật tư')
+                    ->icon('heroicon-o-list-bullet')
+                    ->color('amber')
+                    ->relationManager(ChitietphieunhapRelationManager::make()),
                 ]),
                 // xoá thì phải để oncasade cho chi tiet phieu nhap nua
             ])
