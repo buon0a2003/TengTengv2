@@ -9,8 +9,9 @@ use App\Models\chitietphieunhap;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
+use App\Filament\CreateAndRedirectToIndex;
 
-class CreatePhieuNhap extends CreateRecord
+class CreatePhieuNhap extends CreateAndRedirectToIndex
 {
     protected static string $resource = PhieuNhapResource::class;
 
@@ -40,4 +41,5 @@ class CreatePhieuNhap extends CreateRecord
             ->label('Tạo mới')
             ->icon('heroicon-s-plus');
     }
+
 }

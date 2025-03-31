@@ -167,6 +167,9 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
     public static function table(Table $table): Table
     {
         return $table
+            // ->modifyQueryUsing(function ($query) {
+            //     $query->with(['chitietphieunhap']);
+            // })
             ->defaultSort('TrangThai', 'asc')
             ->columns([
                 TextColumn::make('id')

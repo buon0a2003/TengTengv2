@@ -27,22 +27,23 @@ class CustomProfile extends EditProfile
             'form' => $this->form(
                 $this->makeForm()
                     ->schema([
-                            Split::make([
-                                Section::make([
-
+                                Section::make('Thông tin tài khoản')
+                                    ->description(__('Cập nhật thông tin tài khoản của bạn'))
+                                ->schema([
                                     $this->getNameFormComponent(),
                                     $this->getEmailFormComponent(),
                                     $this->getBirthFormComponent(),
                                     $this->getPhoneFormComponent(),
                                     $this->getAddressFormComponent(),
-
-                                        ]),
-                                Section::make([
+                                ])
+                                ->aside(),
+                                Section::make('Đổi mật khẩu')
+                                    ->description(__('Để lại trống nếu không muốn thay đổi mật khẩu'))
+                                ->schema([
                                     $this->getPasswordFormComponent(),
                                     $this->getPasswordConfirmationFormComponent(),
                                 ])
-                            ])
-
+                                ->aside()
                     ])
                     ->operation('edit')
                     ->model($this->getUser())

@@ -2,13 +2,14 @@
 
 namespace App\Filament\Resources\KhachHangResource\Pages;
 
+use App\Filament\CreateAndRedirectToIndex;
 use App\Filament\Resources\KhachHangResource;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
 
-class CreateKhachHang extends CreateRecord
+class CreateKhachHang extends CreateAndRedirectToIndex
 {
     protected static string $resource = KhachHangResource::class;
 

@@ -7,8 +7,9 @@ namespace App\Filament\Resources\PhieuNhapResource\Pages;
 use App\Filament\Resources\PhieuNhapResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use App\Filament\EditAndRedirectToIndex;
 
-class EditPhieuNhap extends EditRecord
+class EditPhieuNhap extends EditAndRedirectToIndex
 {
     protected static string $resource = PhieuNhapResource::class;
 
