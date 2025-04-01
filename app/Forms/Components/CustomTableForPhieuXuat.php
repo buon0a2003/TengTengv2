@@ -40,5 +40,14 @@ class CustomTableForPhieuXuat extends Field
     {
         parent::setUp();
 
+//        $this->filters([
+//            TextFilter::make('vattu')
+//                ->label('Tìm kiếm vật tư')
+//                ->query(fn ($query, $value) =>
+//                $query->whereHas('vattu', fn ($q) =>
+//                $q->where('TenVT', 'like', "%$value%")
+//                )
+//                ),
+//        ]);
     }
 }

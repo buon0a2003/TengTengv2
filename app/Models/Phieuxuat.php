@@ -36,7 +36,7 @@ class Phieuxuat extends Model
      * @var array
      */
     protected $fillable = [
-        'NgayXuat', 'user_id', 'kho_id', 'LyDo', 'khachhang_id', 'GhiChu', 'TrangThai', 'created_at', 'updated_at', 'NgayXuat', 'NguoiXuat', 'idKho', 'LyDo', 'idKH', 'GhiChu', 'TrangThai', 'created_at', 'updated_at'
+        'id','NgayXuat', 'user_id', 'kho_id', 'LyDo', 'khachhang_id', 'GhiChu', 'TrangThai', 'created_at', 'updated_at', 'NgayXuat', 'NguoiXuat', 'idKho', 'LyDo', 'idKH', 'GhiChu', 'TrangThai', 'created_at', 'updated_at'
     ];
 
     /**

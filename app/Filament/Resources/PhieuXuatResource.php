@@ -13,6 +13,7 @@ use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\ViewField;
 use Filament\Forms\Form;
 use Filament\Actions\CreateAction;
 use Filament\Forms\Get;
@@ -67,6 +68,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
 
                         Forms\Components\TextInput::make('id')
                             ->placeholder('eg: PN001/xx/xx')
+                            ->unique(ignoreRecord: true)
                             ->label('Mã phiếu xuất'),
                         Select::make('user_id')
                             ->label('Người tạo phiếu')
@@ -114,17 +116,18 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                             ])
                     ]),
 
-                Section::make("Chi tiết phiếu xuất")->schema([
-
+                Section::make("Chi tiết phiếu xuất")
+                    ->schema([
                     CustomTableForPhieuXuat::make('chitietphietxuat')
                         ->columns([
+//                            '<input type="checkbox" x-model="selectAll" @click="toggleAll($event)">',
                             'Chọn',
                             'Mã',
                             'Vật tư',
                             'Đơn vị tính',
                             'Số lượng thực',
                             'Số lượng xuất',
-                            'Vị trí'
+                            'Vị trí',
                         ])
                         ->data(TonKho::with(['vattu.donvitinh', 'vitri'])->get()->map(function ($item) {
                             return [
@@ -139,6 +142,8 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                         })->toArray())
                         ->label('Danh sách sản phẩm')
                 ]),
+
+
 
 
             ]);
