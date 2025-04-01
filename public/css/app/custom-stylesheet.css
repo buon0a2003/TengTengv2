@@ -6,7 +6,6 @@
 .fi-sidebar {
 
 }
-
 .fi-topbar > nav {
     background-color: inherit !important;
     outline: none;
@@ -17,3 +16,6 @@
     outline: none;
     box-shadow: none !important;
 }
+ #data.chi-tiet-phieu-xuat.fi-section-content{
+
+ }
