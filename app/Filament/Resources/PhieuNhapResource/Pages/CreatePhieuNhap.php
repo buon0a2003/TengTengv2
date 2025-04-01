@@ -15,6 +15,21 @@ class CreatePhieuNhap extends CreateAndRedirectToIndex
 {
     protected static string $resource = PhieuNhapResource::class;
 
+    protected $listeners = ['vattuSelected' => 'handleVattuSelected'];
+
+    public function handleVattuSelected($record): void
+    {
+        $state = $this->form->getState();
+
+        $state['dsvattu'][] = [
+            'id' => $record['id'],
+            'TenVT' => $record['TenVT'],
+        ];
+
+        $this->form->fill($state);
+
+    }
+
     protected function handleRecordCreation(array $data): Model
     {
 
@@ -23,7 +38,7 @@ class CreatePhieuNhap extends CreateAndRedirectToIndex
         foreach ($data['dsvattu'] as $key) {
             $chitietphieunhap = new chitietphieunhap();
 
-            $chitietphieunhap->vattu_id = $key['vattu'];
+            $chitietphieunhap->vattu_id = $key['id'];
             $chitietphieunhap->SoLuong = $key['soluong'];
             $chitietphieunhap->GhiChu = $key['ghichu'];
 

@@ -1,21 +1,5 @@
-:root {
-    --sidebar-background-color: #1E293B !important;
-    --topbar-background-color: #fafafa !important;
+/* custom css ne */
+.fi-section{
+    --tw-ring-opacity: 0 !important;
+    border-width: 0 !important;
 }
-
-.fi-sidebar {
-
-}
-.fi-topbar > nav {
-    background-color: inherit !important;
-    outline: none;
-    box-shadow: none !important;
-
-}.fi-sidebar-header {
-    background-color: inherit !important;
-    outline: none;
-    box-shadow: none !important;
-}
- #data.chi-tiet-phieu-xuat.fi-section-content{
-
- }

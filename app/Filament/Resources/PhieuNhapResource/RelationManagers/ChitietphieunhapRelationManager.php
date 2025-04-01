@@ -11,10 +11,14 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use App\Models\vattu;
+use Filament\Forms\Get;
+
 
 class ChitietphieunhapRelationManager extends RelationManager
 {
     protected static string $relationship = 'chitietphieunhap';
+    protected static ?string $modelLabel = 'Chi tiết phiếu nhập';
 
     public function form(Form $form): Form
     {
@@ -26,9 +30,11 @@ class ChitietphieunhapRelationManager extends RelationManager
                         ->relationship('vattu', 'TenVT')
                         ->searchable()
                         ->preload()
+                        ->live()
                         ->required(),
                     Forms\Components\TextInput::make('SoLuong')
                         ->label('Số lượng')
+                        ->suffix(fn (Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
                         ->numeric()
                         ->required(),
                     Forms\Components\Select::make('vitri_id')

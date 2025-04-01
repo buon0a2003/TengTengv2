@@ -48,21 +48,6 @@ class ListPhieuNhaps extends ListRecords
             })
             ->badge($this->getModel()::where('LyDo', 1)->count());
 
-//        $tiers = Tier::orderBy('order_column', 'asc')
-//            ->withCount('customers')
-//            ->get();
-//
-//        foreach ($tiers as $tier) {
-//            $name = $tier->name;
-//            $slug = str($name)->slug()->toString();
-//
-//            $tabs[$slug] = Tab::make($name)
-//                ->badge($tier->customers_count)
-//                ->modifyQueryUsing(function ($query) use ($tier) {
-//                    return $query->where('tier_id', $tier->id);
-//                });
-//        }
-
         return $tabs;
     }
 }

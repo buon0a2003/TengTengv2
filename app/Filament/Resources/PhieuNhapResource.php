@@ -7,14 +7,17 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PhieuNhapResource\Pages;
 use App\Filament\Resources\PhieuNhapResource\RelationManagers;
 use App\Filament\Resources\PhieuNhapResource\RelationManagers\ChitietphieunhapRelationManager;
+use App\Livewire\vattuList;
 use App\Models\chitietphieunhap;
 use App\Models\phieunhap;
 use App\Models\Tonkho;
 use App\Models\vattu;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
@@ -30,15 +33,16 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Guava\FilamentModalRelationManagers\Actions\Table\RelationManagerAction;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\HtmlString;
+use Filament\Forms\Components\Livewire;
 
 class PhieuNhapResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = phieunhap::class;
 
     protected static ?string $modelLabel = 'Phiếu nhập';
-
-    protected static ?string $navigationIcon = 'heroicon-o-newspaper';
-
+    protected static ?string $navigationIcon = 'heroicon-o-chevron-double-left';
     protected static ?string $navigationLabel = 'Phiếu nhập';
 
     protected static ?string $navigationGroup = 'Quản lý Nhập & Xuất';
@@ -142,27 +146,54 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                         ]),
                     Wizard\Step::make('Thông tin chi tiết phiếu nhập')
                         ->schema([
-                            Repeater::make('dsvattu')
-                                ->label('Danh sách vật tư')
+                        //     Repeater::make('dsvattu')
+                        //         ->label('Danh sách vật tư')
+                        //         ->addActionLabel('Thêm vật tư')
+                        //         ->schema([
+                        //             Select::make('vattu')
+                        //                 ->searchable()
+                        //                 ->label('Vật tư')
+                        //                 ->options(vattu::all()->pluck('TenVT', 'id'))
+                        //                 ->live()
+                        //                 ->required(),
+                        //             TextInput::make('soluong')->label('Số lượng')
+                        //                 ->suffix(fn (Get $get): string => (string) vattu::find($get('vattu'))?->donvitinh->TenDVT ?? '')
+                        //                 ->numeric()
+                        //                 ->required(),
+                        //             TextInput::make('ghichu')
+                        //                 ->label('Ghi chú')
+                        //                 ->columnSpan(2),
+                        //         ])
+                        //         ->columns(2),
+                        // ])->visibleOn('create'),
+//                             Livewire::make(vattuList::class),
+                             Repeater::make('dsvattu')
+//                                 ->hidden(fn (Get $get): bool => $get('dsvattu') == null)
+                                ->reorderable(false)
                                 ->addActionLabel('Thêm vật tư')
+                                ->addAction(function (Forms\Components\Actions\Action $action): Forms\Components\Actions\Action {
+                                    return $action->modalContent(
+                                    view('filament.vattuList')
+                                    )
+                                    ->action(null)
+                                    ->modalCancelAction(false)
+                                    ->modalSubmitActionLabel('Done');
+                                })
+                                ->label('Danh sách vật tư')
                                 ->schema([
-                                    Select::make('vattu')
-                                        ->searchable()
+                                    TextInput::make('id')->hidden()->live(),
+                                    TextInput::make('TenVT')
                                         ->label('Vật tư')
-                                        ->options(vattu::all()->pluck('TenVT', 'id'))
                                         ->live()
                                         ->required(),
                                     TextInput::make('soluong')->label('Số lượng')
-                                        ->suffix(fn (Get $get): string => (string) vattu::find($get('vattu'))?->donvitinh->TenDVT ?? '')
+                                        ->suffix(fn (Get $get): string => (string) vattu::find($get('id'))?->donvitinh->TenDVT ?? '')
                                         ->numeric()
-                                        ->required(),
-                                    TextInput::make('ghichu')
-                                        ->label('Ghi chú')
-                                        ->columnSpan(2),
-                                ])
-                                ->columns(2),
+                                        ->minValue(1),
+                                    Textarea::make('ghichu')->rows(2)->label('Ghi chú'),
+                                ])->defaultItems(0)->grid(4),
                         ])->visibleOn('create'),
-                ])->columnSpanFull()->skippable(),
+                    ])->columnSpanFull()->skippable(),
             ]);
     }
 
@@ -337,4 +368,5 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
             'edit' => Pages\EditPhieuNhap::route('/{record}/edit'),
         ];
     }
+
 }

@@ -47,13 +47,13 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
         ];
     }
 
-    protected static ?string $navigationIcon = 'heroicon-o-newspaper';
+    protected static ?string $navigationIcon = 'heroicon-o-chevron-double-right';
     protected static ?string $navigationLabel = 'Phiếu xuất';
     protected static ?string $navigationGroup = 'Quản lý Nhập & Xuất';
     protected static ?string $slug = 'phieuxuat';
     public static function getBreadcrumb(): string
     {
-        return 'Phiếu nhập';
+        return 'Phiếu xuất';
     }
     public static function form(Form $form): Form
     {
@@ -227,7 +227,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                     ->schema([
                         Forms\Components\Grid::make()
                             ->schema([
-
+                                
                             ]) ->columnSpanFull()
                     ])
                 ])->columnSpanFull()->skippable(),
