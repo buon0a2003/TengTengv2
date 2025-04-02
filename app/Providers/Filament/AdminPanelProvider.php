@@ -46,6 +46,7 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Lime,
                 'amber' => Color::Amber,
+                'secondary' => Color::Gray,
             ])
             ->brandLogo(asset('images/logo.svg'))
             ->brandName('Quản lý kho vận')

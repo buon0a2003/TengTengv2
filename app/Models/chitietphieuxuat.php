@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 ///**
 // * @property int    $id
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 // * @property string $phieuxuat_id
 // * @property string $GhiChu
 // */
-class Chitietphieuxuat extends Model
+class chitietphieuxuat extends Model
 {
     /**
      * The connection name for the model.
@@ -43,7 +44,13 @@ class Chitietphieuxuat extends Model
      * @var array
      */
     protected $fillable = [
-        'phieuxuat_id', 'vatu_id', 'SoLuong', 'GhiChu', 'created_at', 'updated_at', 'created_at', 'updated_at'
+        'phieuxuat_id',
+        'tonkho_id',
+        'vattu_id',
+        'SoLuong',
+        'GhiChu',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -56,21 +63,13 @@ class Chitietphieuxuat extends Model
     ];
 
     /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'int', 'id' => 'int', 'phieuxuat_id' => 'string', 'vatu_id' => 'int', 'GhiChu' => 'string', 'created_at' => 'timestamp', 'updated_at' => 'timestamp', 'idPX' => 'int', 'idVT' => 'int', 'GhiChu' => 'string', 'created_at' => 'timestamp', 'updated_at' => 'timestamp'
-    ];
-
-    /**
      * The attributes that should be mutated to dates.
      *
      * @var array
      */
     protected $dates = [
-        'created_at', 'updated_at', 'created_at', 'updated_at'
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -80,9 +79,14 @@ class Chitietphieuxuat extends Model
      */
     public $timestamps = false;
 
-    // Scopes...
+    public function phieuxuat(): belongsTo
+    {
+        return $this->belongsTo(phieuxuat::class);
+    }
 
-    // Functions ...
+    public function vattu(): belongsTo
+    {
+        return $this->belongsTo(vattu::class);
+    }
 
-    // Relations ...
 }

@@ -52,7 +52,7 @@ class vattuList extends Component implements HasForms, HasTable
                 ])
             ])
             ->actions([
-                Tables\Actions\Action::make('tonkhoSelect')
+                Tables\Actions\Action::make('vattuSelect')
                     ->label('Select')
                     ->color('primary')
                     ->action(function (vattu $record) {

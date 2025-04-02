@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Phieuxuat extends Model
+class phieuxuat extends Model
 {
     use HasFactory;
     /**
@@ -29,6 +30,8 @@ class Phieuxuat extends Model
      * @var string
      */
     protected $primaryKey = 'id';
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     /**
      * Attributes that should be mass-assignable.
@@ -36,7 +39,16 @@ class Phieuxuat extends Model
      * @var array
      */
     protected $fillable = [
-        'id','NgayXuat', 'user_id', 'kho_id', 'LyDo', 'khachhang_id', 'GhiChu', 'TrangThai', 'created_at', 'updated_at', 'NgayXuat', 'NguoiXuat', 'idKho', 'LyDo', 'idKH', 'GhiChu', 'TrangThai', 'created_at', 'updated_at'
+        'id',
+        'NgayXuat',
+        'user_id',
+        'kho_id',
+        'LyDo',
+        'khachhang_id',
+        'GhiChu',
+        'TrangThai',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -49,35 +61,12 @@ class Phieuxuat extends Model
     ];
 
     /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'string', 'id' => 'int', 'NgayXuat' => 'datetime', 'user_id' => 'int', 'kho_id' => 'int', 'LyDo' => 'boolean', 'khachhang_id' => 'int', 'GhiChu' => 'string', 'TrangThai' => 'int', 'created_at' => 'timestamp', 'updated_at' => 'timestamp', 'NgayXuat' => 'datetime', 'NguoiXuat' => 'int', 'idKho' => 'int', 'LyDo' => 'boolean', 'idKH' => 'int', 'GhiChu' => 'string', 'TrangThai' => 'int', 'created_at' => 'timestamp', 'updated_at' => 'timestamp'
-    ];
-
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'NgayXuat', 'created_at', 'updated_at', 'NgayXuat', 'created_at', 'updated_at'
-    ];
-
-    /**
      * Indicates if the model should be timestamped.
      *
      * @var boolean
      */
     public $timestamps = false;
 
-    // Scopes...
-
-    // Functions ...
-
-    // Relations ...
 
     public function user(): belongsTo
     {
@@ -92,5 +81,10 @@ class Phieuxuat extends Model
     public function khachhang(): BelongsTo
     {
         return $this->belongsTo(KhachHang::class);
+    }
+
+    public function chitietphieuxuat(): hasMany
+    {
+        return $this->hasMany(chitietphieuxuat::class);
     }
 }

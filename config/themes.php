@@ -31,6 +31,6 @@ return [
 
     'default' => [
         'theme' => 'nord',
-        'theme_color' => 'orange',
+        'theme_color' => '#8fbcbb',
     ],
 ];

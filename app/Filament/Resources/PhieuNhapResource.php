@@ -146,28 +146,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                         ]),
                     Wizard\Step::make('Thông tin chi tiết phiếu nhập')
                         ->schema([
-                        //     Repeater::make('dsvattu')
-                        //         ->label('Danh sách vật tư')
-                        //         ->addActionLabel('Thêm vật tư')
-                        //         ->schema([
-                        //             Select::make('vattu')
-                        //                 ->searchable()
-                        //                 ->label('Vật tư')
-                        //                 ->options(vattu::all()->pluck('TenVT', 'id'))
-                        //                 ->live()
-                        //                 ->required(),
-                        //             TextInput::make('soluong')->label('Số lượng')
-                        //                 ->suffix(fn (Get $get): string => (string) vattu::find($get('vattu'))?->donvitinh->TenDVT ?? '')
-                        //                 ->numeric()
-                        //                 ->required(),
-                        //             TextInput::make('ghichu')
-                        //                 ->label('Ghi chú')
-                        //                 ->columnSpan(2),
-                        //         ])
-                        //         ->columns(2),
-                        // ])->visibleOn('create'),
-//                             Livewire::make(vattuList::class),
-                             Repeater::make('dsvattu')
+                            Repeater::make('dsvattu')
 //                                 ->hidden(fn (Get $get): bool => $get('dsvattu') == null)
                                 ->reorderable(false)
                                 ->addActionLabel('Thêm vật tư')
@@ -184,7 +163,6 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                     TextInput::make('id')->hidden()->live(),
                                     TextInput::make('TenVT')
                                         ->label('Vật tư')
-                                        ->live()
                                         ->required(),
                                     TextInput::make('soluong')->label('Số lượng')
                                         ->suffix(fn (Get $get): string => (string) vattu::find($get('id'))?->donvitinh->TenDVT ?? '')
@@ -268,8 +246,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                     Action::make('duyetphieunhap')
                         ->authorize(fn (): bool => Auth::user()->can('duyetphieunhap_phieu::nhap'))
                         ->action(function ($record) {
-                            $chiTietPhieuNhapRecords = chitietphieunhap::where('phieunhap_id', $record->id)
-                                ->get();
+                            $chiTietPhieuNhapRecords = chitietphieunhap::where('phieunhap_id', $record->id)->get();
 
                             if (count($chiTietPhieuNhapRecords) > 0) {
                                 $allHaveVitriId = collect($chiTietPhieuNhapRecords)->every(fn ($value) => ! is_null($value->vitri_id));
@@ -300,20 +277,20 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                     }
 
                                     Notification::make()
-                                        ->title('Update tồn kho!')
+                                        ->title('Đã duyệt phiếu nhập & update tồn kho!')
                                         ->success()
                                         ->send();
 
                                     $record->update(['TrangThai' => 1]);
                                 } else {
                                     Notification::make()
-                                        ->title('Chưa cập nhật vị trí cho dữ liệu')
+                                        ->title('Chưa cập nhật vị trí cho dữ liệu!')
                                         ->danger()
                                         ->send();
                                 }
                             } else {
                                 Notification::make()
-                                    ->title('Chưa có dữ liệu nhập kho')
+                                    ->title('Chưa có dữ liệu nhập kho!')
                                     ->danger()
                                     ->send();
                             }
