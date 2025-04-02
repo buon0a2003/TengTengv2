@@ -49,7 +49,7 @@ class AdminPanelProvider extends PanelProvider
                 'secondary' => Color::Gray,
             ])
             ->brandLogo(fn () => view('filament.logo'))
-            ->favicon(fn () => asset('images/fav/favicon-120.png'))  
+            ->favicon(fn () => asset('images/fav/favicon-120.png'))
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([

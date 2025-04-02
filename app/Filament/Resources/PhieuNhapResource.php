@@ -157,7 +157,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                 ->addActionLabel('Thêm vật tư')
                                 ->addAction(function (Forms\Components\Actions\Action $action): Forms\Components\Actions\Action {
                                     return $action->modalContent(
-                                    view('filament.vattuList')
+                                        view('filament.vattulist')
                                     )
                                     ->action(null)
                                     ->modalCancelAction(false)
