@@ -48,10 +48,8 @@ class AdminPanelProvider extends PanelProvider
                 'amber' => Color::Amber,
                 'secondary' => Color::Gray,
             ])
-            // ->brandLogo(asset('images/logo.png'))
             ->brandLogo(fn () => view('filament.logo'))
-            // ->brandLogoHeight('4.5rem')
-            // ->brandName('Quản lý kho vận')
+            ->favicon(fn () => asset('images/fav/favicon-120.png'))  
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
