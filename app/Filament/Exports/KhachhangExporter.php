@@ -9,7 +9,7 @@ use Filament\Actions\Exports\Models\Export;
 
 class KhachhangExporter extends Exporter
 {
-    protected static ?string $model = Khachhang::class;
+    protected static ?string $model = khachhang::class;
 
     public static function getColumns(): array
     {

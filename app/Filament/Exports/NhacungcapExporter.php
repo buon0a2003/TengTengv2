@@ -2,14 +2,14 @@
 
 namespace App\Filament\Exports;
 
-use App\Models\Nhacungcap;
+use App\Models\nhacungcap;
 use Filament\Actions\Exports\ExportColumn;
 use Filament\Actions\Exports\Exporter;
 use Filament\Actions\Exports\Models\Export;
 
 class NhacungcapExporter extends Exporter
 {
-    protected static ?string $model = Nhacungcap::class;
+    protected static ?string $model = nhacungcap::class;
     protected static ?string $modelLabel = 'Nhà cung cấp';
 
     public static function getColumns(): array

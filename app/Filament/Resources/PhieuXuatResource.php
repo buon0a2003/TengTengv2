@@ -8,7 +8,7 @@ use App\Filament\Resources\PhieuXuatResource\RelationManagers\ChitietphieuxuatRe
 use App\Forms\Components\CustomTableForPhieuXuat;
 use App\Livewire\tonkhoList;
 use App\Models\chitietphieuxuat;
-use App\Models\KhachHang;
+use App\Models\khachHang;
 use App\Models\phieuxuat;
 use App\Models\tonkho;
 use App\Models\kho;

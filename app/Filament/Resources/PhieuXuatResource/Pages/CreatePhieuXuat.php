@@ -6,7 +6,7 @@ namespace App\Filament\Resources\PhieuXuatResource\Pages;
 
 use App\Filament\Resources\PhieuXuatResource;
 use App\Models\chitietphieuxuat;
-use App\Models\Phieuxuat;
+use App\Models\phieuxuat;
 use App\Models\tonkho;
 use Filament\Actions;
 use Illuminate\Support\Facades\Log;
