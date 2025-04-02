@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Notifications\Notification;
 
-class tonkholist extends Component implements HasForms, HasTable
+class TonkhoList extends Component implements HasForms, HasTable
 {
     use InteractsWithForms;
     use InteractsWithTable;
@@ -111,6 +111,6 @@ class tonkholist extends Component implements HasForms, HasTable
 
     public function render(): View
     {
-        return view('livewire.tonkholist');
+        return view('livewire.tonkho-list');
     }
 }

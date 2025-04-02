@@ -8,4 +8,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/', vattulist::class);
+// Route::get('/', VattuList::class);

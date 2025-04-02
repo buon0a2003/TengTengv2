@@ -25,7 +25,7 @@ use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 
-class vattulist extends Component implements HasForms, HasTable
+class VattuList extends Component implements HasForms, HasTable
 {
     use InteractsWithForms;
     use InteractsWithTable;
@@ -79,6 +79,6 @@ class vattulist extends Component implements HasForms, HasTable
 
     public function render(): View
     {
-        return view('livewire.vattulist');
+        return view('livewire.vattu-list');
     }
 }
