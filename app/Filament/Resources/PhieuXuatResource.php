@@ -41,7 +41,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Notifications\Notification;
 use Filament\Support\Exceptions\Cancel;
 use Guava\FilamentModalRelationManagers\Actions\Table\RelationManagerAction;
-
+use Illuminate\Support\Facades\Auth;
 
 class PhieuXuatResource extends Resource implements HasShieldPermissions
 {
@@ -58,7 +58,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
             'update',
             'delete',
             'delete_any',
-//            'duyetphieuxuat'
+            'duyetphieuxuat'
         ];
     }
 
@@ -271,6 +271,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                     Tables\Actions\ViewAction::make()->color('info'),
                     Tables\Actions\EditAction::make()->color('primary'),
                     Action::make('duyetphieuxuat')
+                        ->authorize(fn (): bool => Auth::user()->can('duyetphieuxuat_phieu::xuat'))
                         ->hidden(fn ($record): bool => ! $record->TrangThai == 0)
                         ->label('Duyệt phiếu xuất')
                         ->action(
@@ -313,6 +314,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                         ->icon('heroicon-o-check'),
 
                     Action::make('huyphieuxuat')
+                    ->authorize(fn (): bool => Auth::user()->can('duyetphieuxuat_phieu::xuat'))
                     ->label('Huỷ phiếu xuất')
                     ->action(function ($record) {
                             $record->update(['TrangThai' => 2]);

@@ -79,6 +79,7 @@ return [
         'reorder' => 'Reorder',
         'restore_any' => 'Restore Any',
         'replicate' => 'Replicate',
-        'duyetphieunhap' => 'Duyệt phiếu nhập'
+        'duyetphieunhap' => 'Duyệt phiếu nhập',
+        'duyetphieuxuat' => 'Duyệt phiếu xuất',
     ],
 ];
