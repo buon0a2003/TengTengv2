@@ -25,7 +25,7 @@ use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 
-class vattuList extends Component implements HasForms, HasTable
+class vattulist extends Component implements HasForms, HasTable
 {
     use InteractsWithForms;
     use InteractsWithTable;

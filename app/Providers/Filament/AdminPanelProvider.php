@@ -60,18 +60,10 @@ class AdminPanelProvider extends PanelProvider
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
             ])
-            ->navigationItems([
-                NavigationItem::make('Documentation')
-                    ->url('https://filamentphp.com/docs', shouldOpenInNewTab: true)
-                    ->icon('heroicon-o-book-open')
-                    ->group('External')
-                    ->sort(99),
-            ])
             ->navigationGroups([
                 'Quản lý danh mục',
                 'Quản lý Nhập & Xuất',
                 'Quản lý tài khoản',
-                'External',
             ])
             ->sidebarCollapsibleOnDesktop()
 //            ->sidebarWidth('shadow-lg')

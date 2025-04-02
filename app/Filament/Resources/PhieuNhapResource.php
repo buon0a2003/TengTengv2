@@ -7,7 +7,6 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PhieuNhapResource\Pages;
 use App\Filament\Resources\PhieuNhapResource\RelationManagers;
 use App\Filament\Resources\PhieuNhapResource\RelationManagers\ChitietphieunhapRelationManager;
-use App\Livewire\vattuList;
 use App\Models\chitietphieunhap;
 use App\Models\phieunhap;
 use App\Models\tonkho;
