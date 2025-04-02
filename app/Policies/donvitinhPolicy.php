@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\donvitinh;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class DonvitinhPolicy
+class donvitinhPolicy
 {
     use HandlesAuthorization;
 

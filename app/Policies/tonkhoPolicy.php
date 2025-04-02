@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\tonkho;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class TonkhoPolicy
+class tonkhoPolicy
 {
     use HandlesAuthorization;
 

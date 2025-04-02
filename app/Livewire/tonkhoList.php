@@ -111,6 +111,6 @@ class tonkhoList extends Component implements HasForms, HasTable
 
     public function render(): View
     {
-        return view('livewire.tonkho-list');
+        return view('livewire.tonkholist');
     }
 }

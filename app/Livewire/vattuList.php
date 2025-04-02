@@ -79,6 +79,6 @@ class vattuList extends Component implements HasForms, HasTable
 
     public function render(): View
     {
-        return view('livewire.vattu-list');
+        return view('livewire.vattulist');
     }
 }

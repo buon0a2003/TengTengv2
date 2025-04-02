@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\khachhang;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class KhachHangPolicy
+class khachhangPolicy
 {
     use HandlesAuthorization;
 

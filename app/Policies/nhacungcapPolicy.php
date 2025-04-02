@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\nhacungcap;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class NhaCungCapPolicy
+class nhacungcapPolicy
 {
     use HandlesAuthorization;
 

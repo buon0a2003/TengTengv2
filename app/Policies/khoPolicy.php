@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\kho;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class KhoPolicy
+class khoPolicy
 {
     use HandlesAuthorization;
 

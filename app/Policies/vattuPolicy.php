@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\vattu;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class VattuPolicy
+class vattuPolicy
 {
     use HandlesAuthorization;
 
