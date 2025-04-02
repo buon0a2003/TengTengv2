@@ -52,6 +52,11 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
         return 'Phiếu nhập';
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) static::getModel()::where('TrangThai', 0)->count();
+    }
+
     public static function getPermissionPrefixes(): array
     {
         return [
@@ -240,9 +245,9 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
             ])
             ->actions([
                 ActionGroup::make([
+                    ViewAction::make()->color('info'),
                     EditAction::make()
                         ->color('primary'),
-                    ViewAction::make(),
                     Action::make('duyetphieunhap')
                         ->authorize(fn (): bool => Auth::user()->can('duyetphieunhap_phieu::nhap'))
                         ->action(function ($record) {
@@ -299,7 +304,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                         ->hidden(fn ($record): bool => ! $record->TrangThai == 0)
                         ->label('Duyệt')
                         ->icon('heroicon-s-check')
-                        ->color('info'),
+                        ->color('success'),
 
                     Action::make('huyphieunhap')
                         ->authorize(fn (): bool => Auth::user()->can('duyetphieunhap_phieu::nhap'))

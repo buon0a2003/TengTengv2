@@ -30,6 +30,7 @@ use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
 use Filament\Actions\CreateAction;
 use Filament\Forms\Components\Livewire;
+use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -39,6 +40,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Notifications\Notification;
 use Filament\Support\Exceptions\Cancel;
+use Guava\FilamentModalRelationManagers\Actions\Table\RelationManagerAction;
+
 
 class PhieuXuatResource extends Resource implements HasShieldPermissions
 {
@@ -63,6 +66,17 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
     protected static ?string $navigationLabel = 'Phiếu xuất';
     protected static ?string $navigationGroup = 'Quản lý Nhập & Xuất';
     protected static ?string $slug = 'phieuxuat';
+
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) static::getModel()::where('TrangThai', 0)->count();
+    }
+
+    public static function getNavigationBadgeTooltip(): ?string
+    {
+        return 'Số lượng phiếu xuất đang xử lý';
+    }
+
     public static function getBreadcrumb(): string
     {
         return 'Phiếu xuất';
@@ -254,8 +268,10 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
             ])
             ->actions([
                 ActionGroup::make([
-                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\ViewAction::make()->color('info'),
+                    Tables\Actions\EditAction::make()->color('primary'),
                     Action::make('duyetphieuxuat')
+                        ->hidden(fn ($record): bool => ! $record->TrangThai == 0)
                         ->label('Duyệt phiếu xuất')
                         ->action(
                             function (phieuxuat $record): void {
@@ -308,6 +324,12 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                         ->hidden(fn ($record): bool => ! $record->TrangThai == 0)
                         ->color('danger')
                         ->icon('heroicon-o-x-circle'),
+
+                    RelationManagerAction::make('chitietphieuxuat')
+                    ->label('Xem DS vật tư xuất')
+                    ->icon('heroicon-o-list-bullet')
+                    ->color('amber')
+                    ->relationManager(ChitietphieuxuatRelationManager::make()),
                 ])
             ])
             ->bulkActions([

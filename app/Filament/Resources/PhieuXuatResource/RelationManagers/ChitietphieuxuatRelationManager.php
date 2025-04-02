@@ -51,16 +51,27 @@ class ChitietphieuxuatRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()                    
+                    ->hidden($this->shouldbeHidden())
+                    ->label('Thêm')->icon('heroicon-o-plus'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->hidden($this->shouldbeHidden())
+                    ->modalHeading('Chi tiết phiếu nhập'),
+                Tables\Actions\DeleteAction::make()
+                    ->hidden($this->shouldbeHidden()),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public function shouldbeHidden():bool
+    {
+        return $this->getOwnerRecord()->TrangThai === 1 || $this->getOwnerRecord()->TrangThai === 2;
     }
 }
