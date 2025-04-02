@@ -2,14 +2,14 @@
 
 namespace App\Filament\Exports;
 
-use App\Models\Vattu;
+use App\Models\vattu;
 use Filament\Actions\Exports\ExportColumn;
 use Filament\Actions\Exports\Exporter;
 use Filament\Actions\Exports\Models\Export;
 
 class VattuExporter extends Exporter
 {
-    protected static ?string $model = Vattu::class;
+    protected static ?string $model = vattu::class;
 
     public static function getColumns(): array
     {

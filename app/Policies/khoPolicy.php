@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Kho;
+use App\Models\kho;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class KhoPolicy
@@ -21,7 +21,7 @@ class KhoPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Kho $kho): bool
+    public function view(User $user, kho $kho): bool
     {
         return $user->can('view_kho');
     }
@@ -37,7 +37,7 @@ class KhoPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Kho $kho): bool
+    public function update(User $user, kho $kho): bool
     {
         return $user->can('update_kho');
     }
@@ -45,7 +45,7 @@ class KhoPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Kho $kho): bool
+    public function delete(User $user, kho $kho): bool
     {
         return $user->can('delete_kho');
     }
@@ -61,7 +61,7 @@ class KhoPolicy
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, Kho $kho): bool
+    public function forceDelete(User $user, kho $kho): bool
     {
         return $user->can('{{ ForceDelete }}');
     }
@@ -77,7 +77,7 @@ class KhoPolicy
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, Kho $kho): bool
+    public function restore(User $user, kho $kho): bool
     {
         return $user->can('{{ Restore }}');
     }
@@ -93,7 +93,7 @@ class KhoPolicy
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, Kho $kho): bool
+    public function replicate(User $user, kho $kho): bool
     {
         return $user->can('{{ Replicate }}');
     }

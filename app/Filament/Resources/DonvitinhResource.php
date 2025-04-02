@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\DonvitinhResource\Pages;
 use App\Filament\Resources\DonvitinhResource\RelationManagers;
-use App\Models\Donvitinh;
+use App\Models\donvitinh;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
@@ -20,7 +20,7 @@ use App\Filament\Exports\DonvitinhExporter;
 
 class DonvitinhResource extends Resource
 {
-    protected static ?string $model = Donvitinh::class;
+    protected static ?string $model = donvitinh::class;
     protected static ?string $modelLabel = 'Đơn vị tính';
     public static function getBreadcrumb(): string
     {

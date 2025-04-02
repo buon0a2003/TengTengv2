@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Donvitinh;
+use App\Models\donvitinh;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class DonvitinhPolicy
@@ -21,7 +21,7 @@ class DonvitinhPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Donvitinh $donvitinh): bool
+    public function view(User $user, donvitinh $donvitinh): bool
     {
         return $user->can('view_donvitinh');
     }
@@ -37,7 +37,7 @@ class DonvitinhPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Donvitinh $donvitinh): bool
+    public function update(User $user, donvitinh $donvitinh): bool
     {
         return $user->can('update_donvitinh');
     }
@@ -45,7 +45,7 @@ class DonvitinhPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Donvitinh $donvitinh): bool
+    public function delete(User $user, donvitinh $donvitinh): bool
     {
         return $user->can('delete_donvitinh');
     }
@@ -61,7 +61,7 @@ class DonvitinhPolicy
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, Donvitinh $donvitinh): bool
+    public function forceDelete(User $user, donvitinh $donvitinh): bool
     {
         return $user->can('{{ ForceDelete }}');
     }
@@ -77,7 +77,7 @@ class DonvitinhPolicy
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, Donvitinh $donvitinh): bool
+    public function restore(User $user, donvitinh $donvitinh): bool
     {
         return $user->can('{{ Restore }}');
     }
@@ -93,7 +93,7 @@ class DonvitinhPolicy
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, Donvitinh $donvitinh): bool
+    public function replicate(User $user, donvitinh $donvitinh): bool
     {
         return $user->can('{{ Replicate }}');
     }

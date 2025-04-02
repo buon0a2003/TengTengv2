@@ -10,7 +10,7 @@ use App\Filament\Resources\PhieuNhapResource\RelationManagers\ChitietphieunhapRe
 use App\Livewire\vattuList;
 use App\Models\chitietphieunhap;
 use App\Models\phieunhap;
-use App\Models\Tonkho;
+use App\Models\tonkho;
 use App\Models\vattu;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
@@ -258,7 +258,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
 
                                 if ($allHaveVitriId) {
                                     foreach ($chiTietPhieuNhapRecords as $value) {
-                                        $existingRecord = Tonkho::where('vattu_id', $value->vattu_id)
+                                        $existingRecord = tonkho::where('vattu_id', $value->vattu_id)
                                             ->where('vitri_id', $value->vitri_id)
                                             ->first();
 
@@ -269,7 +269,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                                 'updated_at' => now(),
                                             ]);
                                         } else {
-                                            Tonkho::create([
+                                            tonkho::create([
                                                 'vattu_id' => $value->vattu_id,
                                                 'SoLuong' => $value->SoLuong,
                                                 'kho_id' => $record->kho_id,

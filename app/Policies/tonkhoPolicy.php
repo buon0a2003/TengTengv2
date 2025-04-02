@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Tonkho;
+use App\Models\tonkho;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TonkhoPolicy
@@ -21,7 +21,7 @@ class TonkhoPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Tonkho $tonkho): bool
+    public function view(User $user, tonkho $tonkho): bool
     {
         return $user->can('view_tonkho');
     }
@@ -38,7 +38,7 @@ class TonkhoPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Tonkho $tonkho): bool
+    public function update(User $user, tonkho $tonkho): bool
     {
        return $user->can('update_tonkho');
         // return false;
@@ -47,7 +47,7 @@ class TonkhoPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Tonkho $tonkho): bool
+    public function delete(User $user, tonkho $tonkho): bool
     {
 //        return $user->can('delete_tonkho');
         return false;
@@ -65,7 +65,7 @@ class TonkhoPolicy
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, Tonkho $tonkho): bool
+    public function forceDelete(User $user, tonkho $tonkho): bool
     {
         return $user->can('{{ ForceDelete }}');
     }
@@ -81,7 +81,7 @@ class TonkhoPolicy
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, Tonkho $tonkho): bool
+    public function restore(User $user, tonkho $tonkho): bool
     {
         return $user->can('{{ Restore }}');
     }
@@ -97,7 +97,7 @@ class TonkhoPolicy
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, Tonkho $tonkho): bool
+    public function replicate(User $user, tonkho $tonkho): bool
     {
         return $user->can('{{ Replicate }}');
     }

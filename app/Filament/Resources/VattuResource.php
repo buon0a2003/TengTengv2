@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\VattuResource\Pages;
 use App\Filament\Resources\VattuResource\RelationManagers;
-use App\Models\Vattu;
+use App\Models\vattu;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class VattuResource extends Resource
 {
-    protected static ?string $model = Vattu::class;
+    protected static ?string $model = vattu::class;
     protected static ?string $modelLabel = 'Vật tư';
     public static function getBreadcrumb(): string
     {

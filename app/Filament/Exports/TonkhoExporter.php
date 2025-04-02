@@ -3,14 +3,14 @@
 namespace App\Filament\Exports;
 
 use App\Models\donvitinh;
-use App\Models\Tonkho;
+use App\Models\tonkho;
 use Filament\Actions\Exports\ExportColumn;
 use Filament\Actions\Exports\Exporter;
 use Filament\Actions\Exports\Models\Export;
 
 class TonkhoExporter extends Exporter
 {
-    protected static ?string $model = Tonkho::class;
+    protected static ?string $model = tonkho::class;
     protected static ?string $modelLabel = 'Tồn kho';
 
     public static function getColumns(): array

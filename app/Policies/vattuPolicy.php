@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Vattu;
+use App\Models\vattu;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class VattuPolicy
@@ -21,7 +21,7 @@ class VattuPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Vattu $vattu): bool
+    public function view(User $user, vattu $vattu): bool
     {
         return $user->can('view_vattu');
     }
@@ -37,7 +37,7 @@ class VattuPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Vattu $vattu): bool
+    public function update(User $user, vattu $vattu): bool
     {
         return $user->can('update_vattu');
     }
@@ -45,7 +45,7 @@ class VattuPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Vattu $vattu): bool
+    public function delete(User $user, vattu $vattu): bool
     {
         return $user->can('delete_vattu');
     }
@@ -61,7 +61,7 @@ class VattuPolicy
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, Vattu $vattu): bool
+    public function forceDelete(User $user, vattu $vattu): bool
     {
         return $user->can('{{ ForceDelete }}');
     }
@@ -77,7 +77,7 @@ class VattuPolicy
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, Vattu $vattu): bool
+    public function restore(User $user, vattu $vattu): bool
     {
         return $user->can('{{ Restore }}');
     }
@@ -93,7 +93,7 @@ class VattuPolicy
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, Vattu $vattu): bool
+    public function replicate(User $user, vattu $vattu): bool
     {
         return $user->can('{{ Replicate }}');
     }

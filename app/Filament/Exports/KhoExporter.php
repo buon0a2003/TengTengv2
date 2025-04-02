@@ -2,14 +2,14 @@
 
 namespace App\Filament\Exports;
 
-use App\Models\Kho;
+use App\Models\kho;
 use Filament\Actions\Exports\ExportColumn;
 use Filament\Actions\Exports\Exporter;
 use Filament\Actions\Exports\Models\Export;
 
 class KhoExporter extends Exporter
 {
-    protected static ?string $model = Kho::class;
+    protected static ?string $model = kho::class;
 
     public static function getColumns(): array
     {

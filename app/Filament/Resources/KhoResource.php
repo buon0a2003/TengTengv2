@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\KhoResource\Pages;
 use App\Filament\Resources\KhoResource\RelationManagers;
-use App\Models\Kho;
+use App\Models\kho;
 use Filament\Forms;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -19,7 +19,7 @@ use Illuminate\Support\HtmlString;
 
 class KhoResource extends Resource
 {
-    protected static ?string $model = Kho::class;
+    protected static ?string $model = kho::class;
     protected static ?string $modelLabel = 'Kho';
     public static function getBreadcrumb(): string
     {

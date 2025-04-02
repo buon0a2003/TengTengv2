@@ -7,7 +7,7 @@ use App\Filament\Resources\TonkhoResource\Pages;
 use App\Filament\Resources\TonkhoResource\RelationManagers;
 use App\Models\donvitinh;
 use App\Models\kho;
-use App\Models\Tonkho;
+use App\Models\tonkho;
 use Filament\Actions\EditAction;
 use Filament\Tables\Actions\SelectAction;
 use Filament\Forms;
@@ -62,8 +62,8 @@ class TonkhoResource extends Resource
                             ->label('Vị trí')
                             ->required()
                             ->relationship(
-                                'vitri', 
-                                'Mota', 
+                                'vitri',
+                                'Mota',
                                 function (Builder $query, Get $get) {
                                     $query->where('kho_id', $get('kho_id'));
                                 },
