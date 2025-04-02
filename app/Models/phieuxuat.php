@@ -80,7 +80,7 @@ class phieuxuat extends Model
 
     public function khachhang(): BelongsTo
     {
-        return $this->belongsTo(khachHang::class);
+        return $this->belongsTo(khachhang::class);
     }
 
     public function chitietphieuxuat(): hasMany
