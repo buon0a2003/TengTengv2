@@ -41,5 +41,7 @@ class AppServiceProvider extends ServiceProvider
             $table
                ->striped();
         });
+
+        ExportAction::configureUsing(fn (ExportAction $action) => $action->fileDisk('s3'));
     }
 }
