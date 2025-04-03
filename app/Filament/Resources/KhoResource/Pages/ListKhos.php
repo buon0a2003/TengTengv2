@@ -10,7 +10,6 @@ class ListKhos extends ListRecords
 {
     protected static ?string $title = 'Quản lý thông tin kho';
 
-
     protected static string $resource = KhoResource::class;
 
     protected function getHeaderActions(): array

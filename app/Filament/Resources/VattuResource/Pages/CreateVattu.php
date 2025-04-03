@@ -9,5 +9,6 @@ use Filament\Resources\Pages\CreateRecord;
 
 class CreateVattu extends CreateAndRedirectToIndex
 {
+    protected static ?string $title = 'Tạo mới';
     protected static string $resource = VattuResource::class;
 }

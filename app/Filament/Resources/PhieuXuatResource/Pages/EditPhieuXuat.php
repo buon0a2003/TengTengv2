@@ -10,6 +10,7 @@ use Filament\Resources\Pages\EditRecord;
 class EditPhieuXuat extends EditAndRedirectToIndex
 {
     protected static string $resource = PhieuXuatResource::class;
+    protected static ?string $title = 'Sửa phiếu xuất';
 
     protected function getHeaderActions(): array
     {

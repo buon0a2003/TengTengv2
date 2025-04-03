@@ -12,6 +12,7 @@ use Filament\Resources\Pages\EditRecord;
 class EditUser extends EditAndRedirectToIndex
 {
     protected static string $resource = UserResource::class;
+    protected static ?string $title = 'Sửa người dùng';
 
     protected function getHeaderActions(): array
     {

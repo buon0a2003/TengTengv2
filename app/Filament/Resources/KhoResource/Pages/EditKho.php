@@ -10,6 +10,7 @@ use Filament\Resources\Pages\EditRecord;
 class EditKho extends EditAndRedirectToIndex
 {
     protected static string $resource = KhoResource::class;
+    protected static ?string $title = 'Sửa thông tin kho';
 
     protected function getHeaderActions(): array
     {

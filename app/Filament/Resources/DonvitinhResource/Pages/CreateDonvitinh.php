@@ -9,5 +9,6 @@ use Filament\Resources\Pages\CreateRecord;
 
 class CreateDonvitinh extends CreateAndRedirectToIndex
 {
+    protected static ?string $title = 'Tạo mới';
     protected static string $resource = DonvitinhResource::class;
 }

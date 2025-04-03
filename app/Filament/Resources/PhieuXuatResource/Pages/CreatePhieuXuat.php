@@ -19,6 +19,7 @@ class CreatePhieuXuat extends CreateAndRedirectToIndex
 {
 
     protected static string $resource = PhieuXuatResource::class;
+    protected static ?string $title = 'Tạo mới';
 
     protected $listeners = ['tonkhoSelected' => 'handleTonkhoSelected'];
 

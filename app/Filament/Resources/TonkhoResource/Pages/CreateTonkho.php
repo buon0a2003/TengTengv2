@@ -10,6 +10,7 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateTonkho extends CreateAndRedirectToIndex
 {
     protected static string $resource = TonkhoResource::class;
+    protected static ?string $title = 'Tạo mới';
 
 
 }

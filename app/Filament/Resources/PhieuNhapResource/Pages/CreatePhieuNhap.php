@@ -14,6 +14,7 @@ use App\Filament\CreateAndRedirectToIndex;
 class CreatePhieuNhap extends CreateAndRedirectToIndex
 {
     protected static string $resource = PhieuNhapResource::class;
+    protected static ?string $title = 'Tạo mới';
 
     protected $listeners = ['vattuSelected' => 'handleVattuSelected'];
 

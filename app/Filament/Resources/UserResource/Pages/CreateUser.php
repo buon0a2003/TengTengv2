@@ -10,5 +10,6 @@ use Filament\Resources\Pages\CreateRecord;
 
 class CreateUser extends CreateAndRedirectToIndex
 {
+    protected static ?string $title = 'Tạo mới';
     protected static string $resource = UserResource::class;
 }

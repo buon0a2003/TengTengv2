@@ -9,5 +9,6 @@ use Filament\Resources\Pages\CreateRecord;
 
 class CreateKho extends CreateAndRedirectToIndex
 {
+    protected static ?string $title = 'Tạo mới';
     protected static string $resource = KhoResource::class;
 }
