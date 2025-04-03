@@ -43,7 +43,7 @@ class VattuResource extends Resource
                     ->description('Thông tin chi tiết về vật tư mới.')
                     ->schema([
                     Forms\Components\Checkbox::make('LaTP')
-                        ->required()
+                        ->inline()
                         ->label('Là thành phẩm?'),
 
                     Forms\Components\TextInput::make('TenVT')
