@@ -70,7 +70,7 @@ class KhachHangResource extends Resource
                 TextColumn::make('Email')->searchable()->wrap(),
                 TextColumn::make('DiaChi')->searchable()->label('Địa chỉ')->wrap(),
                 TextColumn::make('GhiChu')->label('Ghi chú')->wrap(),
-                TextColumn::make('created_at')->sortable(),
+                TextColumn::make('created_at')->sortable()->label('Ngày tạo')->dateTime('d/m/Y')->wrap(),
             ])->striped()
             ->filters([
                 SelectFilter::make('DiaChi')

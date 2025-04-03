@@ -64,12 +64,14 @@ class DonvitinhResource extends Resource
                 Tables\Columns\TextColumn::make('Mota')
                     ->label('Mô tả')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')->sortable()->label('Ngày tạo')->dateTime('d/m/Y')->wrap(),
+
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->color('amber'),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([

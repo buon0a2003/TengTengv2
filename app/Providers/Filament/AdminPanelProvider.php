@@ -44,9 +44,7 @@ class AdminPanelProvider extends PanelProvider
             ->databaseNotifications()
             ->profile(CustomProfile::class)
             ->colors([
-                'primary' => Color::Lime,
                 'amber' => Color::Amber,
-                'secondary' => Color::Gray,
             ])
             ->brandLogo(fn () => view('filament.logo'))
             ->favicon(fn () => asset('images/fav/favicon-120.png'))
