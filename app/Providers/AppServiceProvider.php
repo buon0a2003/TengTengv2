@@ -14,6 +14,7 @@ use Filament\Support\Enums\Alignment;
 use Filament\Support\Facades\FilamentAsset;
 use Filament\Tables\Table;
 use Illuminate\Support\ServiceProvider;
+use PhpParser\Node\Scalar\MagicConst\Dir;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         FilamentAsset::register([
-            Css::make('custom-stylesheet', __DIR__ . '/../../resources/css/custom.css'),
+            Css::make('naly-stylesheet', realpath(__DIR__ . '/../../app/Providers/custom.css')),
         ]);
 
         Page::formActionsAlignment(Alignment::Left);
