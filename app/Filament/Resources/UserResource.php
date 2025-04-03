@@ -25,6 +25,11 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
     protected static ?string $modelLabel = 'Người dùng';
+    protected static ?string $navigationLabel = 'Người dùng';
+    public static function getBreadcrumb(): string
+    {
+        return 'Người dùng';
+    }
     protected static ?string $navigationIcon = 'heroicon-o-users';
     protected static ?int $navigationSort = 2;
 
@@ -102,7 +107,7 @@ class UserResource extends Resource
                     ->formatStateUsing(fn ($record) => $record->Active == 1 ? 'Yes' : 'No')
                     ->badge()
                     ->color(fn ($record): string =>  $record->Active == 1 ? 'success' : 'danger')
-                    ->searchable(),             
+                    ->searchable(),
 //                TextColumn::make('created_at')->searchable()->sortable(),
             ])
             ->filters([
