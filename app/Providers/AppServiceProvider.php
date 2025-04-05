@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Filament\Resources\CustomRoleResource;
 use App\Filament\Resources\UserResource\Pages\EditUser;
 use Filament\Actions\ExportAction;
 use Filament\Facades\Filament;
@@ -41,5 +42,6 @@ class AppServiceProvider extends ServiceProvider
             $table
                ->striped();
         });
+
     }
 }

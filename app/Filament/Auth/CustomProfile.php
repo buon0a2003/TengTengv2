@@ -84,6 +84,10 @@ class CustomProfile extends EditProfile
             ->password()
             ->revealable(filament()->arePasswordsRevealable())
             ->rule(Password::default())
+            ->regex('/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/')
+            ->validationMessages([
+                'regex' => 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, số và ký tự đặc biệt.'
+            ])
             ->autocomplete('new-password')
             ->dehydrated(fn ($state): bool => filled($state))
             ->dehydrateStateUsing(fn ($state): string => Hash::make($state))
@@ -98,6 +102,10 @@ class CustomProfile extends EditProfile
             ->password()
             ->revealable(filament()->arePasswordsRevealable())
             ->required()
+            ->regex('/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/')
+            ->validationMessages([
+                'regex' => 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, số và ký tự đặc biệt.'
+            ])
             ->visible(fn (Get $get): bool => filled($get('password')))
             ->dehydrated(false);
     }

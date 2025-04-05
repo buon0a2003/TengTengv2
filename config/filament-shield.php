@@ -2,7 +2,7 @@
 
 return [
     'shield_resource' => [
-        'should_register_navigation' => true,
+        'should_register_navigation' => false,
         'slug' => 'shield/roles',
         'navigation_sort' => -1,
         'navigation_badge' => true,
@@ -52,8 +52,8 @@ return [
     ],
 
     'entities' => [
-        'pages' => true,
-        'widgets' => true,
+        'pages' => false,
+        'widgets' => false,
         'resources' => true,
         'custom_permissions' => false,
     ],

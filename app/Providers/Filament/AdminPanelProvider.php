@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Providers\Filament;
 
+use App\Filament\Widgets\testWidget;
 use App\Filament\Auth\CustomLogin;
 use App\Filament\Auth\CustomProfile;
+use App\Filament\Resources\CustomRoleResource;
 use App\Filament\Resources\UserResource;
 use App\Filament\Resources\UserResource\Pages\EditUser;
 use Exception;
@@ -29,6 +31,8 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
+use Filament\Widgets\Widget;
+
 class AdminPanelProvider extends PanelProvider
 {
     /**
@@ -56,7 +60,15 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                // Widgets\FilamentInfoWidget::class,
+                testWidget::class,
+            ])
+            ->navigationItems([
+                NavigationItem::make('Chức vụ')
+                    ->icon('heroicon-o-shield-check')
+                    ->group('Quản lý tài khoản')
+                    ->isActiveWhen(fn () => request()->routeIs('filament.admin.resources.shield.roles.index'))
+                    ->url(fn (): string => CustomRoleResource::getUrl('index')),
             ])
             ->navigationGroups([
                 'Quản lý danh mục',
@@ -64,7 +76,6 @@ class AdminPanelProvider extends PanelProvider
                 'Quản lý tài khoản',
             ])
             ->sidebarCollapsibleOnDesktop()
-//            ->sidebarWidth('shadow-lg')
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -82,7 +93,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 \Hasnayeen\Themes\ThemesPlugin::make(),
-                FilamentShieldPlugin::make()
+                FilamentShieldPlugin::make() 
                     ->gridColumns([
                         'default' => 1,
                         'sm' => 2,
