@@ -51,10 +51,15 @@ class NhaCungCapResource extends Resource
                 ->schema([
                     TextInput::make('TenNCC')
                         ->required()
-                        ->label('Tên'),
+                        ->label('Tên')
+                        ->unique(),
                     TextInput::make('Sdt')
                         ->required()
-                        ->label('Số điện thoại'),
+                        ->label('Số điện thoại')
+                        ->unique(ignoreRecord: true)
+                        ->validationMessages([
+                            'unique' => 'Số điện thoại này đã tồn tại.',
+                        ]),
                     TextInput::make('DiaChi')
                         ->required()
                         ->label('Địa chỉ'),

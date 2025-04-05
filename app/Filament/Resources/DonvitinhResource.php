@@ -42,7 +42,11 @@ class DonvitinhResource extends Resource
                     ->schema([
                         TextInput::make('TenDVT')
                             ->label('Tên đơn vị tính')
-                            ->required(),
+                            ->required()
+                            ->unique(ignoreRecord: true)
+                            ->validationMessages([
+                                'unique' => 'Đơn vị tính này đã tồn tại.',
+                            ]),
                         Textarea::make('Mota')
                             ->label('Mô tả'),
                     ]),

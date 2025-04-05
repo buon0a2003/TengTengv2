@@ -46,7 +46,10 @@ class KhachHangResource extends Resource
                     ->aside()
                     ->schema([
                     TextInput::make('TenKH')->label('Tên khách hàng')->required(),
-                    TextInput::make('Sdt')->label('Số điện thoại')->tel()->required(),
+                    TextInput::make('Sdt')->label('Số điện thoại')->tel()->required()->unique(ignoreRecord: true)
+                        ->validationMessages([
+                            'unique' => 'Số điện thoại này đã tồn tại.',
+                        ]),
                     TextInput::make('DiaChi')->label('Địa chỉ')->required(),
                 ])->columnSpanFull(),
 

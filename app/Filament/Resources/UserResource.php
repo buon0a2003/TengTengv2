@@ -43,22 +43,25 @@ class UserResource extends Resource
                     Forms\Components\Section::make('Thông tin tài khoản')
                         ->schema([
                             TextInput::make('name')
-                                ->label('Tên')
-                                ->required(),
+                                ->label('Tên'),
+
                             TextInput::make('email')
-                                ->email(),
+                                ->required()
+                                ->unique(ignoreRecord: true)
+                                ->email()
+                                ->validationMessages([
+                                    'unique' => 'Email người dùng này đã tồn tại.',
+                                ]),
                             TextInput::make('password')
                                 ->password()
                                 ->visibleOn('create')
                                 ->required(),
 
                             TextInput::make('Phone')
-                                ->label('Số điện thoại')
-                                ->required(),
+                                ->label('Số điện thoại'),
 
                             TextInput::make('Address')
-                                ->label('Địa Chỉ')
-                                ->required(),
+                                ->label('Địa Chỉ'),
 
                             DatePicker::make('Birth')
                                 ->label('Ngày sinh')

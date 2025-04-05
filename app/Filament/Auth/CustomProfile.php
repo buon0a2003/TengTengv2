@@ -72,7 +72,10 @@ class CustomProfile extends EditProfile
             ->email()
             ->required()
             ->maxLength(255)
-            ->unique(ignoreRecord: true);
+            ->unique(ignoreRecord: true)
+            ->validationMessages([
+                'unique' => 'Email người dùng này đã tồn tại.',
+            ]);
     }
     protected function getPasswordFormComponent(): Component
     {
