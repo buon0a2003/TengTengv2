@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7e6b0c20c9232d11a8f9765df19c4fa9",
+    "content-hash": "84102a6633c8cdb0c1a6dc0621cb1450",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -7851,6 +7851,75 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "time": "2022-06-03T18:03:27+00:00"
+        },
+        {
+            "name": "yebor974/filament-renew-password",
+            "version": "2.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yebor974/filament-renew-password.git",
+                "reference": "1ddb384f3e69be9b2aeae178ff4b50547e21561b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yebor974/filament-renew-password/zipball/1ddb384f3e69be9b2aeae178ff4b50547e21561b",
+                "reference": "1ddb384f3e69be9b2aeae178ff4b50547e21561b",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Yebor974\\Filament\\RenewPassword\\FilamentRenewPasswordServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Yebor974\\Filament\\RenewPassword\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Julien BOYER",
+                    "email": "contact@julienboyer.re"
+                }
+            ],
+            "description": "Package for manage renew password according to the last renew or other criteria",
+            "homepage": "https://github.com/yebor974/filament-renew-password",
+            "keywords": [
+                "filament",
+                "laravel",
+                "password",
+                "renew"
+            ],
+            "support": {
+                "issues": "https://github.com/yebor974/filament-renew-password/issues",
+                "source": "https://github.com/yebor974/filament-renew-password"
+            },
+            "funding": [
+                {
+                    "url": "https://www.buymeacoffee.com/yebor974",
+                    "type": "buy_me_a_coffee"
+                },
+                {
+                    "url": "https://github.com/yebor974",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-03-10T09:43:46+00:00"
         }
     ],
     "packages-dev": [

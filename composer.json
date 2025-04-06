@@ -13,7 +13,8 @@
         "guava/filament-modal-relation-managers": "^1.4",
         "hasnayeen/themes": "^3.0",
         "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10.1"
+        "laravel/tinker": "^2.10.1",
+        "yebor974/filament-renew-password": "^2.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.15",
