@@ -8,6 +8,7 @@
     "require": {
         "php": "^8.2",
         "bezhansalleh/filament-shield": "^3.3",
+        "eightynine/filament-advanced-widgets": "^3.0",
         "filament/filament": "3.3",
         "guava/filament-modal-relation-managers": "^1.4",
         "hasnayeen/themes": "^3.0",

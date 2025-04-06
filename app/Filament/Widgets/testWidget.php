@@ -14,7 +14,7 @@ class testWidget extends BaseWidget
                 ->label('Tổng số người dùng')
                 ->icon('heroicon-o-users')
                 ->color('success'),
-                
+
             Stat::make('Total Posts', 100)
                 ->label('Tổng số bài viết')
                 ->icon('heroicon-o-document-text')

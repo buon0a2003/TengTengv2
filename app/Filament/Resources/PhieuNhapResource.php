@@ -183,9 +183,9 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
     public static function table(Table $table): Table
     {
         return $table
-            // ->modifyQueryUsing(function ($query) {
-            //     $query->with(['chitietphieunhap']);
-            // })
+//             ->modifyQueryUsing(function ($query) {
+//                 $query->where('user_id', Auth::user()->id);
+//             }) VD: Hiển thị record cụ thể dựa trên người tạo. Tức là quản lí kho chỉ có thể thấy phiếu do mình tạo
             ->defaultSort('TrangThai', 'asc')
             ->columns([
                 TextColumn::make('id')

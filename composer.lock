@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4452530daebd99b73440d67df77cc829",
+    "content-hash": "7e6b0c20c9232d11a8f9765df19c4fa9",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -1068,6 +1068,79 @@
                 }
             ],
             "time": "2025-03-06T22:45:56+00:00"
+        },
+        {
+            "name": "eightynine/filament-advanced-widgets",
+            "version": "3.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/eighty9nine/filament-advanced-widgets.git",
+                "reference": "d08586879d92a753ca3b27d40c05b59c91b37bbd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/eighty9nine/filament-advanced-widgets/zipball/d08586879d92a753ca3b27d40c05b59c91b37bbd",
+                "reference": "d08586879d92a753ca3b27d40c05b59c91b37bbd",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "nunomaduro/collision": "^7.9",
+                "orchestra/testbench": "^8.0",
+                "pestphp/pest": "^2.1",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "FilamentAdvancedWidget": "EightyNine\\FilamentAdvancedWidget\\Facades\\FilamentAdvancedWidget"
+                    },
+                    "providers": [
+                        "EightyNine\\FilamentAdvancedWidget\\FilamentAdvancedWidgetServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "EightyNine\\FilamentAdvancedWidget\\": "src/",
+                    "EightyNine\\FilamentAdvancedWidget\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eighty Nine",
+                    "email": "eighty9nine@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Advanced widgets for your filament php application",
+            "homepage": "https://github.com/eightynine/filament-advanced-widgets",
+            "keywords": [
+                "eightynine",
+                "filament-advanced-widgets",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/eightynine/filament-advanced-widgets/issues",
+                "source": "https://github.com/eightynine/filament-advanced-widgets"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/eighty9nine",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-02-18T21:56:43+00:00"
         },
         {
             "name": "filament/actions",

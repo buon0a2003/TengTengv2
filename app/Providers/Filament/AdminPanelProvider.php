@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Providers\Filament;
 
+use App\Filament\Widgets\BangWidget;
+use App\Filament\Widgets\BieuDoWidget;
 use App\Filament\Widgets\testWidget;
 use App\Filament\Auth\CustomLogin;
 use App\Filament\Auth\CustomProfile;
 use App\Filament\Resources\CustomRoleResource;
 use App\Filament\Resources\UserResource;
 use App\Filament\Resources\UserResource\Pages\EditUser;
+use App\Filament\Widgets\ThongSoWidget;
 use Exception;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -57,11 +60,13 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Pages\Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+//            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
                 // Widgets\FilamentInfoWidget::class,
-                testWidget::class,
+                ThongSoWidget::class,
+                BieuDoWidget::class,
+                BangWidget::class,
             ])
             ->navigationItems([
                 NavigationItem::make('Chức vụ')
@@ -93,7 +98,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 \Hasnayeen\Themes\ThemesPlugin::make(),
-                FilamentShieldPlugin::make() 
+                FilamentShieldPlugin::make()
                     ->gridColumns([
                         'default' => 1,
                         'sm' => 2,

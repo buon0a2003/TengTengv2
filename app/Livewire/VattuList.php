@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Filament\Resources\PhieuNhapResource;
 use App\Models\vattu;
+use Exception;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -30,6 +31,9 @@ class VattuList extends Component implements HasForms, HasTable
     use InteractsWithForms;
     use InteractsWithTable;
 
+    /**
+     * @throws Exception
+     */
     public function table(Table $table): Table
     {
         return $table

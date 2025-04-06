@@ -5,7 +5,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 12.4.1.
+ * Generated for Laravel 12.5.0.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -22443,6 +22443,18 @@ namespace Illuminate\Support\Facades {
         {
             /** @var \Illuminate\Foundation\Vite $instance */
             return $instance->toHtml();
+        }
+
+        /**
+         * Flush state.
+         *
+         * @return void 
+         * @static 
+         */
+        public static function flush()
+        {
+            /** @var \Illuminate\Foundation\Vite $instance */
+            $instance->flush();
         }
 
         /**
