@@ -35,6 +35,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Widgets\Widget;
+use Yebor974\Filament\RenewPassword\RenewPasswordPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -97,6 +98,10 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->plugins([
+                (new RenewPasswordPlugin())
+                    ->forceRenewPassword()
+                    ->timestampColumn()
+                    ->passwordExpiresIn(days: 90),
                 \Hasnayeen\Themes\ThemesPlugin::make(),
                 FilamentShieldPlugin::make()
                     ->gridColumns([

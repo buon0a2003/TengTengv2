@@ -51,7 +51,8 @@ class UserResource extends Resource
                     ->aside()
                         ->schema([
                             TextInput::make('name')
-                                ->label('Tên'),
+                                ->label('Tên')
+                                ->required(),
 
                             TextInput::make('email')
                                 ->required()

@@ -14,9 +14,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use Filament\Panel;
+use Yebor974\Filament\RenewPassword\Contracts\RenewPasswordContract;
+use Yebor974\Filament\RenewPassword\Traits\RenewPassword;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $name
@@ -60,10 +62,10 @@ use Filament\Panel;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutRole($roles, $guard = null)
  * @mixin \Eloquent
  */
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable implements RenewPasswordContract, FilamentUser
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, Notifiable, HasRoles, RenewPassword;
 
     /**
      * The attributes that are mass assignable.
@@ -78,7 +80,8 @@ class User extends Authenticatable implements FilamentUser
         'Phone',
         'Birth',
         'Address',
-        'Active'
+        'Active',
+        'force_renew_password'
     ];
 
     /**
