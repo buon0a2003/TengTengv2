@@ -5,11 +5,13 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\DonvitinhResource\Pages;
 use App\Filament\Resources\DonvitinhResource\RelationManagers;
 use App\Models\donvitinh;
+use App\Models\vattu;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\ExportBulkAction;
@@ -76,11 +78,31 @@ class DonvitinhResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make()->color('amber'),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->action(
+                        function ($record): void {
+                            if ($record->vattu()->count() > 0)
+                            {
+                                Notification::make()
+                                    ->danger()
+                                    ->title('Xoá không thành công')
+                                    ->body('Đơn vị tính đang được sử dụng bởi vật tư!')
+                                    ->send();
+
+                                return;
+                            }
+                            $record->delete();
+                            Notification::make()
+                                ->danger()
+                                ->title('Xoá  thành công')
+                                ->body('Đơn vị tính đã xoá thành công!')
+                                ->send();
+                        }
+                    ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+//                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
                 ExportBulkAction::make()
                     ->exporter(DonvitinhExporter::class)
