@@ -5,7 +5,6 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PhieuXuatResource\Pages;
 use App\Filament\Resources\PhieuXuatResource\RelationManagers;
 use App\Filament\Resources\PhieuXuatResource\RelationManagers\ChitietphieuxuatRelationManager;
-use App\Forms\Components\CustomTableForPhieuXuat;
 use App\Livewire\TonkhoList;
 use App\Models\chitietphieuxuat;
 use App\Models\khachHang;
