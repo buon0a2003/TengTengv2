@@ -2,7 +2,11 @@
 
 namespace App\Filament\Widgets;
 
+use App\Filament\Resources\PhieuNhapResource;
 use App\Models\phieunhap;
+use Filament\Actions\ViewAction;
+use Filament\Forms\Form;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use EightyNine\FilamentAdvancedWidget\AdvancedTableWidget as BaseWidget;
@@ -14,7 +18,7 @@ class BangWidget extends BaseWidget
         return $table
             ->heading('Phiếu nhập chờ xử lí')
             ->query(
-                phieunhap::where('TrangThai', 1)
+                phieunhap::where('TrangThai', 0)
                     ->orderBy('created_at', 'desc')
                     ->take(5)
             )

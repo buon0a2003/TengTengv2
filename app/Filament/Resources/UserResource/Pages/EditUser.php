@@ -6,9 +6,9 @@ namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\EditAndRedirectToIndex;
 use App\Filament\Resources\UserResource;
+use Exception;
 use Filament\Actions;
 use Filament\Actions\Action;
-use Filament\Resources\Pages\EditRecord;
 use Spatie\Permission\Models\Role;
 
 class EditUser extends EditAndRedirectToIndex
@@ -18,8 +18,9 @@ class EditUser extends EditAndRedirectToIndex
 
     public function shouldGetConfirm(): bool {
         try {
-            $selectedRoleIds = $this->form->getState()['roles'] ?? [];
-        } catch (\Exception $e) {
+            $selectedRoleIds = $this->form->getRawState()['roles'] ?? [];
+
+        } catch (Exception $e) {
             return false;
         }
         $roleNames = Role::whereIn('id', $selectedRoleIds)->pluck('name')->toArray();
@@ -36,20 +37,19 @@ class EditUser extends EditAndRedirectToIndex
 
     protected function getSaveFormAction(): Action
     {
-        return Action::make('save')
+        return Action::make('lmao')
             ->label('Lưu lại')
             ->requiresConfirmation(
                 fn () => $this->shouldGetConfirm()
             )
             ->modalDescription(
-                fn () => $this->shouldGetConfirm() 
-                ? 'Bạn có chắc chắn muốn lưu người dùng với vai trò Super Admin?' 
-                : null
+                fn () => $this->shouldGetConfirm()
+                ? 'Bạn có chắc chắn muốn lưu người dùng với vai trò Super Admin?'
+                : ''
             )
             ->action(function () {
                 $this->closeActionModal();
                 $this->save();
-            })
-            ->keyBindings(['mod+s']);
+            });
     }
 }
