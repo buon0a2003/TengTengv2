@@ -16,6 +16,8 @@ class BangWidget extends BaseWidget
     public function table(Table $table): Table
     {
         return $table
+            ->paginated()
+            ->emptyStateHeading('Chưa có phiếu nhập đang xử lí')
             ->heading('Phiếu nhập chờ xử lí')
             ->query(
                 phieunhap::where('TrangThai', 0)
