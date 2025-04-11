@@ -54,6 +54,11 @@ class NhaCungCapResource extends Resource
                         ->label('Tên')
                         ->unique(),
                     TextInput::make('Sdt')
+                        ->prefix('+84')
+                        ->regex('/^(0\d{9}|[1-9]\d{8})$/')
+                        ->validationMessages([
+                            'regex' => 'Số điện thoại sai quy cách.'
+                        ])
                         ->required()
                         ->label('Số điện thoại')
                         ->unique(ignoreRecord: true)

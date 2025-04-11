@@ -17,6 +17,15 @@ class EditPhieuXuat extends EditAndRedirectToIndex
     protected static string $resource = PhieuXuatResource::class;
     protected static ?string $title = 'Sửa phiếu xuất';
 
+    public function hasCombinedRelationManagerTabsWithContent(): bool
+    {
+        return true;
+    }
+
+    public function getContentTabLabel(): ?string
+    {
+        return 'Sửa';
+    }
     protected function getHeaderActions(): array
     {
         return [

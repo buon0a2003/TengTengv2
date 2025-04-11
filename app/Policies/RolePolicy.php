@@ -16,7 +16,7 @@ class RolePolicy
     public function viewAny(User $user): bool
     {
 //        return true;
-        return $user->can('view_any_custom::role');
+        return $user->can('view_any_custom::role') || $user->hasRole('super_admin');
     }
 
     /**
@@ -25,7 +25,7 @@ class RolePolicy
     public function view(User $user, Role $role): bool
     {
 //        return true;
-        return $user->can('view_custom::role');
+        return $user->can('view_custom::role') || $user->hasRole('super_admin');
     }
 
     /**
@@ -34,7 +34,7 @@ class RolePolicy
     public function create(User $user): bool
     {
 //        return true;
-        return $user->can('create_custom::role');
+        return $user->can('create_custom::role') || $user->hasRole('super_admin');
     }
 
     /**
@@ -43,7 +43,7 @@ class RolePolicy
     public function update(User $user, Role $role): bool
     {
 //        return true;
-        return $user->can('update_custom::role');
+        return $user->can('update_custom::role') || $user->hasRole('super_admin');
     }
 
     /**
@@ -51,7 +51,7 @@ class RolePolicy
      */
     public function delete(User $user, Role $role): bool
     {
-        return $user->can('delete_custom::role');
+        return $user->can('delete_custom::role') || $user->hasRole('super_admin');
     }
 
     /**
@@ -59,7 +59,7 @@ class RolePolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_custom::role');
+        return $user->can('delete_any_custom::role') || $user->hasRole('super_admin');
     }
 
     /**

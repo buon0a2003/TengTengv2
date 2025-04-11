@@ -92,7 +92,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                 ->aside()
                                 ->schema([
                                     Radio::make('LyDo')
-                                        //                                        ->required()
+                                        ->required()
                                         ->inline()
                                         ->default('0')
                                         ->live()
@@ -105,27 +105,53 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                     TextInput::make('id')
                                         ->placeholder('eg: PX001/xx/xx')
                                         ->unique(ignoreRecord: true)
-                                        //                                        ->required()
+                                        ->required()
                                         ->label('Mã phiếu xuất'),
 
                                     Select::make('user_id')
                                         ->label('Người tạo phiếu')
                                         ->relationship('user', 'name')
-                                        //                                        ->required()
+                                        ->required()
                                         ->preload()
                                         ->searchable(),
 
                                     Select::make('khachhang_id')
                                         ->label('Khách hàng')
+                                        ->required()
                                         ->relationship('khachhang', 'TenKH')
                                         ->preload()
-                                        ->hidden(fn (Get $get): bool => $get('LyDo') === '0')
-                                        ->searchable(),
+                                        ->hidden(fn (Get $get): bool => $get('LyDo') == '0')
+                                        ->searchable()
+                                        ->createOptionForm([
+                                            Section::make('Thông tin bắt buộc')
+                                                ->description('Thông tin chi tiết của khách hàng mới')
+                                                ->aside()
+                                                ->schema([
+                                                    TextInput::make('TenKH')->label('Tên khách hàng')->required(),
+                                                    TextInput::make('Sdt')->label('Số điện thoại')->required()->unique(ignoreRecord: true)
+                                                        ->prefix('+84')
+                                                        ->regex('/^(0\d{9}|[1-9]\d{8})$/')
+                                                        ->validationMessages([
+                                                            'regex' => 'Số điện thoại sai quy cách.'
+                                                        ])
+                                                        ->validationMessages([
+                                                            'unique' => 'Số điện thoại này đã tồn tại.',
+                                                        ]),
+                                                    TextInput::make('DiaChi')->label('Địa chỉ')->required(),
+                                                ])->columnSpanFull(),
+
+                                            Section::make('Thông tin không bắt buộc')
+                                                ->aside()
+                                                ->schema([
+                                                    TextInput::make('Email'),
+                                                    TextInput::make('GhiChu')->label('Ghi chú'),
+                                                ])->columnSpanFull(),
+                                        ]),
 
                                     Select::make('kho_id')
                                         ->label('Kho')
                                         ->relationship('kho', 'TenKho')
-                                        //                                        ->required()
+                                        ->required()
                                         ->preload()
                                         ->searchable(),
                                 ]),
@@ -135,7 +161,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                 ->description('Thông tin phụ của phiếu xuất')
                                 ->schema([
                                     Forms\Components\DatePicker::make('NgayXuat')
-                                        //                                        ->required()
+                                        ->required()
                                         ->label('Ngày xuất'),
 
                                     Forms\Components\Textarea::make('GhiChu')
@@ -160,6 +186,10 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                 Wizard\Step::make('Thông tin chi tiết phiếu xuất')
                     ->schema([
                         Repeater::make('dsvattuxuat')
+                            ->required()
+                            ->validationMessages([
+                                'required' => 'Danh sách vật tư xuất không được trống.'
+                            ])
                             // ->hidden(fn (Get $get): bool => $get('dsvattuxuat') == null)
                             ->reorderable(false)
                             ->addActionLabel('Thêm vật tư')

@@ -9,6 +9,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\vattu;
@@ -19,7 +20,7 @@ class ChitietphieunhapRelationManager extends RelationManager
 {
     protected static string $relationship = 'chitietphieunhap';
     protected static ?string $modelLabel = 'Chi tiết phiếu nhập';
-
+    protected static ?string $title = 'Danh sách vật tư';
     public function form(Form $form): Form
     {
         return $form
@@ -65,6 +66,9 @@ class ChitietphieunhapRelationManager extends RelationManager
                 //                Tables\Columns\TextColumn::make('phieunhap_id'),
                 Tables\Columns\TextColumn::make('vattu.TenVT')->label('Tên vật tư'),
                 Tables\Columns\TextColumn::make('SoLuong')->label('Số lượng'),
+                TextColumn::make('vattu_id')
+                    ->label('Đơn vị tính')
+                    ->formatStateUsing(fn($record): string => (string) vattu::find($record->vattu_id)->donvitinh->TenDVT ?? 'N/A'),
                 Tables\Columns\TextColumn::make('vitri.Mota')->label('Vị trí'),
                 Tables\Columns\TextColumn::make('GhiChu')->label('Ghi chú'),
             ])
@@ -72,9 +76,9 @@ class ChitietphieunhapRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make()
-                    ->hidden($this->shouldbeHidden())
-                    ->label('Thêm')->icon('heroicon-o-plus'),
+//                Tables\Actions\CreateAction::make()
+//                    ->hidden($this->shouldbeHidden())
+//                    ->label('Thêm')->icon('heroicon-o-plus'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()

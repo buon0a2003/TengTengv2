@@ -18,6 +18,16 @@ class EditPhieuNhap extends EditAndRedirectToIndex
 
     protected static ?string $title = "Sửa phiếu nhập";
 
+    public function hasCombinedRelationManagerTabsWithContent(): bool
+    {
+        return true;
+    }
+
+    public function getContentTabLabel(): ?string
+    {
+        return 'Sửa';
+    }
+
     protected function getHeaderActions(): array
     {
         return [

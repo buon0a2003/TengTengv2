@@ -8,6 +8,8 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
 use Closure;
 use Filament\Forms;
+use Filament\Forms\Components\Actions;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
@@ -23,8 +25,8 @@ use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Validation\ValidationException;
+use Faker\Factory as Faker;
 use Str;
-
 use function Termwind\render;
 
 
@@ -65,13 +67,31 @@ class UserResource extends Resource
                                 ->label('Mật khẩu')
                                 ->password()
                                 ->required()
-                                ->regex('/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/')
+                                ->revealable()
+                                ->regex('/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/')
                                 ->validationMessages([
                                     'regex' => 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, số và ký tự đặc biệt.'
                                 ])
                                 ->visibleOn('create'),
-
+                            Actions::make([
+                                Action::make('Tạo mật khẩu')
+                                    ->action(function ( $get, $set) {
+                                        $password = fake()->regexify('/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/');
+                                        $set('password', $password);
+                                        Notification::make()
+                                            ->title('Mật khẩu đã được tạo')
+                                            ->success()
+                                            ->duration(1000)
+                                            ->send();
+                                    }),
+                                ])->visibleOn('create'),
+                                // ->visibleOn('create'),
                             TextInput::make('Phone')
+                                ->prefix('+84')
+                                ->regex('/^(0\d{9}|[1-9]\d{8})$/')
+                                ->validationMessages([
+                                    'regex' => 'Số điện thoại sai quy cách.'
+                                ])
                                 ->label('Số điện thoại'),
 
                             TextInput::make('Address')

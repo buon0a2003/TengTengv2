@@ -25,8 +25,19 @@ class CreatePhieuXuat extends CreateAndRedirectToIndex
 
     public function handleTonkhoSelected($record): void
     {
-        $state = $this->form->getState();
+        $state = $this->form->getRawState();
 
+
+        foreach ($state['dsvattuxuat'] as $item) {
+            if ($item['tonkho_id'] === $record['tonkho_id']) {
+                Notification::make()
+                    ->title('Thông báo')
+                    ->body('Vật tư đã tồn tại trong danh sách xuất.')
+                    ->warning()
+                    ->send();
+                return;
+            }
+        }
         $state['dsvattuxuat'][] = [
             'vattu_id' => $record['vattu_id'],
             'tonkho_id' => $record['tonkho_id'],
@@ -38,7 +49,12 @@ class CreatePhieuXuat extends CreateAndRedirectToIndex
         ];
 
         $this->form->fill($state);
-
+        Notification::make()
+            ->title('Thành công')
+            ->body('Vật tư đã được thêm vào')
+            ->success()
+            ->duration(500)
+            ->send();
         // dd($record);
     }
 

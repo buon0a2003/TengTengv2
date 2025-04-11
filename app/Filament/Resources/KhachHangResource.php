@@ -46,7 +46,12 @@ class KhachHangResource extends Resource
                     ->aside()
                     ->schema([
                     TextInput::make('TenKH')->label('Tên khách hàng')->required(),
-                    TextInput::make('Sdt')->label('Số điện thoại')->tel()->required()->unique(ignoreRecord: true)
+                    TextInput::make('Sdt')->label('Số điện thoại')->required()->unique(ignoreRecord: true)
+                        ->prefix('+84')
+                        ->regex('/^(0\d{9}|[1-9]\d{8})$/')
+                        ->validationMessages([
+                            'regex' => 'Số điện thoại sai quy cách.'
+                        ])
                         ->validationMessages([
                             'unique' => 'Số điện thoại này đã tồn tại.',
                         ]),

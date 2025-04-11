@@ -65,7 +65,7 @@ return [
                     'actions' => [
 
                         'save' => [
-                            'label' => 'Save changes',
+                            'label' => 'Lưu thay đổi',
                         ],
 
                     ],

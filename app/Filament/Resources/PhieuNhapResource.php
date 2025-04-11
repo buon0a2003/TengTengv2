@@ -16,6 +16,7 @@ use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -111,7 +112,49 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                         ->relationship('nhacungcap', 'TenNCC')
                                         ->preload()
                                         ->hidden(fn (Get $get): bool => $get('LyDo') === '0')
-                                        ->searchable(),
+                                        ->searchable()
+                                        ->createOptionForm([
+                                            Section::make('Thông tin bắt buộc')
+                                                ->description('Nhập thông tin chi tiết nhà cung cấp')
+                                                ->aside()
+                                                ->schema([
+                                                    TextInput::make('TenNCC')
+                                                        ->required()
+                                                        ->label('Tên')
+                                                        ->unique(),
+                                                    TextInput::make('Sdt')
+                                                        ->prefix('+84')
+                                                        ->regex('/^(0\d{9}|[1-9]\d{8})$/')
+                                                        ->validationMessages([
+                                                            'regex' => 'Số điện thoại sai quy cách.'
+                                                        ])
+                                                        ->required()
+                                                        ->label('Số điện thoại')
+                                                        ->unique(ignoreRecord: true)
+                                                        ->validationMessages([
+                                                            'unique' => 'Số điện thoại này đã tồn tại.',
+                                                        ]),
+                                                    TextInput::make('DiaChi')
+                                                        ->required()
+                                                        ->label('Địa chỉ'),
+                                                    TextInput::make('MaSoThue')
+                                                        ->required()
+                                                        ->label('Mã Số thuế'),
+                                                ])->columnSpan(2),
+
+                                            Section::make('Thông tin không bắt buộc')
+                                                ->description('Nhập thông tin khác của nhà cung cấp')
+                                                ->aside()
+                                                ->schema([
+                                                    TextInput::make('Email')
+                                                        ->email()
+                                                        ->label('Email'),
+                                                    Textarea::make('GhiChu')
+                                                        ->label('Ghi chú')
+                                                        ->rows(3)
+                                                        ->columnSpan(1),
+                                                ])->columnSpan(2),
+                                        ]),
 
                                     Select::make('kho_id')
                                         ->label('Kho')

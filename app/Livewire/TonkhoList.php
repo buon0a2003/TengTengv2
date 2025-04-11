@@ -45,6 +45,13 @@ class TonkhoList extends Component implements HasForms, HasTable
                 Tables\Columns\TextColumn::make('vattu.MauSac')
                     ->label('Màu sắc'),
 
+                Tables\Columns\TextColumn::make('SoLuong')
+                    ->label('Số lượng khả dụng')
+                    ->weight('bold')
+                    ->alignCenter()
+                    ->numeric()
+                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('vattu.donvitinh_id')
                     ->formatStateUsing(
                         fn ($record) => $record->vattu->donvitinh->TenDVT ?? 'Chưa có'
@@ -57,13 +64,6 @@ class TonkhoList extends Component implements HasForms, HasTable
                     ->label('Là thành phẩm')
                     ->boolean()
                     ->alignCenter(),
-
-                Tables\Columns\TextColumn::make('SoLuong')
-                    ->label('Số lượng khả dụng')
-                    ->weight('bold')
-                    ->alignCenter()
-                    ->numeric()
-                    ->sortable(),
 
                 Tables\Columns\TextColumn::make('vitri.Mota')
                     ->label('Vị trí')
@@ -79,6 +79,11 @@ class TonkhoList extends Component implements HasForms, HasTable
                     ->preload()
                     ->searchable()
                     ->label('Chọn kho'),
+                Tables\Filters\SelectFilter::make('LaTP')
+                    ->relationship('vattu', 'LaTP')
+                    ->preload()
+                    ->getOptionLabelFromRecordUsing(fn ($record) => $record->LaTP ? "Thành phẩm" : "Nguyên vật liệu")
+                    ->label('Loại vật tư')
             ], layout: FiltersLayout::AboveContent)
             ->actions([
                 Tables\Actions\Action::make('tonkhoSelect')
@@ -93,12 +98,6 @@ class TonkhoList extends Component implements HasForms, HasTable
                             'vitri_id' => $record->vitri_id,
                             'soluongkhadung' => $record->SoLuong,
                         ]);
-                        Notification::make()
-                            ->title('Thành công')
-                            ->body('Vật tư đã được thêm vào')
-                            ->success()
-                            ->duration(500)
-                            ->send();
                     }
                 )
             ])
