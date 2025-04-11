@@ -102,10 +102,6 @@ class CustomProfile extends EditProfile
             ->password()
             ->revealable(filament()->arePasswordsRevealable())
             ->required()
-            ->regex('/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/')
-            ->validationMessages([
-                'regex' => 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, số và ký tự đặc biệt.'
-            ])
             ->visible(fn (Get $get): bool => filled($get('password')))
             ->dehydrated(false);
     }
@@ -129,4 +125,13 @@ class CustomProfile extends EditProfile
             ->label(__('Địa chỉ'));
     }
 
+    protected function handleRecordUpdate(Model $record, array $data): Model
+    {
+        $record->forceFill([
+        'last_renew_password_at' => now(),
+    ]);
+        $record->update($data);
+
+        return $record;
+    }
 }
