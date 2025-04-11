@@ -84,9 +84,9 @@ class CreateUser extends CreateAndRedirectToIndex
     protected function handleRecordCreation(array $data): \Illuminate\Database\Eloquent\Model
     {
         /** @var User $user */
-        $user = parent::handleRecordCreation($data); // handle the creation of the new user
+        $user = parent::handleRecordCreation($data);
 
-        $user->notify(new NewAccount($this->plainPassword)); // notify the new user with account details
+        $user->notify(new NewAccount($this->plainPassword));
 
         return $user;
     }
