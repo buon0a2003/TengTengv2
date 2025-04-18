@@ -111,6 +111,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                     Select::make('user_id')
                                         ->label('Người tạo phiếu')
                                         ->relationship('user', 'name')
+                                        ->default(fn (): int => Auth::user()->id)
                                         ->required()
                                         ->preload()
                                         ->searchable(),
@@ -152,6 +153,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                         ->label('Kho')
                                         ->relationship('kho', 'TenKho')
                                         ->required()
+                                        ->live()
                                         ->preload()
                                         ->searchable(),
                                 ]),
@@ -193,9 +195,12 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                             // ->hidden(fn (Get $get): bool => $get('dsvattuxuat') == null)
                             ->reorderable(false)
                             ->addActionLabel('Thêm vật tư')
-                            ->addAction(function (Forms\Components\Actions\Action $action): Forms\Components\Actions\Action {
+                            ->addAction(function (Forms\Components\Actions\Action $action, $get): Forms\Components\Actions\Action {
                                 return $action->modalContent(
-                                    view('filament.tonkholist')
+                                    view('filament.tonkholist', [
+                                        'LyDo'=> $get('LyDo'), 
+                                        'kho_id' => $get('kho_id')
+                                    ])
                                 )
                                 ->action(null)
                                 ->modalWidth('7xl')

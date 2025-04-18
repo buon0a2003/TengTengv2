@@ -21,6 +21,9 @@ class TonkhoList extends Component implements HasForms, HasTable
     use InteractsWithForms;
     use InteractsWithTable;
 
+    public string $LyDo;
+    public string $kho_id;
+
     public function table(Table $table): Table
     {
         return $table
@@ -78,16 +81,18 @@ class TonkhoList extends Component implements HasForms, HasTable
                     ->relationship('kho', 'TenKho')
                     ->preload()
                     ->searchable()
+                    ->default(fn () => $this->kho_id)
                     ->label('Chọn kho'),
                 Tables\Filters\SelectFilter::make('LaTP')
                     ->relationship('vattu', 'LaTP')
                     ->preload()
                     ->getOptionLabelFromRecordUsing(fn ($record) => $record->LaTP ? "Thành phẩm" : "Nguyên vật liệu")
                     ->label('Loại vật tư')
+                    ->default(fn () => $this->LyDo == '0' ? 1 : 2)
             ], layout: FiltersLayout::AboveContent)
             ->actions([
                 Tables\Actions\Action::make('tonkhoSelect')
-                ->label('Select')
+                ->label('Chọn')
                 ->color('primary')
                 ->action(function (tonkho $record) {
                     $this->dispatch('tonkhoSelected', [

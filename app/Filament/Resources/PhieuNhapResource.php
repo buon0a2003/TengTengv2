@@ -103,6 +103,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                     Select::make('user_id')
                                         ->label('Người tạo phiếu')
                                         ->relationship('user', 'name')
+                                        ->default(fn (): int => Auth::user()->id)
 //                                        ->required()
                                         ->preload()
                                         ->searchable(),
@@ -198,9 +199,9 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
 //                                 ->hidden(fn (Get $get): bool => $get('dsvattu') == null)
                                 ->reorderable(false)
                                 ->addActionLabel('Thêm vật tư')
-                                ->addAction(function (Forms\Components\Actions\Action $action): Forms\Components\Actions\Action {
+                                ->addAction(function (Forms\Components\Actions\Action $action, $get): Forms\Components\Actions\Action {
                                     return $action->modalContent(
-                                        view('filament.vattulist')
+                                        view('filament.vattulist', ['LyDo'=> $get('LyDo')])
                                     )
                                     ->action(null)
                                     ->modalCancelAction(false)
@@ -210,6 +211,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                 ->schema([
                                     TextInput::make('id')->hidden()->live(),
                                     TextInput::make('TenVT')
+                                        ->readOnly(true)
                                         ->label('Vật tư')
                                         ->required(),
                                     TextInput::make('soluong')->label('Số lượng')

@@ -1,1 +1,1 @@
-@livewire('vattu-list')
+@livewire('vattu-list', [ 'LyDo' => $LyDo ])

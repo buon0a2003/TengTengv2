@@ -94,6 +94,7 @@ class VattuResource extends Resource
 
                 IconColumn::make('LaTP')
                     ->alignCenter()
+                    ->boolean()
                     ->label('Là thành phẩm'),
             ])
             ->filters([

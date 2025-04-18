@@ -30,7 +30,7 @@ class VattuList extends Component implements HasForms, HasTable
 {
     use InteractsWithForms;
     use InteractsWithTable;
-
+    public string $LyDo;
     /**
      * @throws Exception
      */
@@ -51,13 +51,14 @@ class VattuList extends Component implements HasForms, HasTable
                 SelectFilter::make('LaTP')
                 ->label('Loại vật tư')
                 ->options([
-                    '1' => 'Thành phẩm',
-                    '0' => 'Nguyên vật liệu',
+                    '0' => 'Thành phẩm',
+                    '1' => 'Nguyên vật liệu',
                 ])
+                ->default(fn () => !$this->LyDo)
             ])
             ->actions([
                 Tables\Actions\Action::make('vattuSelect')
-                    ->label('Select')
+                    ->label('Chọn')
                     ->color('primary')
                     ->action(function (vattu $record) {
                         $this->dispatch('vattuSelected', [

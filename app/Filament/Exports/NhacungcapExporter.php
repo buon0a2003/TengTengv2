@@ -28,10 +28,10 @@ class NhacungcapExporter extends Exporter
 
     public static function getCompletedNotificationBody(Export $export): string
     {
-        $body = 'Dữ liệu tồn kho đã hoàn thành, ' . number_format($export->successful_rows) . ' ' . str('dòng')->plural($export->successful_rows) . ' đã xuất.';
+        $body = 'Xuất dữ liệu hoàn tất';
 
         if ($failedRowsCount = $export->getFailedRowsCount()) {
-            $body .= ' ' . number_format($failedRowsCount) . ' ' . str('dòng')->plural($failedRowsCount) . ' xuất không thành công.';
+            $body = 'Xuất dữ liệu hoàn tất, nhưng có ' . $failedRowsCount . ' hàng không thành công';
         }
 
         return $body;

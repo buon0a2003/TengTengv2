@@ -2,11 +2,14 @@
 
 namespace App\Filament\Resources\Shield\Pages;
 
+use App\Filament\Resources\CustomRoleResource;
 use \BezhanSalleh\FilamentShield\Resources\RoleResource\Pages\EditRole;
 use Filament\Actions\Action;
 
 class CustomEditRole extends EditRole
 {
+    protected static string $resource = CustomRoleResource::class;
+
     public function shouldGetConfirm(): bool {
         try {
             $selectedAll = $this->form->getState()['select_all'] ?? false;

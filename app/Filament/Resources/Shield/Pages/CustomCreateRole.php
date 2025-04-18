@@ -2,11 +2,13 @@
 
 namespace App\Filament\Resources\Shield\Pages;
 
+use App\Filament\Resources\CustomRoleResource;
 use \BezhanSalleh\FilamentShield\Resources\RoleResource\Pages\CreateRole;
 use Filament\Actions\Action;
 
 class CustomCreateRole extends CreateRole 
 {
+    protected static string $resource = CustomRoleResource::class;
 
     public function shouldGetConfirm(): bool {
         try {

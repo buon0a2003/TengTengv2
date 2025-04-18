@@ -1,1 +1,1 @@
-@livewire('tonkho-list')
+@livewire('tonkho-list', [ 'LyDo' => $LyDo, 'kho_id' => $kho_id ])

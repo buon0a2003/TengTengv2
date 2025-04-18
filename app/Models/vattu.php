@@ -55,12 +55,12 @@ class vattu extends Model
         'DacDiem',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'LaTP' => 'boolean',
-        ];
-    }
+    // protected function casts(): array
+    // {
+    //     return [
+    //         'LaTP' => 'boolean',
+    //     ];
+    // }
 
     public function donvitinh(): BelongsTo
     {
