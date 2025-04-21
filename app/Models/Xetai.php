@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $MauSac
  * @property string $GhiChu
  */
-class Xetai extends Model
+class xetai extends Model
 {
     /**
      * The connection name for the model.

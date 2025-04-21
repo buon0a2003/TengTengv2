@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $GhiChu
  * @property Date   $NamSinh
  */
-class Taixe extends Model
+class taixe extends Model
 {
     /**
      * The connection name for the model.

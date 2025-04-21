@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property DateTime $NgayTao
  * @property DateTime $NgayVanChuyen
  */
-class Phieuvanchuyen extends Model
+class phieuvanchuyen extends Model
 {
     /**
      * The connection name for the model.

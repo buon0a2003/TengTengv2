@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int      $created_at
  * @property int      $updated_at
  */
-class Phieudieuchuyen extends Model
+class phieudieuchuyen extends Model
 {
     /**
      * The connection name for the model.

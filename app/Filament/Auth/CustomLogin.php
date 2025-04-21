@@ -31,7 +31,7 @@ class CustomLogin extends Login
     protected function getLoginFormComponent(): Component
     {
         return TextInput::make('login')
-            ->label(__('Username/Email'))
+            ->label(__('Email'))
             ->required()
             ->autocomplete()
             ->autofocus()
@@ -58,7 +58,7 @@ class CustomLogin extends Login
     public function authenticate(): ?LoginResponse
     {
         try {
-            $this->rateLimit(5);
+            $this->rateLimit(999);
         } catch (TooManyRequestsException $exception) {
             $this->getRateLimitedNotification($exception)?->send();
 

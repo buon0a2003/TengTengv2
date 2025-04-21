@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int      $updated_at
  * @property DateTime $NgayTao
  */
-class Phieusuco extends Model
+class phieusuco extends Model
 {
     /**
      * The connection name for the model.
