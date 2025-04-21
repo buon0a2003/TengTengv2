@@ -31,8 +31,8 @@ class tonkhoPolicy
      */
     public function create(User $user): bool
     {
-//        return $user->can('create_tonkho');
-        return false;
+       return $user->can('create_tonkho');
+        // return false;
     }
 
     /**
@@ -40,7 +40,7 @@ class tonkhoPolicy
      */
     public function update(User $user, tonkho $tonkho): bool
     {
-       return $user->can('update_tonkho');
+       return $user->can('update_tonkho') ||  $user->hasRole('super_admin');
         // return false;
     }
 

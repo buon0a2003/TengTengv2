@@ -141,6 +141,7 @@ class TonkhoResource extends Resource
             'index' => Pages\ListTonkhos::route('/'),
             'create' => Pages\CreateTonkho::route('/create'),
             'edit' => Pages\EditTonkho::route('/{record}/edit'),
+            'tondau' => Pages\TonDau::route('/tondau'),
         ];
     }
 }

@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class TaixeResource extends Resource
 {
     protected static ?string $model = taixe::class;
+    protected static ?string $modelLabel = 'Tài xế';
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
     protected static ?string $navigationLabel = 'Tài xế';

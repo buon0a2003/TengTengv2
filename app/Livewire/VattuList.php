@@ -54,7 +54,12 @@ class VattuList extends Component implements HasForms, HasTable
                     '0' => 'Thành phẩm',
                     '1' => 'Nguyên vật liệu',
                 ])
-                ->default(fn () => !$this->LyDo)
+                ->default(function (){
+                    if ( $this->LyDo == '') {
+                        return '';
+                    }
+                    else return $this->LyDo;
+                })
             ])
             ->actions([
                 Tables\Actions\Action::make('vattuSelect')
