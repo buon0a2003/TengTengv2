@@ -5,18 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property string   $id
- * @property string   $Mota
- * @property string   $GhiChu
- * @property int      $phieuxuat_id
- * @property int      $phieuvanchuyen_id
- * @property int      $user_id
- * @property int      $TrangThai
- * @property int      $created_at
- * @property int      $updated_at
- * @property DateTime $NgayTao
+ * @property int    $id
+ * @property int    $TrangThai
+ * @property int    $created_at
+ * @property int    $updated_at
+ * @property string $TenTaiXe
+ * @property string $Sdt
+ * @property string $CCCD
+ * @property string $BangLai
+ * @property string $DiaChi
+ * @property string $GhiChu
+ * @property Date   $NamSinh
  */
-class phieusuco extends Model
+class taixe extends Model
 {
     /**
      * The connection name for the model.
@@ -30,7 +31,7 @@ class phieusuco extends Model
      *
      * @var string
      */
-    protected $table = 'phieusuco';
+    protected $table = 'taixe';
 
     /**
      * The primary key for the model.
@@ -45,7 +46,7 @@ class phieusuco extends Model
      * @var array
      */
     protected $fillable = [
-        'phieuxuat_id', 'phieuvanchuyen_id', 'NgayTao', 'user_id', 'Mota', 'GhiChu', 'TrangThai', 'created_at', 'updated_at'
+        'TenTaiXe', 'Sdt', 'CCCD', 'BangLai', 'DiaChi', 'NamSinh', 'GhiChu', 'TrangThai', 'created_at', 'updated_at'
     ];
 
     /**
@@ -63,7 +64,7 @@ class phieusuco extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'string', 'phieuxuat_id' => 'int', 'phieuvanchuyen_id' => 'int', 'NgayTao' => 'datetime', 'user_id' => 'int', 'Mota' => 'string', 'GhiChu' => 'string', 'TrangThai' => 'int', 'created_at' => 'timestamp', 'updated_at' => 'timestamp'
+        'id' => 'int', 'TenTaiXe' => 'string', 'Sdt' => 'string', 'CCCD' => 'string', 'BangLai' => 'string', 'DiaChi' => 'string', 'NamSinh' => 'date', 'GhiChu' => 'string', 'TrangThai' => 'int', 'created_at' => 'timestamp', 'updated_at' => 'timestamp'
     ];
 
     /**
@@ -72,7 +73,7 @@ class phieusuco extends Model
      * @var array
      */
     protected $dates = [
-        'NgayTao', 'created_at', 'updated_at'
+        'NamSinh', 'created_at', 'updated_at'
     ];
 
     /**
