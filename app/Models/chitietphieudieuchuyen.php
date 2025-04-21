@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $phieudieuchuyen_id
  * @property string $GhiChu
  */
-class Chitietphieudieuchuyen extends Model
+class chitietphieudieuchuyen extends Model
 {
     /**
      * The connection name for the model.
@@ -50,7 +50,7 @@ class Chitietphieudieuchuyen extends Model
      * @var array
      */
     protected $hidden = [
-        
+
     ];
 
     /**
