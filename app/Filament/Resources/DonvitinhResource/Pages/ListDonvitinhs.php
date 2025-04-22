@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\DonvitinhResource\Pages;
 
 use App\Filament\Exports\DonvitinhExporter;
@@ -11,7 +13,7 @@ class ListDonvitinhs extends ListRecords
 {
     protected static string $resource = DonvitinhResource::class;
 
-    protected static ?string $title = "Đơn vị tính";
+    protected static ?string $title = 'Đơn vị tính';
 
     protected function getHeaderActions(): array
     {
@@ -24,7 +26,7 @@ class ListDonvitinhs extends ListRecords
                 ->exporter(DonvitinhExporter::class)
                 ->label('xuất excel')
                 ->icon('heroicon-o-arrow-down-tray')
-                ->color('primary')
+                ->color('primary'),
         ];
     }
 }

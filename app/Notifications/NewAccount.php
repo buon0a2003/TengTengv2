@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
@@ -16,7 +17,8 @@ class NewAccount extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct(protected string $password, protected ?Model $tenant = null){
+    public function __construct(protected string $password, protected ?Model $tenant = null)
+    {
         $this->afterCommit();
     }
 
@@ -36,9 +38,10 @@ class NewAccount extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         $appName = config('app.name');
+
         return (new MailMessage)
             ->subject("Tài khoản của bạn đã được tạo trên $appName")
-            ->greeting('Xin chào ' . $notifiable->name . ',')
+            ->greeting('Xin chào '.$notifiable->name.',')
             ->line('Tài khoản của bạn đã được tạo thành công trên hệ thống.')
             ->line('Dưới đây là thông tin đăng nhập của bạn:')
             ->line(new HtmlString("<strong>Email</strong> : {$notifiable->email}"))

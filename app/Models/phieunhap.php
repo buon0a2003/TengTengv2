@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * 
- *
  * @property string $id
  * @property string|null $NgayNhap
  * @property int|null $user_id
@@ -22,11 +20,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int|null $kho_id
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\chitietphieunhap> $chitietphieunhap
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, chitietphieunhap> $chitietphieunhap
  * @property-read int|null $chitietphieunhap_count
- * @property-read \App\Models\kho|null $kho
- * @property-read \App\Models\nhacungcap|null $nhacungcap
- * @property-read \App\Models\User|null $user
+ * @property-read kho|null $kho
+ * @property-read nhacungcap|null $nhacungcap
+ * @property-read User|null $user
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|phieunhap newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|phieunhap newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|phieunhap query()
@@ -40,16 +39,21 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|phieunhap whereTrangThai($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|phieunhap whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|phieunhap whereUserId($value)
+ *
  * @mixin \Eloquent
  */
 class phieunhap extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'id';
+
     public $incrementing = false;
+
+    protected $primaryKey = 'id';
+
     protected $keyType = 'string';
 
     protected $table = 'phieunhap';
+
     protected $fillable = [
         'id',
         'NgayNhap',
@@ -66,7 +70,7 @@ class phieunhap extends Model
         return $this->belongsTo(nhacungcap::class);
     }
 
-    public function user(): belongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

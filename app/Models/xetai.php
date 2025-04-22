@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property int    $id
- * @property int    $TrangThai
- * @property int    $created_at
- * @property int    $updated_at
+ * @property int $id
+ * @property int $TrangThai
+ * @property int $created_at
+ * @property int $updated_at
  * @property string $BienSo
  * @property string $TenXe
  * @property string $HangXe
@@ -18,6 +20,13 @@ use Illuminate\Database\Eloquent\Model;
  */
 class xetai extends Model
 {
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
     /**
      * The connection name for the model.
      *
@@ -45,7 +54,7 @@ class xetai extends Model
      * @var array
      */
     protected $fillable = [
-        'BienSo', 'TenXe', 'HangXe', 'TaiTrong', 'MauSac', 'GhiChu', 'TrangThai', 'created_at', 'updated_at'
+        'BienSo', 'TenXe', 'HangXe', 'TaiTrong', 'MauSac', 'GhiChu', 'TrangThai', 'created_at', 'updated_at',
     ];
 
     /**
@@ -54,7 +63,7 @@ class xetai extends Model
      * @var array
      */
     protected $hidden = [
-        
+
     ];
 
     /**
@@ -63,7 +72,7 @@ class xetai extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'int', 'BienSo' => 'string', 'TenXe' => 'string', 'HangXe' => 'string', 'TaiTrong' => 'string', 'MauSac' => 'string', 'GhiChu' => 'string', 'TrangThai' => 'int', 'created_at' => 'timestamp', 'updated_at' => 'timestamp'
+        'id' => 'int', 'BienSo' => 'string', 'TenXe' => 'string', 'HangXe' => 'string', 'TaiTrong' => 'string', 'MauSac' => 'string', 'GhiChu' => 'string', 'TrangThai' => 'int', 'created_at' => 'timestamp', 'updated_at' => 'timestamp',
     ];
 
     /**
@@ -72,15 +81,8 @@ class xetai extends Model
      * @var array
      */
     protected $dates = [
-        'created_at', 'updated_at'
+        'created_at', 'updated_at',
     ];
-
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var boolean
-     */
-    public $timestamps = false;
 
     // Scopes...
 

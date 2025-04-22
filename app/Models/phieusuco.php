@@ -1,23 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property string   $id
- * @property string   $Mota
- * @property string   $GhiChu
- * @property int      $phieuxuat_id
- * @property int      $phieuvanchuyen_id
- * @property int      $user_id
- * @property int      $TrangThai
- * @property int      $created_at
- * @property int      $updated_at
+ * @property string $id
+ * @property string $Mota
+ * @property string $GhiChu
+ * @property int $phieuxuat_id
+ * @property int $phieuvanchuyen_id
+ * @property int $user_id
+ * @property int $TrangThai
+ * @property int $created_at
+ * @property int $updated_at
  * @property DateTime $NgayTao
  */
 class phieusuco extends Model
 {
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
     /**
      * The connection name for the model.
      *
@@ -45,7 +54,7 @@ class phieusuco extends Model
      * @var array
      */
     protected $fillable = [
-        'phieuxuat_id', 'phieuvanchuyen_id', 'NgayTao', 'user_id', 'Mota', 'GhiChu', 'TrangThai', 'created_at', 'updated_at'
+        'phieuxuat_id', 'phieuvanchuyen_id', 'NgayTao', 'user_id', 'Mota', 'GhiChu', 'TrangThai', 'created_at', 'updated_at',
     ];
 
     /**
@@ -54,7 +63,7 @@ class phieusuco extends Model
      * @var array
      */
     protected $hidden = [
-        
+
     ];
 
     /**
@@ -63,7 +72,7 @@ class phieusuco extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'string', 'phieuxuat_id' => 'int', 'phieuvanchuyen_id' => 'int', 'NgayTao' => 'datetime', 'user_id' => 'int', 'Mota' => 'string', 'GhiChu' => 'string', 'TrangThai' => 'int', 'created_at' => 'timestamp', 'updated_at' => 'timestamp'
+        'id' => 'string', 'phieuxuat_id' => 'int', 'phieuvanchuyen_id' => 'int', 'NgayTao' => 'datetime', 'user_id' => 'int', 'Mota' => 'string', 'GhiChu' => 'string', 'TrangThai' => 'int', 'created_at' => 'timestamp', 'updated_at' => 'timestamp',
     ];
 
     /**
@@ -72,15 +81,8 @@ class phieusuco extends Model
      * @var array
      */
     protected $dates = [
-        'NgayTao', 'created_at', 'updated_at'
+        'NgayTao', 'created_at', 'updated_at',
     ];
-
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var boolean
-     */
-    public $timestamps = false;
 
     // Scopes...
 

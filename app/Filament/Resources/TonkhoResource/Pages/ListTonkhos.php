@@ -1,14 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\TonkhoResource\Pages;
 
-use App\Models\kho;
+use App\Filament\Exports\TonkhoExporter;
+use App\Filament\Resources\TonkhoResource;
 use Filament\Actions;
 use Filament\Actions\Action;
 use Filament\Actions\ExportAction;
-use App\Filament\Exports\TonkhoExporter;
 use Filament\Resources\Pages\ListRecords;
-use App\Filament\Resources\TonkhoResource;
 
 class ListTonkhos extends ListRecords
 {
@@ -19,7 +20,7 @@ class ListTonkhos extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-//            Actions\CreateAction::make(),
+            //            Actions\CreateAction::make(),
             Action::make('nhaptondau')
                 ->label('nhập tồn đầu')
                 ->icon('heroicon-o-plus')
@@ -34,8 +35,8 @@ class ListTonkhos extends ListRecords
         ];
     }
 
-//    public function updatedFetchWarehouse(): void
-//    {
-//        $this->setStatusFilter($this->fetchwarehouse);
-//    }
+    //    public function updatedFetchWarehouse(): void
+    //    {
+    //        $this->setStatusFilter($this->fetchwarehouse);
+    //    }
 }

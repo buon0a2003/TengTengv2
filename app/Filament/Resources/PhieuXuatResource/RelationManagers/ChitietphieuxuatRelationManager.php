@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\PhieuXuatResource\RelationManagers;
 
-use App\Filament\Resources\TonkhoResource;
 use App\Filament\Resources\VattuResource;
 use App\Livewire\TonkhoList;
 use App\Models\kho;
@@ -19,34 +20,35 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ChitietphieuxuatRelationManager extends RelationManager
 {
     use InteractsWithForms;
+
     protected static string $relationship = 'chitietphieuxuat';
+
     protected static ?string $modelLabel = 'Chi tiết phiếu xuất';
+
     protected static ?string $title = 'Danh sách vật tư';
 
-//    protected $listeners = ['tonkhoSelected' => 'handleTonkhoSelected'];
-//    public function handleTonkhoSelected($record): void
-//    {
-//        $state = $this->form->getRawState();
-//
-//        $state['dsvattuxuatedit'][] = [
-//            'vattu_id' => $record['vattu_id'],
-//            'tonkho_id' => $record['tonkho_id'],
-//            'TenVT' => $record['TenVT'],
-//            'soluongkhadung' => $record['soluongkhadung'],
-//            'kho_id' => $record['kho_id'],
-//            'soluong' => 0,
-//            'vitri_id' => $record['vitri_id'],
-//        ];
-//
-//        $this->form->fill($state);
-//
-//    } //buggggg
+    //    protected $listeners = ['tonkhoSelected' => 'handleTonkhoSelected'];
+    //    public function handleTonkhoSelected($record): void
+    //    {
+    //        $state = $this->form->getRawState();
+    //
+    //        $state['dsvattuxuatedit'][] = [
+    //            'vattu_id' => $record['vattu_id'],
+    //            'tonkho_id' => $record['tonkho_id'],
+    //            'TenVT' => $record['TenVT'],
+    //            'soluongkhadung' => $record['soluongkhadung'],
+    //            'kho_id' => $record['kho_id'],
+    //            'soluong' => 0,
+    //            'vitri_id' => $record['vitri_id'],
+    //        ];
+    //
+    //        $this->form->fill($state);
+    //
+    //    } //buggggg
     public function form(Form $form): Form
     {
         return $form
@@ -55,7 +57,7 @@ class ChitietphieuxuatRelationManager extends RelationManager
                 Repeater::make('dsvattuxuatedit')
                     ->required()
                     ->validationMessages([
-                        'required' => 'Danh sách vật tư xuất không được trống.'
+                        'required' => 'Danh sách vật tư xuất không được trống.',
                     ])
                     ->reorderable(false)
                     ->addable(false)
@@ -117,22 +119,22 @@ class ChitietphieuxuatRelationManager extends RelationManager
                 TextColumn::make('SoLuong')->label('Số lượng xuất'),
                 TextColumn::make('vattu_id')
                     ->label('Đơn vị tính')
-                    ->formatStateUsing(fn($record): string => (string) vattu::find($record->vattu_id)->donvitinh->TenDVT ?? 'N/A'),
+                    ->formatStateUsing(fn ($record): string => (string) vattu::find($record->vattu_id)->donvitinh->TenDVT ?? 'N/A'),
                 TextColumn::make('GhiChu')->label('Ghi chú'),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-//                Tables\Actions\CreateAction::make()
-//                    ->hidden($this->shouldbeHidden())
-//                    ->modalWidth('7xl')
-//                    ->label('Thêm')->icon('heroicon-o-plus'),
+                //                Tables\Actions\CreateAction::make()
+                //                    ->hidden($this->shouldbeHidden())
+                //                    ->modalWidth('7xl')
+                //                    ->label('Thêm')->icon('heroicon-o-plus'),
             ])
             ->actions([
-//                Tables\Actions\EditAction::make()
-//                    ->hidden($this->shouldbeHidden())
-//                    ->modalHeading('Chi tiết phiếu nhập'),
+                //                Tables\Actions\EditAction::make()
+                //                    ->hidden($this->shouldbeHidden())
+                //                    ->modalHeading('Chi tiết phiếu nhập'),
                 Tables\Actions\DeleteAction::make()
                     ->hidden($this->shouldbeHidden()),
 
@@ -144,9 +146,7 @@ class ChitietphieuxuatRelationManager extends RelationManager
             ]);
     }
 
-
-
-    public function shouldbeHidden():bool
+    public function shouldbeHidden(): bool
     {
         return $this->getOwnerRecord()->TrangThai === 1 || $this->getOwnerRecord()->TrangThai === 2;
     }

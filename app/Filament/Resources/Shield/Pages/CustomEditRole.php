@@ -1,19 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\Shield\Pages;
 
 use App\Filament\Resources\CustomRoleResource;
-use \BezhanSalleh\FilamentShield\Resources\RoleResource\Pages\EditRole;
+use BezhanSalleh\FilamentShield\Resources\RoleResource\Pages\EditRole;
+use Exception;
 use Filament\Actions\Action;
 
 class CustomEditRole extends EditRole
 {
     protected static string $resource = CustomRoleResource::class;
 
-    public function shouldGetConfirm(): bool {
+    public function shouldGetConfirm(): bool
+    {
         try {
             $selectedAll = $this->form->getState()['select_all'] ?? false;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return false;
         }
 
@@ -29,7 +33,7 @@ class CustomEditRole extends EditRole
             )
             ->modalDescription(
                 fn () => $this->shouldGetConfirm()
-                ? 'Bạn có chắc chắn muốn sửa vai trò với toàn bộ quyền không?' 
+                ? 'Bạn có chắc chắn muốn sửa vai trò với toàn bộ quyền không?'
                 : null
             )
             ->action(function () {

@@ -1,12 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources;
 
+use App\Filament\Exports\DonvitinhExporter;
 use App\Filament\Resources\DonvitinhResource\Pages;
-use App\Filament\Resources\DonvitinhResource\RelationManagers;
 use App\Models\donvitinh;
-use App\Models\vattu;
-use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -16,24 +16,28 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\ExportBulkAction;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Exports\DonvitinhExporter;
 
 class DonvitinhResource extends Resource
 {
     protected static ?string $model = donvitinh::class;
+
     protected static ?string $modelLabel = 'Đơn vị tính';
+
+    protected static ?string $navigationIcon = 'heroicon-o-swatch';
+
+    protected static ?int $navigationSort = 1;
+
+    protected static ?string $navigationLabel = 'Đơn vị tính';
+
+    protected static ?string $navigationGroup = 'Quản lý danh mục';
+
+    protected static ?string $slug = 'donvitinh';
+
     public static function getBreadcrumb(): string
     {
         return 'Đơn vị tính';
     }
-    protected static ?string $navigationIcon = 'heroicon-o-swatch';
-    protected static ?int $navigationSort = 1;
-    protected static ?string $navigationLabel = 'Đơn vị tính';
-    protected static ?string $navigationGroup = 'Quản lý danh mục';
 
-    protected static ?string $slug = 'donvitinh';
     public static function form(Form $form): Form
     {
         return $form
@@ -81,8 +85,7 @@ class DonvitinhResource extends Resource
                 Tables\Actions\DeleteAction::make()
                     ->action(
                         function ($record): void {
-                            if ($record->vattu()->count() > 0)
-                            {
+                            if ($record->vattu()->count() > 0) {
                                 Notification::make()
                                     ->danger()
                                     ->title('Xoá không thành công')
@@ -102,7 +105,7 @@ class DonvitinhResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-//                    Tables\Actions\DeleteBulkAction::make(),
+                    //                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
                 ExportBulkAction::make()
                     ->exporter(DonvitinhExporter::class)

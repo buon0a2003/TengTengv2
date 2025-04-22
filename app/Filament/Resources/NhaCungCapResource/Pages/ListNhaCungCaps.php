@@ -15,11 +15,11 @@ class ListNhaCungCaps extends ListRecords
 
     protected static ?string $title = 'Danh sách nhà cung cấp';
 
-//  Ẩn breadcumbs
-//    public function getBreadcrumbs(): array
-//    {
-//        return [];
-//    }
+    //  Ẩn breadcumbs
+    //    public function getBreadcrumbs(): array
+    //    {
+    //        return [];
+    //    }
 
     protected function getHeaderActions(): array
     {
@@ -32,7 +32,7 @@ class ListNhaCungCaps extends ListRecords
                 ->exporter(NhacungcapExporter::class)
                 ->label('xuất excel')
                 ->icon('heroicon-o-arrow-down-tray')
-                ->color('primary')
+                ->color('primary'),
         ];
     }
 }

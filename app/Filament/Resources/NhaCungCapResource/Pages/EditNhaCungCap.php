@@ -7,7 +7,6 @@ namespace App\Filament\Resources\NhaCungCapResource\Pages;
 use App\Filament\EditAndRedirectToIndex;
 use App\Filament\Resources\NhaCungCapResource;
 use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
 
 class EditNhaCungCap extends EditAndRedirectToIndex
 {
@@ -18,7 +17,7 @@ class EditNhaCungCap extends EditAndRedirectToIndex
     protected function getHeaderActions(): array
     {
         return [
-//            Actions\DeleteAction::make(),
+            //            Actions\DeleteAction::make(),
         ];
     }
 }

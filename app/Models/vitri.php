@@ -10,18 +10,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- *
- *
  * @property int $id
  * @property int|null $kho_id
  * @property string|null $Mota
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\chitietphieunhap> $chitietphieunhap
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, chitietphieunhap> $chitietphieunhap
  * @property-read int|null $chitietphieunhap_count
- * @property-read \App\Models\kho|null $kho
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\tonkho> $tonkho
+ * @property-read kho|null $kho
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, tonkho> $tonkho
  * @property-read int|null $tonkho_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|vitri newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|vitri newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|vitri query()
@@ -30,6 +29,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|vitri whereKhoId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|vitri whereMota($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|vitri whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class vitri extends Model
@@ -37,6 +37,7 @@ class vitri extends Model
     use HasFactory;
 
     protected $table = 'vitri';
+
     protected $fillable = [
         'id',
         'kho_id',
@@ -53,12 +54,12 @@ class vitri extends Model
         return $this->BelongsTo(kho::class);
     }
 
-    public function chitietphieunhap(): hasMany
+    public function chitietphieunhap(): HasMany
     {
         return $this->hasMany(chitietphieunhap::class);
     }
 
-    public function tonkho(): hasMany
+    public function tonkho(): HasMany
     {
         return $this->hasMany(tonkho::class);
 

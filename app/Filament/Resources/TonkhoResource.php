@@ -1,19 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources;
 
 use App\Filament\Exports\TonkhoExporter;
 use App\Filament\Resources\TonkhoResource\Pages;
-use App\Filament\Resources\TonkhoResource\RelationManagers;
 use App\Models\donvitinh;
-use App\Models\kho;
 use App\Models\tonkho;
-use Filament\Actions\EditAction;
-use Filament\Tables\Actions\SelectAction;
-use Filament\Forms;
 use Filament\Forms\Components\Section;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Resources\Resource;
@@ -22,21 +19,26 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class TonkhoResource extends Resource
 {
     protected static ?string $model = tonkho::class;
+
     protected static ?string $modelLabel = 'Tồn kho';
+
+    protected static ?string $navigationLabel = 'Tồn kho';
+
+    protected static ?string $navigationGroup = 'Quản lý Nhập & Xuất';
+
+    protected static ?string $navigationIcon = 'heroicon-o-inbox-stack';
+
+    protected static ?string $slug = 'tonkho';
+
     public static function getBreadcrumb(): string
     {
         return 'Tồn kho';
     }
-    protected static ?string $navigationLabel = 'Tồn kho';
 
-    protected static ?string $navigationGroup = 'Quản lý Nhập & Xuất';
-    protected static ?string $navigationIcon = 'heroicon-o-inbox-stack';
-    protected static ?string $slug = 'tonkho';
     public static function form(Form $form): Form
     {
         return $form

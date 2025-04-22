@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament;
 
 use Filament\Resources\Pages\EditRecord;
@@ -11,4 +13,3 @@ class EditAndRedirectToIndex extends EditRecord
         return $this->getResource()::getUrl('index');
     }
 }
-

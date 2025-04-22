@@ -5,16 +5,13 @@ declare(strict_types=1);
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PhieuNhapResource\Pages;
-use App\Filament\Resources\PhieuNhapResource\RelationManagers;
 use App\Filament\Resources\PhieuNhapResource\RelationManagers\ChitietphieunhapRelationManager;
-use App\Livewire\VattuList;
 use App\Models\chitietphieunhap;
 use App\Models\phieunhap;
 use App\Models\tonkho;
 use App\Models\vattu;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
-use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -32,22 +29,23 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\Auth;
 use Guava\FilamentModalRelationManagers\Actions\Table\RelationManagerAction;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\HtmlString;
-use Filament\Forms\Components\Livewire;
+use Illuminate\Support\Facades\Auth;
 
 class PhieuNhapResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = phieunhap::class;
 
     protected static ?string $modelLabel = 'Phiếu nhập';
+
     protected static ?string $navigationIcon = 'heroicon-o-chevron-double-left';
+
     protected static ?string $navigationLabel = 'Phiếu nhập';
 
     protected static ?string $navigationGroup = 'Quản lý Nhập & Xuất';
+
     protected static ?string $slug = 'phieunhap';
+
     public static function getBreadcrumb(): string
     {
         return 'Phiếu nhập';
@@ -79,7 +77,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                 Wizard::make([
                     Wizard\Step::make('Thông tin phiếu nhập')
                         ->schema([
-                            Forms\Components\Section::make('Thông tin chính')
+                            Section::make('Thông tin chính')
                                 ->description('Thông tin chi tiết phiếu nhập')
                                 ->aside()
                                 ->schema([
@@ -127,7 +125,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                                         ->prefix('+84')
                                                         ->regex('/^(0\d{9}|[1-9]\d{8})$/')
                                                         ->validationMessages([
-                                                            'regex' => 'Số điện thoại sai quy cách.'
+                                                            'regex' => 'Số điện thoại sai quy cách.',
                                                         ])
                                                         ->required()
                                                         ->label('Số điện thoại')
@@ -165,7 +163,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                         ->searchable(),
                                 ]),
 
-                            Forms\Components\Section::make('Thông tin phụ')
+                            Section::make('Thông tin phụ')
                                 ->aside()
                                 ->description('Thông tin phụ của phiếu nhập')
                                 ->schema([
@@ -173,11 +171,11 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
 //                                        ->required()
                                         ->label('Ngày nhập'),
 
-                                    Forms\Components\Textarea::make('GhiChu')
+                                    Textarea::make('GhiChu')
                                         ->label('Ghi chú'),
                                 ]),
 
-                            Forms\Components\Section::make('Trạng thái')
+                            Section::make('Trạng thái')
                                 ->description('Trạng thái của phiếu nhập')
                                 ->aside()
                                 ->visibleOn('edit')
@@ -201,11 +199,11 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                 ->addActionLabel('Thêm vật tư')
                                 ->addAction(function (Forms\Components\Actions\Action $action, $get): Forms\Components\Actions\Action {
                                     return $action->modalContent(
-                                        view('filament.vattulist', ['LyDo'=> $get('LyDo')])
+                                        view('filament.vattulist', ['LyDo' => $get('LyDo')])
                                     )
-                                    ->action(null)
-                                    ->modalCancelAction(false)
-                                    ->modalSubmitActionLabel('Done');
+                                        ->action(null)
+                                        ->modalCancelAction(false)
+                                        ->modalSubmitActionLabel('Done');
                                 })
                                 ->label('Danh sách vật tư')
                                 ->schema([
@@ -221,18 +219,18 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                     Textarea::make('ghichu')->rows(2)->label('Ghi chú'),
                                 ])->defaultItems(0)->grid(4),
                         ])->visibleOn('create'),
-                    ])->columnSpanFull()->skippable(),
+                ])->columnSpanFull()->skippable(),
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
-             ->modifyQueryUsing(function ($query) {
-                 if (!Auth::user()->hasRole('super_admin')) {
+            ->modifyQueryUsing(function ($query) {
+                if (! Auth::user()->hasRole('super_admin')) {
                     $query->where('user_id', Auth::user()->id);
-                 }
-             })
+                }
+            })
 //        VD: Hiển thị record cụ thể dựa trên người tạo. Tức là quản lí kho chỉ có thể thấy phiếu do mình tạo
             ->defaultSort('TrangThai', 'asc')
             ->columns([
@@ -349,7 +347,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                             }
                             //
                         })
-                        ->hidden(fn ($record): bool => ! $record->TrangThai == 0)
+                        ->hidden(fn ($record): bool => ! $record->TrangThai === 0)
                         ->label('Duyệt')
                         ->icon('heroicon-s-check')
                         ->color('success'),
@@ -363,16 +361,16 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                 ->danger()
                                 ->send();
                         })
-                        ->hidden(fn ($record): bool => ! $record->TrangThai == 0)
+                        ->hidden(fn ($record): bool => ! $record->TrangThai === 0)
                         ->label('Huỷ')
                         ->icon('heroicon-s-trash')
                         ->color('danger'),
 
                     RelationManagerAction::make('chitietphieunhap')
-                    ->label('Xem danh sách vật tư')
-                    ->icon('heroicon-o-list-bullet')
-                    ->color('amber')
-                    ->relationManager(ChitietphieunhapRelationManager::make()),
+                        ->label('Xem danh sách vật tư')
+                        ->icon('heroicon-o-list-bullet')
+                        ->color('amber')
+                        ->relationManager(ChitietphieunhapRelationManager::make()),
                 ]),
                 // xoá thì phải để oncasade cho chi tiet phieu nhap nua
             ])
@@ -386,7 +384,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
     public static function getRelations(): array
     {
         return [
-            RelationManagers\ChitietphieunhapRelationManager::class,
+            ChitietphieunhapRelationManager::class,
         ];
     }
 
@@ -398,5 +396,4 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
             'edit' => Pages\EditPhieuNhap::route('/{record}/edit'),
         ];
     }
-
 }

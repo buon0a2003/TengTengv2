@@ -1,36 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire;
 
-use App\Filament\Resources\PhieuNhapResource;
 use App\Models\vattu;
 use Exception;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Get;
+use Filament\Notifications\Notification;
 use Filament\Tables;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Table;
-use Livewire\Component;
-use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\SelectFilter;
-use Livewire\Attributes\On;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\MarkdownEditor;
-use Filament\Forms\Form;
-use Filament\Notifications\Notification;
+use Filament\Tables\Table;
+use Illuminate\Contracts\View\View;
+use Livewire\Component;
 
 class VattuList extends Component implements HasForms, HasTable
 {
     use InteractsWithForms;
     use InteractsWithTable;
+
     public string $LyDo;
+
     /**
      * @throws Exception
      */
@@ -49,17 +44,18 @@ class VattuList extends Component implements HasForms, HasTable
 
             ->filters([
                 SelectFilter::make('LaTP')
-                ->label('Loại vật tư')
-                ->options([
-                    '0' => 'Thành phẩm',
-                    '1' => 'Nguyên vật liệu',
-                ])
-                ->default(function (){
-                    if ( $this->LyDo == '') {
-                        return '';
-                    }
-                    else return $this->LyDo;
-                })
+                    ->label('Loại vật tư')
+                    ->options([
+                        '0' => 'Thành phẩm',
+                        '1' => 'Nguyên vật liệu',
+                    ])
+                    ->default(function () {
+                        if ($this->LyDo === '') {
+                            return '';
+                        }
+
+                        return $this->LyDo;
+                    }),
             ])
             ->actions([
                 Tables\Actions\Action::make('vattuSelect')
@@ -67,18 +63,18 @@ class VattuList extends Component implements HasForms, HasTable
                     ->color('primary')
                     ->action(function (vattu $record) {
                         $this->dispatch('vattuSelected', [
-                                'id' => $record->id,
-                                'TenVT' => $record->TenVT,
-                            ]);
+                            'id' => $record->id,
+                            'TenVT' => $record->TenVT,
+                        ]);
 
-                            Notification::make()
-                                ->title('Thành công')
-                                ->body('Vật tư đã được thêm vào')
-                                ->success()
-                                ->duration(500)
-                                ->send();
-                        }
-                    )
+                        Notification::make()
+                            ->title('Thành công')
+                            ->body('Vật tư đã được thêm vào')
+                            ->success()
+                            ->duration(500)
+                            ->send();
+                    }
+                    ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Exports;
 
 use App\Models\nhacungcap;
@@ -10,6 +12,7 @@ use Filament\Actions\Exports\Models\Export;
 class NhacungcapExporter extends Exporter
 {
     protected static ?string $model = nhacungcap::class;
+
     protected static ?string $modelLabel = 'Nhà cung cấp';
 
     public static function getColumns(): array
@@ -31,7 +34,7 @@ class NhacungcapExporter extends Exporter
         $body = 'Xuất dữ liệu hoàn tất';
 
         if ($failedRowsCount = $export->getFailedRowsCount()) {
-            $body = 'Xuất dữ liệu hoàn tất, nhưng có ' . $failedRowsCount . ' hàng không thành công';
+            $body = 'Xuất dữ liệu hoàn tất, nhưng có '.$failedRowsCount.' hàng không thành công';
         }
 
         return $body;

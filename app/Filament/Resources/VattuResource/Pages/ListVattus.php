@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\VattuResource\Pages;
 
 use App\Filament\Resources\VattuResource;
@@ -9,13 +11,14 @@ use Filament\Resources\Pages\ListRecords;
 class ListVattus extends ListRecords
 {
     protected static string $resource = VattuResource::class;
+
     protected static ?string $title = 'Danh sách vật tư';
 
-//  Ẩn breadcumbs
-//    public function getBreadcrumbs(): array
-//    {
-//        return [];
-//    }
+    //  Ẩn breadcumbs
+    //    public function getBreadcrumbs(): array
+    //    {
+    //        return [];
+    //    }
 
     protected function getHeaderActions(): array
     {
@@ -28,7 +31,7 @@ class ListVattus extends ListRecords
                 ->exporter(\App\Filament\Exports\VattuExporter::class)
                 ->label('xuất excel')
                 ->icon('heroicon-o-arrow-down-tray')
-                ->color('primary')
+                ->color('primary'),
         ];
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Exports;
 
 use App\Models\donvitinh;
@@ -10,6 +12,7 @@ use Filament\Actions\Exports\Models\Export;
 class DonvitinhExporter extends Exporter
 {
     protected static ?string $model = donvitinh::class;
+
     protected static ?string $modelLabel = 'Đơn vị tính';
 
     public static function getColumns(): array
@@ -31,7 +34,7 @@ class DonvitinhExporter extends Exporter
         $body = 'Xuất dữ liệu hoàn tất';
 
         if ($failedRowsCount = $export->getFailedRowsCount()) {
-            $body = 'Xuất dữ liệu hoàn tất, nhưng có ' . $failedRowsCount . ' hàng không thành công';
+            $body = 'Xuất dữ liệu hoàn tất, nhưng có '.$failedRowsCount.' hàng không thành công';
         }
 
         return $body;

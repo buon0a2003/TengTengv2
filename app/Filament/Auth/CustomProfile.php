@@ -1,49 +1,50 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Auth;
-use Exception;
-use Filament\Actions\Action;
-use Filament\Facades\Filament;
+
+use Filament\Forms\Components\Component;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Split;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Get;
 use Filament\Pages\Auth\EditProfile;
-use Filament\Forms\Components\Component;
-use Filament\Forms\Components\TextInput;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Js;
 use Illuminate\Validation\Rules\Password;
-
 
 class CustomProfile extends EditProfile
 {
+    public static function isSimple(): bool
+    {
+        return false;
+    }
+
     protected function getForms(): array
     {
         return [
             'form' => $this->form(
                 $this->makeForm()
                     ->schema([
-                                Section::make('Thông tin tài khoản')
-                                    ->description(__('Cập nhật thông tin tài khoản của bạn'))
-                                ->schema([
-                                    $this->getNameFormComponent(),
-                                    $this->getEmailFormComponent(),
-                                    $this->getBirthFormComponent(),
-                                    $this->getPhoneFormComponent(),
-                                    $this->getAddressFormComponent(),
-                                ])
-                                ->aside(),
-                                Section::make('Đổi mật khẩu')
-                                    ->description(__('Để lại trống nếu không muốn thay đổi mật khẩu'))
-                                ->schema([
-                                    $this->getPasswordFormComponent(),
-                                    $this->getPasswordConfirmationFormComponent(),
-                                ])
-                                ->aside()
+                        Section::make('Thông tin tài khoản')
+                            ->description(__('Cập nhật thông tin tài khoản của bạn'))
+                            ->schema([
+                                $this->getNameFormComponent(),
+                                $this->getEmailFormComponent(),
+                                $this->getBirthFormComponent(),
+                                $this->getPhoneFormComponent(),
+                                $this->getAddressFormComponent(),
+                            ])
+                            ->aside(),
+                        Section::make('Đổi mật khẩu')
+                            ->description(__('Để lại trống nếu không muốn thay đổi mật khẩu'))
+                            ->schema([
+                                $this->getPasswordFormComponent(),
+                                $this->getPasswordConfirmationFormComponent(),
+                            ])
+                            ->aside(),
                     ])
                     ->operation('edit')
                     ->model($this->getUser())
@@ -53,10 +54,6 @@ class CustomProfile extends EditProfile
         ];
     }
 
-    public static function isSimple(): bool
-    {
-        return false;
-    }
     protected function getNameFormComponent(): Component
     {
         return TextInput::make('name')
@@ -65,6 +62,7 @@ class CustomProfile extends EditProfile
             ->maxLength(255)
             ->autofocus();
     }
+
     protected function getEmailFormComponent(): Component
     {
         return TextInput::make('email')
@@ -77,6 +75,7 @@ class CustomProfile extends EditProfile
                 'unique' => 'Email người dùng này đã tồn tại.',
             ]);
     }
+
     protected function getPasswordFormComponent(): Component
     {
         return TextInput::make('password')
@@ -86,7 +85,7 @@ class CustomProfile extends EditProfile
             ->rule(Password::default())
             ->regex('/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/')
             ->validationMessages([
-                'regex' => 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, số và ký tự đặc biệt.'
+                'regex' => 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, số và ký tự đặc biệt.',
             ])
             ->autocomplete('new-password')
             ->dehydrated(fn ($state): bool => filled($state))
@@ -112,6 +111,7 @@ class CustomProfile extends EditProfile
             ->label(__('Ngày sinh'))
             ->date('d/m/Y');
     }
+
     protected function getPhoneFormComponent(): Component
     {
         return TextInput::make('Phone')
@@ -128,8 +128,8 @@ class CustomProfile extends EditProfile
     protected function handleRecordUpdate(Model $record, array $data): Model
     {
         $record->forceFill([
-        'last_renew_password_at' => now(),
-    ]);
+            'last_renew_password_at' => now(),
+        ]);
         $record->update($data);
 
         return $record;

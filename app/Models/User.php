@@ -6,19 +6,17 @@ namespace App\Models;
 
 use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
-use Filament\Panel;
 use Yebor974\Filament\RenewPassword\Contracts\RenewPasswordContract;
 use Yebor974\Filament\RenewPassword\Traits\RenewPassword;
 
 /**
- *
- *
  * @property int $id
  * @property string $name
  * @property string $email
@@ -35,10 +33,11 @@ use Yebor974\Filament\RenewPassword\Traits\RenewPassword;
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
  * @property-read int|null $permissions_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\phieunhap> $phieunhap
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, phieunhap> $phieunhap
  * @property-read int|null $phieunhap_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
  * @property-read int|null $roles_count
+ *
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
@@ -59,12 +58,13 @@ use Yebor974\Filament\RenewPassword\Traits\RenewPassword;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutPermission($permissions)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutRole($roles, $guard = null)
+ *
  * @mixin \Eloquent
  */
-class User extends Authenticatable implements RenewPasswordContract, FilamentUser, MustVerifyEmail
+class User extends Authenticatable implements FilamentUser, MustVerifyEmail, RenewPasswordContract
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, HasRoles, RenewPassword;
+    use HasFactory, HasRoles, Notifiable, RenewPassword;
 
     /**
      * The attributes that are mass assignable.
@@ -80,7 +80,7 @@ class User extends Authenticatable implements RenewPasswordContract, FilamentUse
         'Birth',
         'Address',
         'Active',
-        'force_renew_password'
+        'force_renew_password',
     ];
 
     /**
@@ -93,6 +93,16 @@ class User extends Authenticatable implements RenewPasswordContract, FilamentUse
         'remember_token',
     ];
 
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true;
+    }
+
+    public function phieunhap(): HasMany
+    {
+        return $this->hasMany(phieunhap::class);
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -104,15 +114,5 @@ class User extends Authenticatable implements RenewPasswordContract, FilamentUse
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-
-    public function canAccessPanel(Panel $panel): bool
-    {
-        return true;
-    }
-
-    public function phieunhap(): HasMany
-    {
-        return $this->hasMany(phieunhap::class);
     }
 }

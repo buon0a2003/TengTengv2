@@ -1,20 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire;
 
 use App\Models\tonkho;
-use BladeUI\Icons\Components\Icon;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Table;
-use Livewire\Component;
-use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Enums\FiltersLayout;
-use Filament\Notifications\Notification;
+use Filament\Tables\Table;
+use Illuminate\Contracts\View\View;
+use Livewire\Component;
 
 class TonkhoList extends Component implements HasForms, HasTable
 {
@@ -22,6 +21,7 @@ class TonkhoList extends Component implements HasForms, HasTable
     use InteractsWithTable;
 
     public string $LyDo;
+
     public string $kho_id;
 
     public function table(Table $table): Table
@@ -86,16 +86,16 @@ class TonkhoList extends Component implements HasForms, HasTable
                 Tables\Filters\SelectFilter::make('LaTP')
                     ->relationship('vattu', 'LaTP')
                     ->preload()
-                    ->getOptionLabelFromRecordUsing(fn ($record) => $record->LaTP ? "Thành phẩm" : "Nguyên vật liệu")
+                    ->getOptionLabelFromRecordUsing(fn ($record) => $record->LaTP ? 'Thành phẩm' : 'Nguyên vật liệu')
                     ->label('Loại vật tư')
-                    ->default(fn () => $this->LyDo == '0' ? 1 : 2)
+                    ->default(fn () => $this->LyDo === '0' ? 1 : 2),
             ], layout: FiltersLayout::AboveContent)
             ->actions([
                 Tables\Actions\Action::make('tonkhoSelect')
-                ->label('Chọn')
-                ->color('primary')
-                ->action(function (tonkho $record) {
-                    $this->dispatch('tonkhoSelected', [
+                    ->label('Chọn')
+                    ->color('primary')
+                    ->action(function (tonkho $record) {
+                        $this->dispatch('tonkhoSelected', [
                             'tonkho_id' => $record->id,
                             'vattu_id' => $record->vattu_id,
                             'TenVT' => $record->vattu->TenVT,
@@ -104,11 +104,11 @@ class TonkhoList extends Component implements HasForms, HasTable
                             'soluongkhadung' => $record->SoLuong,
                         ]);
                     }
-                )
+                    ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()
+                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

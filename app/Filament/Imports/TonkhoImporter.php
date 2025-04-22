@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Imports;
 
 use App\Models\Tonkho;
@@ -34,6 +36,17 @@ class TonkhoImporter extends Importer
         ];
     }
 
+    public static function getCompletedNotificationBody(Import $import): string
+    {
+        $body = 'nhập thành công';
+
+        if ($failedRowsCount = $import->getFailedRowsCount()) {
+            $body .= ' nhưng có '.$failedRowsCount.' dòng không thành công';
+        }
+
+        return $body;
+    }
+
     public function resolveRecord(): ?Tonkho
     {
         // return Tonkho::firstOrNew([
@@ -42,16 +55,5 @@ class TonkhoImporter extends Importer
         // ]);
 
         return new Tonkho();
-    }
-
-    public static function getCompletedNotificationBody(Import $import): string
-    {
-        $body = 'nhập thành công';
-
-        if ($failedRowsCount = $import->getFailedRowsCount()) {
-            $body .= ' nhưng có ' . $failedRowsCount . ' dòng không thành công';
-        }
-
-        return $body;
     }
 }

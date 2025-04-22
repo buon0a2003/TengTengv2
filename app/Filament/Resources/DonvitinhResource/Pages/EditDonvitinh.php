@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\DonvitinhResource\Pages;
 
 use App\Filament\EditAndRedirectToIndex;
 use App\Filament\Resources\DonvitinhResource;
 use Filament\Actions;
 use Filament\Notifications\Notification;
-use Filament\Resources\Pages\EditRecord;
 
 class EditDonvitinh extends EditAndRedirectToIndex
 {
     protected static string $resource = DonvitinhResource::class;
+
     protected static ?string $title = 'Sửa đơn vị tính';
 
     protected function getHeaderActions(): array
@@ -19,8 +21,7 @@ class EditDonvitinh extends EditAndRedirectToIndex
             Actions\DeleteAction::make()
                 ->action(
                     function ($record): void {
-                        if ($record->vattu()->count() > 0)
-                        {
+                        if ($record->vattu()->count() > 0) {
                             Notification::make()
                                 ->danger()
                                 ->title('Xoá không thành công')

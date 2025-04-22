@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,6 +12,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class phieuxuat extends Model
 {
     use HasFactory;
+
+    public $incrementing = false;
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
     /**
      * The connection name for the model.
      *
@@ -30,7 +42,7 @@ class phieuxuat extends Model
      * @var string
      */
     protected $primaryKey = 'id';
-    public $incrementing = false;
+
     protected $keyType = 'string';
 
     /**
@@ -60,15 +72,7 @@ class phieuxuat extends Model
 
     ];
 
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var boolean
-     */
-    public $timestamps = false;
-
-
-    public function user(): belongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -83,7 +87,7 @@ class phieuxuat extends Model
         return $this->belongsTo(khachhang::class);
     }
 
-    public function chitietphieuxuat(): hasMany
+    public function chitietphieuxuat(): HasMany
     {
         return $this->hasMany(chitietphieuxuat::class);
     }

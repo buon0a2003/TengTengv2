@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'shield_resource' => [
         'should_register_navigation' => false,
@@ -39,12 +41,12 @@ return [
             'update',
             'delete',
             'delete_any',
-//            'restore',
-//            'restore_any',
-//            'replicate',
-//            'reorder',
-//            'force_delete',
-//            'force_delete_any',
+            //            'restore',
+            //            'restore_any',
+            //            'replicate',
+            //            'reorder',
+            //            'force_delete',
+            //            'force_delete_any',
         ],
 
         'page' => 'page',

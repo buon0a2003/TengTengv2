@@ -15,26 +15,11 @@ class ListPhieuNhaps extends ListRecords
 
     protected static ?string $title = 'Quản lý phiếu nhập';
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\CreateAction::make()
-                ->icon('heroicon-o-plus')
-                ->label('Tạo mới'),
-
-            Actions\CreateAction::make()
-                ->label('xuất excel')
-                ->icon('heroicon-o-arrow-down-tray')
-                ->color('primary'),
-        ];
-    }
-
     public function getTabs(): array
     {
 
         $tabs = ['all' => Tab::make('All')
             ->badge($this->getModel()::count())];
-
 
         $tabs['nhaptp'] = Tab::make('Nhập thành phẩm')
             ->modifyQueryUsing(function ($query) {
@@ -49,5 +34,19 @@ class ListPhieuNhaps extends ListRecords
             ->badge($this->getModel()::where('LyDo', 1)->count());
 
         return $tabs;
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Actions\CreateAction::make()
+                ->icon('heroicon-o-plus')
+                ->label('Tạo mới'),
+
+            Actions\CreateAction::make()
+                ->label('xuất excel')
+                ->icon('heroicon-o-arrow-down-tray')
+                ->color('primary'),
+        ];
     }
 }

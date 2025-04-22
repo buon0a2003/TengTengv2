@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-///**
+// /**
 // * @property int    $id
 // * @property int    $vatu_id
 // * @property int    $created_at
@@ -17,6 +19,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 // */
 class chitietphieuxuat extends Model
 {
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
     /**
      * The connection name for the model.
      *
@@ -72,21 +81,13 @@ class chitietphieuxuat extends Model
         'updated_at',
     ];
 
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var boolean
-     */
-    public $timestamps = false;
-
-    public function phieuxuat(): belongsTo
+    public function phieuxuat(): BelongsTo
     {
         return $this->belongsTo(phieuxuat::class);
     }
 
-    public function vattu(): belongsTo
+    public function vattu(): BelongsTo
     {
         return $this->belongsTo(vattu::class);
     }
-
 }

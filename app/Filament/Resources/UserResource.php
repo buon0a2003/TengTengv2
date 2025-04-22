@@ -6,14 +6,13 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
-use Closure;
 use Filament\Forms;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
@@ -24,84 +23,85 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Validation\ValidationException;
-use Faker\Factory as Faker;
 use Str;
-use function Termwind\render;
-
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
+
     protected static ?string $modelLabel = 'Người dùng';
+
     protected static ?string $navigationLabel = 'Người dùng';
+
+    protected static ?string $navigationIcon = 'heroicon-o-users';
+
+    protected static ?int $navigationSort = 2;
+
+    protected static ?string $navigationGroup = 'Quản lý tài khoản';
+
     public static function getBreadcrumb(): string
     {
         return 'Người dùng';
     }
-    protected static ?string $navigationIcon = 'heroicon-o-users';
-    protected static ?int $navigationSort = 2;
-
-    protected static ?string $navigationGroup = 'Quản lý tài khoản';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                    Forms\Components\Section::make('Thông tin tài khoản')
+                Forms\Components\Section::make('Thông tin tài khoản')
                     ->description('Thông tin chi tiết tài khoản người dùng')
                     ->aside()
-                        ->schema([
-                            TextInput::make('name')
-                                ->label('Tên')
-                                ->required(),
+                    ->schema([
+                        TextInput::make('name')
+                            ->label('Tên')
+                            ->required(),
 
-                            TextInput::make('email')
-                                ->required()
-                                ->unique(ignoreRecord: true)
-                                ->email()
-                                ->validationMessages([
-                                    'unique' => 'Email người dùng này đã tồn tại.',
-                                ]),
-                            TextInput::make('password')
-                                ->label('Mật khẩu')
-                                ->password()
-                                ->required()
-                                ->revealable()
-                                ->regex('/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/')
-                                ->validationMessages([
-                                    'regex' => 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, số và ký tự đặc biệt.'
-                                ])
-                                ->visibleOn('create'),
-                            Actions::make([
-                                Action::make('Tạo mật khẩu')
-                                    ->action(function ( $get, $set) {
-                                        $password = fake()->regexify('/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/');
-                                        $set('password', $password);
-                                        Notification::make()
-                                            ->title('Mật khẩu đã được tạo')
-                                            ->success()
-                                            ->duration(1000)
-                                            ->send();
-                                    }),
-                                ])->visibleOn('create'),
-                                // ->visibleOn('create'),
-                            TextInput::make('Phone')
-                                ->prefix('+84')
-                                ->regex('/^(0\d{9}|[1-9]\d{8})$/')
-                                ->validationMessages([
-                                    'regex' => 'Số điện thoại sai quy cách.'
-                                ])
-                                ->label('Số điện thoại'),
+                        TextInput::make('email')
+                            ->required()
+                            ->unique(ignoreRecord: true)
+                            ->email()
+                            ->validationMessages([
+                                'unique' => 'Email người dùng này đã tồn tại.',
+                            ]),
+                        TextInput::make('password')
+                            ->label('Mật khẩu')
+                            ->password()
+                            ->required()
+                            ->revealable()
+                            ->regex('/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/')
+                            ->validationMessages([
+                                'regex' => 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, số và ký tự đặc biệt.',
+                            ])
+                            ->visibleOn('create'),
+                        Actions::make([
+                            Action::make('Tạo mật khẩu')
+                                ->action(function ($get, $set) {
+                                    $password = fake()->regexify('/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/');
+                                    $set('password', $password);
+                                    Notification::make()
+                                        ->title('Mật khẩu đã được tạo')
+                                        ->success()
+                                        ->duration(1000)
+                                        ->send();
+                                }),
+                        ])->visibleOn('create'),
+                        // ->visibleOn('create'),
+                        TextInput::make('Phone')
+                            ->prefix('+84')
+                            ->regex('/^(0\d{9}|[1-9]\d{8})$/')
+                            ->validationMessages([
+                                'regex' => 'Số điện thoại sai quy cách.',
+                            ])
+                            ->label('Số điện thoại'),
 
-                            TextInput::make('Address')
-                                ->label('Địa Chỉ'),
-                            DatePicker::make('Birth')
-                                ->label('Ngày sinh')
-                                ->displayFormat('d/m/Y'),
-                        ]),
+                        TextInput::make('Address')
+                            ->label('Địa Chỉ'),
+                        DatePicker::make('Birth')
+                            ->label('Ngày sinh')
+                            ->displayFormat('d/m/Y'),
+                    ]),
 
-                    Forms\Components\Section::make('Chức vụ')
+                Forms\Components\Section::make('Chức vụ')
                     ->aside()
                     ->description('Lựa chọn chức vụ cho người dùng')
                     ->schema([
@@ -141,29 +141,29 @@ class UserResource extends Resource
                     ->label('Địa chỉ')
                     ->searchable(),
                 TextColumn::make('roles')
-                ->label('Chức vụ')
-                ->wrap()
-                ->getStateUsing(fn($record) => collect($record->roles)
-                ->pluck('name')
-                ->map(fn($name) => Str::headline(str_replace('_', ' ', $name))))
-                ->colors([
-                    'warning',
-                ])
-                ->badge(),
+                    ->label('Chức vụ')
+                    ->wrap()
+                    ->getStateUsing(fn ($record) => collect($record->roles)
+                        ->pluck('name')
+                        ->map(fn ($name) => Str::headline(str_replace('_', ' ', $name))))
+                    ->colors([
+                        'warning',
+                    ])
+                    ->badge(),
                 TextColumn::make('Active')
-                    ->formatStateUsing(fn ($record) => $record->Active == 1 ? 'Yes' : 'No')
+                    ->formatStateUsing(fn ($record) => $record->Active === 1 ? 'Yes' : 'No')
                     ->badge()
-                    ->color(fn ($record): string =>  $record->Active == 1 ? 'success' : 'danger')
+                    ->color(fn ($record): string => $record->Active === 1 ? 'success' : 'danger')
                     ->searchable(),
-//                TextColumn::make('created_at')->searchable()->sortable(),
+                //                TextColumn::make('created_at')->searchable()->sortable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('Active')
-                ->label('Còn hoạt động')
-                ->options([
-                    '0' => 'Không',
-                    '1' => 'Có'
-                ])
+                    ->label('Còn hoạt động')
+                    ->options([
+                        '0' => 'Không',
+                        '1' => 'Có',
+                    ]),
 
             ])
             ->actions([

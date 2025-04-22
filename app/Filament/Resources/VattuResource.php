@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\VattuResource\Pages;
-use App\Filament\Resources\VattuResource\RelationManagers;
 use App\Models\vattu;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -18,22 +19,28 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class VattuResource extends Resource
 {
     protected static ?string $model = vattu::class;
+
     protected static ?string $modelLabel = 'Vật tư';
+
+    protected static ?string $navigationIcon = 'heroicon-o-circle-stack';
+
+    protected static ?int $navigationSort = 1;
+
+    protected static ?string $navigationLabel = 'Vật tư';
+
+    protected static ?string $navigationGroup = 'Quản lý danh mục';
+
+    protected static ?string $slug = 'vattu';
+
     public static function getBreadcrumb(): string
     {
         return 'Vật tư';
     }
-    protected static ?string $navigationIcon = 'heroicon-o-circle-stack';
-    protected static ?int $navigationSort = 1;
-    protected static ?string $navigationLabel = 'Vật tư';
-    protected static ?string $navigationGroup = 'Quản lý danh mục';
-    protected static ?string $slug = 'vattu';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -42,29 +49,29 @@ class VattuResource extends Resource
                     ->aside()
                     ->description('Thông tin chi tiết về vật tư mới.')
                     ->schema([
-                    Forms\Components\Checkbox::make('LaTP')
-                        ->inline()
-                        ->label('Là thành phẩm?'),
+                        Forms\Components\Checkbox::make('LaTP')
+                            ->inline()
+                            ->label('Là thành phẩm?'),
 
-                    Forms\Components\TextInput::make('TenVT')
-                        ->required()
-                        ->label('Tên vật tư'),
+                        Forms\Components\TextInput::make('TenVT')
+                            ->required()
+                            ->label('Tên vật tư'),
 
-                    Forms\Components\Select::make('donvitinh_id')
-                        ->relationship('donvitinh', 'TenDVT')
-                        ->preload()
-                        ->required()
-                        ->label('Đơn vị tính'),
+                        Forms\Components\Select::make('donvitinh_id')
+                            ->relationship('donvitinh', 'TenDVT')
+                            ->preload()
+                            ->required()
+                            ->label('Đơn vị tính'),
 
-                    Forms\Components\TextInput::make('KichThuoc')
-                        ->label('Kích thước'),
+                        Forms\Components\TextInput::make('KichThuoc')
+                            ->label('Kích thước'),
 
-                    Forms\Components\TextInput::make('MauSac')
-                        ->label('Màu Sắc'),
+                        Forms\Components\TextInput::make('MauSac')
+                            ->label('Màu Sắc'),
 
-                    Forms\Components\TextInput::make('DacDiem')
-                        ->label('Đặc điểm'),
-                ])
+                        Forms\Components\TextInput::make('DacDiem')
+                            ->label('Đặc điểm'),
+                    ]),
             ]);
     }
 
@@ -83,13 +90,13 @@ class VattuResource extends Resource
                     ->alignCenter()
                     ->label('Đơn vị tính'),
 
-                Textcolumn::make('KichThuoc')
+                TextColumn::make('KichThuoc')
                     ->label('Kích thước'),
 
-                Textcolumn::make('MauSac')
+                TextColumn::make('MauSac')
                     ->label('Màu sắc'),
 
-                Textcolumn::make('DacDiem')
+                TextColumn::make('DacDiem')
                     ->label('Dặc điểm'),
 
                 IconColumn::make('LaTP')
@@ -103,18 +110,18 @@ class VattuResource extends Resource
                     ->options([
                         '1' => 'Thành phẩm',
                         '0' => 'Nguyên vật liệu',
-                    ])
+                    ]),
             ])
             ->actions([
                 ActionGroup::make([
                     ViewAction::make()->color('secondary'),
                     EditAction::make()->color('primary'),
-//                    DeleteAction::make(),
+                    //                    DeleteAction::make(),
                 ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-//                    Tables\Actions\DeleteBulkAction::make(),
+                    //                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
                 ExportBulkAction::make()
                     ->exporter(\App\Filament\Exports\VattuExporter::class)

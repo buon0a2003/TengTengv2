@@ -14,9 +14,11 @@ use Spatie\Permission\Models\Role;
 class EditUser extends EditAndRedirectToIndex
 {
     protected static string $resource = UserResource::class;
+
     protected static ?string $title = 'Sửa người dùng';
 
-    public function shouldGetConfirm(): bool {
+    public function shouldGetConfirm(): bool
+    {
         try {
             $selectedRoleIds = $this->form->getRawState()['roles'] ?? [];
 

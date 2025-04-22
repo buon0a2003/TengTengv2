@@ -1,21 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\KhoResource\Pages;
 
 use App\Filament\EditAndRedirectToIndex;
 use App\Filament\Resources\KhoResource;
 use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
 
 class EditKho extends EditAndRedirectToIndex
 {
     protected static string $resource = KhoResource::class;
+
     protected static ?string $title = 'Sửa thông tin kho';
 
     protected function getHeaderActions(): array
     {
         return [
-//            Actions\DeleteAction::make(),
+            //            Actions\DeleteAction::make(),
         ];
     }
 }

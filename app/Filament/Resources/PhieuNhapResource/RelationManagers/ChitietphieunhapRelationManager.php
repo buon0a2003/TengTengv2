@@ -4,23 +4,25 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\PhieuNhapResource\RelationManagers;
 
+use App\Models\vattu;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use App\Models\vattu;
-use Filament\Forms\Get;
-
 
 class ChitietphieunhapRelationManager extends RelationManager
 {
     protected static string $relationship = 'chitietphieunhap';
+
     protected static ?string $modelLabel = 'Chi tiết phiếu nhập';
+
     protected static ?string $title = 'Danh sách vật tư';
+
     public function form(Form $form): Form
     {
         return $form
@@ -64,21 +66,21 @@ class ChitietphieunhapRelationManager extends RelationManager
             ->recordTitleAttribute('phieunhap_id')
             ->columns([
                 //                Tables\Columns\TextColumn::make('phieunhap_id'),
-                Tables\Columns\TextColumn::make('vattu.TenVT')->label('Tên vật tư'),
-                Tables\Columns\TextColumn::make('SoLuong')->label('Số lượng'),
+                TextColumn::make('vattu.TenVT')->label('Tên vật tư'),
+                TextColumn::make('SoLuong')->label('Số lượng'),
                 TextColumn::make('vattu_id')
                     ->label('Đơn vị tính')
-                    ->formatStateUsing(fn($record): string => (string) vattu::find($record->vattu_id)->donvitinh->TenDVT ?? 'N/A'),
-                Tables\Columns\TextColumn::make('vitri.Mota')->label('Vị trí'),
-                Tables\Columns\TextColumn::make('GhiChu')->label('Ghi chú'),
+                    ->formatStateUsing(fn ($record): string => (string) vattu::find($record->vattu_id)->donvitinh->TenDVT ?? 'N/A'),
+                TextColumn::make('vitri.Mota')->label('Vị trí'),
+                TextColumn::make('GhiChu')->label('Ghi chú'),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-//                Tables\Actions\CreateAction::make()
-//                    ->hidden($this->shouldbeHidden())
-//                    ->label('Thêm')->icon('heroicon-o-plus'),
+                //                Tables\Actions\CreateAction::make()
+                //                    ->hidden($this->shouldbeHidden())
+                //                    ->label('Thêm')->icon('heroicon-o-plus'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
@@ -94,7 +96,7 @@ class ChitietphieunhapRelationManager extends RelationManager
             ]);
     }
 
-    public function shouldbeHidden():bool
+    public function shouldbeHidden(): bool
     {
         return $this->getOwnerRecord()->TrangThai === 1 || $this->getOwnerRecord()->TrangThai === 2;
     }

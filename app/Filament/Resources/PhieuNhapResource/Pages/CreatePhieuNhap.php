@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\PhieuNhapResource\Pages;
 
+use App\Filament\CreateAndRedirectToIndex;
 use App\Filament\Resources\PhieuNhapResource;
 use App\Models\chitietphieunhap;
 use Filament\Actions;
-use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
-use App\Filament\CreateAndRedirectToIndex;
 
 class CreatePhieuNhap extends CreateAndRedirectToIndex
 {
     protected static string $resource = PhieuNhapResource::class;
+
     protected static ?string $title = 'Tạo mới';
 
     protected $listeners = ['vattuSelected' => 'handleVattuSelected'];
@@ -57,5 +57,4 @@ class CreatePhieuNhap extends CreateAndRedirectToIndex
             ->label('Tạo mới')
             ->icon('heroicon-s-plus');
     }
-
 }

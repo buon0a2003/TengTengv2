@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- *
- *
  * @property int $kho_id
  * @property int $vattu_id
  * @property string|null $SoLuong
@@ -20,9 +18,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $id
- * @property-read \App\Models\kho|null $kho
- * @property-read \App\Models\vattu|null $vattu
- * @property-read \App\Models\vitri|null $vitri
+ * @property-read kho|null $kho
+ * @property-read vattu|null $vattu
+ * @property-read vitri|null $vitri
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|tonkho newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|tonkho newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|tonkho query()
@@ -34,14 +33,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|tonkho whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|tonkho whereVattuId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|tonkho whereVitriId($value)
+ *
  * @mixin \Eloquent
  */
 class tonkho extends Model
 {
     use HasFactory;
+
     protected $primaryKey = 'id';
 
     protected $table = 'tonkho';
+
     protected $fillable = [
         'id',
         'kho_id',
@@ -56,7 +58,7 @@ class tonkho extends Model
         return $this->belongsTo(vitri::class);
     }
 
-    public function kho(): belongsTo
+    public function kho(): BelongsTo
     {
         return $this->belongsTo(kho::class);
     }

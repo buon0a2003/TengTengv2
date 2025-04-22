@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Auth;
 
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
 use Filament\Pages\SimplePage;
-use Filament\Resources\Pages\Page;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password as PasswordRule;
 
@@ -23,13 +24,11 @@ class CustomRenewPassword extends SimplePage
             ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
             ->regex('/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/')
             ->validationMessages([
-                'regex' => 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, số và ký tự đặc biệt.'
+                'regex' => 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, số và ký tự đặc biệt.',
             ])
             ->required()
             ->rule(PasswordRule::default())
             ->different('currentPassword')
             ->same('passwordConfirmation');
     }
-
-
 }

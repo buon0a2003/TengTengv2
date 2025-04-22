@@ -1,18 +1,60 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Auth;
 
+use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use Filament\Facades\Filament;
-use Filament\Models\Contracts\FilamentUser;
-use Filament\Pages\Auth\Login;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
-use Illuminate\Validation\ValidationException;
 use Filament\Http\Responses\Auth\Contracts\LoginResponse;
-use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Pages\Auth\Login;
+use Illuminate\Validation\ValidationException;
 
 class CustomLogin extends Login
 {
+    public function authenticate(): ?LoginResponse
+    {
+        try {
+            $this->rateLimit(999);
+        } catch (TooManyRequestsException $exception) {
+            $this->getRateLimitedNotification($exception)?->send();
+
+            return null;
+        }
+
+        $data = $this->form->getState();
+
+        if (! Filament::auth()->attempt($this->getCredentialsFromFormData($data), $data['remember'] ?? false)) {
+            $this->throwFailureValidationException();
+        }
+
+        $user = Filament::auth()->user();
+
+        if (
+            ($user instanceof FilamentUser) &&
+            (! $user->canAccessPanel(Filament::getCurrentPanel()))
+        ) {
+            Filament::auth()->logout();
+
+            $this->throwFailureValidationException();
+        } elseif (
+            $user->Active === 0
+        ) {
+            Filament::auth()->logout();
+
+            throw ValidationException::withMessages([
+                'data.login' => __('Tài khoản bị khoá, liên hệ admin.'),
+            ]);
+        }
+
+        session()->regenerate();
+
+        return app(LoginResponse::class);
+    }
+
     protected function getForms(): array
     {
         return [
@@ -40,7 +82,7 @@ class CustomLogin extends Login
 
     protected function getCredentialsFromFormData(array $data): array
     {
-        $login_type = filter_var($data['login'], filter: FILTER_VALIDATE_EMAIL ) ? 'email' : 'name';
+        $login_type = filter_var($data['login'], filter: FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
 
         return [
             $login_type => $data['login'],
@@ -54,45 +96,4 @@ class CustomLogin extends Login
             'data.login' => __('Thông tin đăng nhập sai'),
         ]);
     }
-
-    public function authenticate(): ?LoginResponse
-    {
-        try {
-            $this->rateLimit(999);
-        } catch (TooManyRequestsException $exception) {
-            $this->getRateLimitedNotification($exception)?->send();
-
-            return null;
-        }
-
-        $data = $this->form->getState();
-
-        if (! Filament::auth()->attempt($this->getCredentialsFromFormData($data), $data['remember'] ?? false)) {
-            $this->throwFailureValidationException();
-        }
-
-        $user = Filament::auth()->user();
-
-        if (
-            ($user instanceof FilamentUser) &&
-            (! $user->canAccessPanel(Filament::getCurrentPanel()))
-        ) {
-            Filament::auth()->logout();
-
-            $this->throwFailureValidationException();
-        } elseif (
-            $user->Active == 0
-        ) {
-            Filament::auth()->logout();
-
-            throw ValidationException::withMessages([
-                'data.login' => __('Tài khoản bị khoá, liên hệ admin.'),
-            ]);
-        }
-
-        session()->regenerate();
-
-        return app(LoginResponse::class);
-    }
-
 }

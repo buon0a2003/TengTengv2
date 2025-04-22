@@ -1,20 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\PhieuXuatResource\Pages;
 
 use App\Filament\EditAndRedirectToIndex;
 use App\Filament\Resources\PhieuXuatResource;
-use App\Models\chitietphieunhap;
 use App\Models\chitietphieuxuat;
-use App\Models\phieunhap;
 use App\Models\phieuxuat;
 use Filament\Actions;
 use Filament\Notifications\Notification;
-use Filament\Resources\Pages\EditRecord;
 
 class EditPhieuXuat extends EditAndRedirectToIndex
 {
     protected static string $resource = PhieuXuatResource::class;
+
     protected static ?string $title = 'Sửa phiếu xuất';
 
     public function hasCombinedRelationManagerTabsWithContent(): bool
@@ -26,11 +26,12 @@ class EditPhieuXuat extends EditAndRedirectToIndex
     {
         return 'Sửa';
     }
+
     protected function getHeaderActions(): array
     {
         return [
             Actions\DeleteAction::make()
-                ->hidden(fn ($record): bool => $record->TrangThai == 1 || $record->TrangThai == 2)
+                ->hidden(fn ($record): bool => $record->TrangThai === 1 || $record->TrangThai === 2)
                 ->requiresConfirmation()
                 ->modalDescription('Xoá phiếu xuất sẽ xoá tất cả thông tin kèm theo. Bạn chắc chắn chưa?')
                 ->action(
@@ -47,7 +48,7 @@ class EditPhieuXuat extends EditAndRedirectToIndex
                         redirect()->to(route('filament.admin.resources.phieuxuat.index'));
                     }
 
-                )
+                ),
         ];
     }
 }

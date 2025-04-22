@@ -23,7 +23,7 @@ use App\Filament\Resources\TonkhoResource;
 use Filament\Actions\ImportAction;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Notifications\Notification;
-use Livewire\Attributes\On; 
+use Livewire\Attributes\On;
 
 class TonDau extends Page implements HasForms
 {
@@ -33,14 +33,14 @@ class TonDau extends Page implements HasForms
     protected static ?string $title = 'Nhập tồn đầu';
     protected static string $view = 'filament.resources.tonkho-resource.pages.ton-dau';
 
-    public ?array $data = []; 
+    public ?array $data = [];
 
-    public function mount(): void 
+    public function mount(): void
     {
         // $this->form->fill();
     }
 
-    
+
     public function form(Form $form): Form
     {
         return $form
@@ -49,50 +49,49 @@ class TonDau extends Page implements HasForms
                     ->description('')
                     ->schema([
                         Repeater::make('dsvattu')
-                                ->reorderable(false)
-                                ->addActionLabel('Thêm vật tư')
-                                ->addAction(function (FormAction $action, $get): FormAction {
-                                    return $action->modalContent(
-                                        view('filament.vattulist', ['LyDo'=>''])
-                                    )
+                            ->reorderable(false)
+                            ->addActionLabel('Thêm vật tư')
+                            ->addAction(function (FormAction $action, $get): FormAction {
+                                return $action->modalContent(
+                                    view('filament.vattulist', ['LyDo' => ''])
+                                )
                                     ->action(null)
                                     ->modalCancelAction(false)
                                     ->modalSubmitActionLabel('Done');
-                                })
-                                ->label('Danh sách vật tư')
-                                ->schema([
-                                    TextInput::make('id')->hidden()->live(),
-                                    TextInput::make('TenVT')
-                                        ->readOnly(true)
-                                        ->label('Vật tư')
-                                        ->required(),
-                                    TextInput::make('soluong')->label('Số lượng')
-                                        ->suffix(fn (Get $get): string => (string) vattu::find($get('id'))?->donvitinh->TenDVT ?? '')
-                                        ->numeric()
-                                        ->minValue(1),
-                                    Select::make('kho_id')
-                                        ->label('Kho')
-                                        ->relationship('kho', 'TenKho')
-                                        ->searchable()
-                                        ->preload()
-                                        ->live()
-                                        ->required(),
-                                
-                                    Select::make('vitri_id')
-                                        ->label('Vị trí')
-                                        ->relationship('vitri', 'Mota', function (Builder $query, $get) {
-                                            return $query->where('kho_id', $get('kho_id'));
-                                        })
-                                ])->defaultItems(0)->grid(2),
+                            })
+                            ->label('Danh sách vật tư')
+                            ->schema([
+                                TextInput::make('id')->hidden()->live(),
+                                TextInput::make('TenVT')
+                                    ->readOnly(true)
+                                    ->label('Vật tư')
+                                    ->required(),
+                                TextInput::make('soluong')->label('Số lượng')
+                                    ->suffix(fn(Get $get): string => (string) vattu::find($get('id'))?->donvitinh->TenDVT ?? '')
+                                    ->numeric()
+                                    ->minValue(1),
+                                Select::make('kho_id')
+                                    ->label('Kho')
+                                    ->relationship('kho', 'TenKho')
+                                    ->searchable()
+                                    ->preload()
+                                    ->live()
+                                    ->required(),
+
+                                Select::make('vitri_id')
+                                    ->label('Vị trí')
+                                    ->relationship('vitri', 'Mota', function (Builder $query, $get) {
+                                        return $query->where('kho_id', $get('kho_id'));
+                                    })
+                            ])->defaultItems(0)->grid(2),
                     ]),
             ])->columns(2)
             ->statePath('data')
             ->model(tonkho::class);
-
     }
 
-    
-    #[On('vattuSelected')] 
+
+    #[On('vattuSelected')]
     public function handleVattuSelected($record): void
     {
         $state = $this->data;
@@ -146,32 +145,36 @@ class TonDau extends Page implements HasForms
     {
         try {
             $records = $this->data;
-                if ($records['dsvattu']) {
-                    foreach ($records['dsvattu'] as $item) {
-                        $tonkho = new tonkho();
-                        $tonkho->vattu_id = $item['id'];
-                        $tonkho->kho_id = $item['kho_id'];
-                        $tonkho->vitri_id = $item['vitri_id'];
-                        $tonkho->soluong = $item['soluong'];
-                        $tonkho->NgayCapNhat = now();
-                        $tonkho->save();
+            if ($records['dsvattu']) {
+                foreach ($records['dsvattu'] as $item) {
+                    $tonkho = new tonkho();
+                    $tonkho->vattu_id = $item['id'];
+                    $tonkho->kho_id = $item['kho_id'];
+                    $tonkho->vitri_id = $item['vitri_id'];
+                    $tonkho->soluong = $item['soluong'];
+                    $tonkho->NgayCapNhat = now();
+                    $tonkho->save();
 
-                        Notification::make()
-                            ->title('Thêm thành công')
-                            ->success()
-                            ->send();
+                    Notification::make()
+                        ->title('Thêm thành công')
+                        ->success()
+                        ->send();
 
-                        redirect()->to(route('filament.admin.resources.tonkho.index'));
-                    }
+                    redirect()->to(route('filament.admin.resources.tonkho.index'));
                 }
-                else Notification::make()
-                    ->title('Chưa có vật tư nào được chọn')
-                    ->danger()
-                    ->send();
-        
+            } else Notification::make()
+                ->title('Chưa có vật tư nào được chọn')
+                ->danger()
+                ->send();
+
 
             // dd($records['dsvattu']);
         } catch (Halt $exception) {
+            Notification::make()
+                ->title('Lỗi')
+                ->body($exception->getMessage())
+                ->danger()
+                ->send();
             return;
         }
     }

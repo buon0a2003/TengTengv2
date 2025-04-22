@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\KhoResource\Pages;
-use App\Filament\Resources\KhoResource\RelationManagers;
 use App\Models\kho;
 use Filament\Forms;
 use Filament\Forms\Components\Textarea;
@@ -13,23 +14,28 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\ExportBulkAction;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\HtmlString;
 
 class KhoResource extends Resource
 {
     protected static ?string $model = kho::class;
+
     protected static ?string $modelLabel = 'Kho';
+
+    protected static ?string $navigationIcon = 'heroicon-o-building-office';
+
+    protected static ?int $navigationSort = 1;
+
+    protected static ?string $navigationLabel = 'Kho';
+
+    protected static ?string $navigationGroup = 'Quản lý danh mục';
+
+    protected static ?string $slug = 'kho';
+
     public static function getBreadcrumb(): string
     {
         return 'Kho';
     }
-    protected static ?string $navigationIcon = 'heroicon-o-building-office';
-    protected static ?int $navigationSort = 1;
-    protected static ?string $navigationLabel = 'Kho';
-    protected static ?string $navigationGroup = 'Quản lý danh mục';
-    protected static ?string $slug = 'kho';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -77,11 +83,11 @@ class KhoResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-//                Tables\Actions\DeleteAction::make(),
+                //                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-//                    Tables\Actions\DeleteBulkAction::make(),
+                    //                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
                 ExportBulkAction::make()
                     ->label('Xuất excel')

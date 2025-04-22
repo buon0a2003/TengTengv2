@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * 
- *
  * @property int $id
  * @property string|null $phieunhap_id
  * @property int|null $vattu_id
@@ -19,9 +17,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int|null $vitri_id
- * @property-read \App\Models\phieunhap|null $phieunhap
- * @property-read \App\Models\vattu|null $vattu
- * @property-read \App\Models\vitri|null $vitri
+ * @property-read phieunhap|null $phieunhap
+ * @property-read vattu|null $vattu
+ * @property-read vitri|null $vitri
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|chitietphieunhap newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|chitietphieunhap newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|chitietphieunhap query()
@@ -33,6 +32,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|chitietphieunhap whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|chitietphieunhap whereVattuId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|chitietphieunhap whereVitriId($value)
+ *
  * @mixin \Eloquent
  */
 class chitietphieunhap extends Model
@@ -40,6 +40,7 @@ class chitietphieunhap extends Model
     use HasFactory;
 
     protected $table = 'chitietphieunhap';
+
     protected $fillable = [
         'id',
         'phieunhap_id',
@@ -49,17 +50,17 @@ class chitietphieunhap extends Model
         'GhiChu',
     ];
 
-    public function phieunhap(): belongsTo
+    public function phieunhap(): BelongsTo
     {
         return $this->belongsTo(phieunhap::class);
     }
 
-    public function vattu(): belongsTo
+    public function vattu(): BelongsTo
     {
         return $this->belongsTo(vattu::class);
     }
 
-    public function vitri(): belongsTo
+    public function vitri(): BelongsTo
     {
         return $this->belongsTo(vitri::class);
     }

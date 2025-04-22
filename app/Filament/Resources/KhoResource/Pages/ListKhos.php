@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\KhoResource\Pages;
 
 use App\Filament\Resources\KhoResource;
@@ -23,7 +25,7 @@ class ListKhos extends ListRecords
                 ->exporter(\App\Filament\Exports\KhoExporter::class)
                 ->label('xuất excel')
                 ->icon('heroicon-o-arrow-down-tray')
-                ->color('primary')
+                ->color('primary'),
         ];
     }
 }

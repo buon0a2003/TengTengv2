@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
-use App\Models\User;
 use App\Models\tonkho;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class tonkhoPolicy
@@ -31,7 +33,7 @@ class tonkhoPolicy
      */
     public function create(User $user): bool
     {
-       return $user->can('create_tonkho');
+        return $user->can('create_tonkho');
         // return false;
     }
 
@@ -40,7 +42,7 @@ class tonkhoPolicy
      */
     public function update(User $user, tonkho $tonkho): bool
     {
-       return $user->can('update_tonkho') ||  $user->hasRole('super_admin');
+        return $user->can('update_tonkho') || $user->hasRole('super_admin');
         // return false;
     }
 
@@ -49,7 +51,7 @@ class tonkhoPolicy
      */
     public function delete(User $user, tonkho $tonkho): bool
     {
-//        return $user->can('delete_tonkho');
+        //        return $user->can('delete_tonkho');
         return false;
     }
 
@@ -58,7 +60,7 @@ class tonkhoPolicy
      */
     public function deleteAny(User $user): bool
     {
-//        return $user->can('delete_any_tonkho');
+        //        return $user->can('delete_any_tonkho');
         return false;
     }
 

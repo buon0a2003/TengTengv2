@@ -1,15 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Widgets;
 
-use App\Filament\Resources\PhieuNhapResource;
 use App\Models\phieunhap;
-use Filament\Actions\ViewAction;
-use Filament\Forms\Form;
-use Filament\Tables\Actions\Action;
+use EightyNine\FilamentAdvancedWidget\AdvancedTableWidget as BaseWidget;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use EightyNine\FilamentAdvancedWidget\AdvancedTableWidget as BaseWidget;
 
 class BangWidget extends BaseWidget
 {
