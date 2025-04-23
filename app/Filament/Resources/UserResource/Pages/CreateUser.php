@@ -14,16 +14,6 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
 use Filament\Actions;
 
-/* copy đoạn này vào .env để chạy
-MAIL_MAILER=smtp
-MAIL_SCHEME=null
-MAIL_HOST=smtp.gmail.com
-MAIL_PORT=587
-MAIL_USERNAME=nt093225@gmail.com
-MAIL_PASSWORD=grtudybwbhksvsyk
-MAIL_FROM_ADDRESS="nt093225@gmail.com"
-MAIL_FROM_NAME="${APP_NAME}"
-*/
 class CreateUser extends CreateAndRedirectToIndex
 {
     protected static ?string $title = 'Tạo mới';
@@ -113,9 +103,4 @@ class CreateUser extends CreateAndRedirectToIndex
             ->keyBindings(['mod+s']);
     }
 
-    protected function getCancelFormAction(): Actions\Action
-    {
-        return parent::getCancelFormAction()
-            ->label('Hủy');
-    }
 }

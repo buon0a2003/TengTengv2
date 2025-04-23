@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\TaixeResource\Pages;
 
+use App\Filament\CreateAndRedirectToIndex;
 use App\Filament\Resources\TaixeResource;
 use App\Models\taixe;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 
-class CreateTaixe extends CreateRecord
+class CreateTaixe extends CreateAndRedirectToIndex
 {
     protected static string $resource = TaixeResource::class;
 
     protected static ?string $title = 'Tạo mới';
+    protected static ?string $breadcrumb = 'Tạo mới';
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
@@ -20,15 +23,11 @@ class CreateTaixe extends CreateRecord
         return $data;
     }
 
-    protected function getCreateFormAction(): \Filament\Actions\Action
+    protected function getCreatedNotification(): ?Notification
     {
-        return parent::getCreateFormAction()
-            ->label('Tạo mới')
-            ->icon('heroicon-s-plus');
-    }
-
-    protected function getRedirectUrl(): string
-    {
-        return $this->getResource()::getUrl('index');
+        return Notification::make()
+            ->success()
+            ->title('Tạo mới tài xế')
+            ->body('Đã tạo thành công.');
     }
 }

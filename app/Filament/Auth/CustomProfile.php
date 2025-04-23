@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Auth;
 
+use Filament\Actions\Action;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Section;
@@ -13,6 +14,7 @@ use Filament\Forms\Get;
 use Filament\Pages\Auth\EditProfile;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Js;
 use Illuminate\Validation\Rules\Password;
 
 class CustomProfile extends EditProfile
@@ -109,14 +111,19 @@ class CustomProfile extends EditProfile
     {
         return DatePicker::make('Birth')
             ->label(__('Ngày sinh'))
-            ->date('d/m/Y');
+            ->displayFormat('d/m/Y');
     }
 
     protected function getPhoneFormComponent(): Component
     {
         return TextInput::make('Phone')
-            ->label(__('Số điện thoại'))
-            ->tel();
+            ->tel()
+            ->prefix('+84')
+            ->regex('/^(0\d{9}|[1-9]\d{8})$/')
+            ->validationMessages([
+                'regex' => 'Số điện thoại sai quy cách.',
+            ])
+            ->label('Số điện thoại');
     }
 
     protected function getAddressFormComponent(): Component
@@ -133,5 +140,21 @@ class CustomProfile extends EditProfile
         $record->update($data);
 
         return $record;
+    }
+
+    protected function getSaveFormAction(): Action
+    {
+        return Action::make('save')
+            ->label(__('Lưu thay đổi'))
+            ->submit('save')
+            ->keyBindings(['mod+s']);
+    }
+
+    public function backAction(): Action
+    {
+        return Action::make('back')
+            ->label(__('Hủy'))
+            ->alpineClickHandler('document.referrer ? window.history.back() : (window.location.href = ' . Js::from(filament()->getUrl()) . ')')
+            ->color('gray');
     }
 }

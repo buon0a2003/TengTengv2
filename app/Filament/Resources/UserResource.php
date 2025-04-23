@@ -35,7 +35,7 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 4;
 
     protected static ?string $navigationGroup = 'Quản lý tài khoản';
 
@@ -105,7 +105,9 @@ class UserResource extends Resource
                     ->aside()
                     ->description('Lựa chọn chức vụ cho người dùng')
                     ->schema([
-                        Checkbox::make('Active')
+                        Forms\Components\Toggle::make('Active')
+                            ->label(fn ($state): string => $state ? 'Active' : 'Inactive')
+                            ->reactive()
                             ->visibleOn('edit'),
                         Select::make('roles')
                             ->label('Chức vụ')
@@ -121,6 +123,7 @@ class UserResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->emptyStateDescription('Vui lòng thêm dữ liệu hoặc thay đổi bộ lọc tìm kiếm.')
             ->columns([
                 TextColumn::make('id')
                     ->label('Mã')

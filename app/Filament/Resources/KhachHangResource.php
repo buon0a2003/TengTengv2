@@ -26,7 +26,6 @@ class KhachHangResource extends Resource
     protected static ?string $modelLabel = 'Khách hàng';
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
-
     protected static ?int $navigationSort = 1;
 
     protected static ?string $navigationLabel = 'Khách hàng';
@@ -74,6 +73,8 @@ class KhachHangResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->emptyStateHeading('Không có khách hàng')
+            ->emptyStateDescription('Vui lòng thêm dữ liệu hoặc thay đổi bộ lọc tìm kiếm.')
             ->columns([
                 TextColumn::make('id')->label('Mã'),
                 TextColumn::make('TenKH')->searchable()->label('Tên khách hàng')->wrap(),

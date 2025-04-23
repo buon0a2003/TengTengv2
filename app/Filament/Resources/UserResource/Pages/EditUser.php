@@ -54,10 +54,5 @@ class EditUser extends EditAndRedirectToIndex
                 $this->save();
             });
     }
-    protected function getCancelFormAction(): Actions\Action
-    {
-        return parent::getCancelFormAction()
-            ->label('Hủy');
-    }
 
 }

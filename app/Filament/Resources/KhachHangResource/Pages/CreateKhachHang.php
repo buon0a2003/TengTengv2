@@ -22,7 +22,7 @@ class CreateKhachHang extends CreateAndRedirectToIndex
     {
         return Notification::make()
             ->success()
-            ->title('Tạo mới nhà cung cấp')
+            ->title('Tạo mới khách hàng')
             ->body('Đã tạo thành công.');
     }
 
@@ -35,22 +35,4 @@ class CreateKhachHang extends CreateAndRedirectToIndex
         return static::getModel()::create($data);
     }
 
-    protected function getCreateFormAction(): Actions\Action
-    {
-        return parent::getCreateFormAction()
-            ->label('Tạo mới')
-            ->icon('heroicon-s-plus');
-    }
-
-    protected function getCreateAnotherFormAction(): Actions\Action
-    {
-        return parent::getCreateAnotherFormAction()
-            ->label('Tạo tiếp');
-    }
-
-    protected function getCancelFormAction(): Actions\Action
-    {
-        return parent::getCancelFormAction()
-            ->label('Hủy');
-    }
 }

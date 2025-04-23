@@ -72,7 +72,7 @@ class AdminPanelProvider extends PanelProvider
             ->navigationGroups([
                 'Quản lý danh mục',
                 'Quản lý Nhập & Xuất',
-                'Quan ly van chuyen',
+                'Quản lý vận chuyển',
                 'Quản lý tài khoản',
             ])
             ->sidebarCollapsibleOnDesktop()

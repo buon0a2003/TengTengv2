@@ -12,4 +12,23 @@ class CreateAndRedirectToIndex extends CreateRecord
     {
         return $this->getResource()::getUrl('index');
     }
+
+    protected function getCreateFormAction(): \Filament\Actions\Action
+    {
+        return parent::getCreateFormAction()
+            ->label('Tạo mới')
+            ->icon('heroicon-s-plus');
+    }
+    protected function getCreateAnotherFormAction(): \Filament\Actions\Action
+    {
+        return parent::getCreateAnotherFormAction()
+            ->label('Tạo tiếp');
+    }
+
+
+    protected function getCancelFormAction(): \Filament\Actions\Action
+    {
+        return parent::getCancelFormAction()
+            ->label('Hủy');
+    }
 }

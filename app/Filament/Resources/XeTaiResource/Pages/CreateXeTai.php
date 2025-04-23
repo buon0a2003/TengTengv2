@@ -2,15 +2,18 @@
 
 namespace App\Filament\Resources\XeTaiResource\Pages;
 
+use App\Filament\CreateAndRedirectToIndex;
 use App\Filament\Resources\XeTaiResource;
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 
-class CreateXeTai extends CreateRecord
+class CreateXeTai extends CreateAndRedirectToIndex
 {
     protected static string $resource = XeTaiResource::class;
 
     protected static ?string $title = 'Tạo mới';
+    protected static ?string $breadcrumb = 'Tạo mới';
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
@@ -18,15 +21,12 @@ class CreateXeTai extends CreateRecord
         return $data;
     }
 
-    protected function getCreateFormAction(): \Filament\Actions\Action
+    protected function getCreatedNotification(): ?Notification
     {
-        return parent::getCreateFormAction()
-            ->label('Tạo mới')
-            ->icon('heroicon-s-plus');
+        return Notification::make()
+            ->success()
+            ->title('Tạo mới xe tải')
+            ->body('Đã tạo thành công.');
     }
 
-    protected function getRedirectUrl(): string
-    {
-        return $this->getResource()::getUrl('index');
-    }
 }

@@ -14,6 +14,8 @@ class EditTonkho extends EditAndRedirectToIndex
 
     protected static ?string $title = 'Sửa thông tin tồn kho';
 
+    protected static ?string $breadcrumb = 'Sửa';
+
     protected function getHeaderActions(): array
     {
         return [

@@ -42,16 +42,4 @@ class EditDonvitinh extends EditAndRedirectToIndex
                 ),
         ];
     }
-
-    protected function getCancelFormAction(): Actions\Action
-    {
-        return parent::getCancelFormAction()
-            ->label('Hủy');
-    }
-
-    protected function getSaveFormAction(): Actions\Action
-    {
-        return parent::getSaveFormAction()
-            ->label('Lưu thay đổi');
-    }
 }

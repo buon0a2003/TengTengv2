@@ -13,6 +13,7 @@ class ListVattus extends ListRecords
     protected static string $resource = VattuResource::class;
 
     protected static ?string $title = 'Danh sách vật tư';
+    protected static ?string $breadcrumb = 'Danh sách vật tư';
 
     //  Ẩn breadcumbs
     //    public function getBreadcrumbs(): array

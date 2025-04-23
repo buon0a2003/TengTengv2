@@ -26,38 +26,55 @@ class TaixeResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
     protected static ?string $navigationLabel = 'Tài xế';
+    protected static ?int $navigationSort = 3;
 
-    protected static ?string $navigationGroup = 'Quản lý danh mục';
+    protected static ?string $navigationGroup = 'Quản lý vận chuyển';
 
     protected static ?string $slug = 'taixe';
 
+    public static function getBreadcrumb(): string
+    {
+        return 'Tài xế';
+    }
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Section::make('Them thong tin tai xe')
-                ->description('Them thong tin tai xe')
+                ->description('Thêm thông tin tài xế')
                 ->aside()
                 ->schema([
                     TextInput::make('TenTaiXe')
-                        ->label('Ten tai xe')
+                        ->label('Tên tài xế')
                         ->required(),
                     TextInput::make('Sdt')
-                        ->label('So dien thoai')
-                        ->required(),
+                        ->label('Số điện thoại')
+                        ->required()->unique(ignoreRecord: true)
+                        ->prefix('+84')
+                        ->regex('/^(0\d{9}|[1-9]\d{8})$/')
+                        ->validationMessages([
+                            'regex' => 'Số điện thoại sai quy cách.',
+                        ])
+                        ->validationMessages([
+                            'unique' => 'Số điện thoại này đã tồn tại.',
+                        ]),
                     TextInput::make('CCCD')
-                        ->label('Ma can cuoc')
-                        ->required(),
+                        ->label('Số căn cước')
+                        ->unique(ignoreRecord: true)
+                        ->required()
+                        ->validationMessages([
+                            'unique' => 'Số CCCD này đã tồn tại.',
+                        ]),
                     TextInput::make('BangLai')
-                        ->label('Ma bang lai')
+                        ->label('Bằng lái')
                         ->required(),
-                    Textarea::make('DiaChi')
-                        ->label('Dia chi'),
+                    TextInput::make('DiaChi')
+                        ->label('Địa chỉ'),
                     DatePicker::make('NamSinh')
-                        ->label('Nam sinh')
-                        ->required(),
+                        ->label('Ngày sinh')
+                        ->displayFormat('d/m/Y'),
                     Textarea::make('GhiChu')
-                        ->label('Ghi chu'),
+                        ->label('Ghi chú'),
                 ])
             ]);
     }
@@ -65,34 +82,36 @@ class TaixeResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->emptyStateHeading('Không có tài xế')
+            ->emptyStateDescription('Vui lòng thêm dữ liệu hoặc thay đổi bộ lọc tìm kiếm.')
             ->columns([
                 TextColumn::make('TenTaiXe')
-                    ->label('Ten tai xe')
+                    ->label('Tên tài xế')
                     ->searchable(),
                 TextColumn::make('Sdt')
-                    ->label('So dien thoai')
+                    ->label('Số điện thoại')
                     ->searchable(),
                 TextColumn::make('CCCD')
-                    ->label('Ma can cuoc')
+                    ->label('Số căn cước')
                     ->searchable(),
                 TextColumn::make('BangLai')
-                    ->label('Ma bang lai')
+                    ->label('Bằng lái')
                     ->searchable(),
                 TextColumn::make('DiaChi')
-                    ->label('Dia chi')
+                    ->label('Địa chỉ')
                     ->searchable(),
                 TextColumn::make('NamSinh')
-                    ->label('Nam sinh')
+                    ->label('Năm sinh')
                     ->date('d/m/Y')
                     ->searchable(),
                 TextColumn::make('GhiChu')
-                    ->searchable('Ghi chu'),
+                    ->searchable('Ghi chú'),
                 TextColumn::make('TrangThai')
                     ->alignCenter()
                     ->formatStateUsing(fn ($record) => match ($record->TrangThai) {
-                        0 => 'Dang giao',
-                        1 => 'Co san',
-                        2 => 'Nghi',
+                        0 => 'Đang giao',
+                        1 => 'Có sẵn',
+                        2 => 'Nghỉ',
                         default => 'N/A'
                     })
                     ->badge()

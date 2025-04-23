@@ -22,40 +22,46 @@ class XeTaiResource extends Resource
 {
     protected static ?string $model = XeTai::class;
 
-    protected static ?string $modelLabel = 'Xe tai';
+    protected static ?string $modelLabel = 'Xe tải';
 
-    protected static ?string $navigationLabel = 'Xe tai';
+    protected static ?string $navigationLabel = 'Xe tải';
 
-    protected static ?string $navigationGroup = 'Quản lý danh mục';
+    protected static ?string $navigationGroup = 'Quản lý vận chuyển';
+    protected static ?int $navigationSort = 3;
 
     protected static ?string $slug = 'xetai';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-truck';
+
+    public static function getBreadcrumb(): string
+    {
+        return 'Xe tải';
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Section::make('Them thong tin xe tai')
-                    ->description('Them thong tin xe tai')
+                    ->description('Thêm thông tin xe tải')
                     ->aside()
                     ->schema([
                         TextInput::make('BienSo')
-                            ->label('Bien so xe')
+                            ->label('Biển số xe')
                             ->required(),
                         TextInput::make('TenXe')
-                            ->label('Loai xe')
+                            ->label('Loại xe')
                             ->required(),
                         TextInput::make('HangXe')
-                            ->label('Hang xe')
+                            ->label('Hãng xe')
                             ->required(),
                         TextInput::make('TaiTrong')
-                            ->label('Tai trong (kg)')
+                            ->label('Tải trọng (kg)')
                             ->required(),
                         TextInput::make('MauSac')
-                            ->label('Mau sac'),
+                            ->label('Màu sắc'),
                         Textarea::make('GhiChu')
-                            ->label('Ghi chu'),
+                            ->label('Ghi chú'),
                     ])
             ]);
     }
@@ -63,29 +69,31 @@ class XeTaiResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->emptyStateHeading('Không có xe tải')
+            ->emptyStateDescription('Vui lòng thêm dữ liệu hoặc thay đổi bộ lọc tìm kiếm.')
             ->columns([
                 TextColumn::make('BienSo')
-                    ->label('Bien so xe')
+                    ->label('Biển số xe')
                     ->searchable(),
                 TextColumn::make('TenXe')
-                    ->label('Loai xe')
+                    ->label('Loại xe')
                     ->searchable(),
                 TextColumn::make('HangXe')
-                    ->label('Hang xe')
+                    ->label('Hãng xe')
                     ->searchable(),
                 TextColumn::make('TaiTrong')
-                    ->label('Tai trong (kg)')
+                    ->label('Tải trọng (kg)')
                     ->searchable(),
                 TextColumn::make('MauSac')
-                    ->label('Mau sac'),
+                    ->label('Màu sắc'),
                 TextColumn::make('GhiChu')
-                    ->label('Ghi chu'),
+                    ->label('Ghi chú'),
                 TextColumn::make('TrangThai')
                     ->alignCenter()
                     ->formatStateUsing(fn ($record) => match ($record->TrangThai) {
-                        0 => 'Dang giao',
-                        1 => 'Co san',
-                        2 => 'Nghi',
+                        0 => 'Đang giao',
+                        1 => 'Có sẵn',
+                        2 => 'Nghỉ',
                         default => 'N/A'
                     })
                     ->badge()

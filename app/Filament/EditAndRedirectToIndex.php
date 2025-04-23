@@ -12,4 +12,15 @@ class EditAndRedirectToIndex extends EditRecord
     {
         return $this->getResource()::getUrl('index');
     }
+
+    protected function getSaveFormAction(): \Filament\Actions\Action
+    {
+        return parent::getSaveFormAction()
+            ->label('Lưu thay đổi');
+    }
+    protected function getCancelFormAction(): \Filament\Actions\Action
+    {
+        return parent::getCancelFormAction()
+            ->label('Hủy');
+    }
 }

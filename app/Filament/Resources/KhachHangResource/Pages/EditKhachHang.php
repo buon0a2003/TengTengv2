@@ -20,16 +20,4 @@ class EditKhachHang extends EditAndRedirectToIndex
             //            Actions\DeleteAction::make(),
         ];
     }
-
-    protected function getCancelFormAction(): Actions\Action
-    {
-        return parent::getCancelFormAction()
-            ->label('Hủy');
-    }
-
-    protected function getSaveFormAction(): Actions\Action
-    {
-        return parent::getSaveFormAction()
-            ->label('Lưu thay đổi');
-    }
 }

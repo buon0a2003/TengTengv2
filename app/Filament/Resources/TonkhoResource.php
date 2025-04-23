@@ -83,6 +83,8 @@ class TonkhoResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->emptyStateHeading('Không có hàng tồn kho')
+            ->emptyStateDescription('Vui lòng thêm dữ liệu hoặc thay đổi bộ lọc tìm kiếm.')
             ->columns([
                 TextColumn::make('vattu.TenVT')
                     ->searchable()

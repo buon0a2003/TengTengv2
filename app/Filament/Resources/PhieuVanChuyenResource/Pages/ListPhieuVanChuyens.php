@@ -9,11 +9,14 @@ use Filament\Resources\Pages\ListRecords;
 class ListPhieuVanChuyens extends ListRecords
 {
     protected static string $resource = PhieuVanChuyenResource::class;
-
+    protected static ?string $title = 'Danh sách phiếu vận chuyển';
+    protected static ?string $breadcrumb = 'Danh sách phiếu vận chuyển';
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->icon('heroicon-o-plus')
+                ->label('Tạo mới'),
         ];
     }
 }

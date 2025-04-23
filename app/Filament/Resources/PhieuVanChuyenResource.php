@@ -20,6 +20,18 @@ class PhieuVanChuyenResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?int $navigationSort = 3;
+
+    protected static ?string $navigationLabel = 'Phiếu vận chuyển';
+
+    protected static ?string $navigationGroup = 'Quản lý vận chuyển';
+
+    protected static ?string $slug = 'phieuvanchuyen';
+
+    public static function getBreadcrumb(): string
+    {
+        return 'Phiếu vận chuyển';
+    }
     public static function form(Form $form): Form
     {
         return $form
@@ -31,6 +43,8 @@ class PhieuVanChuyenResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->emptyStateHeading('Không có phiếu vận chuyển')
+            ->emptyStateDescription('Vui lòng thêm dữ liệu hoặc thay đổi bộ lọc tìm kiếm.')
             ->defaultSort('TrangThai', 'asc')
             ->columns([
                 TextColumn::make('id')

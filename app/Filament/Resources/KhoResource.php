@@ -61,6 +61,8 @@ class KhoResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->emptyStateHeading('Không có kho')
+            ->emptyStateDescription('Vui lòng thêm dữ liệu hoặc thay đổi bộ lọc tìm kiếm.')
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->label('Mã kho')
