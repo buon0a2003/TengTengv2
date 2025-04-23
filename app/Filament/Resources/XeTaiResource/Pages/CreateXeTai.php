@@ -1,16 +1,14 @@
 <?php
 
-declare(strict_types=1);
+namespace App\Filament\Resources\XeTaiResource\Pages;
 
-namespace App\Filament\Resources\TaixeResource\Pages;
-
-use App\Filament\Resources\TaixeResource;
-use App\Models\taixe;
+use App\Filament\Resources\XeTaiResource;
+use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
-class CreateTaixe extends CreateRecord
+class CreateXeTai extends CreateRecord
 {
-    protected static string $resource = TaixeResource::class;
+    protected static string $resource = XeTaiResource::class;
 
     protected static ?string $title = 'Tạo mới';
 
