@@ -129,7 +129,7 @@ return [
             'actions' => [
 
                 'cancel' => [
-                    'label' => 'Cancel',
+                    'label' => 'Hủy',
                 ],
 
                 'drag_crop' => [
@@ -408,7 +408,7 @@ return [
 
             'create_option' => [
 
-                'label' => 'Create',
+                'label' => 'Tạo mới',
 
                 'modal' => [
 
@@ -417,11 +417,11 @@ return [
                     'actions' => [
 
                         'create' => [
-                            'label' => 'Create',
+                            'label' => 'Tạo mới',
                         ],
 
                         'create_another' => [
-                            'label' => 'Create & create another',
+                            'label' => 'Tạo tiếp',
                         ],
 
                     ],
@@ -432,7 +432,7 @@ return [
 
             'edit_option' => [
 
-                'label' => 'Edit',
+                'label' => 'Sửa',
 
                 'modal' => [
 
@@ -441,7 +441,7 @@ return [
                     'actions' => [
 
                         'save' => [
-                            'label' => 'Save',
+                            'label' => 'Lưu thay đổi',
                         ],
 
                     ],
@@ -465,7 +465,7 @@ return [
 
         'placeholder' => 'Select an option',
 
-        'searching_message' => 'Searching...',
+        'searching_message' => 'Đang tìm kiêm...',
 
         'search_prompt' => 'Start typing to search...',
 
@@ -484,7 +484,7 @@ return [
             ],
 
             'show_password' => [
-                'label' => 'Show password',
+                'label' => 'Hiển thị mật khẩu',
             ],
 
         ],
@@ -505,11 +505,11 @@ return [
         'actions' => [
 
             'previous_step' => [
-                'label' => 'Back',
+                'label' => 'Quay lại',
             ],
 
             'next_step' => [
-                'label' => 'Next',
+                'label' => 'Tiếp theo',
             ],
 
         ],

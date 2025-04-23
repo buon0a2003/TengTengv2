@@ -41,7 +41,7 @@ return [
             'actions' => [
 
                 'delete' => [
-                    'label' => 'Delete',
+                    'label' => 'Xóa',
                 ],
 
             ],
@@ -51,7 +51,7 @@ return [
         'notifications' => [
 
             'deleted' => [
-                'title' => 'Deleted',
+                'title' => 'Đã xóa',
             ],
 
         ],

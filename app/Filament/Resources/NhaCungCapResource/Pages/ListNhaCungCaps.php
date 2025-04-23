@@ -14,7 +14,7 @@ class ListNhaCungCaps extends ListRecords
     protected static string $resource = NhaCungCapResource::class;
 
     protected static ?string $title = 'Danh sách nhà cung cấp';
-
+    protected static ?string $breadcrumb = 'Danh sách nhà cung cấp';
     //  Ẩn breadcumbs
     //    public function getBreadcrumbs(): array
     //    {
@@ -30,7 +30,7 @@ class ListNhaCungCaps extends ListRecords
 
             Actions\ExportAction::make()
                 ->exporter(NhacungcapExporter::class)
-                ->label('xuất excel')
+                ->label('Xuất excel')
                 ->icon('heroicon-o-arrow-down-tray')
                 ->color('primary'),
         ];

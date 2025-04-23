@@ -12,6 +12,7 @@ use Exception;
 use Filament\Actions\Action;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
+use Filament\Actions;
 
 /* copy đoạn này vào .env để chạy
 MAIL_MAILER=smtp
@@ -28,7 +29,7 @@ class CreateUser extends CreateAndRedirectToIndex
     protected static ?string $title = 'Tạo mới';
 
     protected static string $resource = UserResource::class;
-
+    protected static ?string $breadcrumb = 'Tạo mới';
     protected string $plainPassword = '';
 
     public function shouldGetConfirm(): bool
@@ -91,5 +92,30 @@ class CreateUser extends CreateAndRedirectToIndex
         $user->notify(new NewAccount($this->plainPassword));
 
         return $user;
+    }
+
+    protected function getCreateAnotherFormAction(): Actions\Action
+    {
+        return parent::getCreateAnotherFormAction()
+            ->label('Tạo tiếp')
+            ->requiresConfirmation(
+                fn () => $this->shouldGetConfirm()
+            )
+            ->modalDescription(
+                fn () => $this->shouldGetConfirm()
+                    ? 'Bạn có chắc chắn muốn tạo người dùng với vai trò Super Admin?'
+                    : null
+            )
+            ->action(function () {
+                $this->closeActionModal();
+                $this->create();
+            })
+            ->keyBindings(['mod+s']);
+    }
+
+    protected function getCancelFormAction(): Actions\Action
+    {
+        return parent::getCancelFormAction()
+            ->label('Hủy');
     }
 }

@@ -13,7 +13,7 @@ class ListKhachHangs extends ListRecords
     protected static string $resource = KhachHangResource::class;
 
     protected static ?string $title = 'Danh sách khách hàng';
-
+    protected static ?string $breadcrumb = 'Danh sách khách hàng';
     protected function getHeaderActions(): array
     {
         return [
@@ -23,7 +23,7 @@ class ListKhachHangs extends ListRecords
 
             Actions\ExportAction::make()
                 ->exporter(\App\Filament\Exports\KhachhangExporter::class)
-                ->label('xuất excel')
+                ->label('Xuất excel')
                 ->icon('heroicon-o-arrow-down-tray')
                 ->color('primary'),
         ];

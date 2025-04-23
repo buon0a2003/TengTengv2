@@ -16,7 +16,7 @@ class EditUser extends EditAndRedirectToIndex
     protected static string $resource = UserResource::class;
 
     protected static ?string $title = 'Sửa người dùng';
-
+    protected static ?string $breadcrumb = 'Sửa';
     public function shouldGetConfirm(): bool
     {
         try {
@@ -40,7 +40,7 @@ class EditUser extends EditAndRedirectToIndex
     protected function getSaveFormAction(): Action
     {
         return Action::make('lmao')
-            ->label('Lưu lại')
+            ->label('Lưu thay đổi')
             ->requiresConfirmation(
                 fn () => $this->shouldGetConfirm()
             )
@@ -54,4 +54,10 @@ class EditUser extends EditAndRedirectToIndex
                 $this->save();
             });
     }
+    protected function getCancelFormAction(): Actions\Action
+    {
+        return parent::getCancelFormAction()
+            ->label('Hủy');
+    }
+
 }

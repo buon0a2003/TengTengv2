@@ -13,7 +13,7 @@ class ListUsers extends ListRecords
     protected static string $resource = UserResource::class;
 
     protected static ?string $title = 'Danh sách người dùng';
-
+    protected static ?string $breadcrumb = 'Danh sách người dùng';
     protected function getHeaderActions(): array
     {
         return [

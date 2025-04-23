@@ -44,7 +44,7 @@ class ListPhieuNhaps extends ListRecords
                 ->label('Tạo mới'),
 
             Actions\CreateAction::make()
-                ->label('xuất excel')
+                ->label('Xuất excel')
                 ->icon('heroicon-o-arrow-down-tray')
                 ->color('primary'),
         ];

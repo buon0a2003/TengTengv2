@@ -43,7 +43,7 @@ return [
 
         'search' => [
             'label' => 'Search',
-            'placeholder' => 'Search',
+            'placeholder' => 'Tìm kiếm',
             'indicator' => 'Search',
         ],
 

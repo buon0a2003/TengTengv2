@@ -16,6 +16,8 @@ class CreateKhachHang extends CreateAndRedirectToIndex
 
     protected static ?string $title = 'Tạo mới';
 
+    protected static ?string $breadcrumb = 'Tạo mới';
+
     protected function getCreatedNotification(): ?Notification
     {
         return Notification::make()
@@ -38,5 +40,17 @@ class CreateKhachHang extends CreateAndRedirectToIndex
         return parent::getCreateFormAction()
             ->label('Tạo mới')
             ->icon('heroicon-s-plus');
+    }
+
+    protected function getCreateAnotherFormAction(): Actions\Action
+    {
+        return parent::getCreateAnotherFormAction()
+            ->label('Tạo tiếp');
+    }
+
+    protected function getCancelFormAction(): Actions\Action
+    {
+        return parent::getCancelFormAction()
+            ->label('Hủy');
     }
 }
