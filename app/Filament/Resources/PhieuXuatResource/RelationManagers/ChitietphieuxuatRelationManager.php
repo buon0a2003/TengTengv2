@@ -61,16 +61,16 @@ class ChitietphieuxuatRelationManager extends RelationManager
                     ])
                     ->reorderable(false)
                     ->addable(false)
-//                    ->addActionLabel('Thêm vật tư')
-//                    ->addAction(function (Forms\Components\Actions\Action $action): Forms\Components\Actions\Action {
-//                        return $action->modalContent(
-//                            view('filament.tonkholist')
-//                        )
-//                            ->action(null)
-//                            ->modalWidth('7xl')
-//                            ->modalCancelAction(false)
-//                            ->modalSubmitActionLabel('Done');
-//                    })
+                    //                    ->addActionLabel('Thêm vật tư')
+                    //                    ->addAction(function (Forms\Components\Actions\Action $action): Forms\Components\Actions\Action {
+                    //                        return $action->modalContent(
+                    //                            view('filament.tonkholist')
+                    //                        )
+                    //                            ->action(null)
+                    //                            ->modalWidth('7xl')
+                    //                            ->modalCancelAction(false)
+                    //                            ->modalSubmitActionLabel('Done');
+                    //                    })
                     ->label('Danh sách vật tư xuất')
                     ->schema([
                         TextInput::make('vattu_id')->hidden()->live(),
@@ -83,14 +83,14 @@ class ChitietphieuxuatRelationManager extends RelationManager
                             ->required(),
                         TextInput::make('soluongkhadung')->label('Số lượng khả dụng')
                             ->readOnly(true)
-                            ->suffix(fn (Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
+                            ->suffix(fn(Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
                             ->numeric(),
                         TextInput::make('soluong')->label('Số lượng')
                             ->required()
-                            ->suffix(fn (Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
+                            ->suffix(fn(Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
                             ->numeric()
                             ->minValue(0)
-                            ->maxValue(fn (Get $get): int => (int) $get('soluongkhadung')),
+                            ->maxValue(fn(Get $get): int => (int) $get('soluongkhadung')),
                         Textarea::make('ghichu')->rows(2)->label('Ghi chú'),
                     ])
                     ->defaultItems(0)
@@ -115,11 +115,11 @@ class ChitietphieuxuatRelationManager extends RelationManager
                 // TextColumn::make('vattu_id')->hidden(true),
                 TextColumn::make('vattu.TenVT')
                     ->label('Tên vật tư')
-                    ->url(fn ($record) => VattuResource::getUrl('edit', ['record' => $record->vattu_id])),
+                    ->url(fn($record) => VattuResource::getUrl('edit', ['record' => $record->vattu_id])),
                 TextColumn::make('SoLuong')->label('Số lượng xuất'),
                 TextColumn::make('vattu_id')
                     ->label('Đơn vị tính')
-                    ->formatStateUsing(fn ($record): string => (string) vattu::find($record->vattu_id)->donvitinh->TenDVT ?? 'N/A'),
+                    ->formatStateUsing(fn($record): string => (string) vattu::find($record->vattu_id)->donvitinh->TenDVT ?? 'N/A'),
                 TextColumn::make('GhiChu')->label('Ghi chú'),
             ])
             ->filters([
