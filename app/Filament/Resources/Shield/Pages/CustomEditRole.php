@@ -12,7 +12,8 @@ use Filament\Actions\Action;
 class CustomEditRole extends EditRole
 {
     protected static string $resource = CustomRoleResource::class;
-
+    protected static ?string $title = 'Sửa chức vụ';
+    protected static ?string $breadcrumb = 'Sửa';
     public function shouldGetConfirm(): bool
     {
         try {

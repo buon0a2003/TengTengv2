@@ -20,6 +20,7 @@ class EditPhieuNhap extends EditAndRedirectToIndex
     protected static string $resource = PhieuNhapResource::class;
 
     protected static ?string $title = 'Sửa phiếu nhập';
+    protected static ?string $breadcrumb = 'Sửa';
 
     public function hasCombinedRelationManagerTabsWithContent(): bool
     {

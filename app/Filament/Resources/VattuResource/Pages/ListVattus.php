@@ -30,7 +30,7 @@ class ListVattus extends ListRecords
 
             Actions\ExportAction::make()
                 ->exporter(\App\Filament\Exports\VattuExporter::class)
-                ->label('xuất excel')
+                ->label('Xuất excel')
                 ->icon('heroicon-o-arrow-down-tray')
                 ->color('primary'),
         ];

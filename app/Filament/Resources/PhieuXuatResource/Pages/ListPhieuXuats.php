@@ -14,7 +14,7 @@ class ListPhieuXuats extends ListRecords
     protected static string $resource = PhieuXuatResource::class;
 
     protected static ?string $title = 'Quản lý phiếu xuất';
-
+    protected static ?string $breadcrumb = 'Quản lý phiếu xuất';
     public function getTabs(): array
     {
 
@@ -44,7 +44,7 @@ class ListPhieuXuats extends ListRecords
                 ->label('Tạo mới'),
 
             Actions\CreateAction::make()
-                ->label('xuất excel')
+                ->label('Xuất excel')
                 ->icon('heroicon-o-arrow-down-tray')
                 ->color('primary'),
         ];

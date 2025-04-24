@@ -123,7 +123,6 @@ class UserResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->emptyStateDescription('Vui lòng thêm dữ liệu hoặc thay đổi bộ lọc tìm kiếm.')
             ->columns([
                 TextColumn::make('id')
                     ->label('Mã')

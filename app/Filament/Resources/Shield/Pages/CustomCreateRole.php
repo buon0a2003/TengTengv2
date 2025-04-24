@@ -12,7 +12,8 @@ use Filament\Actions\Action;
 class CustomCreateRole extends CreateRole
 {
     protected static string $resource = CustomRoleResource::class;
-
+    protected static ?string $title = 'Tạo mới chức vụ';
+    protected static ?string $breadcrumb = 'Tạo mới';
     public function shouldGetConfirm(): bool
     {
         try {

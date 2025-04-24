@@ -16,7 +16,7 @@ class ThongSoWidget extends BaseWidget
     protected function getStats(): array
     {
         return [
-            Stat::make('Số nhân viên', (string) User::count())->icon('heroicon-o-user')
+            Stat::make('Số nhân viên', (string) User::where('Active', '!=', 0)->count())->icon('heroicon-o-user')
                 ->description('Tổng số nhân viên đang hoạt động')
                 ->iconBackgroundColor('info')
                 ->iconPosition('start')

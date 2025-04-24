@@ -16,6 +16,8 @@ class CreatePhieuNhap extends CreateAndRedirectToIndex
 
     protected static ?string $title = 'Tạo mới';
 
+    protected static ?string $breadcrumb = 'Tạo mới';
+
     protected $listeners = ['vattuSelected' => 'handleVattuSelected'];
 
     public function handleVattuSelected($record): void
