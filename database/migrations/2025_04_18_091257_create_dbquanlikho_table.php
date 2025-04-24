@@ -371,6 +371,7 @@ return new class extends Migration
 
         Schema::create('vattu', function (Blueprint $table) {
             $table->integer('id', true)->unique('mavt');
+            $table->string('MaVT', 25)->nullable();
             $table->string('TenVT', 50)->nullable();
             $table->boolean('LaTP')->nullable();
             $table->integer('donvitinh_id')->nullable();

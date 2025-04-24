@@ -29,19 +29,24 @@ class BangWidget extends BaseWidget
                 TextColumn::make('LyDo')
                     ->label('Lý do')
                     ->alignCenter()
-                    ->formatStateUsing(fn ($record) => $record->LyDo === 1 ? 'Nhập nguyên vật liệu' : 'Nhập thành phẩm')
-                    ->color(fn ($record): string => $record->LyDo === 1 ? 'success' : 'info')
+                    ->formatStateUsing(fn($record) => match ($record->LyDo) {
+                        0 => 'Nhập thành phẩm',
+                        1 => 'Nhập nguyên vật liệu',
+                        2 => 'Hàng huỷ',
+                        default => ''
+                    })
+                    ->color(fn($record): string => $record->LyDo === 1 ? 'success' : 'info')
                     ->badge(),
                 TextColumn::make('TrangThai')
                     ->alignCenter()
-                    ->formatStateUsing(fn ($record) => match ($record->TrangThai) {
+                    ->formatStateUsing(fn($record) => match ($record->TrangThai) {
                         0 => 'Đang xử lý',
                         1 => 'Đã xử lý',
                         2 => 'Đã huỷ',
                         default => ''
                     })
                     ->badge()
-                    ->color(fn ($record): string => match ($record->TrangThai) {
+                    ->color(fn($record): string => match ($record->TrangThai) {
                         0 => 'warning',
                         1 => 'success',
                         2 => 'danger',

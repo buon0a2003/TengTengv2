@@ -25,12 +25,14 @@ class ListPhieuXuats extends ListRecords
             ->modifyQueryUsing(function ($query) {
                 return $query->where('LyDo', 0);
             })
+            ->badgeColor('info')
             ->badge($this->getModel()::where('LyDo', 0)->count());
 
         $tabs['nhapnvl'] = Tab::make('Xuất bán')
             ->modifyQueryUsing(function ($query) {
                 return $query->where('LyDo', 1);
             })
+            ->badgeColor('success')
             ->badge($this->getModel()::where('LyDo', 1)->count());
 
         return $tabs;

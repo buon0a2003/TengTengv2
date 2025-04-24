@@ -53,6 +53,18 @@ class VattuResource extends Resource
                             ->inline()
                             ->label('Là thành phẩm?'),
 
+                        Forms\Components\TextInput::make('MaVT')
+                            ->required()
+                            ->label('Mã vật tư')
+                            ->maxLength(25)
+                            ->unique(ignoreRecord: true)
+                            ->reactive()
+                            ->afterStateUpdated(function ($state, callable $set) {
+                                if ($state) {
+                                    $set('MaVT', strtoupper($state));
+                                }
+                            }),
+
                         Forms\Components\TextInput::make('TenVT')
                             ->required()
                             ->label('Tên vật tư'),
@@ -81,7 +93,7 @@ class VattuResource extends Resource
             ->emptyStateHeading('Không có vật tư')
             ->emptyStateDescription('Vui lòng thêm dữ liệu hoặc thay đổi bộ lọc tìm kiếm.')
             ->columns([
-                TextColumn::make('id')
+                TextColumn::make('MaVT')
                     ->label('Mã vật tư'),
 
                 TextColumn::make('TenVT')

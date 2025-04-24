@@ -48,6 +48,7 @@ class vattu extends Model
 
     protected $fillable = [
         'id',
+        'MaVT',
         'TenVT',
         'LaTP',
         'donvitinh_id',

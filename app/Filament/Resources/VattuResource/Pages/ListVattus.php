@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\VattuResource\Pages;
 
-use App\Filament\Resources\VattuResource;
 use Filament\Actions;
+use Filament\Actions\ImportAction;
+use Filament\Resources\Components\Tab;
+use App\Filament\Resources\VattuResource;
+use Filament\Forms\Components\Tabs;
 use Filament\Resources\Pages\ListRecords;
 
 class ListVattus extends ListRecords
@@ -15,11 +18,24 @@ class ListVattus extends ListRecords
     protected static ?string $title = 'Danh sách vật tư';
     protected static ?string $breadcrumb = 'Danh sách vật tư';
 
-    //  Ẩn breadcumbs
-    //    public function getBreadcrumbs(): array
-    //    {
-    //        return [];
-    //    }
+    public function getTabs(): array
+    {
+        $tabs['tp'] = Tab::make('Thành phẩm')
+            ->modifyQueryUsing(function ($query) {
+                return $query->where('LaTP', 1);
+            })
+            ->badgeColor('success')
+            ->badge($this->getModel()::where('LaTP', 1)->count());
+
+        $tabs['nvl'] = Tab::make('Nguyên vật liệu')
+            ->modifyQueryUsing(function ($query) {
+                return $query->where('LaTP', 0);
+            })
+            ->badgeColor('info')
+            ->badge($this->getModel()::where('LaTP', 0)->count());
+
+        return $tabs;
+    }
 
     protected function getHeaderActions(): array
     {
@@ -27,6 +43,12 @@ class ListVattus extends ListRecords
             Actions\CreateAction::make()
                 ->icon('heroicon-o-plus')
                 ->label('Tạo mới'),
+
+            ImportAction::make()
+                ->importer(\App\Filament\Imports\VattuImporter::class)
+                ->label('Nhập CSV')
+                ->icon('heroicon-o-arrow-up-tray')
+                ->color('primary'),
 
             Actions\ExportAction::make()
                 ->exporter(\App\Filament\Exports\VattuExporter::class)

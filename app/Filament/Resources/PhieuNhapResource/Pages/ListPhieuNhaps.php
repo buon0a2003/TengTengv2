@@ -25,13 +25,22 @@ class ListPhieuNhaps extends ListRecords
             ->modifyQueryUsing(function ($query) {
                 return $query->where('LyDo', 0);
             })
+            ->badgeColor('success')
             ->badge($this->getModel()::where('LyDo', 0)->count());
 
         $tabs['nhapnvl'] = Tab::make('Nhập nguyên vật liệu')
             ->modifyQueryUsing(function ($query) {
                 return $query->where('LyDo', 1);
             })
+            ->badgeColor('info')
             ->badge($this->getModel()::where('LyDo', 1)->count());
+
+        $tabs['hanghuy'] = Tab::make('Hàng huỷ')
+            ->modifyQueryUsing(function ($query) {
+                return $query->where('LyDo', 2);
+            })
+            ->badgeColor('danger')
+            ->badge($this->getModel()::where('LyDo', 2)->count());
 
         return $tabs;
     }

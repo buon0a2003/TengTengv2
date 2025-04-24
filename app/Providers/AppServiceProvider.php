@@ -9,6 +9,7 @@ use Filament\Support\Assets\Css;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Facades\FilamentAsset;
 use Filament\Tables\Table;
+use Illuminate\Support\Js;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -27,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         FilamentAsset::register([
-            Css::make('naly-stylesheet', realpath(__DIR__.'/../../app/Providers/custom.css')),
+            Css::make('naly-stylesheet', realpath(__DIR__ . '/../../app/Providers/custom.css')),
         ]);
 
         Page::formActionsAlignment(Alignment::Left);

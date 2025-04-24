@@ -104,6 +104,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                         ->options([
                                             '0' => 'Nhập thành phẩm',
                                             '1' => 'Nhập nguyên vật liệu',
+                                            '2' => 'Nhập hàng huỷ',
                                         ]),
 
                                     TextInput::make('id')
@@ -136,7 +137,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                         ->label('Nhà cung cấp')
                                         ->relationship('nhacungcap', 'TenNCC')
                                         ->preload()
-                                        ->hidden(fn(Get $get): bool => $get('LyDo') === '0')
+                                        ->hidden(fn(Get $get): bool => $get('LyDo') === '0' || $get('LyDo') === '2')
                                         ->searchable()
                                         ->createOptionForm([
                                             Section::make('Thông tin bắt buộc')
@@ -285,9 +286,19 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
 
                 TextColumn::make('LyDo')
                     ->label('Lý do')
-                    ->formatStateUsing(fn($record) => $record->LyDo === 1 ? 'Nhập nguyên vật liệu' : 'Nhập thành phẩm')
+                    ->formatStateUsing(fn($record) => match ($record->LyDo) {
+                        0 => 'Nhập thành phẩm',
+                        1 => 'Nhập nguyên vật liệu',
+                        2 => 'Nhập hàng huỷ',
+                        default => ''
+                    })
                     ->badge()
-                    ->color(fn($record): string => $record->LyDo === 1 ? 'success' : 'info')
+                    ->color(fn($record): string => match ($record->LyDo) {
+                        0 => 'success',
+                        1 => 'info',
+                        2 => 'danger',
+                        default => ''
+                    })
                     ->searchable(),
 
                 TextColumn::make('TrangThai')

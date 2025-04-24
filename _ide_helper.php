@@ -5,7 +5,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 12.5.0.
+ * Generated for Laravel 12.7.2.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -6567,13 +6567,13 @@ namespace Illuminate\Support\Facades {
      * @method static \Illuminate\Support\Carbon|null create($year = 0, $month = 1, $day = 1, $hour = 0, $minute = 0, $second = 0, $timezone = null)
      * @method static \Illuminate\Support\Carbon createFromDate($year = null, $month = null, $day = null, $timezone = null)
      * @method static \Illuminate\Support\Carbon|null createFromFormat($format, $time, $timezone = null)
-     * @method static \Illuminate\Support\Carbon|null createFromIsoFormat(string $format, string $time, $timezone = null, ?string $locale = 'en', ?TranslatorInterface $translator = null)
+     * @method static \Illuminate\Support\Carbon|null createFromIsoFormat(string $format, string $time, $timezone = null, ?string $locale = 'en', ?\Symfony\Contracts\Translation\TranslatorInterface $translator = null)
      * @method static \Illuminate\Support\Carbon|null createFromLocaleFormat(string $format, string $locale, string $time, $timezone = null)
      * @method static \Illuminate\Support\Carbon|null createFromLocaleIsoFormat(string $format, string $locale, string $time, $timezone = null)
      * @method static \Illuminate\Support\Carbon createFromTime($hour = 0, $minute = 0, $second = 0, $timezone = null)
-     * @method static \Illuminate\Support\Carbon createFromTimeString(string $time, DateTimeZone|string|int|null $timezone = null)
-     * @method static \Illuminate\Support\Carbon createFromTimestamp(string|int|float $timestamp, DateTimeZone|string|int|null $timezone = null)
-     * @method static \Illuminate\Support\Carbon createFromTimestampMs(string|int|float $timestamp, DateTimeZone|string|int|null $timezone = null)
+     * @method static \Illuminate\Support\Carbon createFromTimeString(string $time, \DateTimeZone|string|int|null $timezone = null)
+     * @method static \Illuminate\Support\Carbon createFromTimestamp(string|int|float $timestamp, \DateTimeZone|string|int|null $timezone = null)
+     * @method static \Illuminate\Support\Carbon createFromTimestampMs(string|int|float $timestamp, \DateTimeZone|string|int|null $timezone = null)
      * @method static \Illuminate\Support\Carbon createFromTimestampMsUTC($timestamp)
      * @method static \Illuminate\Support\Carbon createFromTimestampUTC(string|int|float $timestamp)
      * @method static \Illuminate\Support\Carbon createMidnightDate($year = null, $month = null, $day = null, $timezone = null)
@@ -6594,7 +6594,7 @@ namespace Illuminate\Support\Facades {
      * @method static string getLocale()
      * @method static int getMidDayAt()
      * @method static string getTimeFormatByPrecision(string $unitPrecision)
-     * @method static string|Closure|null getTranslationMessageWith($translator, string $key, ?string $locale = null, ?string $default = null)
+     * @method static string|\Closure|null getTranslationMessageWith($translator, string $key, ?string $locale = null, ?string $default = null)
      * @method static \Illuminate\Support\Carbon|null getTestNow()
      * @method static \Symfony\Contracts\Translation\TranslatorInterface getTranslator()
      * @method static int getWeekEndsAt(?string $locale = null)
@@ -6605,7 +6605,7 @@ namespace Illuminate\Support\Facades {
      * @method static bool hasMacro($name)
      * @method static bool hasRelativeKeywords(?string $time)
      * @method static bool hasTestNow()
-     * @method static \Illuminate\Support\Carbon instance(DateTimeInterface $date)
+     * @method static \Illuminate\Support\Carbon instance(\DateTimeInterface $date)
      * @method static bool isImmutable()
      * @method static bool isModifiableUnit($unit)
      * @method static bool isMutable()
@@ -6616,14 +6616,14 @@ namespace Illuminate\Support\Facades {
      * @method static bool localeHasPeriodSyntax($locale)
      * @method static bool localeHasShortUnits(string $locale)
      * @method static void macro(string $name, ?callable $macro)
-     * @method static \Illuminate\Support\Carbon|null make($var, DateTimeZone|string|null $timezone = null)
+     * @method static \Illuminate\Support\Carbon|null make($var, \DateTimeZone|string|null $timezone = null)
      * @method static void mixin(object|string $mixin)
-     * @method static \Illuminate\Support\Carbon now(DateTimeZone|string|int|null $timezone = null)
-     * @method static \Illuminate\Support\Carbon parse(DateTimeInterface|WeekDay|Month|string|int|float|null $time, DateTimeZone|string|int|null $timezone = null)
-     * @method static \Illuminate\Support\Carbon parseFromLocale(string $time, ?string $locale = null, DateTimeZone|string|int|null $timezone = null)
+     * @method static \Illuminate\Support\Carbon now(\DateTimeZone|string|int|null $timezone = null)
+     * @method static \Illuminate\Support\Carbon parse(\DateTimeInterface|\Carbon\WeekDay|\Carbon\Month|string|int|float|null $time, \DateTimeZone|string|int|null $timezone = null)
+     * @method static \Illuminate\Support\Carbon parseFromLocale(string $time, ?string $locale = null, \DateTimeZone|string|int|null $timezone = null)
      * @method static string pluralUnit(string $unit)
      * @method static \Illuminate\Support\Carbon|null rawCreateFromFormat(string $format, string $time, $timezone = null)
-     * @method static \Illuminate\Support\Carbon rawParse(DateTimeInterface|WeekDay|Month|string|int|float|null $time, DateTimeZone|string|int|null $timezone = null)
+     * @method static \Illuminate\Support\Carbon rawParse(\DateTimeInterface|\Carbon\WeekDay|\Carbon\Month|string|int|float|null $time, \DateTimeZone|string|int|null $timezone = null)
      * @method static void resetMonthsOverflow()
      * @method static void resetToStringFormat()
      * @method static void resetYearsOverflow()
@@ -6634,7 +6634,7 @@ namespace Illuminate\Support\Facades {
      * @method static void setMidDayAt($hour)
      * @method static void setTestNow(mixed $testNow = null)
      * @method static void setTestNowAndTimezone(mixed $testNow = null, $timezone = null)
-     * @method static void setToStringFormat(string|Closure|null $format)
+     * @method static void setToStringFormat(string|\Closure|null $format)
      * @method static void setTranslator(\Symfony\Contracts\Translation\TranslatorInterface $translator)
      * @method static void setWeekEndsAt($day)
      * @method static void setWeekStartsAt($day)
@@ -6643,16 +6643,16 @@ namespace Illuminate\Support\Facades {
      * @method static bool shouldOverflowYears()
      * @method static string singularUnit(string $unit)
      * @method static void sleep(int|float $seconds)
-     * @method static \Illuminate\Support\Carbon today(DateTimeZone|string|int|null $timezone = null)
-     * @method static \Illuminate\Support\Carbon tomorrow(DateTimeZone|string|int|null $timezone = null)
-     * @method static string translateTimeString(string $timeString, ?string $from = null, ?string $to = null, int $mode = CarbonInterface::TRANSLATE_ALL)
-     * @method static string translateWith(TranslatorInterface $translator, string $key, array $parameters = [], $number = null)
+     * @method static \Illuminate\Support\Carbon today(\DateTimeZone|string|int|null $timezone = null)
+     * @method static \Illuminate\Support\Carbon tomorrow(\DateTimeZone|string|int|null $timezone = null)
+     * @method static string translateTimeString(string $timeString, ?string $from = null, ?string $to = null, int $mode = \Carbon\CarbonInterface::TRANSLATE_ALL)
+     * @method static string translateWith(\Symfony\Contracts\Translation\TranslatorInterface $translator, string $key, array $parameters = [], $number = null)
      * @method static void useMonthsOverflow($monthsOverflow = true)
      * @method static void useStrictMode($strictModeEnabled = true)
      * @method static void useYearsOverflow($yearsOverflow = true)
      * @method static mixed withTestNow(mixed $testNow, callable $callback)
-     * @method static static withTimeZone(DateTimeZone|string|int|null $timezone)
-     * @method static \Illuminate\Support\Carbon yesterday(DateTimeZone|string|int|null $timezone = null)
+     * @method static static withTimeZone(\DateTimeZone|string|int|null $timezone)
+     * @method static \Illuminate\Support\Carbon yesterday(\DateTimeZone|string|int|null $timezone = null)
      * @see \Illuminate\Support\DateFactory
      */
     class Date {
@@ -10047,6 +10047,34 @@ namespace Illuminate\Support\Facades {
         public static function response($body = null, $status = 200, $headers = [])
         {
             return \Illuminate\Http\Client\Factory::response($body, $status, $headers);
+        }
+
+        /**
+         * Create a new PSR-7 response instance for use during stubbing.
+         *
+         * @param array|string|null $body
+         * @param int $status
+         * @param array<string, mixed> $headers
+         * @return \GuzzleHttp\Psr7\Response 
+         * @static 
+         */
+        public static function psr7Response($body = null, $status = 200, $headers = [])
+        {
+            return \Illuminate\Http\Client\Factory::psr7Response($body, $status, $headers);
+        }
+
+        /**
+         * Create a new RequestException instance for use during stubbing.
+         *
+         * @param array|string|null $body
+         * @param int $status
+         * @param array<string, mixed> $headers
+         * @return \Illuminate\Http\Client\RequestException 
+         * @static 
+         */
+        public static function requestException($body = null, $status = 200, $headers = [])
+        {
+            return \Illuminate\Http\Client\Factory::requestException($body, $status, $headers);
         }
 
         /**
@@ -23153,6 +23181,385 @@ namespace Barryvdh\Debugbar\Facades {
             }
     }
 
+namespace Barryvdh\DomPDF\Facade {
+    /**
+     * 
+     *
+     * @method static BasePDF setBaseHost(string $baseHost)
+     * @method static BasePDF setBasePath(string $basePath)
+     * @method static BasePDF setCanvas(\Dompdf\Canvas $canvas)
+     * @method static BasePDF setCallbacks(array<string, mixed> $callbacks)
+     * @method static BasePDF setCss(\Dompdf\Css\Stylesheet $css)
+     * @method static BasePDF setDefaultView(string $defaultView, array<string, mixed> $options)
+     * @method static BasePDF setDom(\DOMDocument $dom)
+     * @method static BasePDF setFontMetrics(\Dompdf\FontMetrics $fontMetrics)
+     * @method static BasePDF setHttpContext(resource|array<string, mixed> $httpContext)
+     * @method static BasePDF setPaper(string|float[] $paper, string $orientation = 'portrait')
+     * @method static BasePDF setProtocol(string $protocol)
+     * @method static BasePDF setTree(\Dompdf\Frame\FrameTree $tree)
+     */
+    class Pdf {
+        /**
+         * Get the DomPDF instance
+         *
+         * @static 
+         */
+        public static function getDomPDF()
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->getDomPDF();
+        }
+
+        /**
+         * Show or hide warnings
+         *
+         * @static 
+         */
+        public static function setWarnings($warnings)
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->setWarnings($warnings);
+        }
+
+        /**
+         * Load a HTML string
+         *
+         * @param string|null $encoding Not used yet
+         * @static 
+         */
+        public static function loadHTML($string, $encoding = null)
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->loadHTML($string, $encoding);
+        }
+
+        /**
+         * Load a HTML file
+         *
+         * @static 
+         */
+        public static function loadFile($file)
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->loadFile($file);
+        }
+
+        /**
+         * Add metadata info
+         *
+         * @param array<string, string> $info
+         * @static 
+         */
+        public static function addInfo($info)
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->addInfo($info);
+        }
+
+        /**
+         * Load a View and convert to HTML
+         *
+         * @param array<string, mixed> $data
+         * @param array<string, mixed> $mergeData
+         * @param string|null $encoding Not used yet
+         * @static 
+         */
+        public static function loadView($view, $data = [], $mergeData = [], $encoding = null)
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->loadView($view, $data, $mergeData, $encoding);
+        }
+
+        /**
+         * Set/Change an option (or array of options) in Dompdf
+         *
+         * @param array<string, mixed>|string $attribute
+         * @param null|mixed $value
+         * @static 
+         */
+        public static function setOption($attribute, $value = null)
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->setOption($attribute, $value);
+        }
+
+        /**
+         * Replace all the Options from DomPDF
+         *
+         * @param array<string, mixed> $options
+         * @static 
+         */
+        public static function setOptions($options, $mergeWithDefaults = false)
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->setOptions($options, $mergeWithDefaults);
+        }
+
+        /**
+         * Output the PDF as a string.
+         * 
+         * The options parameter controls the output. Accepted options are:
+         * 
+         * 'compress' = > 1 or 0 - apply content stream compression, this is
+         *    on (1) by default
+         *
+         * @param array<string, int> $options
+         * @return string The rendered PDF as string
+         * @static 
+         */
+        public static function output($options = [])
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->output($options);
+        }
+
+        /**
+         * Save the PDF to a file
+         *
+         * @static 
+         */
+        public static function save($filename, $disk = null)
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->save($filename, $disk);
+        }
+
+        /**
+         * Make the PDF downloadable by the user
+         *
+         * @static 
+         */
+        public static function download($filename = 'document.pdf')
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->download($filename);
+        }
+
+        /**
+         * Return a response with the PDF to show in the browser
+         *
+         * @static 
+         */
+        public static function stream($filename = 'document.pdf')
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->stream($filename);
+        }
+
+        /**
+         * Render the PDF
+         *
+         * @static 
+         */
+        public static function render()
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->render();
+        }
+
+        /**
+         * 
+         *
+         * @param array<string> $pc
+         * @static 
+         */
+        public static function setEncryption($password, $ownerpassword = '', $pc = [])
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->setEncryption($password, $ownerpassword, $pc);
+        }
+
+            }
+    /**
+     * 
+     *
+     * @method static BasePDF setBaseHost(string $baseHost)
+     * @method static BasePDF setBasePath(string $basePath)
+     * @method static BasePDF setCanvas(\Dompdf\Canvas $canvas)
+     * @method static BasePDF setCallbacks(array<string, mixed> $callbacks)
+     * @method static BasePDF setCss(\Dompdf\Css\Stylesheet $css)
+     * @method static BasePDF setDefaultView(string $defaultView, array<string, mixed> $options)
+     * @method static BasePDF setDom(\DOMDocument $dom)
+     * @method static BasePDF setFontMetrics(\Dompdf\FontMetrics $fontMetrics)
+     * @method static BasePDF setHttpContext(resource|array<string, mixed> $httpContext)
+     * @method static BasePDF setPaper(string|float[] $paper, string $orientation = 'portrait')
+     * @method static BasePDF setProtocol(string $protocol)
+     * @method static BasePDF setTree(\Dompdf\Frame\FrameTree $tree)
+     */
+    class Pdf {
+        /**
+         * Get the DomPDF instance
+         *
+         * @static 
+         */
+        public static function getDomPDF()
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->getDomPDF();
+        }
+
+        /**
+         * Show or hide warnings
+         *
+         * @static 
+         */
+        public static function setWarnings($warnings)
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->setWarnings($warnings);
+        }
+
+        /**
+         * Load a HTML string
+         *
+         * @param string|null $encoding Not used yet
+         * @static 
+         */
+        public static function loadHTML($string, $encoding = null)
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->loadHTML($string, $encoding);
+        }
+
+        /**
+         * Load a HTML file
+         *
+         * @static 
+         */
+        public static function loadFile($file)
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->loadFile($file);
+        }
+
+        /**
+         * Add metadata info
+         *
+         * @param array<string, string> $info
+         * @static 
+         */
+        public static function addInfo($info)
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->addInfo($info);
+        }
+
+        /**
+         * Load a View and convert to HTML
+         *
+         * @param array<string, mixed> $data
+         * @param array<string, mixed> $mergeData
+         * @param string|null $encoding Not used yet
+         * @static 
+         */
+        public static function loadView($view, $data = [], $mergeData = [], $encoding = null)
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->loadView($view, $data, $mergeData, $encoding);
+        }
+
+        /**
+         * Set/Change an option (or array of options) in Dompdf
+         *
+         * @param array<string, mixed>|string $attribute
+         * @param null|mixed $value
+         * @static 
+         */
+        public static function setOption($attribute, $value = null)
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->setOption($attribute, $value);
+        }
+
+        /**
+         * Replace all the Options from DomPDF
+         *
+         * @param array<string, mixed> $options
+         * @static 
+         */
+        public static function setOptions($options, $mergeWithDefaults = false)
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->setOptions($options, $mergeWithDefaults);
+        }
+
+        /**
+         * Output the PDF as a string.
+         * 
+         * The options parameter controls the output. Accepted options are:
+         * 
+         * 'compress' = > 1 or 0 - apply content stream compression, this is
+         *    on (1) by default
+         *
+         * @param array<string, int> $options
+         * @return string The rendered PDF as string
+         * @static 
+         */
+        public static function output($options = [])
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->output($options);
+        }
+
+        /**
+         * Save the PDF to a file
+         *
+         * @static 
+         */
+        public static function save($filename, $disk = null)
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->save($filename, $disk);
+        }
+
+        /**
+         * Make the PDF downloadable by the user
+         *
+         * @static 
+         */
+        public static function download($filename = 'document.pdf')
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->download($filename);
+        }
+
+        /**
+         * Return a response with the PDF to show in the browser
+         *
+         * @static 
+         */
+        public static function stream($filename = 'document.pdf')
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->stream($filename);
+        }
+
+        /**
+         * Render the PDF
+         *
+         * @static 
+         */
+        public static function render()
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->render();
+        }
+
+        /**
+         * 
+         *
+         * @param array<string> $pc
+         * @static 
+         */
+        public static function setEncryption($password, $ownerpassword = '', $pc = [])
+        {
+            /** @var \Barryvdh\DomPDF\PDF $instance */
+            return $instance->setEncryption($password, $ownerpassword, $pc);
+        }
+
+            }
+    }
+
 namespace BezhanSalleh\FilamentShield\Facades {
     /**
      * 
@@ -23345,6 +23752,16 @@ namespace BezhanSalleh\FilamentShield\Facades {
             return $instance->evaluate($value, $namedInjections, $typedInjections);
         }
 
+            }
+    }
+
+namespace EightyNine\FilamentAdvancedWidget\Facades {
+    /**
+     * 
+     *
+     * @see \EightyNine\FilamentAdvancedWidget\FilamentAdvancedWidget
+     */
+    class FilamentAdvancedWidget {
             }
     }
 
@@ -27521,6 +27938,58 @@ namespace  {
         }
 
         /**
+         * Insert into the database after merging the model's default attributes, setting timestamps, and casting values.
+         *
+         * @param array<int, array<string, mixed>> $values
+         * @return bool 
+         * @static 
+         */
+        public static function fillAndInsert($values)
+        {
+            /** @var \Illuminate\Database\Eloquent\Builder $instance */
+            return $instance->fillAndInsert($values);
+        }
+
+        /**
+         * Insert (ignoring errors) into the database after merging the model's default attributes, setting timestamps, and casting values.
+         *
+         * @param array<int, array<string, mixed>> $values
+         * @return int 
+         * @static 
+         */
+        public static function fillAndInsertOrIgnore($values)
+        {
+            /** @var \Illuminate\Database\Eloquent\Builder $instance */
+            return $instance->fillAndInsertOrIgnore($values);
+        }
+
+        /**
+         * Insert a record into the database and get its ID after merging the model's default attributes, setting timestamps, and casting values.
+         *
+         * @param array<string, mixed> $values
+         * @return int 
+         * @static 
+         */
+        public static function fillAndInsertGetId($values)
+        {
+            /** @var \Illuminate\Database\Eloquent\Builder $instance */
+            return $instance->fillAndInsertGetId($values);
+        }
+
+        /**
+         * Enrich the given values by merging in the model's default attributes, adding timestamps, and casting values.
+         *
+         * @param array<int, array<string, mixed>> $values
+         * @return array<int, array<string, mixed>> 
+         * @static 
+         */
+        public static function fillForInsert($values)
+        {
+            /** @var \Illuminate\Database\Eloquent\Builder $instance */
+            return $instance->fillForInsert($values);
+        }
+
+        /**
          * Create a collection of models from a raw query.
          *
          * @param string $query
@@ -29091,6 +29560,37 @@ namespace  {
         {
             /** @var \Illuminate\Database\Eloquent\Builder $instance */
             return $instance->orWhereBelongsTo($related, $relationshipName);
+        }
+
+        /**
+         * Add a "belongs to many" relationship where clause to the query.
+         *
+         * @param \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection<int, \Illuminate\Database\Eloquent\Model> $related
+         * @param string|null $relationshipName
+         * @param string $boolean
+         * @return \Illuminate\Database\Eloquent\Builder<static> 
+         * @throws \Illuminate\Database\Eloquent\RelationNotFoundException
+         * @static 
+         */
+        public static function whereAttachedTo($related, $relationshipName = null, $boolean = 'and')
+        {
+            /** @var \Illuminate\Database\Eloquent\Builder $instance */
+            return $instance->whereAttachedTo($related, $relationshipName, $boolean);
+        }
+
+        /**
+         * Add a "belongs to many" relationship with an "or where" clause to the query.
+         *
+         * @param \Illuminate\Database\Eloquent\Model $related
+         * @param string|null $relationshipName
+         * @return \Illuminate\Database\Eloquent\Builder<static> 
+         * @throws \RuntimeException
+         * @static 
+         */
+        public static function orWhereAttachedTo($related, $relationshipName = null)
+        {
+            /** @var \Illuminate\Database\Eloquent\Builder $instance */
+            return $instance->orWhereAttachedTo($related, $relationshipName);
         }
 
         /**
@@ -32474,11 +32974,19 @@ namespace  {
     class Vite extends \Illuminate\Support\Facades\Vite {}
     class EloquentSerialize extends \AnourValar\EloquentSerialize\Facades\EloquentSerializeFacade {}
     class Debugbar extends \Barryvdh\Debugbar\Facades\Debugbar {}
+    class PDF extends \Barryvdh\DomPDF\Facade\Pdf {}
+    class Pdf extends \Barryvdh\DomPDF\Facade\Pdf {}
     class FilamentShield extends \BezhanSalleh\FilamentShield\Facades\FilamentShield {}
+    class FilamentAdvancedWidget extends \EightyNine\FilamentAdvancedWidget\Facades\FilamentAdvancedWidget {}
     class Livewire extends \Livewire\Livewire {}
 }
 
 
+namespace Facades\Livewire\Features\SupportFileUploads {
+    /**
+     * @mixin \Livewire\Features\SupportFileUploads\GenerateSignedUploadUrl     */
+    class GenerateSignedUploadUrl extends \Livewire\Features\SupportFileUploads\GenerateSignedUploadUrl {}
+}
 
 
 

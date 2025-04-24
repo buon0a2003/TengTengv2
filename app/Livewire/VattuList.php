@@ -34,6 +34,7 @@ class VattuList extends Component implements HasForms, HasTable
         return $table
             ->query(vattu::query())
             ->columns([
+                TextColumn::make('MaVT')->label('Mã vật tư')->searchable(),
                 TextColumn::make('TenVT')->label('Tên vật tư')->searchable(),
                 TextColumn::make('donvitinh.TenDVT')->label('Đơn vị tính')->alignCenter(),
                 TextColumn::make('KichThuoc')->label('Kích thước')->searchable(),
@@ -61,19 +62,20 @@ class VattuList extends Component implements HasForms, HasTable
                 Tables\Actions\Action::make('vattuSelect')
                     ->label('Chọn')
                     ->color('primary')
-                    ->action(function (vattu $record) {
-                        $this->dispatch('vattuSelected', [
-                            'id' => $record->id,
-                            'TenVT' => $record->TenVT,
-                        ]);
+                    ->action(
+                        function (vattu $record) {
+                            $this->dispatch('vattuSelected', [
+                                'id' => $record->id,
+                                'TenVT' => $record->TenVT,
+                            ]);
 
-                        Notification::make()
-                            ->title('Thành công')
-                            ->body('Vật tư đã được thêm vào')
-                            ->success()
-                            ->duration(500)
-                            ->send();
-                    }
+                            Notification::make()
+                                ->title('Thành công')
+                                ->body('Vật tư đã được thêm vào')
+                                ->success()
+                                ->duration(500)
+                                ->send();
+                        }
                     ),
             ])
             ->bulkActions([

@@ -61,7 +61,7 @@ class EditPhieuXuat extends EditAndRedirectToIndex
                         return [
                             'TenVT' => $item->vattu->TenVT,
                             'TenDVT' => $item->vattu->donvitinh->TenDVT,
-                            'MaSo' => '',
+                            'MaSo' => $item->vattu->id,
                             'SoLuong' => $item->SoLuong,
                         ];
                     });

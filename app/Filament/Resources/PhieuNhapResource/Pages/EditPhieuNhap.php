@@ -62,7 +62,7 @@ class EditPhieuNhap extends EditAndRedirectToIndex
                         return [
                             'TenVT' => $item->vattu->TenVT,
                             'TenDVT' => $item->vattu->donvitinh->TenDVT,
-                            'MaSo' => '',
+                            'MaSo' => $item->vattu->id,
                             'SoLuong' => $item->SoLuong,
                         ];
                     });
@@ -73,7 +73,12 @@ class EditPhieuNhap extends EditAndRedirectToIndex
                         'username' => $record->user->name ?? 'n/a',
                         'nhacungcap' => $record->nhacungcap->TenNCC ?? 'Đại phát',
                         'kho' => $record->kho->TenKho ?? 'n/a',
-                        'lydo' => $record->LyDo == 1 ? 'Nhập nguyên vật liệu' : 'Nhập thành phẩm',
+                        'lydo' => match ($record->LyDo) {
+                            0 => 'Nhập thành phẩm',
+                            1 => 'Nhập nguyên vật liệu',
+                            2 => 'Hàng huỷ',
+                            default => 'n/a'
+                        },
                         'ghichu' => $record->GhiChu ?? '',
                     ];
 

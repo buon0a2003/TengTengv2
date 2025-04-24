@@ -16,7 +16,8 @@ class ThongSoWidget extends BaseWidget
     protected function getStats(): array
     {
         return [
-            Stat::make('Số nhân viên', (string) User::where('Active', '!=', 0)->count())->icon('heroicon-o-user')
+            Stat::make('Số nhân viên', (string) User::where('Active', '!=', 0)->count())
+                ->icon('heroicon-o-user')
                 ->description('Tổng số nhân viên đang hoạt động')
                 ->iconBackgroundColor('info')
                 ->iconPosition('start')
@@ -26,9 +27,9 @@ class ThongSoWidget extends BaseWidget
             Stat::make('Tổng nhập', '14.2k')->icon('heroicon-o-chevron-double-left')
                 ->descriptionIcon('heroicon-o-chevron-up', 'before')
                 ->descriptionColor('success')
-//                ->progress(89)
+                //->progress(89)
                 ->chartColor('success')
-//                ->progressBarColor('success')
+                //->progressBarColor('success')
                 ->chart([12, 24, 11, 22, 11])
                 ->description('Tổng phiếu nhập tháng này')
                 ->iconColor('success'),
