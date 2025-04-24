@@ -18,6 +18,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\chitietphieuxuat;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\Action;
+use Filament\Forms\Components\Actions\Action as FormAction;
 use Filament\Forms\Components\Radio;
 use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
@@ -107,7 +108,19 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                         ->placeholder('eg: PX001/xx/xx')
                                         ->unique(ignoreRecord: true)
                                         ->required()
-                                        ->label('Mã phiếu xuất'),
+                                        ->label('Mã phiếu xuất')
+                                        ->prefixAction(
+                                            FormAction::make('suggest')
+                                                ->icon('heroicon-m-sparkles')
+                                                ->requiresConfirmation()
+                                                ->color('info')
+                                                ->modalHeading('Tạo mã phiếu nhập')
+                                                ->modalDescription('Đặt mã phiếu nhập tự động theo định dạng PNddmmyy')
+                                                ->action(function ($set) {
+                                                    $newId = 'PX';
+                                                    $set('id', $newId . now()->format('dmy'));
+                                                })
+                                        ),
 
                                     Select::make('user_id')
                                         ->label('Người tạo phiếu')
