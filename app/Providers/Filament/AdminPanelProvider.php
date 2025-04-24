@@ -12,6 +12,7 @@ use App\Filament\Widgets\BieuDoWidget;
 use App\Filament\Widgets\ThongSoWidget;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Exception;
+use Filament\Enums\ThemeMode;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -40,13 +41,31 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admin')
+            ->darkMode(false)
+            ->defaultThemeMode(ThemeMode::Light)
             ->path('')
             ->login(CustomLogin::class)
             ->databaseNotifications()
             ->profile(CustomProfile::class)
-
             ->colors([
                 'amber' => Color::Amber,
+                'blue' => Color::Blue,
+                'cyan' => Color::Cyan,
+                'emerald' => Color::Emerald,
+                'fuchsia' => Color::Fuchsia,
+                'gray' => Color::Gray,
+                'green' => Color::Green,
+                'indigo' => Color::Indigo,
+                'lime' => Color::Lime,
+                'orange' => Color::Orange,
+                'pink' => Color::Pink,
+                'purple' => Color::Purple,
+                'red' => Color::Red,
+                'rose' => Color::Rose,
+                'sky' => Color::Sky,
+                'slate' => Color::Slate,
+                'teal' => Color::Teal,
+                'violet' => Color::Violet,
             ])
             ->brandLogo(fn() => view('filament.logo'))
             ->favicon(fn() => asset('images/fav/favicon-120.png'))

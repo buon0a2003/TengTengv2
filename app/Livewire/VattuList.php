@@ -51,11 +51,15 @@ class VattuList extends Component implements HasForms, HasTable
                         '1' => 'Nguyên vật liệu',
                     ])
                     ->default(function () {
-                        if ($this->LyDo === '') {
+                        if ($this->LyDo == '') {
                             return '';
                         }
 
-                        return $this->LyDo;
+                        if ($this->LyDo == '2') {
+                            return '1';
+                        }
+
+                        return !$this->LyDo;
                     }),
             ])
             ->actions([

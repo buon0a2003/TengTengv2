@@ -273,6 +273,8 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                     ->label('Nhà cung cấp'),
 
                 TextColumn::make('NgayNhap')
+                    ->sortable()
+                    ->placeholder('N/A')
                     ->label('Ngày nhập')
                     ->date('d/m/Y')
                     ->searchable(),
