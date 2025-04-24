@@ -17,6 +17,7 @@ use App\Models\chitietphieunhap;
 use Filament\Resources\Resource;
 use Illuminate\Support\Collection;
 use Filament\Tables\Actions\Action;
+use Filament\Forms\Components\Actions\Action as FormAction;
 use Filament\Forms\Components\Radio;
 use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
@@ -95,7 +96,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                 ->aside()
                                 ->schema([
                                     Forms\Components\Radio::make('LyDo')
-                                        //                                        ->required()
+                                        //->required()
                                         ->inline()
                                         ->default('0')
                                         ->live()
@@ -108,14 +109,26 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                     TextInput::make('id')
                                         ->placeholder('eg: PN001/xx/xx')
                                         ->unique(ignoreRecord: true)
-                                        //                                        ->required()
-                                        ->label('Mã phiếu nhập'),
+                                        //->required()
+                                        ->label('Mã phiếu nhập')
+                                        ->prefixAction(
+                                            FormAction::make('suggest')
+                                                ->icon('heroicon-m-sparkles')
+                                                ->requiresConfirmation()
+                                                ->color('info')
+                                                ->modalHeading('Tạo mã phiếu nhập')
+                                                ->modalDescription('Đặt mã phiếu nhập tự động theo định dạng PNddmmyy')
+                                                ->action(function ($set) {
+                                                    $newId = 'PN';
+                                                    $set('id', $newId . now()->format('dmy'));
+                                                })
+                                        ),
 
                                     Select::make('user_id')
                                         ->label('Người tạo phiếu')
                                         ->relationship('user', 'name')
                                         ->default(fn(): int => Auth::user()->id)
-                                        //                                        ->required()
+                                        //->required()
                                         ->preload()
                                         ->searchable(),
 
@@ -171,7 +184,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                     Select::make('kho_id')
                                         ->label('Kho')
                                         ->relationship('kho', 'TenKho')
-                                        //                                        ->required()
+                                        //->required()
                                         ->preload()
                                         ->searchable(),
                                 ]),
@@ -181,7 +194,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                 ->description('Thông tin phụ của phiếu nhập')
                                 ->schema([
                                     Forms\Components\DatePicker::make('NgayNhap')
-                                        //                                        ->required()
+                                        //->required()
                                         ->label('Ngày nhập'),
 
                                     Textarea::make('GhiChu')
@@ -254,6 +267,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                     ->label('Mã phiếu'),
 
                 TextColumn::make('nhacungcap.TenNCC')
+                    ->formatStateUsing(fn($record) => $record->LyDo == 0 ? 'N/A' : $record->nhacungcap->TenNCC)
                     ->placeholder('N/A')
                     ->label('Nhà cung cấp'),
 

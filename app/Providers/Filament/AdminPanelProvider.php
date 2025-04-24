@@ -44,17 +44,18 @@ class AdminPanelProvider extends PanelProvider
             ->login(CustomLogin::class)
             ->databaseNotifications()
             ->profile(CustomProfile::class)
+
             ->colors([
                 'amber' => Color::Amber,
             ])
-            ->brandLogo(fn () => view('filament.logo'))
-            ->favicon(fn () => asset('images/fav/favicon-120.png'))
+            ->brandLogo(fn() => view('filament.logo'))
+            ->favicon(fn() => asset('images/fav/favicon-120.png'))
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                 Pages\Dashboard::class,
             ])
-//            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            //            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 //                Widgets\AccountWidget::class,
                 // Widgets\FilamentInfoWidget::class,
@@ -66,8 +67,8 @@ class AdminPanelProvider extends PanelProvider
                 NavigationItem::make('Chức vụ')
                     ->icon('heroicon-o-shield-check')
                     ->group('Quản lý tài khoản')
-                    ->isActiveWhen(fn () => request()->routeIs('filament.admin.resources.shield.roles.index'))
-                    ->url(fn (): string => CustomRoleResource::getUrl('index')),
+                    ->isActiveWhen(fn() => request()->routeIs('filament.admin.resources.shield.roles.index'))
+                    ->url(fn(): string => CustomRoleResource::getUrl('index')),
             ])
             ->navigationGroups([
                 'Quản lý danh mục',
@@ -76,6 +77,7 @@ class AdminPanelProvider extends PanelProvider
                 'Quản lý tài khoản',
             ])
             ->sidebarCollapsibleOnDesktop()
+            ->sidebarWidth('16rem')
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
