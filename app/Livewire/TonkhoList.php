@@ -22,7 +22,7 @@ class TonkhoList extends Component implements HasForms, HasTable
 
     public string $LyDo;
 
-    public string $kho_id;
+    public ?string $kho_id;
 
     public function table(Table $table): Table
     {
@@ -57,7 +57,7 @@ class TonkhoList extends Component implements HasForms, HasTable
 
                 Tables\Columns\TextColumn::make('vattu.donvitinh_id')
                     ->formatStateUsing(
-                        fn ($record) => $record->vattu->donvitinh->TenDVT ?? 'Chưa có'
+                        fn($record) => $record->vattu->donvitinh->TenDVT ?? 'Chưa có'
                     )
                     ->label('Đơn vị tính')
                     ->alignCenter()
@@ -81,29 +81,34 @@ class TonkhoList extends Component implements HasForms, HasTable
                     ->relationship('kho', 'TenKho')
                     ->preload()
                     ->searchable()
-                    ->default(fn () => $this->kho_id)
+                    ->default(function () {
+                        if ($this->kho_id) {
+                            return $this->kho_id;
+                        } else return '';
+                    })
                     ->label('Chọn kho'),
                 Tables\Filters\SelectFilter::make('LaTP')
                     ->relationship('vattu', 'LaTP')
                     ->preload()
-                    ->getOptionLabelFromRecordUsing(fn ($record) => $record->LaTP ? 'Thành phẩm' : 'Nguyên vật liệu')
+                    ->getOptionLabelFromRecordUsing(fn($record) => $record->LaTP ? 'Thành phẩm' : 'Nguyên vật liệu')
                     ->label('Loại vật tư')
-                    ->default(fn () => $this->LyDo === '0' ? 1 : 2),
+                    ->default(fn() => $this->LyDo === '0' ? 1 : 2),
             ], layout: FiltersLayout::AboveContent)
             ->actions([
                 Tables\Actions\Action::make('tonkhoSelect')
                     ->label('Chọn')
                     ->color('primary')
-                    ->action(function (tonkho $record) {
-                        $this->dispatch('tonkhoSelected', [
-                            'tonkho_id' => $record->id,
-                            'vattu_id' => $record->vattu_id,
-                            'TenVT' => $record->vattu->TenVT,
-                            'kho_id' => $record->kho_id,
-                            'vitri_id' => $record->vitri_id,
-                            'soluongkhadung' => $record->SoLuong,
-                        ]);
-                    }
+                    ->action(
+                        function (tonkho $record) {
+                            $this->dispatch('tonkhoSelected', [
+                                'tonkho_id' => $record->id,
+                                'vattu_id' => $record->vattu_id,
+                                'TenVT' => $record->vattu->TenVT,
+                                'kho_id' => $record->kho_id,
+                                'vitri_id' => $record->vitri_id,
+                                'soluongkhadung' => $record->SoLuong,
+                            ]);
+                        }
                     ),
             ])
             ->bulkActions([
