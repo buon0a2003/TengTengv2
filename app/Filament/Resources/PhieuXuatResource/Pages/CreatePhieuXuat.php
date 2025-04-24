@@ -6,14 +6,15 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\PhieuXuatResource\Pages;
 
+use Filament\Actions;
+use App\Models\tonkho;
+use App\Models\phieuxuat;
+use Livewire\Attributes\On;
+use App\Models\chitietphieuxuat;
+use Illuminate\Database\Eloquent\Model;
+use Filament\Notifications\Notification;
 use App\Filament\CreateAndRedirectToIndex;
 use App\Filament\Resources\PhieuXuatResource;
-use App\Models\chitietphieuxuat;
-use App\Models\phieuxuat;
-use App\Models\tonkho;
-use Filament\Actions;
-use Filament\Notifications\Notification;
-use Illuminate\Database\Eloquent\Model;
 
 class CreatePhieuXuat extends CreateAndRedirectToIndex
 {
@@ -21,8 +22,9 @@ class CreatePhieuXuat extends CreateAndRedirectToIndex
 
     protected static ?string $title = 'Tạo mới';
     protected static ?string $breadcrumb = 'Tạo mới';
-    protected $listeners = ['tonkhoSelected' => 'handleTonkhoSelected'];
+    // protected $listeners = ['tonkhoSelected' => 'handleTonkhoSelected'];
 
+    #[On('tonkhoSelected')]
     public function handleTonkhoSelected($record): void
     {
         $state = $this->form->getRawState();

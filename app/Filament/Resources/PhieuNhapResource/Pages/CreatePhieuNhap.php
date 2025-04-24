@@ -22,7 +22,7 @@ class CreatePhieuNhap extends CreateAndRedirectToIndex
 
     public function handleVattuSelected($record): void
     {
-        $state = $this->form->getState();
+        $state = $this->form->getRawState();
 
         $state['dsvattu'][] = [
             'id' => $record['id'],
@@ -30,7 +30,6 @@ class CreatePhieuNhap extends CreateAndRedirectToIndex
         ];
 
         $this->form->fill($state);
-
     }
 
     protected function handleRecordCreation(array $data): Model

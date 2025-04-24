@@ -212,8 +212,8 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                 ->addAction(function (Forms\Components\Actions\Action $action, $get): Forms\Components\Actions\Action {
                                     return $action->modalContent(
                                         view('filament.tonkholist', [
-                                            'LyDo' => $get('LyDo'),
-                                            'kho_id' => $get('kho_id'),
+                                            'LyDo' => $get('LyDo') ?? '',
+                                            'kho_id' => $get('kho_id') ?? '',
                                         ])
                                     )
                                         ->action(null)
