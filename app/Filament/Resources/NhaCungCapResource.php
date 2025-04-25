@@ -7,6 +7,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\NhaCungCapResource\Pages;
 use App\Filament\Resources\NhaCungCapResource\RelationManagers\PhieunhapRelationManager;
 use App\Models\nhacungcap;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -22,7 +23,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
-class NhaCungCapResource extends Resource
+class NhaCungCapResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = nhacungcap::class;
 
@@ -43,6 +44,16 @@ class NhaCungCapResource extends Resource
         return 'Nhà cung cấp';
     }
 
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view',
+            'view_any',
+            'create',
+            'update',
+        ];
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -55,7 +66,7 @@ class NhaCungCapResource extends Resource
                         TextInput::make('TenNCC')
                             ->required()
                             ->label('Tên')
-                            ->unique(),
+                            ->unique(ignoreRecord: true),
                         TextInput::make('Sdt')
                             ->prefix('+84')
                             ->regex('/^(0\d{9}|[1-9]\d{8})$/')

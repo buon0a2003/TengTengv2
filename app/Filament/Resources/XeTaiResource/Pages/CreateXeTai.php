@@ -25,8 +25,8 @@ class CreateXeTai extends CreateAndRedirectToIndex
     {
         return Notification::make()
             ->success()
-            ->title('Tạo mới xe tải')
-            ->body('Đã tạo thành công.');
+            ->title('Tạo mới thành công')
+            ->body('Đã tạo mới xe tải.');
     }
 
 }

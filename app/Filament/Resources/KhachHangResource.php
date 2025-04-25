@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\KhachHangResource\Pages;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use App\Models\khachhang;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
@@ -19,7 +20,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
-class KhachHangResource extends Resource
+class KhachHangResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = khachhang::class;
 
@@ -39,6 +40,16 @@ class KhachHangResource extends Resource
         return 'Khách hàng';
     }
 
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view',
+            'view_any',
+            'create',
+            'update',
+        ];
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -47,7 +58,7 @@ class KhachHangResource extends Resource
                     ->description('Thông tin chi tiết của khách hàng mới')
                     ->aside()
                     ->schema([
-                        TextInput::make('TenKH')->label('Tên khách hàng')->required(),
+                        TextInput::make('TenKH')->label('Tên khách hàng')->required()->unique(ignoreRecord: true),
                         TextInput::make('Sdt')->label('Số điện thoại')->required()->unique(ignoreRecord: true)
                             ->prefix('+84')
                             ->regex('/^(0\d{9}|[1-9]\d{8})$/')

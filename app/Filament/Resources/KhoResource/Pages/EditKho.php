@@ -7,6 +7,7 @@ namespace App\Filament\Resources\KhoResource\Pages;
 use App\Filament\EditAndRedirectToIndex;
 use App\Filament\Resources\KhoResource;
 use Filament\Actions;
+use Filament\Notifications\Notification;
 
 class EditKho extends EditAndRedirectToIndex
 {
@@ -20,5 +21,12 @@ class EditKho extends EditAndRedirectToIndex
         return [
             //            Actions\DeleteAction::make(),
         ];
+    }
+    protected function getSavedNotification(): ?Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title('Sửa thành công')
+            ->body('Đã sửa thông tin kho.');
     }
 }

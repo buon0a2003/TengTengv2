@@ -8,6 +8,7 @@ use App\Filament\Resources\CustomRoleResource;
 use BezhanSalleh\FilamentShield\Resources\RoleResource\Pages\EditRole;
 use Exception;
 use Filament\Actions\Action;
+use Filament\Notifications\Notification;
 
 class CustomEditRole extends EditRole
 {
@@ -47,5 +48,19 @@ class CustomEditRole extends EditRole
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
+    }
+
+    protected function getSavedNotification(): ?Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title('Sửa thành công')
+            ->body('Đã sửa quyền hạn.');
+    }
+
+    protected function getCancelFormAction(): \Filament\Actions\Action
+    {
+        return parent::getCancelFormAction()
+            ->label('Hủy');
     }
 }

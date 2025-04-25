@@ -20,7 +20,7 @@ class CreateVattu extends CreateAndRedirectToIndex
     {
         return Notification::make()
             ->success()
-            ->title('Tạo mới vật tư')
-            ->body('Đã tạo thành công.');
+            ->title('Tạo mới thành công')
+            ->body('Đã tạo mới vật tư.');
     }
 }

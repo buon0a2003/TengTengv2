@@ -7,6 +7,7 @@ namespace App\Filament\Resources\TaixeResource\Pages;
 use App\Filament\EditAndRedirectToIndex;
 use App\Filament\Resources\TaixeResource;
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 
 class EditTaixe extends EditAndRedirectToIndex
@@ -17,7 +18,27 @@ class EditTaixe extends EditAndRedirectToIndex
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+            ->action(
+                function ($record): void {
+                    $record->delete();
+                        Notification::make()
+                            ->success()
+                            ->title('Xoá thành công')
+                            ->body('Tài xế đã xoá thành công!')
+                            ->send();
+                        redirect()->to(route('filament.admin.resources.taixe.index'));
+                    }
+            ),
         ];
     }
+
+    protected function getSavedNotification(): ?Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title('Sửa thành công')
+            ->body('Đã sửa thông tin tài xế.');
+    }
+
 }

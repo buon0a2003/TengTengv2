@@ -7,6 +7,7 @@ namespace App\Filament\Resources\DonvitinhResource\Pages;
 use App\Filament\CreateAndRedirectToIndex;
 use App\Filament\Resources\DonvitinhResource;
 use Filament\Actions;
+use Filament\Notifications\Notification;
 
 class CreateDonvitinh extends CreateAndRedirectToIndex
 {
@@ -14,10 +15,11 @@ class CreateDonvitinh extends CreateAndRedirectToIndex
     protected static string $resource = DonvitinhResource::class;
     protected static ?string $breadcrumb = 'Tạo mới';
 
-    protected function getCreateFormAction(): Actions\Action
+    protected function getCreatedNotification(): ?Notification
     {
-        return parent::getCreateFormAction()
-            ->label('Tạo mới')
-            ->icon('heroicon-s-plus');
+        return Notification::make()
+            ->success()
+            ->title('Tạo thành công')
+            ->body('Đã tạo mới đơn vị tính.');
     }
 }

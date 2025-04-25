@@ -9,6 +9,7 @@ use App\Filament\Resources\UserResource;
 use Exception;
 use Filament\Actions;
 use Filament\Actions\Action;
+use Filament\Notifications\Notification;
 use Spatie\Permission\Models\Role;
 
 class EditUser extends EditAndRedirectToIndex
@@ -33,7 +34,17 @@ class EditUser extends EditAndRedirectToIndex
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+                ->action(
+                    function ($record): void {
+                        $record->delete();
+                        Notification::make()
+                            ->success()
+                            ->title('Đã xóa')
+                            ->send();
+                        redirect()->to(route('filament.admin.resources.users.index'));
+                    }
+                ),
         ];
     }
 
@@ -54,5 +65,11 @@ class EditUser extends EditAndRedirectToIndex
                 $this->save();
             });
     }
-
+    protected function getSavedNotification(): ?Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title('Sửa thành công')
+            ->body('Đã sửa thông tin người dùng.');
+    }
 }

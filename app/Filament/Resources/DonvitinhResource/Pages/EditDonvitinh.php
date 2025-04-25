@@ -33,7 +33,7 @@ class EditDonvitinh extends EditAndRedirectToIndex
                         $record->delete();
                         Notification::make()
                             ->danger()
-                            ->title('Xoá  thành công')
+                            ->title('Xoá thành công')
                             ->body('Đơn vị tính đã xoá thành công!')
                             ->send();
 
@@ -41,5 +41,13 @@ class EditDonvitinh extends EditAndRedirectToIndex
                     }
                 ),
         ];
+    }
+
+    protected function getSavedNotification(): ?Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title('Sửa thành công')
+            ->body('Đã sửa thông tin đơn vị tính.');
     }
 }

@@ -223,7 +223,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                             Repeater::make('dsvattu')
                                 ->required()
                                 ->validationMessages([
-                                    'required' => 'Danh sách vật tư xuất không được trống.',
+                                    'required' => 'Danh sách vật tư nhập không được trống.',
                                 ])
                                 ->reorderable(false)
                                 ->addActionLabel('Thêm vật tư')

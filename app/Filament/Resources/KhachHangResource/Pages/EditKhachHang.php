@@ -7,6 +7,7 @@ namespace App\Filament\Resources\KhachHangResource\Pages;
 use App\Filament\EditAndRedirectToIndex;
 use App\Filament\Resources\KhachHangResource;
 use Filament\Actions;
+use Filament\Notifications\Notification;
 
 class EditKhachHang extends EditAndRedirectToIndex
 {
@@ -19,5 +20,13 @@ class EditKhachHang extends EditAndRedirectToIndex
         return [
             //            Actions\DeleteAction::make(),
         ];
+    }
+
+    protected function getSavedNotification(): ?Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title('Sửa thành công')
+            ->body('Đã sửa thông tin khách hàng.');
     }
 }

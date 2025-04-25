@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Notifications\NewAccount;
 use Exception;
 use Filament\Actions\Action;
+use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
 use Filament\Actions;
@@ -103,4 +104,11 @@ class CreateUser extends CreateAndRedirectToIndex
             ->keyBindings(['mod+s']);
     }
 
+    protected function getCreatedNotification(): ?Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title('Tạo thành công')
+            ->body('Đã tạo mới người dùng.');
+    }
 }

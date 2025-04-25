@@ -7,6 +7,7 @@ namespace App\Filament\Resources\NhaCungCapResource\Pages;
 use App\Filament\EditAndRedirectToIndex;
 use App\Filament\Resources\NhaCungCapResource;
 use Filament\Actions;
+use Filament\Notifications\Notification;
 
 class EditNhaCungCap extends EditAndRedirectToIndex
 {
@@ -19,6 +20,13 @@ class EditNhaCungCap extends EditAndRedirectToIndex
         return [
             //            Actions\DeleteAction::make(),
         ];
+    }
+    protected function getSavedNotification(): ?Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title('Sửa thành công')
+            ->body('Đã sửa thông tin nhà cung cấp.');
     }
 
 }

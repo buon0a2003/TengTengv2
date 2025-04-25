@@ -22,8 +22,8 @@ class CreateKhachHang extends CreateAndRedirectToIndex
     {
         return Notification::make()
             ->success()
-            ->title('Tạo mới khách hàng')
-            ->body('Đã tạo thành công.');
+            ->title('Tạo thành công')
+            ->body('Đã tạo mới khách hàng.');
     }
 
     protected function handleRecordCreation(array $data): Model

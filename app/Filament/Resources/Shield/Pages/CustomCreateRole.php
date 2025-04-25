@@ -8,6 +8,7 @@ use App\Filament\Resources\CustomRoleResource;
 use BezhanSalleh\FilamentShield\Resources\RoleResource\Pages\CreateRole;
 use Exception;
 use Filament\Actions\Action;
+use Filament\Notifications\Notification;
 
 class CustomCreateRole extends CreateRole
 {
@@ -48,5 +49,13 @@ class CustomCreateRole extends CreateRole
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
+    }
+
+    protected function getCreatedNotification(): ?Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title('Tạo mới thành công')
+            ->body('Đã tạo mới chức vụ.');
     }
 }

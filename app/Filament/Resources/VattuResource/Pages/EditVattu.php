@@ -7,6 +7,7 @@ namespace App\Filament\Resources\VattuResource\Pages;
 use App\Filament\EditAndRedirectToIndex;
 use App\Filament\Resources\VattuResource;
 use Filament\Actions;
+use Filament\Notifications\Notification;
 
 class EditVattu extends EditAndRedirectToIndex
 {
@@ -20,5 +21,13 @@ class EditVattu extends EditAndRedirectToIndex
         return [
             //            Actions\DeleteAction::make(),
         ];
+    }
+
+    protected function getSavedNotification(): ?Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title('Sửa thành công')
+            ->body('Đã sửa thông tin vật tư.');
     }
 }

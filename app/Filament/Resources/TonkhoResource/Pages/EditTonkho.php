@@ -7,6 +7,7 @@ namespace App\Filament\Resources\TonkhoResource\Pages;
 use App\Filament\EditAndRedirectToIndex;
 use App\Filament\Resources\TonkhoResource;
 use Filament\Actions;
+use Filament\Notifications\Notification;
 
 class EditTonkho extends EditAndRedirectToIndex
 {
@@ -21,5 +22,13 @@ class EditTonkho extends EditAndRedirectToIndex
         return [
             Actions\DeleteAction::make(),
         ];
+    }
+
+    protected function getSavedNotification(): ?Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title('Sửa thành công')
+            ->body('Đã sửa thông tin hàng tồn kho.');
     }
 }

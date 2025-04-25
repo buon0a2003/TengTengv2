@@ -42,8 +42,8 @@ class XeTaiResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('Them thong tin xe tai')
-                    ->description('Thêm thông tin xe tải')
+                Section::make('Thông tin xe tải')
+                    ->description('Thông tin chi tiết về xe tải')
                     ->aside()
                     ->schema([
                         TextInput::make('BienSo')
@@ -57,6 +57,8 @@ class XeTaiResource extends Resource
                             ->required(),
                         TextInput::make('TaiTrong')
                             ->label('Tải trọng (kg)')
+                            ->numeric()
+                            ->minValue(0)
                             ->required(),
                         TextInput::make('MauSac')
                             ->label('Màu sắc'),
@@ -89,6 +91,7 @@ class XeTaiResource extends Resource
                 TextColumn::make('GhiChu')
                     ->label('Ghi chú'),
                 TextColumn::make('TrangThai')
+                    ->label('Trạng thái')
                     ->alignCenter()
                     ->formatStateUsing(fn ($record) => match ($record->TrangThai) {
                         0 => 'Đang giao',

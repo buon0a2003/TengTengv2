@@ -6,6 +6,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\KhoResource\Pages;
 use App\Models\kho;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -15,7 +16,7 @@ use Filament\Tables;
 use Filament\Tables\Actions\ExportBulkAction;
 use Filament\Tables\Table;
 
-class KhoResource extends Resource
+class KhoResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = kho::class;
 
@@ -34,6 +35,16 @@ class KhoResource extends Resource
     public static function getBreadcrumb(): string
     {
         return 'Kho';
+    }
+
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view',
+            'view_any',
+            'create',
+            'update',
+        ];
     }
 
     public static function form(Form $form): Form

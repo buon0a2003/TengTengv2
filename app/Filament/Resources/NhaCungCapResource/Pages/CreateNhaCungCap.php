@@ -20,8 +20,8 @@ class CreateNhaCungCap extends CreateAndRedirectToIndex
     {
         return Notification::make()
             ->success()
-            ->title('Tạo mới nhà cung cấp')
-            ->body('Đã tạo thành công.');
+            ->title('Tạo thành công')
+            ->body('Đã tạo mới nhà cung cấp.');
     }
 
     protected function handleRecordCreation(array $data): Model

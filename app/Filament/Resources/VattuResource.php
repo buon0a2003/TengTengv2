@@ -6,6 +6,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\VattuResource\Pages;
 use App\Models\vattu;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -20,7 +21,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
-class VattuResource extends Resource
+class VattuResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = vattu::class;
 
@@ -39,6 +40,16 @@ class VattuResource extends Resource
     public static function getBreadcrumb(): string
     {
         return 'Vật tư';
+    }
+
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view',
+            'view_any',
+            'create',
+            'update',
+        ];
     }
 
     public static function form(Form $form): Form

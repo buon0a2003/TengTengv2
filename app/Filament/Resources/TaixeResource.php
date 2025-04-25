@@ -40,8 +40,8 @@ class TaixeResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('Them thong tin tai xe')
-                ->description('Thêm thông tin tài xế')
+                Section::make('Thông tin tài xế')
+                ->description('Thông tin chi tiết về tài xế mới')
                 ->aside()
                 ->schema([
                     TextInput::make('TenTaiXe')
@@ -105,8 +105,10 @@ class TaixeResource extends Resource
                     ->date('d/m/Y')
                     ->searchable(),
                 TextColumn::make('GhiChu')
-                    ->searchable('Ghi chú'),
+                    ->label('Ghi chú')
+                    ->searchable(),
                 TextColumn::make('TrangThai')
+                    ->label('Trạng thái')
                     ->alignCenter()
                     ->formatStateUsing(fn ($record) => match ($record->TrangThai) {
                         0 => 'Đang giao',

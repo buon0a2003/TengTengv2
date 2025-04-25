@@ -27,7 +27,7 @@ class CreateTaixe extends CreateAndRedirectToIndex
     {
         return Notification::make()
             ->success()
-            ->title('Tạo mới tài xế')
-            ->body('Đã tạo thành công.');
+            ->title('Tạo thành công')
+            ->body('Đã tạo mới tài xế.');
     }
 }

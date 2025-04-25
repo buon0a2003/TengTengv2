@@ -111,11 +111,11 @@ return [
         'actions' => [
 
             'deselect_all' => [
-                'label' => 'Deselect all',
+                'label' => 'Bỏ chọn tất cả',
             ],
 
             'select_all' => [
-                'label' => 'Select all',
+                'label' => 'Chọn tất cả',
             ],
 
         ],
@@ -465,9 +465,9 @@ return [
 
         'placeholder' => 'Select an option',
 
-        'searching_message' => 'Đang tìm kiêm...',
+        'searching_message' => 'Đang tìm kiếm...',
 
-        'search_prompt' => 'Start typing to search...',
+        'search_prompt' => 'Nhập tên muốn tìm kiếm...',
 
     ],
 
@@ -484,7 +484,7 @@ return [
             ],
 
             'show_password' => [
-                'label' => 'Hiển thị mật khẩu',
+                'label' => 'Hiện mật khẩu',
             ],
 
         ],
