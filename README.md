@@ -6,4 +6,4 @@ php artisan key:generate
 4. php artisan filament:optimize
 5. php artisan serve
 6. truy cập http://127.0.0.1:8000/
-7. account là tk: a@gmail.com, mk: 1
+7. account là tk: a@gmail.com, mk: 1 
