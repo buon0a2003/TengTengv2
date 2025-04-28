@@ -9,6 +9,7 @@ use App\Filament\Auth\CustomProfile;
 use App\Filament\Resources\CustomRoleResource;
 use App\Filament\Widgets\BangWidget;
 use App\Filament\Widgets\BieuDoWidget;
+use App\Filament\Widgets\CanhBao;
 use App\Filament\Widgets\ThongSoWidget;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Exception;
@@ -78,9 +79,10 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
+                CanhBao::class,
                 ThongSoWidget::class,
-                BieuDoWidget::class,
                 BangWidget::class,
+                BieuDoWidget::class,
             ])
             ->navigationItems([
                 NavigationItem::make('Chức vụ')

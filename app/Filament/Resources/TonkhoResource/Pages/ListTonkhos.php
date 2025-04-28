@@ -20,7 +20,7 @@ class ListTonkhos extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            //            Actions\CreateAction::make(),
+            //Actions\CreateAction::make(),
             Action::make('nhaptondau')
                 ->label('nhập tồn đầu')
                 ->icon('heroicon-o-plus')

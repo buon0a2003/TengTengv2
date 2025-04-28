@@ -47,19 +47,16 @@ class VattuList extends Component implements HasForms, HasTable
                 SelectFilter::make('LaTP')
                     ->label('Loại vật tư')
                     ->options([
-                        '0' => 'Thành phẩm',
-                        '1' => 'Nguyên vật liệu',
+                        '1' => 'Thành phẩm',
+                        '0' => 'Nguyên vật liệu',
                     ])
                     ->default(function () {
                         if ($this->LyDo == '') {
                             return '';
-                        }
-
+                        } else
                         if ($this->LyDo == '2') {
                             return '1';
-                        }
-
-                        return !$this->LyDo;
+                        } else return !$this->LyDo;
                     }),
             ])
             ->actions([

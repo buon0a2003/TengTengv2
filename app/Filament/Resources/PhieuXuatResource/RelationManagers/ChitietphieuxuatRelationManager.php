@@ -148,6 +148,6 @@ class ChitietphieuxuatRelationManager extends RelationManager
 
     public function shouldbeHidden(): bool
     {
-        return $this->getOwnerRecord()->TrangThai === 1 || $this->getOwnerRecord()->TrangThai === 2;
+        return $this->getOwnerRecord()->TrangThai == 1 || $this->getOwnerRecord()->TrangThai == 2;
     }
 }

@@ -65,10 +65,21 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
         return 'Phiếu nhập';
     }
 
-    public static function getNavigationBadge(): ?string
-    {
-        return (string) static::getModel()::where('TrangThai', 0)->count();
-    }
+    public static array $status = [
+        '0' => 'Đang xử lý',
+        '1' => 'Đã xử lý',
+        '2' => 'Đã huỷ',
+    ];
+    public static array $lydo = [
+        '0' => 'Nhập thành phẩm',
+        '1' => 'Nhập nguyên vật liệu',
+        '2' => 'Nhập hàng huỷ',
+    ];
+
+    // public static function getNavigationBadge(): ?string
+    // {
+    //     return (string) static::getModel()::where('TrangThai', 0)->count();
+    // }
 
     public static function getPermissionPrefixes(): array
     {
@@ -101,11 +112,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                         ->default('0')
                                         ->live()
                                         ->label('Lý do nhập hàng?')
-                                        ->options([
-                                            '0' => 'Nhập thành phẩm',
-                                            '1' => 'Nhập nguyên vật liệu',
-                                            '2' => 'Nhập hàng huỷ',
-                                        ]),
+                                        ->options(self::$lydo),
 
                                     TextInput::make('id')
                                         ->placeholder('eg: PN001/xx/xx')
@@ -137,7 +144,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                         ->label('Nhà cung cấp')
                                         ->relationship('nhacungcap', 'TenNCC')
                                         ->preload()
-                                        ->hidden(fn(Get $get): bool => $get('LyDo') === '0' || $get('LyDo') === '2')
+                                        ->hidden(fn(Get $get): bool => $get('LyDo') == '0' || $get('LyDo') == '2')
                                         ->searchable()
                                         ->createOptionForm([
                                             Section::make('Thông tin bắt buộc')
@@ -211,11 +218,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                         ->label('Trạng thái')
                                         ->inline()
                                         ->visibleOn('edit')
-                                        ->options([
-                                            '0' => 'Đang xử lí',
-                                            '1' => 'Đã xử lí',
-                                            '2' => 'Đã huỷ',
-                                        ]),
+                                        ->options(self::$status),
                                 ]),
                         ]),
                     Wizard\Step::make('Thông tin chi tiết phiếu nhập')
@@ -326,18 +329,16 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
             ->filters([
                 Tables\Filters\SelectFilter::make('TrangThai')
                     ->label('Trạng thái')
-                    ->options([
-                        '0' => 'Đang xử lý',
-                        '1' => 'Đã xử lý',
-                        '2' => 'Đã huỷ',
-                    ]),
+                    ->options(self::$status),
             ])
             ->actions([
 
                 ActionGroup::make([
                     ViewAction::make()->color('info'),
                     EditAction::make()
+                        ->hidden(fn($record): bool => ! $record->TrangThai == 0)
                         ->color('primary'),
+
                     Action::make('duyetphieunhap')
                         ->authorize(fn(): bool => Auth::user()->can('duyetphieunhap_phieu::nhap'))
                         ->action(function ($record) {
@@ -391,7 +392,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                             }
                             //
                         })
-                        ->hidden(fn($record): bool => ! $record->TrangThai === 0)
+                        ->hidden(fn($record): bool => ! $record->TrangThai == 0)
                         ->label('Duyệt')
                         ->icon('heroicon-s-check')
                         ->color('success'),
@@ -405,7 +406,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                 ->danger()
                                 ->send();
                         })
-                        ->hidden(fn($record): bool => ! $record->TrangThai === 0)
+                        ->hidden(fn($record): bool => ! $record->TrangThai == 0)
                         ->label('Huỷ')
                         ->icon('heroicon-s-trash')
                         ->color('danger'),

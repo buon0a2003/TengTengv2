@@ -106,7 +106,7 @@ class UserResource extends Resource
                     ->description('Lựa chọn chức vụ cho người dùng')
                     ->schema([
                         Forms\Components\Toggle::make('Active')
-                            ->label(fn ($state): string => $state ? 'Active' : 'Inactive')
+                            ->label(fn($state): string => $state ? 'Active' : 'Inactive')
                             ->reactive()
                             ->visibleOn('edit'),
                         Select::make('roles')
@@ -145,17 +145,17 @@ class UserResource extends Resource
                 TextColumn::make('roles')
                     ->label('Chức vụ')
                     ->wrap()
-                    ->getStateUsing(fn ($record) => collect($record->roles)
+                    ->getStateUsing(fn($record) => collect($record->roles)
                         ->pluck('name')
-                        ->map(fn ($name) => Str::headline(str_replace('_', ' ', $name))))
+                        ->map(fn($name) => Str::headline(str_replace('_', ' ', $name))))
                     ->colors([
                         'warning',
                     ])
                     ->badge(),
                 TextColumn::make('Active')
-                    ->formatStateUsing(fn ($record) => $record->Active === 1 ? 'Yes' : 'No')
+                    ->formatStateUsing(fn($record) => $record->Active == 1 ? 'Yes' : 'No')
                     ->badge()
-                    ->color(fn ($record): string => $record->Active === 1 ? 'success' : 'danger')
+                    ->color(fn($record): string => $record->Active == 1 ? 'success' : 'danger')
                     ->searchable(),
                 //                TextColumn::make('created_at')->searchable()->sortable(),
             ])

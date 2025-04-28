@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Filament\Widgets;
 
+use App\Models\tonkho;
+use App\Models\donvitinh;
 use App\Models\phieunhap;
-use EightyNine\FilamentAdvancedWidget\AdvancedTableWidget as BaseWidget;
-use Filament\Tables\Columns\TextColumn;
+use Arr;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
+use EightyNine\FilamentAdvancedWidget\AdvancedTableWidget as BaseWidget;
 
 class BangWidget extends BaseWidget
 {
@@ -15,44 +18,58 @@ class BangWidget extends BaseWidget
     {
         return $table
             ->paginated()
-            ->emptyStateHeading('Chưa có phiếu nhập đang xử lí')
-            ->heading('Phiếu nhập chờ xử lí')
+            ->emptyStateHeading('Tồn kho đủ số lượng an toàn')
+            ->heading('Tình trạng tồn kho')
             ->query(
-                phieunhap::where('TrangThai', 0)
-                    ->orderBy('created_at', 'desc')
-                    ->take(5)
+                TonKho::query()
+                    ->select([
+                        'tonkho.*',
+                        \DB::raw('CASE
+                                WHEN tonkho.SoLuong <= donvitinh.critical THEN "Cảnh báo"
+                                WHEN tonkho.SoLuong <= donvitinh.very_low THEN "Rất thấp"
+                                WHEN tonkho.SoLuong <= donvitinh.low THEN "Thấp"
+                                ELSE "An toàn"
+                            END as level'),
+                    ])
+                    ->join('vattu', 'vattu.id', '=', 'tonkho.vattu_id')
+                    ->join('donvitinh', 'donvitinh.id', '=', 'vattu.donvitinh_id')
+                    ->where(function ($query) {
+                        $query->whereColumn('tonkho.SoLuong', '<=', 'donvitinh.critical')
+                            ->orWhereColumn('tonkho.SoLuong', '<=', 'donvitinh.very_low')
+                            ->orWhereColumn('tonkho.SoLuong', '<=', 'donvitinh.low');
+                    })
+                    ->with(['vattu.donvitinh'])
             )
             ->columns([
-                TextColumn::make('id')->label('Mã phiếu nhập'),
+                TextColumn::make('vattu.TenVT')
+                    ->label('Tên vật tư'),
+                TextColumn::make('SoLuong')
+                    ->label('Số lượng'),
+                TextColumn::make('vattu.donvitinh.TenDVT')
+                    // ->formatStateUsing(fn($record): string => (donvitinh::find($record->vattu_id)->TenDVT))
+                    ->label('Đơn vị tính'),
                 TextColumn::make('kho.TenKho')
                     ->label('Kho'),
-                TextColumn::make('LyDo')
-                    ->label('Lý do')
-                    ->alignCenter()
-                    ->formatStateUsing(fn($record) => match ($record->LyDo) {
-                        0 => 'Nhập thành phẩm',
-                        1 => 'Nhập nguyên vật liệu',
-                        2 => 'Hàng huỷ',
-                        default => ''
-                    })
-                    ->color(fn($record): string => $record->LyDo === 1 ? 'success' : 'info')
-                    ->badge(),
-                TextColumn::make('TrangThai')
-                    ->alignCenter()
-                    ->formatStateUsing(fn($record) => match ($record->TrangThai) {
-                        0 => 'Đang xử lý',
-                        1 => 'Đã xử lý',
-                        2 => 'Đã huỷ',
-                        default => ''
+                TextColumn::make('vitri.Mota')
+                    ->label('Vị trí'),
+                TextColumn::make('level')
+                    ->label('Tình trạng')
+                    ->color(fn(string $state): string => match ($state) {
+                        'Cảnh báo' => 'danger',
+                        'Rất thấp' => 'warning',
+                        'Thấp' => 'info',
                     })
                     ->badge()
-                    ->color(fn($record): string => match ($record->TrangThai) {
-                        0 => 'warning',
-                        1 => 'success',
-                        2 => 'danger',
-                        default => ''
-                    })
-                    ->label('Trạng thái'),
+                //     ->getStateUsing(function ($record) use ($nguong) {
+                //         if ($record->SoLuong <= $nguong['critical']) {
+                //             return 'Cảnh báo';
+                //         } elseif ($record->SoLuong <= $nguong['very low']) {
+                //             return 'Rất thấp';
+                //         } elseif ($record->SoLuong <= $nguong['low']) {
+                //             return 'Thấp';
+                //         }
+                //         return 'An toàn';
+                //     }),
             ]);
     }
 }

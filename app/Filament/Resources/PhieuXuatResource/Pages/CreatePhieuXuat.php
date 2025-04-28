@@ -30,7 +30,7 @@ class CreatePhieuXuat extends CreateAndRedirectToIndex
         $state = $this->form->getRawState();
 
         foreach ($state['dsvattuxuat'] as $item) {
-            if ($item['tonkho_id'] === $record['tonkho_id']) {
+            if ($item['tonkho_id'] == $record['tonkho_id']) {
                 Notification::make()
                     ->title('Thông báo')
                     ->body('Vật tư đã tồn tại trong danh sách xuất.')

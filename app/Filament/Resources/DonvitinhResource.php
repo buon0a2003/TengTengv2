@@ -56,6 +56,29 @@ class DonvitinhResource extends Resource
                         Textarea::make('Mota')
                             ->label('Mô tả'),
                     ]),
+                Section::make('Ngưỡng cảnh báo tồn kho')
+                    ->description('Thông tin cụ thể về ngưỡng cảnh báo của đơn vị tính mới.')
+                    ->columns([
+                        'sm' => 3,
+                        'xl' => 3,
+                    ])
+                    ->schema([
+                        TextInput::make('low')
+                            ->label('Ngưỡng thấp')
+                            ->numeric()
+                            ->default(0)
+                            ->required(),
+                        TextInput::make('very_low')
+                            ->label('Ngưỡng rất thấp')
+                            ->numeric()
+                            ->default(0)
+                            ->required(),
+                        TextInput::make('critical')
+                            ->label('Ngưỡng nguy hiểm')
+                            ->default(0)
+                            ->numeric()
+                            ->required(),
+                    ]),
             ]);
     }
 
@@ -76,6 +99,15 @@ class DonvitinhResource extends Resource
                 Tables\Columns\TextColumn::make('Mota')
                     ->label('Mô tả')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('low')
+                    ->alignEnd()
+                    ->label('Ngưỡng thấp'),
+                Tables\Columns\TextColumn::make('very_low')
+                    ->alignEnd()
+                    ->label('Ngưỡng rất thấp'),
+                Tables\Columns\TextColumn::make('critical')
+                    ->alignEnd()
+                    ->label('Ngưỡng nguy hiểm'),
                 Tables\Columns\TextColumn::make('created_at')->sortable()->label('Ngày tạo')->dateTime('d/m/Y')->wrap(),
 
             ])

@@ -47,9 +47,9 @@ class PhieunhapRelationManager extends RelationManager
 
                 TextColumn::make('LyDo')
                     ->label('Lý do')
-                    ->formatStateUsing(fn ($record) => $record->LyDo === 1 ? 'Nhập nguyên vật liệu' : 'Nhập sản xuất')
+                    ->formatStateUsing(fn($record) => $record->LyDo == 1 ? 'Nhập nguyên vật liệu' : 'Nhập sản xuất')
                     ->badge()
-                    ->color(fn ($record): string => $record->LyDo === 1 ? 'success' : 'secondary')
+                    ->color(fn($record): string => $record->LyDo == 1 ? 'success' : 'secondary')
                     ->searchable(),
 
                 TextColumn::make('GhiChu')

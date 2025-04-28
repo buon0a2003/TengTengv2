@@ -36,7 +36,7 @@ class EditPhieuNhap extends EditAndRedirectToIndex
     {
         return [
             Actions\DeleteAction::make()
-                ->hidden(fn($record): bool => $record->TrangThai === 1 || $record->TrangThai === 2)
+                ->hidden(fn($record): bool => $record->TrangThai == 1 || $record->TrangThai == 2)
                 ->requiresConfirmation()
                 ->modalDescription('Xoá phiếu nhập sẽ xoá tất cả thông tin kèm theo. Bạn chắc chắn chưa?')
                 ->action(

@@ -41,7 +41,7 @@ class phieuxuatPolicy
      */
     public function update(User $user, phieuxuat $phieuxuat): bool
     {
-        return $user->can('update_phieu::xuat');
+        return $user->can('update_phieu::xuat') && $phieuxuat->TrangThai == 0;
     }
 
     /**

@@ -67,10 +67,16 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
         ];
     }
 
-    public static function getNavigationBadge(): ?string
-    {
-        return (string) static::getModel()::where('TrangThai', 0)->count();
-    }
+    public static array $status = [
+        '0' => 'Đang xử lý',
+        '1' => 'Đã xử lý',
+        '2' => 'Đã huỷ',
+    ];
+
+    public static array $lydo = [
+        '0' => 'Xuất sản xuất',
+        '1' => 'Xuất bán',
+    ];
 
     public static function getNavigationBadgeTooltip(): ?string
     {
@@ -99,10 +105,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                         ->default('0')
                                         ->live()
                                         ->label('Lý do xuất hàng?')
-                                        ->options([
-                                            '0' => 'Xuất sản xuất',
-                                            '1' => 'Xuất bán',
-                                        ]),
+                                        ->options(self::$lydo),
 
                                     TextInput::make('id')
                                         ->placeholder('eg: PX001/xx/xx')
@@ -192,11 +195,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                         ->label('Trạng thái')
                                         ->inline()
                                         ->visibleOn('edit')
-                                        ->options([
-                                            '0' => 'Đang xử lí',
-                                            '1' => 'Đã xử lí',
-                                            '2' => 'Đã huỷ',
-                                        ]),
+                                        ->options(self::$status),
                                 ]),
                         ]),
                     Wizard\Step::make('Thông tin chi tiết phiếu xuất')
@@ -278,9 +277,9 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                     ->label('Kho'),
                 TextColumn::make('LyDo')
                     ->label('Lý do')
-                    ->formatStateUsing(fn($record) => $record->LyDo === 0 ? 'Xuất sản xuất' : 'Xuất bán')
+                    ->formatStateUsing(fn($record) => $record->LyDo == 0 ? 'Xuất sản xuất' : 'Xuất bán')
                     ->badge()
-                    ->color(fn($record): string => $record->LyDo === 0 ? 'info' : 'success')
+                    ->color(fn($record): string => $record->LyDo == 0 ? 'info' : 'success')
                     ->searchable(),
                 TextColumn::make('TrangThai')
                     ->alignCenter()
@@ -307,11 +306,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
             ->filters([
                 Tables\Filters\SelectFilter::make('TrangThai')
                     ->label('Trạng thái')
-                    ->options([
-                        '0' => 'Đang xử lý',
-                        '1' => 'Đã xử lý',
-                        '2' => 'Đã huỷ',
-                    ]),
+                    ->options(self::$status),
             ])
             ->actions([
                 ActionGroup::make([
@@ -319,7 +314,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                     Tables\Actions\EditAction::make()->color('primary'),
                     Action::make('duyetphieuxuat')
                         ->authorize(fn(): bool => Auth::user()->can('duyetphieuxuat_phieu::xuat'))
-                        ->hidden(fn($record): bool => ! $record->TrangThai === 0)
+                        ->hidden(fn($record): bool => ! $record->TrangThai == 0)
                         ->label('Duyệt phiếu xuất')
                         ->action(
                             function (phieuxuat $record): void {
@@ -370,7 +365,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                 ->danger()
                                 ->send();
                         })
-                        ->hidden(fn($record): bool => ! $record->TrangThai === 0)
+                        ->hidden(fn($record): bool => ! $record->TrangThai == 0)
                         ->color('danger')
                         ->icon('heroicon-o-x-circle'),
 

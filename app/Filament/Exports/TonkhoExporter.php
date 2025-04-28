@@ -22,8 +22,8 @@ class TonkhoExporter extends Exporter
             ExportColumn::make('kho.TenKho')->label('Tên kho'),
             ExportColumn::make('vattu.TenVT')->label('Tên vật tư'),
             ExportColumn::make('SoLuong')->label('Số lượng'),
-            ExportColumn::make('vattu.donvitinh_id')
-                ->formatStateUsing(fn ($record): string => (donvitinh::find($record->vattu_id)->TenDVT))
+            ExportColumn::make('vattu.donvitinh.TenDVT')
+                // ->formatStateUsing(fn ($record): string => (donvitinh::find($record->vattu_id)->TenDVT))
                 ->label('Đơn vị tính'),
             ExportColumn::make('vitri.Mota')->label('vị trí'),
         ];
@@ -34,7 +34,7 @@ class TonkhoExporter extends Exporter
         $body = 'Xuất dữ liệu hoàn tất';
 
         if ($failedRowsCount = $export->getFailedRowsCount()) {
-            $body = 'Xuất dữ liệu hoàn tất, nhưng có '.$failedRowsCount.' hàng không thành công';
+            $body = 'Xuất dữ liệu hoàn tất, nhưng có ' . $failedRowsCount . ' hàng không thành công';
         }
 
         return $body;

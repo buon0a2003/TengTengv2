@@ -31,7 +31,7 @@ class CustomProfile extends EditProfile
                 $this->makeForm()
                     ->schema([
                         Section::make('Thông tin tài khoản')
-                            ->description(__('Cập nhật thông tin tài khoản của bạn'))
+                            ->description('Cập nhật thông tin tài khoản của bạn')
                             ->schema([
                                 $this->getNameFormComponent(),
                                 $this->getEmailFormComponent(),
@@ -41,7 +41,7 @@ class CustomProfile extends EditProfile
                             ])
                             ->aside(),
                         Section::make('Đổi mật khẩu')
-                            ->description(__('Để lại trống nếu không muốn thay đổi mật khẩu'))
+                            ->description('Để lại trống nếu không muốn thay đổi mật khẩu')
                             ->schema([
                                 $this->getPasswordFormComponent(),
                                 $this->getPasswordConfirmationFormComponent(),
@@ -59,7 +59,7 @@ class CustomProfile extends EditProfile
     protected function getNameFormComponent(): Component
     {
         return TextInput::make('name')
-            ->label(__('Tên người dùng'))
+            ->label('Tên người dùng')
             ->required()
             ->maxLength(255)
             ->autofocus();
@@ -68,7 +68,7 @@ class CustomProfile extends EditProfile
     protected function getEmailFormComponent(): Component
     {
         return TextInput::make('email')
-            ->label(__('Địa chỉ email'))
+            ->label('Địa chỉ email')
             ->email()
             ->required()
             ->maxLength(255)
@@ -81,7 +81,7 @@ class CustomProfile extends EditProfile
     protected function getPasswordFormComponent(): Component
     {
         return TextInput::make('password')
-            ->label(__('Mật khẩu mới'))
+            ->label('Mật khẩu mới')
             ->password()
             ->revealable(filament()->arePasswordsRevealable())
             ->rule(Password::default())
@@ -90,8 +90,8 @@ class CustomProfile extends EditProfile
                 'regex' => 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, số và ký tự đặc biệt.',
             ])
             ->autocomplete('new-password')
-            ->dehydrated(fn ($state): bool => filled($state))
-            ->dehydrateStateUsing(fn ($state): string => Hash::make($state))
+            ->dehydrated(fn($state): bool => filled($state))
+            ->dehydrateStateUsing(fn($state): string => Hash::make($state))
             ->live(debounce: 500)
             ->same('passwordConfirmation');
     }
@@ -99,18 +99,18 @@ class CustomProfile extends EditProfile
     protected function getPasswordConfirmationFormComponent(): Component
     {
         return TextInput::make('passwordConfirmation')
-            ->label(__('Xác nhận mật khẩu mới'))
+            ->label('Xác nhận mật khẩu mới')
             ->password()
             ->revealable(filament()->arePasswordsRevealable())
             ->required()
-            ->visible(fn (Get $get): bool => filled($get('password')))
+            ->visible(fn(Get $get): bool => filled($get('password')))
             ->dehydrated(false);
     }
 
     protected function getBirthFormComponent(): Component
     {
         return DatePicker::make('Birth')
-            ->label(__('Ngày sinh'))
+            ->label('Ngày sinh')
             ->displayFormat('d/m/Y');
     }
 
@@ -129,7 +129,7 @@ class CustomProfile extends EditProfile
     protected function getAddressFormComponent(): Component
     {
         return Textarea::make('Address')
-            ->label(__('Địa chỉ'));
+            ->label('Địa chỉ');
     }
 
     protected function handleRecordUpdate(Model $record, array $data): Model
@@ -145,7 +145,7 @@ class CustomProfile extends EditProfile
     protected function getSaveFormAction(): Action
     {
         return Action::make('save')
-            ->label(__('Lưu thay đổi'))
+            ->label('Lưu thay đổi')
             ->submit('save')
             ->keyBindings(['mod+s']);
     }
@@ -153,7 +153,7 @@ class CustomProfile extends EditProfile
     public function backAction(): Action
     {
         return Action::make('back')
-            ->label(__('Hủy'))
+            ->label('Hủy')
             ->alpineClickHandler('document.referrer ? window.history.back() : (window.location.href = ' . Js::from(filament()->getUrl()) . ')')
             ->color('gray');
     }

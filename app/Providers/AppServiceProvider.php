@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use Filament\Pages\Page;
-use Filament\Support\Assets\Css;
-use Filament\Support\Enums\Alignment;
-use Filament\Support\Facades\FilamentAsset;
 use Filament\Tables\Table;
 use Illuminate\Support\Js;
+use Filament\Support\Assets\Css;
+use Filament\Support\Enums\Alignment;
 use Illuminate\Support\ServiceProvider;
+use Filament\Support\Facades\FilamentAsset;
+use Filament\Notifications\Livewire\DatabaseNotifications;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -38,5 +39,6 @@ class AppServiceProvider extends ServiceProvider
                 ->striped();
         });
 
+        DatabaseNotifications::pollingInterval('5s');
     }
 }

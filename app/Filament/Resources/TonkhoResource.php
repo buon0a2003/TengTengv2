@@ -91,9 +91,9 @@ class TonkhoResource extends Resource
                     ->label('Tên vật tư'),
                 TextColumn::make('SoLuong')
                     ->label('Số lượng'),
-                TextColumn::make('vattu.donvitinh_id')
+                TextColumn::make('vattu.donvitinh.TenDVT')
                     ->searchable()
-                    ->formatStateUsing(fn ($record): string => (donvitinh::find($record->vattu_id)->TenDVT))
+                    // ->formatStateUsing(fn ($record): string => (donvitinh::find($record->vattu_id)->TenDVT))
                     ->label('Đơn vị tính'),
                 TextColumn::make('kho.TenKho')
                     ->label('Kho'),
@@ -106,9 +106,9 @@ class TonkhoResource extends Resource
             ])
             ->defaultPaginationPageOption(25)
             ->emptyStateHeading('Không có thông tin tồn kho')
-//            ->headerActions([
-//                Tables\Actions\ExportAction::make(),
-//            ])
+            //            ->headerActions([
+            //                Tables\Actions\ExportAction::make(),
+            //            ])
             ->filters([
                 Tables\Filters\SelectFilter::make('kho_id')
                     ->relationship('kho', 'TenKho')

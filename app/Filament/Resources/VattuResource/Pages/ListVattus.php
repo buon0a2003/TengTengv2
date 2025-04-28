@@ -20,19 +20,21 @@ class ListVattus extends ListRecords
 
     public function getTabs(): array
     {
+        $thanhphamCount = $this->getModel()::where('LaTP', 1)->count();
+        $nguyenvatlieuCount = $this->getModel()::count() - $thanhphamCount;
         $tabs['tp'] = Tab::make('Thành phẩm')
             ->modifyQueryUsing(function ($query) {
                 return $query->where('LaTP', 1);
             })
             ->badgeColor('success')
-            ->badge($this->getModel()::where('LaTP', 1)->count());
+            ->badge($thanhphamCount);
 
         $tabs['nvl'] = Tab::make('Nguyên vật liệu')
             ->modifyQueryUsing(function ($query) {
                 return $query->where('LaTP', 0);
             })
             ->badgeColor('info')
-            ->badge($this->getModel()::where('LaTP', 0)->count());
+            ->badge($nguyenvatlieuCount);
 
         return $tabs;
     }

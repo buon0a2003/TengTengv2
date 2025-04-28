@@ -55,7 +55,7 @@ class TonkhoList extends Component implements HasForms, HasTable
                     ->numeric()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('vattu.donvitinh_id')
+                Tables\Columns\TextColumn::make('vattu.donvitinh.TenDVT')
                     ->formatStateUsing(
                         fn($record) => $record->vattu->donvitinh->TenDVT ?? 'Chưa có'
                     )
@@ -77,7 +77,7 @@ class TonkhoList extends Component implements HasForms, HasTable
                     ->sortable(),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('kho_id')
+                Tables\Filters\SelectFilter::make('kho')
                     ->relationship('kho', 'TenKho')
                     ->preload()
                     ->searchable()
@@ -92,7 +92,7 @@ class TonkhoList extends Component implements HasForms, HasTable
                     ->preload()
                     ->getOptionLabelFromRecordUsing(fn($record) => $record->LaTP ? 'Thành phẩm' : 'Nguyên vật liệu')
                     ->label('Loại vật tư')
-                    ->default(fn() => $this->LyDo === '0' ? 1 : 2),
+                    ->default(fn() => $this->LyDo == '0' ? 1 : 2),
             ], layout: FiltersLayout::AboveContent)
             ->actions([
                 Tables\Actions\Action::make('tonkhoSelect')

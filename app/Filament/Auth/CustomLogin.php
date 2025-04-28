@@ -41,7 +41,7 @@ class CustomLogin extends Login
 
             $this->throwFailureValidationException();
         } elseif (
-            $user->Active === 0
+            $user->Active == 0
         ) {
             Filament::auth()->logout();
 

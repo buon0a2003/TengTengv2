@@ -41,11 +41,11 @@ class phieunhapPolicy
      */
     public function update(User $user, phieunhap $phieunhap): bool
     {
-        return $user->can('update_phieu::nhap');
+        return $user->can('update_phieu::nhap') && $phieunhap->TrangThai == 0;
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Determine whether the user can delete the model.`
      */
     public function delete(User $user, phieunhap $phieunhap): bool
     {
