@@ -22,7 +22,7 @@ class ListTonkhos extends ListRecords
         return [
             //Actions\CreateAction::make(),
             Action::make('nhaptondau')
-                ->label('nhập tồn đầu')
+                ->label('Nhập tồn đầu')
                 ->icon('heroicon-o-plus')
                 ->url(TonkhoResource::getUrl('tondau'))
                 ->color('success'),

@@ -122,7 +122,7 @@ return [
             ],
 
             'remove' => [
-                'label' => 'Remove filter',
+                'label' => 'Xóa bộ lọc',
             ],
 
             'remove_all' => [
@@ -131,12 +131,12 @@ return [
             ],
 
             'reset' => [
-                'label' => 'Reset',
+                'label' => 'Đặt lại',
             ],
 
         ],
 
-        'heading' => 'Filters',
+        'heading' => 'Bộ lọc',
 
         'indicator' => 'Active filters',
 
@@ -145,7 +145,7 @@ return [
         ],
 
         'select' => [
-            'placeholder' => 'All',
+            'placeholder' => 'Tất cả',
         ],
 
         'trashed' => [

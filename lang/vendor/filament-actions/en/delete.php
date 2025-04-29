@@ -36,7 +36,7 @@ return [
 
         'modal' => [
 
-            'heading' => 'Delete selected :label',
+            'heading' => 'Xóa :label đã chọn',
 
             'actions' => [
 

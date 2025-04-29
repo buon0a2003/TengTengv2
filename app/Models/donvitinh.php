@@ -38,6 +38,9 @@ class donvitinh extends Model
         'id',
         'TenDVT',
         'Mota',
+        'low',
+        'very_low',
+        'critical'
     ];
 
     public function vattu(): HasMany

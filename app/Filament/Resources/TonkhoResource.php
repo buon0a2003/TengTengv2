@@ -75,6 +75,7 @@ class TonkhoResource extends Resource
                         TextInput::make('SoLuong')
                             ->label('Số lượng')
                             ->numeric()
+                            ->minValue(0)
                             ->required(),
                     ]),
             ])->columns(2);
