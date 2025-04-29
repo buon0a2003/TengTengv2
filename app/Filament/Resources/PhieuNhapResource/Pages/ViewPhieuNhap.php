@@ -60,7 +60,10 @@ class ViewPhieuNhap extends ViewRecord
 
                     return response()->streamDownload(function () use ($thongtinphieunhap, $chitietphieunhap) {
                         echo Pdf::loadHTML(
-                            Blade::render('phieunhap', ['record' => $thongtinphieunhap, 'chitietphieunhap' => $chitietphieunhap])
+                            Blade::render(
+                                'phieunhap',
+                                ['record' => $thongtinphieunhap, 'chitietphieunhap' => $chitietphieunhap]
+                            )
                         )->stream();
                     }, $record->id . '.pdf');
                 })

@@ -4,22 +4,40 @@ declare(strict_types=1);
 
 namespace App\Filament\Widgets;
 
+use Arr;
 use App\Models\tonkho;
 use App\Models\donvitinh;
 use App\Models\phieunhap;
-use Arr;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
 use EightyNine\FilamentAdvancedWidget\AdvancedTableWidget as BaseWidget;
 
 class BangWidget extends BaseWidget
 {
+
+    protected static string $view = 'filament.widgets.canh-bao';
+    public string $Emptymessage = 'Một số vật tư tồn kho đang thiếu hụt, vui lòng kiểm tra!';
+    public string $Noemptymessage = 'Không có vật tư nào tồn kho thiếu hụt';
+    protected string|int|array $columnSpan = 'full';
+
+    // eèo eèo
+    public static function canView(): bool
+    {
+        if (1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function table(Table $table): Table
     {
         return $table
-            ->paginated()
-            ->emptyStateHeading('Tồn kho đủ số lượng an toàn')
-            ->heading('Tình trạng tồn kho')
+            ->paginated(false)
+            ->heading('')
+            ->emptyStateHeading(function (): string {
+                return 'Tồn kho đủ số lượng an toàn';
+            })
             ->query(
                 TonKho::query()
                     ->select([
@@ -39,37 +57,22 @@ class BangWidget extends BaseWidget
                             ->orWhereColumn('tonkho.SoLuong', '<=', 'donvitinh.low');
                     })
                     ->with(['vattu.donvitinh'])
+
+                // tonkho::where('id', '000')
             )
             ->columns([
-                TextColumn::make('vattu.TenVT')
-                    ->label('Tên vật tư'),
-                TextColumn::make('SoLuong')
-                    ->label('Số lượng'),
-                TextColumn::make('vattu.donvitinh.TenDVT')
-                    // ->formatStateUsing(fn($record): string => (donvitinh::find($record->vattu_id)->TenDVT))
-                    ->label('Đơn vị tính'),
-                TextColumn::make('kho.TenKho')
-                    ->label('Kho'),
-                TextColumn::make('vitri.Mota')
-                    ->label('Vị trí'),
-                TextColumn::make('level')
-                    ->label('Tình trạng')
+                TextColumn::make('vattu.TenVT')->label('Tên vật tư'),
+                TextColumn::make('SoLuong')->label('Số lượng còn lại'),
+                TextColumn::make('vattu.donvitinh.TenDVT')->label('Đơn vị tính'),
+                TextColumn::make('kho.TenKho')->label('Kho'),
+                TextColumn::make('vitri.Mota')->label('Vị trí'),
+                TextColumn::make('level')->label('Tình trạng')
                     ->color(fn(string $state): string => match ($state) {
                         'Cảnh báo' => 'danger',
                         'Rất thấp' => 'warning',
                         'Thấp' => 'info',
                     })
                     ->badge()
-                //     ->getStateUsing(function ($record) use ($nguong) {
-                //         if ($record->SoLuong <= $nguong['critical']) {
-                //             return 'Cảnh báo';
-                //         } elseif ($record->SoLuong <= $nguong['very low']) {
-                //             return 'Rất thấp';
-                //         } elseif ($record->SoLuong <= $nguong['low']) {
-                //             return 'Thấp';
-                //         }
-                //         return 'An toàn';
-                //     }),
             ]);
     }
 }

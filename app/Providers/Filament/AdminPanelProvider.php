@@ -68,6 +68,7 @@ class AdminPanelProvider extends PanelProvider
                 'teal' => Color::Teal,
                 'violet' => Color::Violet,
             ])
+            ->theme(asset('css/filament/admin/theme.css'))
             ->brandLogo(fn() => view('filament.logo'))
             ->favicon(fn() => asset('images/fav/favicon-120.png'))
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
@@ -75,11 +76,11 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Pages\Dashboard::class,
             ])
-            //            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            //->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
-                CanhBao::class,
+                // CanhBao::class,
                 ThongSoWidget::class,
                 BangWidget::class,
                 BieuDoWidget::class,

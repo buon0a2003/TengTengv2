@@ -12,7 +12,7 @@
     scrollbar-width: none;
 }
 
-.fi-ta-cell {
+/* .fi-ta-cell {
     border-left: 1px solid rgba(229, 231, 235, 1);
     border-right: 1px solid rgba(229, 231, 235, 1);
 }
@@ -20,4 +20,4 @@
 .fi-ta-header-cell {
     border-left: 1px solid rgba(229, 231, 235, 1);
     border-right: 1px solid rgba(229, 231, 235, 1);
-}
+} */
