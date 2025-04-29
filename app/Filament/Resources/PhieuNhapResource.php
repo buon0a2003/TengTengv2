@@ -251,7 +251,9 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                         ->minValue(1),
                                     Textarea::make('ghichu')->rows(2)->label('Ghi chú'),
                                 ])->defaultItems(0)->grid(4),
-                        ])->visibleOn('create'),
+                        ])->visibleOn([
+                            'create',
+                        ]),
                 ])->columnSpanFull()->skippable(),
             ]);
     }
@@ -439,6 +441,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
         return [
             'index' => Pages\ListPhieuNhaps::route('/'),
             'create' => Pages\CreatePhieuNhap::route('/create'),
+            'view' => Pages\ViewPhieuNhap::route('/{record}'),
             'edit' => Pages\EditPhieuNhap::route('/{record}/edit'),
         ];
     }

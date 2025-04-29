@@ -18,6 +18,8 @@ class PhieuVanChuyenResource extends Resource
 {
     protected static ?string $model = PhieuVanChuyen::class;
 
+    protected static ?string $modelLabel = 'Phiếu vận chuyển';
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?int $navigationSort = 3;

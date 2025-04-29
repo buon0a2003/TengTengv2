@@ -36,9 +36,10 @@ class AppServiceProvider extends ServiceProvider
 
         Table::configureUsing(function (Table $table): void {
             $table
-                ->striped();
+                ->striped()
+                ->emptyStateHeading('Không có dữ liệu');
         });
 
-        DatabaseNotifications::pollingInterval('5s');
+        // DatabaseNotifications::pollingInterval('5s');
     }
 }

@@ -6,6 +6,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
+use Dom\Text;
 use Filament\Forms;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
@@ -22,6 +23,7 @@ use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Str;
 
@@ -108,6 +110,7 @@ class UserResource extends Resource
                         Forms\Components\Toggle::make('Active')
                             ->label(fn($state): string => $state ? 'Active' : 'Inactive')
                             ->reactive()
+                            ->onColor('emerald')
                             ->visibleOn('edit'),
                         Select::make('roles')
                             ->label('Chức vụ')
@@ -124,26 +127,20 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label('Mã')
+                TextColumn::make('id')->label('Mã')
                     ->sortable(),
-                TextColumn::make('name')
-                    ->label('Tên')
+                TextColumn::make('name')->label('Tên')
                     ->searchable(),
-                TextColumn::make('email')
-                    ->label('Email')
+                TextColumn::make('email')->label('Email')
                     ->searchable(),
-                TextColumn::make('Phone')
-                    ->label('Số điện thoại')
+                TextColumn::make('Phone')->label('Số điện thoại')
                     ->searchable(),
-                TextColumn::make('Birth')
-                    ->label('Ngày sinh')
-                    ->searchable()->date('d/m/Y'),
-                TextColumn::make('Address')
-                    ->label('Địa chỉ')
+                TextColumn::make('Birth')->label('Ngày sinh')
+                    ->searchable()
+                    ->date('d/m/Y'),
+                TextColumn::make('Address')->label('Địa chỉ')
                     ->searchable(),
-                TextColumn::make('roles')
-                    ->label('Chức vụ')
+                TextColumn::make('roles')->label('Chức vụ')
                     ->wrap()
                     ->getStateUsing(fn($record) => collect($record->roles)
                         ->pluck('name')
@@ -152,21 +149,24 @@ class UserResource extends Resource
                         'warning',
                     ])
                     ->badge(),
-                TextColumn::make('Active')
-                    ->formatStateUsing(fn($record) => $record->Active == 1 ? 'Yes' : 'No')
-                    ->badge()
-                    ->color(fn($record): string => $record->Active == 1 ? 'success' : 'danger')
+                ToggleColumn::make('Active')->label('Active')
+                    ->alignCenter()
+                    ->onColor('emerald')
+                    ->toggleable()
                     ->searchable(),
-                //                TextColumn::make('created_at')->searchable()->sortable(),
+                // TextColumn::make('Active')
+                //     ->formatStateUsing(fn($record) => $record->Active == 1 ? 'Yes' : 'No')
+                //     ->badge()
+                //     ->color(fn($record): string => $record->Active == 1 ? 'success' : 'danger')
+                //     ->searchable(),
+                //TextColumn::make('created_at')->searchable()->sortable(),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('Active')
-                    ->label('Còn hoạt động')
+                Tables\Filters\SelectFilter::make('Active')->label('Còn hoạt động')
                     ->options([
                         '0' => 'Không',
                         '1' => 'Có',
                     ]),
-
             ])
             ->actions([
                 ActionGroup::make([

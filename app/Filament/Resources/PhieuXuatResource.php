@@ -99,19 +99,17 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                 ->description('Thông tin chi tiết phiếu xuất')
                                 ->aside()
                                 ->schema([
-                                    Radio::make('LyDo')
+                                    Radio::make('LyDo')->label('Lý do xuất hàng?')
                                         ->required()
                                         ->inline()
                                         ->default('0')
                                         ->live()
-                                        ->label('Lý do xuất hàng?')
                                         ->options(self::$lydo),
 
-                                    TextInput::make('id')
+                                    TextInput::make('id')->label('Mã phiếu xuất')
                                         ->placeholder('eg: PX001/xx/xx')
                                         ->unique(ignoreRecord: true)
                                         ->required()
-                                        ->label('Mã phiếu xuất')
                                         ->prefixAction(
                                             FormAction::make('suggest')
                                                 ->icon('heroicon-m-sparkles')
@@ -125,16 +123,14 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                                 })
                                         ),
 
-                                    Select::make('user_id')
-                                        ->label('Người tạo phiếu')
+                                    Select::make('user_id')->label('Người tạo phiếu')
                                         ->relationship('user', 'name')
                                         ->default(fn(): int => Auth::user()->id)
                                         ->required()
                                         ->preload()
                                         ->searchable(),
 
-                                    Select::make('khachhang_id')
-                                        ->label('Khách hàng')
+                                    Select::make('khachhang_id')->label('Khách hàng')
                                         ->required()
                                         ->relationship('khachhang', 'TenKH')
                                         ->preload()
@@ -166,8 +162,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                                 ])->columnSpanFull(),
                                         ]),
 
-                                    Select::make('kho_id')
-                                        ->label('Kho')
+                                    Select::make('kho_id')->label('Kho')
                                         ->relationship('kho', 'TenKho')
                                         ->required()
                                         ->live()
@@ -200,7 +195,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                         ]),
                     Wizard\Step::make('Thông tin chi tiết phiếu xuất')
                         ->schema([
-                            Repeater::make('dsvattuxuat')
+                            Repeater::make('dsvattuxuat')->label('Danh sách vật tư xuất')
                                 ->required()
                                 ->validationMessages([
                                     'required' => 'Danh sách vật tư xuất không được trống.',
@@ -220,7 +215,6 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                         ->modalCancelAction(false)
                                         ->modalSubmitActionLabel('Done');
                                 })
-                                ->label('Danh sách vật tư xuất')
                                 ->schema([
                                     TextInput::make('vattu_id')->hidden()->live(),
                                     TextInput::make('kho_id')->hidden()->live(),
@@ -239,7 +233,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                         ->suffix(fn(Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
                                         ->numeric()
                                         ->minValue(0)
-                                        ->maxValue(fn(Get $get): int => (int) $get('soluongkhadung')),
+                                        ->lte('soluongkhadung'),
                                     Textarea::make('ghichu')->rows(2)->label('Ghi chú'),
                                 ])
                                 ->defaultItems(0)
@@ -260,28 +254,22 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
         return $table
             ->defaultSort('TrangThai', 'asc')
             ->columns([
-                TextColumn::make('id')
-                    ->label('Mã phiếu'),
-                TextColumn::make('khachhang.TenKH')
-                    ->placeholder('N/A')
-                    ->label('Khách hàng'),
-                TextColumn::make('NgayXuat')
-                    ->label('Ngày xuất')
+                TextColumn::make('id')->label('Mã phiếu'),
+                TextColumn::make('khachhang.TenKH')->label('Khách hàng')
+                    ->placeholder('N/A'),
+                TextColumn::make('NgayXuat')->label('Ngày xuất')
                     ->date('d/m/Y')
                     ->searchable(),
 
-                TextColumn::make('user.name')
-                    ->label('Người nhập')
+                TextColumn::make('user.name')->label('Người nhập')
                     ->searchable(),
-                TextColumn::make('kho.TenKho')
-                    ->label('Kho'),
-                TextColumn::make('LyDo')
-                    ->label('Lý do')
+                TextColumn::make('kho.TenKho')->label('Kho'),
+                TextColumn::make('LyDo')->label('Lý do')
                     ->formatStateUsing(fn($record) => $record->LyDo == 0 ? 'Xuất sản xuất' : 'Xuất bán')
                     ->badge()
                     ->color(fn($record): string => $record->LyDo == 0 ? 'info' : 'success')
                     ->searchable(),
-                TextColumn::make('TrangThai')
+                TextColumn::make('TrangThai')->label('Trạng thái')
                     ->alignCenter()
                     ->formatStateUsing(fn($record) => match ($record->TrangThai) {
                         0 => 'Đang xử lý',
@@ -295,27 +283,23 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                         1 => 'success',
                         2 => 'danger',
                         default => ''
-                    })
-                    ->label('Trạng thái'),
+                    }),
 
-                TextColumn::make('GhiChu')
-                    ->wrap()
-                    ->label('Ghi chú'),
+                TextColumn::make('GhiChu')->label('Ghi chú')
+                    ->wrap(),
 
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('TrangThai')
-                    ->label('Trạng thái')
+                Tables\Filters\SelectFilter::make('TrangThai')->label('Trạng thái')
                     ->options(self::$status),
             ])
             ->actions([
                 ActionGroup::make([
                     Tables\Actions\ViewAction::make()->color('info'),
                     Tables\Actions\EditAction::make()->color('primary'),
-                    Action::make('duyetphieuxuat')
+                    Action::make('duyetphieuxuat')->label('Duyệt phiếu xuất')
                         ->authorize(fn(): bool => Auth::user()->can('duyetphieuxuat_phieu::xuat'))
                         ->hidden(fn($record): bool => ! $record->TrangThai == 0)
-                        ->label('Duyệt phiếu xuất')
                         ->action(
                             function (phieuxuat $record): void {
                                 $chitietphieuxuatRecord = chitietphieuxuat::where('phieuxuat_id', $record->id)->get();
@@ -355,9 +339,8 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                         ->color('success')
                         ->icon('heroicon-o-check'),
 
-                    Action::make('huyphieuxuat')
+                    Action::make('huyphieuxuat')->label('Huỷ phiếu xuất')
                         ->authorize(fn(): bool => Auth::user()->can('duyetphieuxuat_phieu::xuat'))
-                        ->label('Huỷ phiếu xuất')
                         ->action(function ($record) {
                             $record->update(['TrangThai' => 2]);
                             Notification::make()
@@ -369,8 +352,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                         ->color('danger')
                         ->icon('heroicon-o-x-circle'),
 
-                    RelationManagerAction::make('chitietphieuxuat')
-                        ->label('Xem DS vật tư xuất')
+                    RelationManagerAction::make('chitietphieuxuat')->label('Xem DS vật tư xuất')
                         ->icon('heroicon-o-list-bullet')
                         ->color('amber')
                         ->relationManager(ChitietphieuxuatRelationManager::make()),
@@ -396,6 +378,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
         return [
             'index' => Pages\ListPhieuXuats::route('/'),
             'create' => Pages\CreatePhieuXuat::route('/create'),
+            'view' => Pages\ViewPhieuXuat::route('/{record}'),
             'edit' => Pages\EditPhieuXuat::route('/{record}/edit'),
         ];
     }

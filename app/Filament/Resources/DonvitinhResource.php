@@ -70,11 +70,13 @@ class DonvitinhResource extends Resource
                             ->required(),
                         TextInput::make('very_low')
                             ->label('Ngưỡng rất thấp')
+                            ->lt('low')
                             ->numeric()
                             ->default(0)
                             ->required(),
                         TextInput::make('critical')
                             ->label('Ngưỡng nguy hiểm')
+                            ->lt('very_low')
                             ->default(0)
                             ->numeric()
                             ->required(),
