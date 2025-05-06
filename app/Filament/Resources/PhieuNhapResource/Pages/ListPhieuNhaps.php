@@ -14,7 +14,9 @@ class ListPhieuNhaps extends ListRecords
     protected static string $resource = PhieuNhapResource::class;
 
     protected static ?string $title = 'Quản lý phiếu nhập';
+
     protected static ?string $breadcrumb = 'Quản lý phiếu nhâp';
+
     public function getTabs(): array
     {
 

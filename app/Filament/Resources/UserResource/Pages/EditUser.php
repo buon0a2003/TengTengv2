@@ -17,7 +17,9 @@ class EditUser extends EditAndRedirectToIndex
     protected static string $resource = UserResource::class;
 
     protected static ?string $title = 'Sửa người dùng';
+
     protected static ?string $breadcrumb = 'Sửa';
+
     public function shouldGetConfirm(): bool
     {
         try {
@@ -65,6 +67,7 @@ class EditUser extends EditAndRedirectToIndex
                 $this->save();
             });
     }
+
     protected function getSavedNotification(): ?Notification
     {
         return Notification::make()

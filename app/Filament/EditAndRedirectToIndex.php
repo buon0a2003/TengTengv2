@@ -18,6 +18,7 @@ class EditAndRedirectToIndex extends EditRecord
         return parent::getSaveFormAction()
             ->label('Lưu thay đổi');
     }
+
     protected function getCancelFormAction(): \Filament\Actions\Action
     {
         return parent::getCancelFormAction()

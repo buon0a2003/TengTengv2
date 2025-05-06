@@ -15,7 +15,9 @@ class CreateNhaCungCap extends CreateAndRedirectToIndex
     protected static string $resource = NhaCungCapResource::class;
 
     protected static ?string $title = 'Tạo mới';
+
     protected static ?string $breadcrumb = 'Tạo mới';
+
     protected function getCreatedNotification(): ?Notification
     {
         return Notification::make()
@@ -32,5 +34,4 @@ class CreateNhaCungCap extends CreateAndRedirectToIndex
         //        ]);
         return static::getModel()::create($data);
     }
-
 }

@@ -4,21 +4,20 @@ declare(strict_types=1);
 
 namespace App\Filament\Widgets;
 
-use Arr;
 use App\Models\tonkho;
-use App\Models\donvitinh;
-use App\Models\phieunhap;
+use EightyNine\FilamentAdvancedWidget\AdvancedTableWidget as BaseWidget;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\DB;
-use Filament\Tables\Columns\TextColumn;
-use EightyNine\FilamentAdvancedWidget\AdvancedTableWidget as BaseWidget;
 
 class BangWidget extends BaseWidget
 {
+    public string $Emptymessage = 'Một số vật tư tồn kho đang thiếu hụt, vui lòng kiểm tra!';
+
+    public string $Noemptymessage = 'Không có vật tư nào tồn kho thiếu hụt';
 
     protected static string $view = 'filament.widgets.canh-bao';
-    public string $Emptymessage = 'Một số vật tư tồn kho đang thiếu hụt, vui lòng kiểm tra!';
-    public string $Noemptymessage = 'Không có vật tư nào tồn kho thiếu hụt';
+
     protected string|int|array $columnSpan = 'full';
 
     // eèo eèo
@@ -26,9 +25,10 @@ class BangWidget extends BaseWidget
     {
         if (1) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
+
     }
 
     public function table(Table $table): Table
@@ -40,7 +40,7 @@ class BangWidget extends BaseWidget
                 return 'Tồn kho đủ số lượng an toàn';
             })
             ->query(
-                TonKho::query()
+                tonkho::query()
                     ->select([
                         'tonkho.*',
                         DB::raw('CASE
@@ -68,12 +68,12 @@ class BangWidget extends BaseWidget
                 TextColumn::make('kho.TenKho')->label('Kho'),
                 TextColumn::make('vitri.Mota')->label('Vị trí'),
                 TextColumn::make('level')->label('Tình trạng')
-                    ->color(fn(string $state): string => match ($state) {
+                    ->color(fn (string $state): string => match ($state) {
                         'Cảnh báo' => 'danger',
                         'Rất thấp' => 'warning',
                         'Thấp' => 'info',
                     })
-                    ->badge()
+                    ->badge(),
             ]);
     }
 }

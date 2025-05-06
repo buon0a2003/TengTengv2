@@ -13,7 +13,9 @@ class ListTaixes extends ListRecords
     protected static string $resource = TaixeResource::class;
 
     protected static ?string $title = 'Danh sách tài xế';
+
     protected static ?string $breadcrumb = 'Danh sách tài xế';
+
     protected function getHeaderActions(): array
     {
         return [

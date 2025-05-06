@@ -14,7 +14,9 @@ class EditKhachHang extends EditAndRedirectToIndex
     protected static string $resource = KhachHangResource::class;
 
     protected static ?string $title = 'Sửa khách hàng';
+
     protected static ?string $breadcrumb = 'Sửa';
+
     protected function getHeaderActions(): array
     {
         return [

@@ -14,7 +14,9 @@ class ListPhieuXuats extends ListRecords
     protected static string $resource = PhieuXuatResource::class;
 
     protected static ?string $title = 'Quản lý phiếu xuất';
+
     protected static ?string $breadcrumb = 'Quản lý phiếu xuất';
+
     public function getTabs(): array
     {
 

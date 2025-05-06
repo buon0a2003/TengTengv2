@@ -14,13 +14,16 @@ class EditNhaCungCap extends EditAndRedirectToIndex
     protected static string $resource = NhaCungCapResource::class;
 
     protected static ?string $title = 'Sửa nhà cung cấp';
+
     protected static ?string $breadcrumb = 'Sửa';
+
     protected function getHeaderActions(): array
     {
         return [
             //            Actions\DeleteAction::make(),
         ];
     }
+
     protected function getSavedNotification(): ?Notification
     {
         return Notification::make()
@@ -28,5 +31,4 @@ class EditNhaCungCap extends EditAndRedirectToIndex
             ->title('Sửa thành công')
             ->body('Đã sửa thông tin nhà cung cấp.');
     }
-
 }

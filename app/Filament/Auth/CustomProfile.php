@@ -24,6 +24,14 @@ class CustomProfile extends EditProfile
         return false;
     }
 
+    public function backAction(): Action
+    {
+        return Action::make('back')
+            ->label('Hủy')
+            ->alpineClickHandler('document.referrer ? window.history.back() : (window.location.href = '.Js::from(filament()->getUrl()).')')
+            ->color('gray');
+    }
+
     protected function getForms(): array
     {
         return [
@@ -90,8 +98,8 @@ class CustomProfile extends EditProfile
                 'regex' => 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, số và ký tự đặc biệt.',
             ])
             ->autocomplete('new-password')
-            ->dehydrated(fn($state): bool => filled($state))
-            ->dehydrateStateUsing(fn($state): string => Hash::make($state))
+            ->dehydrated(fn ($state): bool => filled($state))
+            ->dehydrateStateUsing(fn ($state): string => Hash::make($state))
             ->live(debounce: 500)
             ->same('passwordConfirmation');
     }
@@ -103,7 +111,7 @@ class CustomProfile extends EditProfile
             ->password()
             ->revealable(filament()->arePasswordsRevealable())
             ->required()
-            ->visible(fn(Get $get): bool => filled($get('password')))
+            ->visible(fn (Get $get): bool => filled($get('password')))
             ->dehydrated(false);
     }
 
@@ -148,13 +156,5 @@ class CustomProfile extends EditProfile
             ->label('Lưu thay đổi')
             ->submit('save')
             ->keyBindings(['mod+s']);
-    }
-
-    public function backAction(): Action
-    {
-        return Action::make('back')
-            ->label('Hủy')
-            ->alpineClickHandler('document.referrer ? window.history.back() : (window.location.href = ' . Js::from(filament()->getUrl()) . ')')
-            ->color('gray');
     }
 }

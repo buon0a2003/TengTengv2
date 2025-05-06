@@ -16,12 +16,14 @@ class EditKho extends EditAndRedirectToIndex
     protected static ?string $title = 'Sửa thông tin kho';
 
     protected static ?string $breadcrumb = 'Sửa';
+
     protected function getHeaderActions(): array
     {
         return [
             //            Actions\DeleteAction::make(),
         ];
     }
+
     protected function getSavedNotification(): ?Notification
     {
         return Notification::make()

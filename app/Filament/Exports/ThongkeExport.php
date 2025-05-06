@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Exports;
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use PhpOffice\PhpSpreadsheet\Style\Border;
-use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
-use PhpOffice\PhpSpreadsheet\Style\Font;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class ThongkeExport
 {
     protected array $data;
+
     protected int $month;
+
     protected int $year;
 
     public function __construct(array $data, int $month, int $year)
@@ -26,13 +28,12 @@ class ThongkeExport
     {
         $templatePath = storage_path('app/public/template/TongHopNhapXuatTon.xls');
 
-        if (!file_exists($templatePath)) {
+        if (! file_exists($templatePath)) {
             abort(404, 'Không tìm thấy file mẫu.');
         }
 
         $spreadsheet = IOFactory::load($templatePath);
         $sheet = $spreadsheet->getActiveSheet();
-
 
         $startDate = now()->setDate($this->year, $this->month, 1)->format('d/m/Y');
         $endDate = now()->setDate($this->year, $this->month, 1)->endOfMonth()->format('d/m/Y');
@@ -45,7 +46,9 @@ class ThongkeExport
 
         foreach (['TP' => true, 'VT' => false] as $label => $type) {
             $items = $grouped->get($type, []);
-            if (!$items || count($items) === 0) continue;
+            if (! $items || count($items) === 0) {
+                continue;
+            }
 
             // Tính tổng nhóm
             $groupTotal = ['opening' => 0, 'import' => 0, 'export' => 0, 'closing' => 0];
@@ -78,7 +81,6 @@ class ThongkeExport
 
             $currentRow++;
 
-
             foreach ($items as $item) {
                 $sheet->fromArray([
                     $item['MaVT'],
@@ -95,7 +97,6 @@ class ThongkeExport
                     'font' => ['bold' => false],
                     'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN]],
                 ]);
-
 
                 $sheet->getStyle("A{$currentRow}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
                 $sheet->getStyle("B{$currentRow}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
@@ -137,10 +138,9 @@ class ThongkeExport
             $sheet->getStyle("{$col}{$currentRow}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
         }
 
-
-        $fileName = 'thongkeXuatNhapTon_T' . $this->month . '_' . $this->year . '.xlsx';
+        $fileName = 'thongkeXuatNhapTon_T'.$this->month.'_'.$this->year.'.xlsx';
         $savePath = storage_path("app/tmp/{$fileName}");
-        if (!is_dir(dirname($savePath))) {
+        if (! is_dir(dirname($savePath))) {
             mkdir(dirname($savePath), 0755, true);
         }
 
@@ -149,6 +149,4 @@ class ThongkeExport
 
         return response()->download($savePath, $fileName)->deleteFileAfterSend(true);
     }
-
-
 }

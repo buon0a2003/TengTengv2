@@ -4,23 +4,24 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\PhieuXuatResource\Pages;
 
-use Filament\Actions;
-use App\Models\phieuxuat;
-use Filament\Actions\Action;
-use Barryvdh\DomPDF\Facade\Pdf;
-use App\Models\chitietphieuxuat;
-use Filament\Actions\DeleteAction;
-use Illuminate\Support\Facades\Blade;
 use App\Filament\EditAndRedirectToIndex;
-use Filament\Notifications\Notification;
 use App\Filament\Resources\PhieuXuatResource;
+use App\Models\chitietphieuxuat;
+use App\Models\phieuxuat;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Filament\Actions\Action;
+use Filament\Actions\DeleteAction;
+use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\Blade;
 
 class EditPhieuXuat extends EditAndRedirectToIndex
 {
     protected static string $resource = PhieuXuatResource::class;
 
     protected static ?string $title = 'Sửa phiếu xuất';
+
     protected static ?string $breadcrumb = 'Sửa';
+
     public function hasCombinedRelationManagerTabsWithContent(): bool
     {
         return true;
@@ -34,8 +35,8 @@ class EditPhieuXuat extends EditAndRedirectToIndex
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make()
-                ->hidden(fn($record): bool => $record->TrangThai == 1 || $record->TrangThai == 2)
+            DeleteAction::make()
+                ->hidden(fn ($record): bool => $record->TrangThai == 1 || $record->TrangThai == 2)
                 ->requiresConfirmation()
                 ->modalDescription('Xoá phiếu xuất sẽ xoá tất cả thông tin kèm theo. Bạn chắc chắn chưa?')
                 ->action(
@@ -83,10 +84,10 @@ class EditPhieuXuat extends EditAndRedirectToIndex
                         echo Pdf::loadHTML(
                             Blade::render('phieuxuat', ['record' => $thongtinphieuxuat, 'chitietphieuxuat' => $chitietphieuxuat])
                         )->stream();
-                    }, $record->id . '.pdf');
+                    }, $record->id.'.pdf');
                 })
                 // ->action(fn($record) => dd($record->chitietphieunhap))
-                ->hidden(fn($record): bool => ! $record->TrangThai == 1)
+                ->hidden(fn ($record): bool => ! $record->TrangThai == 1)
                 ->label('In phiếu')
                 ->icon('heroicon-o-printer')
                 ->color('primary'),

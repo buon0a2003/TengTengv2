@@ -19,12 +19,12 @@ class CreateAndRedirectToIndex extends CreateRecord
             ->label('Tạo mới')
             ->icon('heroicon-s-plus');
     }
+
     protected function getCreateAnotherFormAction(): \Filament\Actions\Action
     {
         return parent::getCreateAnotherFormAction()
             ->label('Tạo tiếp');
     }
-
 
     protected function getCancelFormAction(): \Filament\Actions\Action
     {

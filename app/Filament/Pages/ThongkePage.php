@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Filament\Pages;
+declare(strict_types=1);
 
+namespace App\Filament\Pages;
 
 use App\Filament\Exports\ThongkeExport;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
@@ -12,12 +13,17 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Facades\Excel;
 
 class ThongkePage extends Page implements HasForms
 {
     use HasPageShield;
     use InteractsWithForms;
+
+    public $year;
+
+    public $month;
+
+    public $data = [];
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
@@ -33,10 +39,6 @@ class ThongkePage extends Page implements HasForms
 
     protected static ?string $title = 'Thống kê Xuất Nhập Tồn';
 
-    public $year;
-    public $month;
-    public $data = [];
-
     public function mount(): void
     {
         $now = now();
@@ -49,25 +51,6 @@ class ThongkePage extends Page implements HasForms
         ]);
 
         $this->loadData();
-    }
-
-    protected function getFormSchema(): array
-    {
-        return [
-            Forms\Components\Grid::make(2)->schema([
-                Forms\Components\Select::make('month')
-                    ->label('Tháng')
-                    ->options(collect(range(1, 12))->mapWithKeys(fn ($m) => [$m => 'Tháng ' . $m])->toArray())
-                    ->reactive()
-                    ->afterStateUpdated(fn () => $this->updatedDate()),
-
-                Forms\Components\Select::make('year')
-                    ->label('Năm')
-                    ->options(collect(range(now()->year - 5, now()->year + 1))->mapWithKeys(fn ($y) => [$y => $y])->toArray())
-                    ->reactive()
-                    ->afterStateUpdated(fn () => $this->updatedDate()),
-            ]),
-        ];
     }
 
     public function updatedDate()
@@ -130,6 +113,32 @@ class ThongkePage extends Page implements HasForms
         $this->data = $records->toArray();
     }
 
+    public function exportToExcel()
+    {
+        $export = new ThongkeExport($this->data, $this->month, $this->year);
+
+        return $export->download();
+    }
+
+    protected function getFormSchema(): array
+    {
+        return [
+            Forms\Components\Grid::make(2)->schema([
+                Forms\Components\Select::make('month')
+                    ->label('Tháng')
+                    ->options(collect(range(1, 12))->mapWithKeys(fn ($m) => [$m => 'Tháng '.$m])->toArray())
+                    ->reactive()
+                    ->afterStateUpdated(fn () => $this->updatedDate()),
+
+                Forms\Components\Select::make('year')
+                    ->label('Năm')
+                    ->options(collect(range(now()->year - 5, now()->year + 1))->mapWithKeys(fn ($y) => [$y => $y])->toArray())
+                    ->reactive()
+                    ->afterStateUpdated(fn () => $this->updatedDate()),
+            ]),
+        ];
+    }
+
     protected function getHeaderActions(): array
     {
         return [
@@ -139,11 +148,4 @@ class ThongkePage extends Page implements HasForms
                 ->action('exportToExcel'),
         ];
     }
-
-    public function exportToExcel()
-    {
-        $export = new ThongkeExport($this->data, $this->month, $this->year);
-        return $export->download();
-    }
-
 }

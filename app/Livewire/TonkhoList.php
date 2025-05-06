@@ -57,7 +57,7 @@ class TonkhoList extends Component implements HasForms, HasTable
 
                 Tables\Columns\TextColumn::make('vattu.donvitinh.TenDVT')
                     ->formatStateUsing(
-                        fn($record) => $record->vattu->donvitinh->TenDVT ?? 'Chưa có'
+                        fn ($record) => $record->vattu->donvitinh->TenDVT ?? 'Chưa có'
                     )
                     ->label('Đơn vị tính')
                     ->alignCenter()
@@ -84,15 +84,17 @@ class TonkhoList extends Component implements HasForms, HasTable
                     ->default(function () {
                         if ($this->kho_id) {
                             return $this->kho_id;
-                        } else return '';
+                        }
+
+return '';
                     })
                     ->label('Chọn kho'),
                 Tables\Filters\SelectFilter::make('LaTP')
                     ->relationship('vattu', 'LaTP')
                     ->preload()
-                    ->getOptionLabelFromRecordUsing(fn($record) => $record->LaTP ? 'Thành phẩm' : 'Nguyên vật liệu')
+                    ->getOptionLabelFromRecordUsing(fn ($record) => $record->LaTP ? 'Thành phẩm' : 'Nguyên vật liệu')
                     ->label('Loại vật tư')
-                    ->default(fn() => $this->LyDo == '0' ? 1 : 2),
+                    ->default(fn () => $this->LyDo == '0' ? 1 : 2),
             ], layout: FiltersLayout::AboveContent)
             ->actions([
                 Tables\Actions\Action::make('tonkhoSelect')

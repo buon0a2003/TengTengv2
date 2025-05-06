@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Imports;
 
 use App\Models\Vattu;
@@ -39,16 +41,6 @@ class VattuImporter extends Importer
         ];
     }
 
-    public function resolveRecord(): ?Vattu
-    {
-        return Vattu::firstOrNew([
-            // Update existing records, matching them by `$this->data['column_name']`
-            'MaVT' => $this->data['MaVT'],
-        ]);
-
-        return new Vattu();
-    }
-
     public static function getCompletedNotificationBody(Import $import): string
     {
         $body = 'Nhập hoàn thành';
@@ -58,5 +50,15 @@ class VattuImporter extends Importer
         }
 
         return $body;
+    }
+
+    public function resolveRecord(): ?Vattu
+    {
+        return Vattu::firstOrNew([
+            // Update existing records, matching them by `$this->data['column_name']`
+            'MaVT' => $this->data['MaVT'],
+        ]);
+
+        return new Vattu();
     }
 }

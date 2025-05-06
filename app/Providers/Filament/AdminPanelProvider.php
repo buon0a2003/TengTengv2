@@ -4,34 +4,34 @@ declare(strict_types=1);
 
 namespace App\Providers\Filament;
 
+use App\Filament\Auth\CustomLogin;
+use App\Filament\Auth\CustomProfile;
+use App\Filament\Resources\CustomRoleResource;
+use App\Filament\Widgets\BangWidget;
+use App\Filament\Widgets\BieuDoWidget;
+use App\Filament\Widgets\CanhBao;
+use App\Filament\Widgets\ThongSoWidget;
+use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Exception;
+use Filament\Enums\ThemeMode;
+use Filament\Http\Middleware\Authenticate;
+use Filament\Http\Middleware\AuthenticateSession;
+use Filament\Http\Middleware\DisableBladeIconComponents;
+use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages;
 use Filament\Panel;
-use Filament\Widgets;
 use Filament\PanelProvider;
-use Filament\Enums\ThemeMode;
-use App\Filament\Widgets\CanhBao;
-use App\Filament\Auth\CustomLogin;
 use Filament\Support\Colors\Color;
-use App\Filament\Auth\CustomProfile;
-use App\Filament\Widgets\BangWidget;
-use Illuminate\Support\Facades\Auth;
-use App\Filament\Widgets\BieuDoWidget;
-use App\Filament\Widgets\ThongSoWidget;
-use Filament\Navigation\NavigationItem;
-use Filament\Http\Middleware\Authenticate;
-use App\Filament\Resources\CustomRoleResource;
-use Illuminate\Session\Middleware\StartSession;
-use Illuminate\Cookie\Middleware\EncryptCookies;
-use Filament\Http\Middleware\AuthenticateSession;
-use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
-use Illuminate\Routing\Middleware\SubstituteBindings;
-use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Filament\Http\Middleware\DisableBladeIconComponents;
-use Yebor974\Filament\RenewPassword\RenewPasswordPlugin;
-use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Illuminate\Cookie\Middleware\EncryptCookies;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Yebor974\Filament\RenewPassword\RenewPasswordPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -71,14 +71,14 @@ class AdminPanelProvider extends PanelProvider
                 'violet' => Color::Violet,
             ])
             ->theme(asset('css/filament/admin/theme.css'))
-            ->brandLogo(fn() => view('filament.logo'))
-            ->favicon(fn() => asset('images/fav/favicon-120.png'))
+            ->brandLogo(fn () => view('filament.logo'))
+            ->favicon(fn () => asset('images/fav/favicon-120.png'))
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                 Pages\Dashboard::class,
             ])
-            //->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            // ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
@@ -91,9 +91,9 @@ class AdminPanelProvider extends PanelProvider
                 NavigationItem::make('Chức vụ')
                     ->icon('heroicon-o-shield-check')
                     ->group('Quản lý tài khoản')
-                    ->isActiveWhen(fn() => request()->routeIs('filament.admin.resources.shield.roles.index'))
-                    ->url(fn(): string => CustomRoleResource::getUrl('index'))
-                    ->visible(fn() => Auth::user()->can('view_any_custom::role')),
+                    ->isActiveWhen(fn () => request()->routeIs('filament.admin.resources.shield.roles.index'))
+                    ->url(fn (): string => CustomRoleResource::getUrl('index'))
+                    ->visible(fn () => Auth::user()->can('view_any_custom::role')),
             ])
             ->navigationGroups([
                 'Quản lý danh mục',

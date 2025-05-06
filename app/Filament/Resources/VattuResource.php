@@ -72,7 +72,7 @@ class VattuResource extends Resource implements HasShieldPermissions
                             ->reactive()
                             ->afterStateUpdated(function ($state, callable $set) {
                                 if ($state) {
-                                    $set('MaVT', strtoupper($state));
+                                    $set('MaVT', mb_strtoupper($state));
                                 }
                             }),
 

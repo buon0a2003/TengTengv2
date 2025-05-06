@@ -14,7 +14,9 @@ class ListDonvitinhs extends ListRecords
     protected static string $resource = DonvitinhResource::class;
 
     protected static ?string $title = 'Đơn vị tính';
+
     protected static ?string $breadcrumb = 'Danh sách đơn vị tính';
+
     protected function getHeaderActions(): array
     {
         return [

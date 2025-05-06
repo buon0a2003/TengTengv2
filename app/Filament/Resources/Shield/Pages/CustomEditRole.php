@@ -13,8 +13,11 @@ use Filament\Notifications\Notification;
 class CustomEditRole extends EditRole
 {
     protected static string $resource = CustomRoleResource::class;
+
     protected static ?string $title = 'Sửa chức vụ';
+
     protected static ?string $breadcrumb = 'Sửa';
+
     public function shouldGetConfirm(): bool
     {
         try {
@@ -58,7 +61,7 @@ class CustomEditRole extends EditRole
             ->body('Đã sửa quyền hạn.');
     }
 
-    protected function getCancelFormAction(): \Filament\Actions\Action
+    protected function getCancelFormAction(): Action
     {
         return parent::getCancelFormAction()
             ->label('Hủy');

@@ -14,7 +14,9 @@ class EditDonvitinh extends EditAndRedirectToIndex
     protected static string $resource = DonvitinhResource::class;
 
     protected static ?string $title = 'Sửa đơn vị tính';
+
     protected static ?string $breadcrumb = 'Sửa';
+
     protected function getHeaderActions(): array
     {
         return [

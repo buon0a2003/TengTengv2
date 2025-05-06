@@ -37,7 +37,7 @@ class ChitietphieunhapRelationManager extends RelationManager
                         ->required(),
                     Forms\Components\TextInput::make('SoLuong')
                         ->label('Số lượng')
-                        ->suffix(fn(Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
+                        ->suffix(fn (Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
                         ->numeric()
                         ->required(),
                     Forms\Components\Select::make('vitri_id')
@@ -70,7 +70,7 @@ class ChitietphieunhapRelationManager extends RelationManager
                 TextColumn::make('SoLuong')->label('Số lượng'),
                 TextColumn::make('vattu_id')
                     ->label('Đơn vị tính')
-                    ->formatStateUsing(fn($record): string => (string) vattu::find($record->vattu_id)->donvitinh->TenDVT ?? 'N/A'),
+                    ->formatStateUsing(fn ($record): string => (string) vattu::find($record->vattu_id)->donvitinh->TenDVT ?? 'N/A'),
                 TextColumn::make('vitri.Mota')->label('Vị trí'),
                 TextColumn::make('GhiChu')->label('Ghi chú'),
             ])

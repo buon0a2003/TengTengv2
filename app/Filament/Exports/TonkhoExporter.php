@@ -34,7 +34,7 @@ class TonkhoExporter extends Exporter
         $body = 'Xuất dữ liệu hoàn tất';
 
         if ($failedRowsCount = $export->getFailedRowsCount()) {
-            $body = 'Xuất dữ liệu hoàn tất, nhưng có ' . $failedRowsCount . ' hàng không thành công';
+            $body = 'Xuất dữ liệu hoàn tất, nhưng có '.$failedRowsCount.' hàng không thành công';
         }
 
         return $body;

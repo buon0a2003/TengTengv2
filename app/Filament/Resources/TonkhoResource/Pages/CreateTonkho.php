@@ -13,6 +13,7 @@ class CreateTonkho extends CreateAndRedirectToIndex
     protected static string $resource = TonkhoResource::class;
 
     protected static ?string $title = 'Tạo mới';
+
     protected static ?string $breadcrumb = 'Tạo mới';
 
     protected function getCreatedNotification(): ?Notification

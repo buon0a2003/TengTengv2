@@ -1,21 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire;
 
 use App\Models\xetai;
-use Livewire\Component;
-use Filament\Tables\Table;
-use Filament\Tables\Actions\Action;
+use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
+use Filament\Notifications\Notification;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Notifications\Notification;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
+use Livewire\Component;
 
 class XetaiList extends Component implements HasForms, HasTable
 {
@@ -45,19 +46,19 @@ class XetaiList extends Component implements HasForms, HasTable
                 TextColumn::make('GhiChu')->label('Ghi chú'),
                 TextColumn::make('TrangThai')->label('Trạng thái')
                     ->alignCenter()
-                    ->formatStateUsing(fn($record) => match ($record->TrangThai) {
+                    ->formatStateUsing(fn ($record) => match ($record->TrangThai) {
                         0 => 'Đang giao',
                         1 => 'Có sẵn',
                         2 => 'Nghỉ',
                         default => 'N/A'
                     })
                     ->badge()
-                    ->color(fn($record): string => match ($record->TrangThai) {
+                    ->color(fn ($record): string => match ($record->TrangThai) {
                         0 => 'success',
                         1 => 'info',
                         2 => 'danger',
                         default => ''
-                    })
+                    }),
             ])
             ->filters([
                 SelectFilter::make('TrangThai')
@@ -83,7 +84,7 @@ class XetaiList extends Component implements HasForms, HasTable
 
                             Notification::make()
                                 ->title('Chọn xe tải')
-                                ->body('Đã chọn xe tải: ' . $record->BienSo)
+                                ->body('Đã chọn xe tải: '.$record->BienSo)
                                 ->success()
                                 ->duration(1000)
                                 ->send();

@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\PhieuNhapResource\Pages;
 
-use Filament\Actions;
-use App\Models\phieunhap;
-use Filament\Actions\Action;
-use Barryvdh\DomPDF\Facade\Pdf;
-use App\Models\chitietphieunhap;
-use Filament\Actions\DeleteAction;
-use Illuminate\Support\Facades\Blade;
 use App\Filament\EditAndRedirectToIndex;
-use Filament\Notifications\Notification;
 use App\Filament\Resources\PhieuNhapResource;
+use App\Models\chitietphieunhap;
+use App\Models\phieunhap;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Filament\Actions\Action;
+use Filament\Actions\DeleteAction;
+use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\Blade;
 
 class EditPhieuNhap extends EditAndRedirectToIndex
 {
     protected static string $resource = PhieuNhapResource::class;
 
     protected static ?string $title = 'Sửa phiếu nhập';
+
     protected static ?string $breadcrumb = 'Sửa';
 
     public function hasCombinedRelationManagerTabsWithContent(): bool
@@ -35,8 +35,8 @@ class EditPhieuNhap extends EditAndRedirectToIndex
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make()
-                ->hidden(fn($record): bool => $record->TrangThai == 1 || $record->TrangThai == 2)
+            DeleteAction::make()
+                ->hidden(fn ($record): bool => $record->TrangThai == 1 || $record->TrangThai == 2)
                 ->requiresConfirmation()
                 ->modalDescription('Xoá phiếu nhập sẽ xoá tất cả thông tin kèm theo. Bạn chắc chắn chưa?')
                 ->action(
@@ -54,7 +54,7 @@ class EditPhieuNhap extends EditAndRedirectToIndex
                     }
                 ),
 
-            Actions\Action::make('pdf')
+            Action::make('pdf')
                 ->openUrlInNewTab()
                 ->action(function ($record) {
 
@@ -88,10 +88,10 @@ class EditPhieuNhap extends EditAndRedirectToIndex
                         echo Pdf::loadHTML(
                             Blade::render('phieunhap', ['record' => $thongtinphieunhap, 'chitietphieunhap' => $chitietphieunhap])
                         )->stream();
-                    }, $record->id . '.pdf');
+                    }, $record->id.'.pdf');
                 })
                 // ->action(fn($record) => dd($record->chitietphieunhap))
-                ->hidden(fn($record): bool => ! $record->TrangThai == 1)
+                ->hidden(fn ($record): bool => ! $record->TrangThai == 1)
                 ->label('In phiếu')
                 ->icon('heroicon-o-printer')
                 ->color('primary'),

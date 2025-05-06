@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\KhachHangResource\Pages;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use App\Models\khachhang;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -27,6 +27,7 @@ class KhachHangResource extends Resource implements HasShieldPermissions
     protected static ?string $modelLabel = 'Khách hàng';
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
+
     protected static ?int $navigationSort = 1;
 
     protected static ?string $navigationLabel = 'Khách hàng';

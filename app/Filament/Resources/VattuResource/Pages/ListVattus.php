@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\VattuResource\Pages;
 
+use App\Filament\Resources\VattuResource;
 use Filament\Actions;
 use Filament\Actions\ImportAction;
 use Filament\Resources\Components\Tab;
-use App\Filament\Resources\VattuResource;
-use Filament\Forms\Components\Tabs;
 use Filament\Resources\Pages\ListRecords;
 
 class ListVattus extends ListRecords
@@ -16,6 +15,7 @@ class ListVattus extends ListRecords
     protected static string $resource = VattuResource::class;
 
     protected static ?string $title = 'Danh sách vật tư';
+
     protected static ?string $breadcrumb = 'Danh sách vật tư';
 
     public function getTabs(): array

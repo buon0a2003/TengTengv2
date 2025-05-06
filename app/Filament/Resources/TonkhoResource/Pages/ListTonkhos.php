@@ -16,11 +16,13 @@ class ListTonkhos extends ListRecords
     protected static string $resource = TonkhoResource::class;
 
     protected static ?string $title = 'Danh sách tồn kho';
+
     protected static ?string $breadcrumb = 'Danh sách tồn kho';
+
     protected function getHeaderActions(): array
     {
         return [
-            //Actions\CreateAction::make(),
+            // Actions\CreateAction::make(),
             Action::make('nhaptondau')
                 ->label('Nhập tồn đầu')
                 ->icon('heroicon-o-plus')

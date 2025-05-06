@@ -13,14 +13,15 @@ use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
-use Filament\Actions;
 
 class CreateUser extends CreateAndRedirectToIndex
 {
     protected static ?string $title = 'Tạo mới';
 
     protected static string $resource = UserResource::class;
+
     protected static ?string $breadcrumb = 'Tạo mới';
+
     protected string $plainPassword = '';
 
     public function shouldGetConfirm(): bool
@@ -85,7 +86,7 @@ class CreateUser extends CreateAndRedirectToIndex
         return $user;
     }
 
-    protected function getCreateAnotherFormAction(): Actions\Action
+    protected function getCreateAnotherFormAction(): Action
     {
         return parent::getCreateAnotherFormAction()
             ->label('Tạo tiếp')

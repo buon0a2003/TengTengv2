@@ -4,22 +4,27 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use Filament\Tables;
+use App\Filament\Resources\TaixeResource\Pages;
 use App\Models\taixe;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
-use Filament\Support\Colors\Color;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\DatePicker;
-use App\Filament\Resources\TaixeResource\Pages;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class TaixeResource extends Resource
 {
+    public static $trangthai = [
+        0 => 'Đang giao',
+        1 => 'Có sẵn',
+        2 => 'Nghỉ',
+    ];
+
     protected static ?string $model = taixe::class;
 
     protected static ?string $modelLabel = 'Tài xế';
@@ -27,6 +32,7 @@ class TaixeResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
     protected static ?string $navigationLabel = 'Tài xế';
+
     protected static ?int $navigationSort = 3;
 
     protected static ?string $navigationGroup = 'Quản lý vận chuyển';
@@ -38,11 +44,6 @@ class TaixeResource extends Resource
         return 'Tài xế';
     }
 
-    public static $trangthai = [
-        0 => 'Đang giao',
-        1 => 'Có sẵn',
-        2 => 'Nghỉ'
-    ];
     public static function form(Form $form): Form
     {
         return $form
@@ -88,7 +89,7 @@ class TaixeResource extends Resource
                             ->displayFormat('d/m/Y'),
                         Textarea::make('GhiChu')
                             ->label('Ghi chú'),
-                    ])
+                    ]),
             ]);
     }
 
@@ -123,19 +124,19 @@ class TaixeResource extends Resource
                 TextColumn::make('TrangThai')
                     ->label('Trạng thái')
                     ->alignCenter()
-                    ->formatStateUsing(fn($record) => match ($record->TrangThai) {
+                    ->formatStateUsing(fn ($record) => match ($record->TrangThai) {
                         0 => 'Đang giao',
                         1 => 'Có sẵn',
                         2 => 'Nghỉ',
                         default => 'N/A'
                     })
                     ->badge()
-                    ->color(fn($record): string => match ($record->TrangThai) {
+                    ->color(fn ($record): string => match ($record->TrangThai) {
                         0 => 'success',
                         1 => 'info',
                         2 => 'danger',
                         default => ''
-                    })
+                    }),
             ])
             ->filters([
                 //

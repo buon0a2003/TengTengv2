@@ -1,21 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire;
 
 use App\Models\taixe;
-use Livewire\Component;
-use Filament\Tables\Table;
-use Filament\Tables\Actions\Action;
+use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
 use Filament\Notifications\Notification;
-use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
+use Livewire\Component;
 
 class TaixeList extends Component implements HasForms, HasTable
 {
@@ -54,19 +56,19 @@ class TaixeList extends Component implements HasForms, HasTable
                 TextColumn::make('TrangThai')
                     ->label('Trạng thái')
                     ->alignCenter()
-                    ->formatStateUsing(fn($record) => match ($record->TrangThai) {
+                    ->formatStateUsing(fn ($record) => match ($record->TrangThai) {
                         0 => 'Đang giao',
                         1 => 'Có sẵn',
                         2 => 'Nghỉ',
                         default => 'N/A'
                     })
                     ->badge()
-                    ->color(fn($record): string => match ($record->TrangThai) {
+                    ->color(fn ($record): string => match ($record->TrangThai) {
                         0 => 'success',
                         1 => 'info',
                         2 => 'danger',
                         default => ''
-                    })
+                    }),
             ])
             ->filters([
                 SelectFilter::make('TrangThai')
@@ -93,7 +95,7 @@ class TaixeList extends Component implements HasForms, HasTable
 
                             Notification::make()
                                 ->title('Chọn tài xế')
-                                ->body('Đã chọn tài xế ' . $record->TenTaiXe)
+                                ->body('Đã chọn tài xế '.$record->TenTaiXe)
                                 ->success()
                                 ->duration(1000)
                                 ->send();

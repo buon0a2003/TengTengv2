@@ -14,6 +14,7 @@ class ListNhaCungCaps extends ListRecords
     protected static string $resource = NhaCungCapResource::class;
 
     protected static ?string $title = 'Danh sách nhà cung cấp';
+
     protected static ?string $breadcrumb = 'Danh sách nhà cung cấp';
     //  Ẩn breadcumbs
     //    public function getBreadcrumbs(): array

@@ -27,8 +27,11 @@ class phieuvanchuyen extends Model
      * @var bool
      */
     public $timestamps = false;
+
     public $incrementing = false;
+
     protected $keyType = 'string';
+
     /**
      * The connection name for the model.
      *
@@ -98,14 +101,17 @@ class phieuvanchuyen extends Model
     {
         return $this->belongsTo(phieuxuat::class, 'phieuxuat_id', 'id');
     }
+
     public function xetai()
     {
         return $this->belongsTo(xetai::class, 'xetai_id', 'id');
     }
+
     public function taixe()
     {
         return $this->belongsTo(taixe::class, 'taixe_id', 'id');
     }
+
     public function user()
     {
         return $this->belongsTo(user::class, 'user_id', 'id');

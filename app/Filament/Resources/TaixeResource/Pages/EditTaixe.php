@@ -8,20 +8,22 @@ use App\Filament\EditAndRedirectToIndex;
 use App\Filament\Resources\TaixeResource;
 use Filament\Actions;
 use Filament\Notifications\Notification;
-use Filament\Resources\Pages\EditRecord;
 
 class EditTaixe extends EditAndRedirectToIndex
 {
     protected static string $resource = TaixeResource::class;
+
     protected static ?string $title = 'Sửa tài xế';
+
     protected static ?string $breadcrumb = 'Sửa';
+
     protected function getHeaderActions(): array
     {
         return [
             Actions\DeleteAction::make()
-            ->action(
-                function ($record): void {
-                    $record->delete();
+                ->action(
+                    function ($record): void {
+                        $record->delete();
                         Notification::make()
                             ->success()
                             ->title('Xoá thành công')
@@ -29,7 +31,7 @@ class EditTaixe extends EditAndRedirectToIndex
                             ->send();
                         redirect()->to(route('filament.admin.resources.taixe.index'));
                     }
-            ),
+                ),
         ];
     }
 
@@ -40,5 +42,4 @@ class EditTaixe extends EditAndRedirectToIndex
             ->title('Sửa thành công')
             ->body('Đã sửa thông tin tài xế.');
     }
-
 }

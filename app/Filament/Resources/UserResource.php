@@ -6,11 +6,9 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
-use Dom\Text;
 use Filament\Forms;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -108,7 +106,7 @@ class UserResource extends Resource
                     ->description('Lựa chọn chức vụ cho người dùng')
                     ->schema([
                         Forms\Components\Toggle::make('Active')
-                            ->label(fn($state): string => $state ? 'Active' : 'Inactive')
+                            ->label(fn ($state): string => $state ? 'Active' : 'Inactive')
                             ->reactive()
                             ->onColor('emerald')
                             ->visibleOn('edit'),
@@ -136,9 +134,9 @@ class UserResource extends Resource
                     ->badge()
                     ->separator(';')
                     ->listWithLineBreaks()
-                    ->getStateUsing(fn($record) => collect($record->roles)
+                    ->getStateUsing(fn ($record) => collect($record->roles)
                         ->pluck('name')
-                        ->map(fn($name) => Str::headline(str_replace('_', ' ', $name))))
+                        ->map(fn ($name) => Str::headline(str_replace('_', ' ', $name))))
                     ->colors([
                         'warning',
                     ]),
@@ -161,7 +159,7 @@ class UserResource extends Resource
                 //     ->badge()
                 //     ->color(fn($record): string => $record->Active == 1 ? 'success' : 'danger')
                 //     ->searchable(),
-                //TextColumn::make('created_at')->searchable()->sortable(),
+                // TextColumn::make('created_at')->searchable()->sortable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('Active')->label('Còn hoạt động')

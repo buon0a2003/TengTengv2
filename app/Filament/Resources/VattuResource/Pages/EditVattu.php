@@ -14,6 +14,7 @@ class EditVattu extends EditAndRedirectToIndex
     protected static string $resource = VattuResource::class;
 
     protected static ?string $title = 'Sủa thông tin vật tư';
+
     protected static ?string $breadcrumb = 'Sửa';
 
     protected function getHeaderActions(): array

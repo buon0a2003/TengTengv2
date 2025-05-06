@@ -6,7 +6,6 @@ namespace App\Filament\Resources\KhachHangResource\Pages;
 
 use App\Filament\CreateAndRedirectToIndex;
 use App\Filament\Resources\KhachHangResource;
-use Filament\Actions;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
 
@@ -34,5 +33,4 @@ class CreateKhachHang extends CreateAndRedirectToIndex
         //        ]);
         return static::getModel()::create($data);
     }
-
 }

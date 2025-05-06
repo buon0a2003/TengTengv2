@@ -1,26 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources;
 
-use Filament\Forms;
-use Filament\Tables;
+use App\Filament\Resources\XeTaiResource\Pages;
 use App\Models\XeTai;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\DatePicker;
-use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\XeTaiResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\XeTaiResource\RelationManagers;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class XeTaiResource extends Resource
 {
+    public static $trangthai = [
+        0 => 'Đang giao',
+        1 => 'Có sẵn',
+        2 => 'Nghỉ',
+    ];
+
     protected static ?string $model = XeTai::class;
 
     protected static ?string $modelLabel = 'Xe tải';
@@ -28,6 +31,7 @@ class XeTaiResource extends Resource
     protected static ?string $navigationLabel = 'Xe tải';
 
     protected static ?string $navigationGroup = 'Quản lý vận chuyển';
+
     protected static ?int $navigationSort = 3;
 
     protected static ?string $slug = 'xetai';
@@ -38,12 +42,6 @@ class XeTaiResource extends Resource
     {
         return 'Xe tải';
     }
-
-    public static $trangthai = [
-        0 => 'Đang giao',
-        1 => 'Có sẵn',
-        2 => 'Nghỉ'
-    ];
 
     public static function form(Form $form): Form
     {
@@ -64,7 +62,7 @@ class XeTaiResource extends Resource
                             ->reactive()
                             ->afterStateUpdated(function ($state, callable $set) {
                                 if ($state) {
-                                    $set('BienSo', strtoupper($state));
+                                    $set('BienSo', mb_strtoupper($state));
                                 }
                             })
                             ->required(),
@@ -83,7 +81,7 @@ class XeTaiResource extends Resource
                             ->label('Màu sắc'),
                         Textarea::make('GhiChu')
                             ->label('Ghi chú'),
-                    ])
+                    ]),
             ]);
     }
 
@@ -115,19 +113,19 @@ class XeTaiResource extends Resource
                 TextColumn::make('TrangThai')
                     ->label('Trạng thái')
                     ->alignCenter()
-                    ->formatStateUsing(fn($record) => match ($record->TrangThai) {
+                    ->formatStateUsing(fn ($record) => match ($record->TrangThai) {
                         0 => 'Đang giao',
                         1 => 'Có sẵn',
                         2 => 'Nghỉ',
                         default => 'N/A'
                     })
                     ->badge()
-                    ->color(fn($record): string => match ($record->TrangThai) {
+                    ->color(fn ($record): string => match ($record->TrangThai) {
                         0 => 'success',
                         1 => 'info',
                         2 => 'danger',
                         default => ''
-                    })
+                    }),
             ])
             ->filters([
                 //

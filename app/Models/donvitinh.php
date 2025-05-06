@@ -40,7 +40,7 @@ class donvitinh extends Model
         'Mota',
         'low',
         'very_low',
-        'critical'
+        'critical',
     ];
 
     public function vattu(): HasMany
