@@ -2,12 +2,21 @@
 
 namespace App\Filament\Pages;
 
+
+use App\Filament\Exports\ThongkeExport;
 use Carbon\Carbon;
+use Filament\Actions\Action;
+use Filament\Forms;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
-class ThongkePage extends Page
+class ThongkePage extends Page implements HasForms
 {
+    use InteractsWithForms;
+
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     protected static string $view = 'filament.pages.thongke-page';
@@ -23,41 +32,74 @@ class ThongkePage extends Page
     protected static ?string $title = 'Thống kê Xuất Nhập Tồn';
 
     public $year;
+    public $month;
     public $data = [];
 
     public function mount(): void
     {
-        $this->year = now()->year;
+        $now = now();
+        $this->year = $now->year;
+        $this->month = $now->month;
+
+        // Đảm bảo form được điền đầy đủ khi mount
+        $this->form->fill([
+            'year' => $this->year,
+            'month' => $this->month,
+        ]);
+
         $this->loadData();
     }
 
-    public function updatedYear()
+    protected function getFormSchema(): array
     {
+        return [
+            Forms\Components\Grid::make(2)->schema([
+                Forms\Components\Select::make('month')
+                    ->label('Tháng')
+                    ->options(collect(range(1, 12))->mapWithKeys(fn ($m) => [$m => 'Tháng ' . $m])->toArray())
+                    ->reactive()
+                    ->afterStateUpdated(fn () => $this->updatedDate()),
+
+                Forms\Components\Select::make('year')
+                    ->label('Năm')
+                    ->options(collect(range(now()->year - 5, now()->year + 1))->mapWithKeys(fn ($y) => [$y => $y])->toArray())
+                    ->reactive()
+                    ->afterStateUpdated(fn () => $this->updatedDate()),
+            ]),
+        ];
+    }
+
+    public function updatedDate()
+    {
+        $state = $this->form->getState();
+        $this->year = $state['year'];
+        $this->month = $state['month'];
         $this->loadData();
     }
 
     public function loadData()
     {
         $records = collect();
-        $month = 4;
 
-        $start = Carbon::createFromDate($this->year, $month, 1)->startOfMonth();
+        $start = Carbon::createFromDate($this->year, $this->month, 1)->startOfMonth();
         $end = $start->copy()->endOfMonth();
-        $lastMonthDate = $start->copy()->subMonth()->endOfMonth();
 
+        $vattu = DB::table('vattu')
+            ->join('donvitinh', 'vattu.donvitinh_id', '=', 'donvitinh.id')
+            ->select('vattu.id', 'MaVT', 'TenVT', 'LaTP', 'donvitinh.TenDVT')
+            ->get();
 
-        $vattus = DB::table('vattu')->select('id', 'MaVT', 'TenVT', 'LaTP')->get();
-
-
-        foreach ($vattus as $vt) {
+        foreach ($vattu as $vt) {
             $import = DB::table('phieunhap')
                 ->join('chitietphieunhap', 'phieunhap.id', '=', 'chitietphieunhap.phieunhap_id')
+                ->where('phieunhap.TrangThai', 1)
                 ->where('chitietphieunhap.vattu_id', $vt->id)
                 ->whereBetween('NgayNhap', [$start, $end])
                 ->sum('chitietphieunhap.SoLuong');
 
             $export = DB::table('phieuxuat')
                 ->join('chitietphieuxuat', 'phieuxuat.id', '=', 'chitietphieuxuat.phieuxuat_id')
+                ->where('phieuxuat.TrangThai', 1)
                 ->where('chitietphieuxuat.vattu_id', $vt->id)
                 ->whereBetween('NgayXuat', [$start, $end])
                 ->sum('chitietphieuxuat.SoLuong');
@@ -76,6 +118,7 @@ class ThongkePage extends Page
                 'MaVT' => $vt->MaVT,
                 'TenVT' => $vt->TenVT,
                 'LaTP' => $vt->LaTP,
+                'DonViTinh' => $vt->TenDVT,
                 'opening' => $opening,
                 'import' => $import,
                 'export' => $export,
@@ -85,4 +128,21 @@ class ThongkePage extends Page
 
         $this->data = $records->toArray();
     }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Action::make('exportExcel')
+                ->label('Xuất Excel')
+                ->icon('heroicon-o-arrow-down-tray')
+                ->action('exportToExcel'),
+        ];
+    }
+
+    public function exportToExcel()
+    {
+        $export = new ThongkeExport($this->data, $this->month, $this->year);
+        return $export->download();
+    }
+
 }
