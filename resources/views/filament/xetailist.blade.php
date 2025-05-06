@@ -1,0 +1,1 @@
+@livewire('xetai-list')

@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\PhieuVanChuyen;
+use App\Models\phieuvanchuyen;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PhieuVanChuyenPolicy
@@ -21,7 +21,7 @@ class PhieuVanChuyenPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, PhieuVanChuyen $phieuVanChuyen): bool
+    public function view(User $user, phieuvanchuyen $phieuVanChuyen): bool
     {
         return $user->can('view_phieu::van::chuyen');
     }
@@ -37,7 +37,7 @@ class PhieuVanChuyenPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, PhieuVanChuyen $phieuVanChuyen): bool
+    public function update(User $user, phieuvanchuyen $phieuVanChuyen): bool
     {
         return $user->can('update_phieu::van::chuyen');
     }
@@ -45,7 +45,7 @@ class PhieuVanChuyenPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, PhieuVanChuyen $phieuVanChuyen): bool
+    public function delete(User $user, phieuvanchuyen $phieuVanChuyen): bool
     {
         return $user->can('delete_phieu::van::chuyen');
     }
@@ -61,7 +61,7 @@ class PhieuVanChuyenPolicy
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, PhieuVanChuyen $phieuVanChuyen): bool
+    public function forceDelete(User $user, phieuvanchuyen $phieuVanChuyen): bool
     {
         return $user->can('{{ ForceDelete }}');
     }
@@ -77,7 +77,7 @@ class PhieuVanChuyenPolicy
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, PhieuVanChuyen $phieuVanChuyen): bool
+    public function restore(User $user, phieuvanchuyen $phieuVanChuyen): bool
     {
         return $user->can('{{ Restore }}');
     }
@@ -93,7 +93,7 @@ class PhieuVanChuyenPolicy
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, PhieuVanChuyen $phieuVanChuyen): bool
+    public function replicate(User $user, phieuvanchuyen $phieuVanChuyen): bool
     {
         return $user->can('{{ Replicate }}');
     }

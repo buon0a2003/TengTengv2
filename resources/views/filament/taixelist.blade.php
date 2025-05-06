@@ -1,0 +1,1 @@
+@livewire('taixe-list')

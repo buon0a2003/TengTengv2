@@ -9,6 +9,7 @@ use App\Models\tonkho;
 use App\Models\donvitinh;
 use App\Models\phieunhap;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\DB;
 use Filament\Tables\Columns\TextColumn;
 use EightyNine\FilamentAdvancedWidget\AdvancedTableWidget as BaseWidget;
 
@@ -42,7 +43,7 @@ class BangWidget extends BaseWidget
                 TonKho::query()
                     ->select([
                         'tonkho.*',
-                        \DB::raw('CASE
+                        DB::raw('CASE
                                 WHEN tonkho.SoLuong <= donvitinh.critical THEN "Cảnh báo"
                                 WHEN tonkho.SoLuong <= donvitinh.very_low THEN "Rất thấp"
                                 WHEN tonkho.SoLuong <= donvitinh.low THEN "Thấp"

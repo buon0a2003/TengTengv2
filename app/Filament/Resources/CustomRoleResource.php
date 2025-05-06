@@ -80,27 +80,27 @@ class CustomRoleResource extends RoleResource
             ->columns([
                 TextColumn::make('name')
                     ->weight('font-medium')
-                    ->label(__('filament-shield::filament-shield.column.name'))
+                    ->label('Tên vai trò')
                     ->formatStateUsing(fn($state): string => Str::headline($state))
                     ->searchable(),
                 // TextColumn::make('guard_name')
                 //     ->badge()
                 //     ->color('warning')
                 //     ->label(__('filament-shield::filament-shield.column.guard_name')),
-                TextColumn::make('team.name')
-                    ->default('Global')
-                    ->badge()
-                    ->color(fn(mixed $state): string => str($state)->contains('Global') ? 'gray' : 'primary')
-                    ->label(__('filament-shield::filament-shield.column.team'))
-                    ->searchable()
-                    ->visible(fn(): bool => static::shield()->isCentralApp() && Utils::isTenancyEnabled()),
+                // TextColumn::make('team.name')
+                //     ->default('Global')
+                //     ->badge()
+                //     ->color(fn(mixed $state): string => str($state)->contains('Global') ? 'gray' : 'primary')
+                //     ->label(__('filament-shield::filament-shield.column.team'))
+                //     ->searchable()
+                //     ->visible(fn(): bool => static::shield()->isCentralApp() && Utils::isTenancyEnabled()),
                 TextColumn::make('permissions_count')
                     ->badge()
-                    ->label(__('filament-shield::filament-shield.column.permissions'))
+                    ->label('Số lượng quyền')
                     ->counts('permissions')
                     ->colors(['success']),
                 TextColumn::make('updated_at')
-                    ->label(__('filament-shield::filament-shield.column.updated_at'))
+                    ->label('Cập nhật lần cuối')
                     ->dateTime(),
             ])
             ->filters([

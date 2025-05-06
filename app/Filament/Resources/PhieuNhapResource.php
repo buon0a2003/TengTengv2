@@ -98,7 +98,6 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
     {
         return $form
             ->schema([
-
                 Wizard::make([
                     Wizard\Step::make('Thông tin phiếu nhập')
                         ->schema([
@@ -236,7 +235,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                     )
                                         ->action(null)
                                         ->modalCancelAction(false)
-                                        ->modalSubmitActionLabel('Done');
+                                        ->modalSubmitActionLabel('Xong');
                                 })
                                 ->label('Danh sách vật tư')
                                 ->schema([

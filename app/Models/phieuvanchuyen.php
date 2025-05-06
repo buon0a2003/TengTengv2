@@ -27,7 +27,8 @@ class phieuvanchuyen extends Model
      * @var bool
      */
     public $timestamps = false;
-
+    public $incrementing = false;
+    protected $keyType = 'string';
     /**
      * The connection name for the model.
      *
@@ -55,7 +56,17 @@ class phieuvanchuyen extends Model
      * @var array
      */
     protected $fillable = [
-        'phieuxuat_id', 'xetai_id', 'taixe_id', 'user_id', 'NgayTao', 'NgayVanChuyen', 'GhiChu', 'TrangThai', 'created_at', 'updated_at',
+        'id',
+        'phieuxuat_id',
+        'xetai_id',
+        'taixe_id',
+        'user_id',
+        'NgayTao',
+        'NgayVanChuyen',
+        'GhiChu',
+        'TrangThai',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -63,18 +74,7 @@ class phieuvanchuyen extends Model
      *
      * @var array
      */
-    protected $hidden = [
-
-    ];
-
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'string', 'phieuxuat_id' => 'int', 'xetai_id' => 'int', 'taixe_id' => 'int', 'user_id' => 'int', 'NgayTao' => 'datetime', 'NgayVanChuyen' => 'datetime', 'GhiChu' => 'string', 'TrangThai' => 'int', 'created_at' => 'timestamp', 'updated_at' => 'timestamp',
-    ];
+    protected $hidden = [];
 
     /**
      * The attributes that should be mutated to dates.
@@ -82,7 +82,10 @@ class phieuvanchuyen extends Model
      * @var array
      */
     protected $dates = [
-        'NgayTao', 'NgayVanChuyen', 'created_at', 'updated_at',
+        'NgayTao',
+        'NgayVanChuyen',
+        'created_at',
+        'updated_at',
     ];
 
     // Scopes...
@@ -90,4 +93,21 @@ class phieuvanchuyen extends Model
     // Functions ...
 
     // Relations ...
+
+    public function phieuxuat()
+    {
+        return $this->belongsTo(phieuxuat::class, 'phieuxuat_id', 'id');
+    }
+    public function xetai()
+    {
+        return $this->belongsTo(xetai::class, 'xetai_id', 'id');
+    }
+    public function taixe()
+    {
+        return $this->belongsTo(taixe::class, 'taixe_id', 'id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(user::class, 'user_id', 'id');
+    }
 }

@@ -1,4 +1,4 @@
-@if($this->table->getRecords()->isNotEmpty())
+@if ($this->table->getRecords()->isNotEmpty())
     <x-filament-widgets::widget>
         <x-filament::section       
             icon="heroicon-m-exclamation-triangle"

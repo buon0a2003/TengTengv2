@@ -9,6 +9,7 @@ use App\Filament\Resources\PhieuNhapResource;
 use App\Models\chitietphieunhap;
 use Filament\Actions;
 use Illuminate\Database\Eloquent\Model;
+use Livewire\Attributes\On;
 
 class CreatePhieuNhap extends CreateAndRedirectToIndex
 {
@@ -18,8 +19,9 @@ class CreatePhieuNhap extends CreateAndRedirectToIndex
 
     protected static ?string $breadcrumb = 'Tạo mới';
 
-    protected $listeners = ['vattuSelected' => 'handleVattuSelected'];
+    // protected $listeners = ['vattuSelected' => 'handleVattuSelected'];
 
+    #[On('vattuSelected')]
     public function handleVattuSelected($record): void
     {
         $state = $this->form->getRawState();

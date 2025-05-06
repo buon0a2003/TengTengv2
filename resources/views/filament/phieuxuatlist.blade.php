@@ -1,0 +1,1 @@
+@livewire('phieuxuat-list')

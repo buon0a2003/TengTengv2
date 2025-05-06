@@ -2,21 +2,22 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\XeTaiResource\Pages;
-use App\Filament\Resources\XeTaiResource\RelationManagers;
-use App\Models\XeTai;
 use Filament\Forms;
-use Filament\Forms\Components\DatePicker;
+use Filament\Tables;
+use App\Models\XeTai;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
-use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\XeTaiResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\XeTaiResource\RelationManagers;
 
 class XeTaiResource extends Resource
 {
@@ -38,6 +39,12 @@ class XeTaiResource extends Resource
         return 'Xe tải';
     }
 
+    public static $trangthai = [
+        0 => 'Đang giao',
+        1 => 'Có sẵn',
+        2 => 'Nghỉ'
+    ];
+
     public static function form(Form $form): Form
     {
         return $form
@@ -46,8 +53,20 @@ class XeTaiResource extends Resource
                     ->description('Thông tin chi tiết về xe tải')
                     ->aside()
                     ->schema([
+                        Radio::make('TrangThai')
+                            ->visibleOn('edit')
+                            ->inline()
+                            ->live()
+                            ->label('Trạng thái')
+                            ->options(self::$trangthai),
                         TextInput::make('BienSo')
                             ->label('Biển số xe')
+                            ->reactive()
+                            ->afterStateUpdated(function ($state, callable $set) {
+                                if ($state) {
+                                    $set('BienSo', strtoupper($state));
+                                }
+                            })
                             ->required(),
                         TextInput::make('TenXe')
                             ->label('Loại xe')
@@ -75,6 +94,9 @@ class XeTaiResource extends Resource
             ->emptyStateDescription('Vui lòng thêm dữ liệu hoặc thay đổi bộ lọc tìm kiếm.')
             ->columns([
                 TextColumn::make('BienSo')
+                    ->alignCenter()
+                    ->badge()
+                    ->color('primary')
                     ->label('Biển số xe')
                     ->searchable(),
                 TextColumn::make('TenXe')
@@ -93,14 +115,14 @@ class XeTaiResource extends Resource
                 TextColumn::make('TrangThai')
                     ->label('Trạng thái')
                     ->alignCenter()
-                    ->formatStateUsing(fn ($record) => match ($record->TrangThai) {
+                    ->formatStateUsing(fn($record) => match ($record->TrangThai) {
                         0 => 'Đang giao',
                         1 => 'Có sẵn',
                         2 => 'Nghỉ',
                         default => 'N/A'
                     })
                     ->badge()
-                    ->color(fn ($record): string => match ($record->TrangThai) {
+                    ->color(fn($record): string => match ($record->TrangThai) {
                         0 => 'success',
                         1 => 'info',
                         2 => 'danger',
