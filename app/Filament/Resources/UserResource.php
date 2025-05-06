@@ -131,6 +131,17 @@ class UserResource extends Resource
                     ->sortable(),
                 TextColumn::make('name')->label('Tên')
                     ->searchable(),
+                TextColumn::make('roles')->label('Chức vụ')
+                    ->wrap()
+                    ->badge()
+                    ->separator(';')
+                    ->listWithLineBreaks()
+                    ->getStateUsing(fn($record) => collect($record->roles)
+                        ->pluck('name')
+                        ->map(fn($name) => Str::headline(str_replace('_', ' ', $name))))
+                    ->colors([
+                        'warning',
+                    ]),
                 TextColumn::make('email')->label('Email')
                     ->searchable(),
                 TextColumn::make('Phone')->label('Số điện thoại')
@@ -140,15 +151,6 @@ class UserResource extends Resource
                     ->date('d/m/Y'),
                 TextColumn::make('Address')->label('Địa chỉ')
                     ->searchable(),
-                TextColumn::make('roles')->label('Chức vụ')
-                    ->wrap()
-                    ->getStateUsing(fn($record) => collect($record->roles)
-                        ->pluck('name')
-                        ->map(fn($name) => Str::headline(str_replace('_', ' ', $name))))
-                    ->colors([
-                        'warning',
-                    ])
-                    ->badge(),
                 ToggleColumn::make('Active')->label('Active')
                     ->alignCenter()
                     ->onColor('emerald')

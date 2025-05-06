@@ -57,6 +57,7 @@ class TonDau extends Page implements HasForms
                                 )
                                     ->action(null)
                                     ->modalCancelAction(false)
+                                    ->modalWidth('7xl')
                                     ->modalSubmitActionLabel('Done');
                             })
                             ->label('Danh sách vật tư')
@@ -103,7 +104,6 @@ class TonDau extends Page implements HasForms
 
         $this->form->fill($state);
         // dd($record);
-
     }
 
     protected function getHeaderActions(): array
