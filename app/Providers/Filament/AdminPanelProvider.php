@@ -120,9 +120,9 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 (new RenewPasswordPlugin())
+                    ->passwordExpiresIn(days: 90)
                     ->forceRenewPassword()
-                    ->timestampColumn()
-                    ->passwordExpiresIn(days: 90),
+                    ->timestampColumn(),
                 \Hasnayeen\Themes\ThemesPlugin::make(),
                 FilamentShieldPlugin::make()
                     ->gridColumns([

@@ -480,7 +480,7 @@ return [
         'actions' => [
 
             'hide_password' => [
-                'label' => 'Hide password',
+                'label' => 'Ẩn mật khẩu',
             ],
 
             'show_password' => [
