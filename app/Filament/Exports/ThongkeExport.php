@@ -33,7 +33,7 @@ class ThongkeExport
         $spreadsheet = IOFactory::load($templatePath);
         $sheet = $spreadsheet->getActiveSheet();
 
-        
+
         $startDate = now()->setDate($this->year, $this->month, 1)->format('d/m/Y');
         $endDate = now()->setDate($this->year, $this->month, 1)->endOfMonth()->format('d/m/Y');
         $sheet->setCellValue('A4', "Từ ngày {$startDate} đến ngày {$endDate}");
@@ -63,6 +63,12 @@ class ThongkeExport
             $sheet->setCellValue("E{$currentRow}", $groupTotal['import']);
             $sheet->setCellValue("F{$currentRow}", $groupTotal['export']);
             $sheet->setCellValue("G{$currentRow}", $groupTotal['closing']);
+
+            foreach (['D', 'E', 'F', 'G'] as $col) {
+                $sheet->getStyle("{$col}{$currentRow}")
+                    ->getNumberFormat()
+                    ->setFormatCode('#,##0');
+            }
 
             $sheet->getStyle("A{$currentRow}:G{$currentRow}")->applyFromArray([
                 'font' => ['bold' => true],
@@ -110,6 +116,11 @@ class ThongkeExport
         // Dòng tổng cộng toàn bộ
         $sheet->setCellValue("B{$currentRow}", 'Tổng cộng');
         $sheet->mergeCells("B{$currentRow}:C{$currentRow}");
+
+        // Dòng tổng cộng cuối cùng
+        $sheet->setCellValue("A{$currentRow}", 'Tổng cộng');
+        $sheet->mergeCells("A{$currentRow}:C{$currentRow}");
+
         $sheet->setCellValue("D{$currentRow}", $totalAll['opening']);
         $sheet->setCellValue("E{$currentRow}", $totalAll['import']);
         $sheet->setCellValue("F{$currentRow}", $totalAll['export']);
