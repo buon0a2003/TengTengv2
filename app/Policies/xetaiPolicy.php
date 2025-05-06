@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Models\XeTai;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class XeTaiPolicy
+class xetaiPolicy
 {
     use HandlesAuthorization;
 

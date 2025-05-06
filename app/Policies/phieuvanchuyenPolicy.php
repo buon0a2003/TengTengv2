@@ -8,7 +8,7 @@ use App\Models\phieuvanchuyen;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class PhieuVanChuyenPolicy
+class phieuvanchuyenPolicy
 {
     use HandlesAuthorization;
 
