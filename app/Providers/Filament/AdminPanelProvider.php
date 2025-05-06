@@ -90,7 +90,8 @@ class AdminPanelProvider extends PanelProvider
                     ->icon('heroicon-o-shield-check')
                     ->group('Quản lý tài khoản')
                     ->isActiveWhen(fn() => request()->routeIs('filament.admin.resources.shield.roles.index'))
-                    ->url(fn(): string => CustomRoleResource::getUrl('index')),
+                    ->url(fn(): string => CustomRoleResource::getUrl('index'))
+                    ->visible(fn() => auth()->user()->can('view_any_custom::role')),
             ])
             ->navigationGroups([
                 'Quản lý danh mục',

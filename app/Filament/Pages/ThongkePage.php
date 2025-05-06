@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 
 use App\Filament\Exports\ThongkeExport;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Carbon\Carbon;
 use Filament\Actions\Action;
 use Filament\Forms;
@@ -15,6 +16,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ThongkePage extends Page implements HasForms
 {
+    use HasPageShield;
     use InteractsWithForms;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
@@ -41,7 +43,6 @@ class ThongkePage extends Page implements HasForms
         $this->year = $now->year;
         $this->month = $now->month;
 
-        // Đảm bảo form được điền đầy đủ khi mount
         $this->form->fill([
             'year' => $this->year,
             'month' => $this->month,

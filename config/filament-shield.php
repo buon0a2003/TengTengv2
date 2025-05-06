@@ -54,7 +54,7 @@ return [
     ],
 
     'entities' => [
-        'pages' => false,
+        'pages' => true,
         'widgets' => false,
         'resources' => true,
         'custom_permissions' => false,
