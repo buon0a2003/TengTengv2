@@ -20,6 +20,7 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
@@ -125,8 +126,11 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id')->label('Mã')
+                TextColumn::make('id')->label('Mã')->hidden()
                     ->sortable(),
+                ImageColumn::make('avatar')->label('Ảnh')->alignCenter()
+                    ->defaultImageUrl(fn ($record): string => 'https://ui-avatars.com/api/?name='.$record->name)
+                    ->circular(),
                 TextColumn::make('name')->label('Tên')
                     ->searchable(),
                 TextColumn::make('roles')->label('Chức vụ')

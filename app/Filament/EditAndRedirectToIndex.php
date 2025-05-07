@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament;
 
+use Filament\Actions\Action;
 use Filament\Resources\Pages\EditRecord;
 
 class EditAndRedirectToIndex extends EditRecord
@@ -13,13 +14,13 @@ class EditAndRedirectToIndex extends EditRecord
         return $this->getResource()::getUrl('index');
     }
 
-    protected function getSaveFormAction(): \Filament\Actions\Action
+    protected function getSaveFormAction(): Action
     {
         return parent::getSaveFormAction()
             ->label('Lưu thay đổi');
     }
 
-    protected function getCancelFormAction(): \Filament\Actions\Action
+    protected function getCancelFormAction(): Action
     {
         return parent::getCancelFormAction()
             ->label('Hủy');

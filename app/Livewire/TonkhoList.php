@@ -86,7 +86,7 @@ class TonkhoList extends Component implements HasForms, HasTable
                             return $this->kho_id;
                         }
 
-return '';
+                        return '';
                     })
                     ->label('Chọn kho'),
                 Tables\Filters\SelectFilter::make('LaTP')
@@ -96,6 +96,7 @@ return '';
                     ->label('Loại vật tư')
                     ->default(fn () => $this->LyDo == '0' ? 1 : 2),
             ], layout: FiltersLayout::AboveContent)
+
             ->actions([
                 Tables\Actions\Action::make('tonkhoSelect')
                     ->label('Chọn')
