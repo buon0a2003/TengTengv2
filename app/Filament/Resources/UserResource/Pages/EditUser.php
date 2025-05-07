@@ -24,7 +24,6 @@ class EditUser extends EditAndRedirectToIndex
     {
         try {
             $selectedRoleIds = $this->form->getRawState()['roles'] ?? [];
-
         } catch (Exception $e) {
             return false;
         }
@@ -55,12 +54,12 @@ class EditUser extends EditAndRedirectToIndex
         return Action::make('lmao')
             ->label('Lưu thay đổi')
             ->requiresConfirmation(
-                fn () => $this->shouldGetConfirm()
+                fn() => $this->shouldGetConfirm()
             )
             ->modalDescription(
-                fn () => $this->shouldGetConfirm()
-                ? 'Bạn có chắc chắn muốn lưu người dùng với vai trò Super Admin?'
-                : ''
+                fn() => $this->shouldGetConfirm()
+                    ? 'Bạn có chắc chắn muốn lưu người dùng với vai trò Super Admin?'
+                    : ''
             )
             ->action(function () {
                 $this->closeActionModal();

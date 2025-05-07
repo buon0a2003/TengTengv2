@@ -42,12 +42,12 @@ class CreateUser extends CreateAndRedirectToIndex
             ->label('Tạo mới')
             ->icon('heroicon-s-plus')
             ->requiresConfirmation(
-                fn () => $this->shouldGetConfirm()
+                fn() => $this->shouldGetConfirm()
             )
             ->modalDescription(
-                fn () => $this->shouldGetConfirm()
-                ? 'Bạn có chắc chắn muốn tạo người dùng với vai trò Super Admin?'
-                : null
+                fn() => $this->shouldGetConfirm()
+                    ? 'Bạn có chắc chắn muốn tạo người dùng với vai trò Super Admin?'
+                    : null
             )
             ->action(function () {
                 $this->closeActionModal();
@@ -91,10 +91,10 @@ class CreateUser extends CreateAndRedirectToIndex
         return parent::getCreateAnotherFormAction()
             ->label('Tạo tiếp')
             ->requiresConfirmation(
-                fn () => $this->shouldGetConfirm()
+                fn() => $this->shouldGetConfirm()
             )
             ->modalDescription(
-                fn () => $this->shouldGetConfirm()
+                fn() => $this->shouldGetConfirm()
                     ? 'Bạn có chắc chắn muốn tạo người dùng với vai trò Super Admin?'
                     : null
             )

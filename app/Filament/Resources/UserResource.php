@@ -107,7 +107,7 @@ class UserResource extends Resource
                     ->description('Lựa chọn chức vụ cho người dùng')
                     ->schema([
                         Forms\Components\Toggle::make('Active')
-                            ->label(fn ($state): string => $state ? 'Active' : 'Inactive')
+                            ->label(fn($state): string => $state ? 'Active' : 'Inactive')
                             ->reactive()
                             ->onColor('emerald')
                             ->visibleOn('edit'),
@@ -129,7 +129,7 @@ class UserResource extends Resource
                 TextColumn::make('id')->label('Mã')->hidden()
                     ->sortable(),
                 ImageColumn::make('avatar')->label('Ảnh')->alignCenter()
-                    ->defaultImageUrl(fn ($record): string => 'https://ui-avatars.com/api/?name='.$record->name)
+                    ->defaultImageUrl(fn($record): string => 'https://ui-avatars.com/api/?name=' . $record->name)
                     ->circular(),
                 TextColumn::make('name')->label('Tên')
                     ->searchable(),
@@ -138,9 +138,9 @@ class UserResource extends Resource
                     ->badge()
                     ->separator(';')
                     ->listWithLineBreaks()
-                    ->getStateUsing(fn ($record) => collect($record->roles)
+                    ->getStateUsing(fn($record) => collect($record->roles)
                         ->pluck('name')
-                        ->map(fn ($name) => Str::headline(str_replace('_', ' ', $name))))
+                        ->map(fn($name) => Str::headline(str_replace('_', ' ', $name))))
                     ->colors([
                         'warning',
                     ]),
