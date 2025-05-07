@@ -91,23 +91,7 @@ class phieusuco extends Model
      */
     protected $hidden = [];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'string',
-        'phieuxuat_id' => 'int',
-        'phieuvanchuyen_id' => 'int',
-        'NgayTao' => 'datetime',
-        'user_id' => 'int',
-        'Mota' => 'string',
-        'GhiChu' => 'string',
-        'TrangThai' => 'int',
-        'created_at' => 'timestamp',
-        'updated_at' => 'timestamp',
-    ];
+
 
     /**
      * The attributes that should be mutated to dates.

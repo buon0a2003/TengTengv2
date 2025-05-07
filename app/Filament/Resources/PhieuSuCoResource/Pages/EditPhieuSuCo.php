@@ -26,6 +26,19 @@ class EditPhieuSuCo extends EditAndRedirectToIndex
         return 'Chỉnh sửa phiếu sự cố';
     }
 
+    // protected function mutateFormDataBeforeFill(array $data): array
+    // {
+
+    //     $xetai = xetai::find($data['xetai_id']);
+    //     $taixe = taixe::find($data['taixe_id']);
+    //     if ($xetai && $taixe) {
+    //         $data['Bienso'] = $xetai->BienSo;
+    //         $data['tentaixe'] = $taixe->TenTaiXe;
+    //     }
+
+    //     return $data;
+    // }
+
     #[On('phieuvanchuyenSelected')]
     public function onPhieuvanchuyenSelected($data): void
     {
@@ -33,26 +46,20 @@ class EditPhieuSuCo extends EditAndRedirectToIndex
 
         $phieuvanchuyen = phieuvanchuyen::find($data['phieuvanchuyen_id']);
 
-        if ($phieuvanchuyen && !empty($phieuvanchuyen->phieuxuat_id) && empty($this->data['phieuxuat_id'])) {
+        if ($phieuvanchuyen && !empty($phieuvanchuyen->phieuxuat_id)) {
             $this->data['phieuxuat_id'] = $phieuvanchuyen->phieuxuat_id;
         }
-
-        Notification::make()
-            ->title('Đã chọn phiếu vận chuyển')
-            ->success()
-            ->duration(1500)
-            ->send();
     }
 
-    #[On('phieuxuatSelected')]
-    public function onPhieuxuatSelected($data): void
-    {
-        $this->data['phieuxuat_id'] = $data['phieuxuat_id'];
+    // #[On('phieuxuatSelected')]
+    // public function onPhieuxuatSelected($data): void
+    // {
+    //     $this->data['phieuxuat_id'] = $data['phieuxuat_id'];
 
-        Notification::make()
-            ->title('Đã chọn phiếu xuất')
-            ->success()
-            ->duration(1500)
-            ->send();
-    }
+    //     // Notification::make()
+    //     //     ->title('Đã chọn phiếu xuất')
+    //     //     ->success()
+    //     //     ->duration(1500)
+    //     //     ->send();
+    // }
 }
