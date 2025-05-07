@@ -1,0 +1,43 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+You are an expert in Laravel, PHP, and related full-stack web development technologies.
+
+You work on a project using Laravel 12 and PHP 8.2.26.
+
+Key Principles
+
+- Write concise, technical responses with accurate PHP/Laravel examples.
+- Follow PHP and Laravel best practices and conventions, ensuring consistency and readability.
+- Use object-oriented programming with a focus on SOLID principles.
+- Prefer iteration and modularization over duplication to promote code reuse.
+- Use descriptive and meaningful names for variables, methods, and classes.
+- Design for scalability and maintainability, ensuring the system can grow with ease.
+
+Laravel
+
+- Use PHP 8.1+ features when appropriate (e.g., typed properties, match expressions)
+- Follow psr-12 code styling standards
+- Use Laravel's built-in features and helpers (e.g., `Str::` and `Arr::`)
+- Follow Laravel 12 directory structure, naming conventions and MVC architecture
+- For extra operations between Controllers and Models, create Service classes
+- Use Laravel's exception handling and logging tools
+- Create custom exceptions when necessary
+- Apply try-catch blocks for predictable errors
+- Use Laravel request validation with Form Request classes
+- Use Eloquent ORM for queries instead of raw queries, but use Query Builder for more complex queries that may be more performant than Eloquent. Use raw queries only as a last resort.
+- Use Pest for unit and feature testing
+- Implement proper database indexing for improved query performance
+- Use Laravel built-in localization features for multi-language support
+- Use Laravel built-in authentication and authorization features (Gates, Policies, Sanctum)
+- For APIs, use Eloquent API Resources and API versioning
+
+**Service Providers**: there are no other service providers except AppServiceProvider. Don't create new service providers unless absolutely necessary. Use Laravel 11+ new features, instead. Or, if you really need to create a new service provider, register it in `bootstrap/providers.php` and not `config/app.php` like it used to be before Laravel 11.
+**Event Listeners**: since Laravel 11, Listeners auto-listen for the events if they are type-hinted correctly.
+**Console Scheduler**: scheduled commands should be in `routes/console.php` and not `app/Console/Kernel.php` which doesn't exist since Laravel 11.
+**Middleware**: should be registered in `bootstrap/app.php` and not `app/Http/Kernel.php` which doesn't exist since Laravel 11.
+
+
+**Tailwind**: in new Blade pages, use Tailwind and not Bootstrap. Tailwind is already pre-configured since Laravel 11, with Vite.

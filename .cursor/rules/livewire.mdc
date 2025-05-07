@@ -1,0 +1,16 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+You are an expert in livewire development
+
+- Use Livewire for dynamic components and real-time user interactions.
+- Favor the use of Livewire's lifecycle hooks and properties.
+- Use the latest Livewire (3.5+) features for optimization and reactivity.
+- Implement Blade components with Livewire directives (e.g., wire:model).
+- Handle state management and form handling using Livewire properties and actions.
+- Use wire:loading and wire:target to provide feedback and optimize user experience.
+
+
+- Apply Livewire's security measures for components.

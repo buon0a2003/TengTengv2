@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\phieuxuat;
+use App\Models\phieuvanchuyen;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property string $id
@@ -49,12 +53,35 @@ class phieusuco extends Model
     protected $primaryKey = 'id';
 
     /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
+     * The data type of the auto-incrementing ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
+
+    /**
      * Attributes that should be mass-assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'phieuxuat_id', 'phieuvanchuyen_id', 'NgayTao', 'user_id', 'Mota', 'GhiChu', 'TrangThai', 'created_at', 'updated_at',
+        'id',
+        'phieuxuat_id',
+        'phieuvanchuyen_id',
+        'NgayTao',
+        'user_id',
+        'Mota',
+        'GhiChu',
+        'TrangThai',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -62,9 +89,7 @@ class phieusuco extends Model
      *
      * @var array
      */
-    protected $hidden = [
-
-    ];
+    protected $hidden = [];
 
     /**
      * The attributes that should be casted to native types.
@@ -72,7 +97,16 @@ class phieusuco extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'string', 'phieuxuat_id' => 'int', 'phieuvanchuyen_id' => 'int', 'NgayTao' => 'datetime', 'user_id' => 'int', 'Mota' => 'string', 'GhiChu' => 'string', 'TrangThai' => 'int', 'created_at' => 'timestamp', 'updated_at' => 'timestamp',
+        'id' => 'string',
+        'phieuxuat_id' => 'int',
+        'phieuvanchuyen_id' => 'int',
+        'NgayTao' => 'datetime',
+        'user_id' => 'int',
+        'Mota' => 'string',
+        'GhiChu' => 'string',
+        'TrangThai' => 'int',
+        'created_at' => 'timestamp',
+        'updated_at' => 'timestamp',
     ];
 
     /**
@@ -81,7 +115,9 @@ class phieusuco extends Model
      * @var array
      */
     protected $dates = [
-        'NgayTao', 'created_at', 'updated_at',
+        'NgayTao',
+        'created_at',
+        'updated_at',
     ];
 
     // Scopes...
@@ -89,4 +125,18 @@ class phieusuco extends Model
     // Functions ...
 
     // Relations ...
+    public function phieuxuat(): BelongsTo
+    {
+        return $this->belongsTo(phieuxuat::class);
+    }
+
+    public function phieuvanchuyen(): BelongsTo
+    {
+        return $this->belongsTo(phieuvanchuyen::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }

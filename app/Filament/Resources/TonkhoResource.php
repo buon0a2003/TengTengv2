@@ -4,21 +4,22 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use App\Filament\Exports\TonkhoExporter;
-use App\Filament\Resources\TonkhoResource\Pages;
-use App\Models\donvitinh;
-use App\Models\tonkho;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Enums\FiltersLayout;
+use App\Models\tonkho;
+use Filament\Forms\Get;
+use Filament\Forms\Form;
+use App\Models\donvitinh;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Section;
+use Filament\Tables\Columns\TextColumn;
+use App\Filament\Exports\TonkhoExporter;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\TonkhoResource\Pages;
 
 class TonkhoResource extends Resource
 {
@@ -84,6 +85,7 @@ class TonkhoResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->query(tonkho::with('vattu', 'kho', 'vitri'))
             ->emptyStateHeading('Không có hàng tồn kho')
             ->emptyStateDescription('Vui lòng thêm dữ liệu hoặc thay đổi bộ lọc tìm kiếm.')
             ->columns([
@@ -101,6 +103,11 @@ class TonkhoResource extends Resource
                 TextColumn::make('vitri.Mota')
                     ->searchable()
                     ->label('Vị trí'),
+                TextColumn::make('vattu.LaTP')
+                    ->label('Loại vật tư')
+                    ->formatStateUsing(fn($state) => $state ? 'Thành phẩm' : 'Nguyên vật liệu')
+                    ->badge()
+                    ->color(fn($state) => $state ? 'success' : 'warning'),
                 TextColumn::make('NgayCapNhat')
                     ->date('d-m-Y')
                     ->label('Ngày cập nhật'),
@@ -111,15 +118,29 @@ class TonkhoResource extends Resource
             //                Tables\Actions\ExportAction::make(),
             //            ])
             ->filters([
-                Tables\Filters\SelectFilter::make('kho_id')
+                SelectFilter::make('kho_id')
                     ->relationship('kho', 'TenKho')
                     ->preload()
                     ->searchable()
                     ->label('Chọn kho'),
+                SelectFilter::make('LaTP')
+                    ->options([
+                        0 => 'Nguyên vật liệu',
+                        1 => 'Thành phẩm',
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query->when(
+                            isset($data['value']),
+                            fn(Builder $query, $value): Builder => $query->whereHas('vattu', fn($q) => $q->where('LaTP', '=', $data['value']))
+                        );
+                    })
+                    ->label('Loại vật tư')
             ], layout: FiltersLayout::AboveContent)
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make()->label('Sửa'),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make()->label('Sửa'),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

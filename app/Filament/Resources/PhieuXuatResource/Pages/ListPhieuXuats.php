@@ -47,7 +47,7 @@ class ListPhieuXuats extends ListRecords
                 ->icon('heroicon-o-plus')
                 ->label('Tạo mới'),
 
-            Actions\CreateAction::make()
+            Actions\CreateAction::make()->disabled()
                 ->label('Xuất excel')
                 ->icon('heroicon-o-arrow-down-tray')
                 ->color('primary'),
