@@ -26,19 +26,6 @@ class EditPhieuSuCo extends EditAndRedirectToIndex
         return 'Chỉnh sửa phiếu sự cố';
     }
 
-    // protected function mutateFormDataBeforeFill(array $data): array
-    // {
-
-    //     $xetai = xetai::find($data['xetai_id']);
-    //     $taixe = taixe::find($data['taixe_id']);
-    //     if ($xetai && $taixe) {
-    //         $data['Bienso'] = $xetai->BienSo;
-    //         $data['tentaixe'] = $taixe->TenTaiXe;
-    //     }
-
-    //     return $data;
-    // }
-
     #[On('phieuvanchuyenSelected')]
     public function onPhieuvanchuyenSelected($data): void
     {

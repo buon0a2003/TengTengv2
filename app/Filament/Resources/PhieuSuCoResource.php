@@ -35,6 +35,8 @@ class PhieuSuCoResource extends Resource
 
     protected static ?string $navigationGroup = 'Quản lý vận chuyển';
 
+    protected static ?int $navigationSort = 99;
+
     protected static ?string $slug = 'phieusuco';
 
     public static function getBreadcrumb(): string
