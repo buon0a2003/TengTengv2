@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('Phone')->nullable();
             $table->string('Address')->nullable();
             $table->string('cccd')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
