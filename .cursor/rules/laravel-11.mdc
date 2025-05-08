@@ -38,6 +38,4 @@ Laravel
 **Event Listeners**: since Laravel 11, Listeners auto-listen for the events if they are type-hinted correctly.
 **Console Scheduler**: scheduled commands should be in `routes/console.php` and not `app/Console/Kernel.php` which doesn't exist since Laravel 11.
 **Middleware**: should be registered in `bootstrap/app.php` and not `app/Http/Kernel.php` which doesn't exist since Laravel 11.
-
-
 **Tailwind**: in new Blade pages, use Tailwind and not Bootstrap. Tailwind is already pre-configured since Laravel 11, with Vite.

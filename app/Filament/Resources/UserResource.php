@@ -156,7 +156,6 @@ class UserResource extends Resource
                 ToggleColumn::make('Active')->label('Active')
                     ->alignCenter()
                     ->onColor('emerald')
-                    ->toggleable()
                     ->searchable(),
                 // TextColumn::make('Active')
                 //     ->formatStateUsing(fn($record) => $record->Active == 1 ? 'Yes' : 'No')
