@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Pages;
 
-use App\Filament\Exports\ThongkeExport;
+use App\Filament\Exports\XuatnhaptonExporter;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Carbon\Carbon;
 use Filament\Actions\Action;
@@ -14,7 +14,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\DB;
 
-class ThongkePage extends Page implements HasForms
+class XuatnhaptonPage extends Page implements HasForms
 {
     use HasPageShield;
     use InteractsWithForms;
@@ -27,17 +27,17 @@ class ThongkePage extends Page implements HasForms
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
-    protected static string $view = 'filament.pages.thongke-page';
+    protected static string $view = 'filament.pages.xuatnhapton-page';
 
     protected static ?string $modelLabel = 'Thống kê';
 
-    protected static ?string $navigationLabel = 'Thống kê';
+    protected static ?string $navigationLabel = 'Xuất nhập tồn';
 
     protected static ?string $navigationGroup = 'Báo cáo thống kê';
 
-    protected static ?string $slug = 'thongke';
+    protected static ?string $slug = 'xuatnhapton';
 
-    protected static ?string $title = 'Thống kê Xuất Nhập Tồn';
+    protected static ?string $title = 'Thống kê xuất nhập tồn';
 
     public function mount(): void
     {
@@ -115,7 +115,7 @@ class ThongkePage extends Page implements HasForms
 
     public function exportToExcel()
     {
-        $export = new ThongkeExport($this->data, $this->month, $this->year);
+        $export = new XuatnhaptonExporter($this->data, $this->month, $this->year);
 
         return $export->download();
     }

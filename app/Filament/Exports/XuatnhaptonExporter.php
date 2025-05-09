@@ -9,7 +9,7 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
-class ThongkeExport
+class XuatnhaptonExporter
 {
     protected array $data;
 
