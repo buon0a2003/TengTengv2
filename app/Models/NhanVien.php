@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class nhanvien extends Model
 {
@@ -29,4 +30,30 @@ class nhanvien extends Model
         'cccd',
         'image',
     ];
+
+    public function user(): HasOne
+    {
+        return $this->hasOne(User::class, 'nhanvien_id');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::updated(function ($model) {
+            $user = User::where('nhanvien_id', $model->id)->first();
+
+            if ($user) {
+                User::withoutEvents(function () use ($user, $model) {
+                    $user->update([
+                        'name' => $model->name,
+                        'Phone' => $model->Phone,
+                        'Birth' => $model->Birth,
+                        'Address' => $model->Address,
+                        'cccd' => $model->cccd,
+                        'image' => $model->image,
+                    ]);
+                });
+            }
+        });
+    }
 }

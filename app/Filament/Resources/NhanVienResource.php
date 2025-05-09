@@ -70,6 +70,10 @@ class NhanVienResource extends Resource implements HasShieldPermissions
                             ->imageCropAspectRatio('1:1')
                             ->directory('nhanvien')
                             ->visibility('public')
+                            ->maxSize(5120) // 5MB
+                            ->helperText('Định dạng: JPG, PNG. Kích thước tối đa: 5MB')
+                            ->downloadable()
+                            ->reorderable(false)
                             ->columnSpanFull(),
                         TextInput::make('name')
                             ->label('Tên nhân viên')
@@ -128,6 +132,14 @@ class NhanVienResource extends Resource implements HasShieldPermissions
                 //
             ])
             ->actions([
+                Tables\Actions\Action::make('create_account')
+                    ->visible(fn(nhanvien $record): bool => !$record->user)
+                    ->label('Tạo TK')
+                    ->icon('heroicon-o-user-plus')
+                    ->color('success')
+                    ->url(fn(nhanvien $record): string => UserResource::getUrl('create', [
+                        'nhanvien_id' => $record->id,
+                    ])),
                 ActionGroup::make([
                     ViewAction::make()->color('secondary'),
                     EditAction::make()->color('primary'),

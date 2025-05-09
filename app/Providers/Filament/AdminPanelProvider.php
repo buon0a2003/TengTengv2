@@ -11,6 +11,7 @@ use App\Filament\Widgets\BangWidget;
 use App\Filament\Widgets\BieuDoWidget;
 use App\Filament\Widgets\CanhBao;
 use App\Filament\Widgets\ThongSoWidget;
+use App\Models\User;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Exception;
 use Filament\Enums\ThemeMode;
@@ -71,8 +72,10 @@ class AdminPanelProvider extends PanelProvider
                 'violet' => Color::Violet,
             ])
             ->theme(asset('css/filament/admin/theme.css'))
-            ->brandLogo(fn () => view('filament.logo'))
-            ->favicon(fn () => asset('images/fav/favicon-120.png'))
+            ->brandLogo(fn() => view('filament.logo'))
+            ->favicon(fn() => asset('images/fav/favicon-120.png'))
+            ->authGuard('web')
+            // ->authPasswordBroker('users')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -91,9 +94,9 @@ class AdminPanelProvider extends PanelProvider
                 NavigationItem::make('Chức vụ')
                     ->icon('heroicon-o-shield-check')
                     ->group('Quản lý tài khoản')
-                    ->isActiveWhen(fn () => request()->routeIs('filament.admin.resources.shield.roles.index'))
-                    ->url(fn (): string => CustomRoleResource::getUrl('index'))
-                    ->visible(fn () => Auth::user()->can('view_any_custom::role')),
+                    ->isActiveWhen(fn() => request()->routeIs('filament.admin.resources.shield.roles.index'))
+                    ->url(fn(): string => CustomRoleResource::getUrl('index'))
+                    ->visible(fn() => Auth::user()->can('view_any_custom::role')),
             ])
             ->navigationGroups([
                 'Quản lý danh mục',

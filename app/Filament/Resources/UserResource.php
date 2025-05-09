@@ -4,27 +4,31 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\UserResource\Pages;
-use App\Models\User;
+use Str;
 use Filament\Forms;
-use Filament\Forms\Components\Actions;
-use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Notifications\Notification;
-use Filament\Resources\Resource;
+use App\Models\User;
 use Filament\Tables;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Actions\DeleteAction;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Radio;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Actions;
+use Filament\Forms\Components\Section;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Columns\ToggleColumn;
-use Filament\Tables\Table;
-use Str;
+use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Components\Actions\Action;
+use App\Filament\Resources\UserResource\Pages;
 
 class UserResource extends Resource
 {
@@ -49,13 +53,54 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Thông tin tài khoản')
+                Section::make('Lựa chọn')
+                    ->schema([
+                        Radio::make('option')->label('Chọn cách tạo tài khoản')
+                            ->options([
+                                0 => 'Tạo tài khoản và nhân viên',
+                                1 => 'Tạo tài khoản cho nhân viên đã tồn tại',
+                            ])
+                            ->live()
+                            ->default(0)
+                            ->inlineLabel(),
+                        Select::make('nhanvien_id')
+                            ->label('Nhân viên')
+                            ->relationship('nhanvien', 'name', modifyQueryUsing: function (Builder $query) {
+                                return $query->whereNotExists(function ($subquery) {
+                                    $subquery->select('nhanvien_id')
+                                        ->from('users')
+                                        ->whereColumn('nhanvien.id', 'users.nhanvien_id');
+                                });
+                            })
+                            ->searchable()
+                            ->preload()
+                            ->hidden(fn($get) => $get('option') == 0)
+                            ->inlineLabel(),
+                    ])->visibleOn('create'),
+                Section::make('Thông tin tài khoản')
                     ->description('Thông tin chi tiết tài khoản người dùng')
                     ->aside()
                     ->schema([
+                        FileUpload::make('image')
+                            ->label('Ảnh đại diện')
+                            ->image()
+                            ->imageEditor()
+                            ->imageResizeMode('cover')
+                            ->imageCropAspectRatio('1:1')
+                            ->directory('nhanvien')
+                            ->visibility('public')
+                            ->maxSize(5120) // 5MB
+                            ->helperText('Định dạng: JPG, PNG. Kích thước tối đa: 5MB')
+                            ->downloadable()
+                            ->reorderable(false)
+                            ->columnSpanFull()
+                            ->inlineLabel()
+                            ->hidden(fn($get) => $get('option') == 1),
                         TextInput::make('name')
                             ->label('Tên')
-                            ->required(),
+                            ->required()
+                            ->inlineLabel()
+                            ->hidden(fn($get) => $get('option') == 1),
 
                         TextInput::make('email')
                             ->required()
@@ -63,7 +108,8 @@ class UserResource extends Resource
                             ->email()
                             ->validationMessages([
                                 'unique' => 'Email người dùng này đã tồn tại.',
-                            ]),
+                            ])
+                            ->inlineLabel(),
                         TextInput::make('password')
                             ->label('Mật khẩu')
                             ->password()
@@ -73,7 +119,8 @@ class UserResource extends Resource
                             ->validationMessages([
                                 'regex' => 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, số và ký tự đặc biệt.',
                             ])
-                            ->visibleOn('create'),
+                            ->visibleOn('create')
+                            ->inlineLabel(),
                         Actions::make([
                             Action::make('Tạo mật khẩu')
                                 ->action(function ($get, $set) {
@@ -85,7 +132,8 @@ class UserResource extends Resource
                                         ->duration(1000)
                                         ->send();
                                 }),
-                        ])->visibleOn('create'),
+                        ])->visibleOn('create')
+                            ->inlineLabel(),
                         // ->visibleOn('create'),
                         TextInput::make('Phone')
                             ->prefix('+84')
@@ -93,16 +141,32 @@ class UserResource extends Resource
                             ->validationMessages([
                                 'regex' => 'Số điện thoại sai quy cách.',
                             ])
-                            ->label('Số điện thoại'),
+                            ->label('Số điện thoại')
+                            ->inlineLabel()
+                            ->hidden(fn($get) => $get('option') == 1),
 
                         TextInput::make('Address')
-                            ->label('Địa Chỉ'),
+                            ->label('Địa Chỉ')
+                            ->inlineLabel()
+                            ->hidden(fn($get) => $get('option') == 1),
                         DatePicker::make('Birth')
                             ->label('Ngày sinh')
-                            ->displayFormat('d/m/Y'),
+                            ->displayFormat('d/m/Y')
+                            ->inlineLabel()
+                            ->hidden(fn($get) => $get('option') == 1),
+                        TextInput::make('cccd')
+                            ->label('Căn cước công dân')
+                            ->unique(ignoreRecord: true)
+                            ->regex('/^\d{12}$/')
+                            ->validationMessages([
+                                'regex' => 'CCCD phải có đúng 12 chữ số.',
+                                'unique' => 'CCCD này đã tồn tại trong hệ thống.',
+                            ])
+                            ->inlineLabel()
+                            ->hidden(fn($get) => $get('option') == 1),
                     ]),
 
-                Forms\Components\Section::make('Chức vụ')
+                Section::make('Chức vụ')
                     ->aside()
                     ->description('Lựa chọn chức vụ cho người dùng')
                     ->schema([
@@ -110,14 +174,16 @@ class UserResource extends Resource
                             ->label(fn($state): string => $state ? 'Active' : 'Inactive')
                             ->reactive()
                             ->onColor('emerald')
-                            ->visibleOn('edit'),
+                            ->visibleOn('edit')
+                            ->inlineLabel(),
                         Select::make('roles')
                             ->label('Chức vụ')
                             ->relationship('roles', 'name')
                             ->dehydrated()
                             ->multiple()
                             ->preload()
-                            ->searchable(),
+                            ->searchable()
+                            ->inlineLabel(),
                     ]),
             ]);
     }
@@ -128,9 +194,14 @@ class UserResource extends Resource
             ->columns([
                 TextColumn::make('id')->label('Mã')->hidden()
                     ->sortable(),
-                ImageColumn::make('avatar')->label('Ảnh')->alignCenter()
-                    ->defaultImageUrl(fn($record): string => 'https://ui-avatars.com/api/?name=' . $record->name)
-                    ->circular(),
+                ImageColumn::make('image')
+                    ->alignCenter()
+                    ->label('Ảnh')
+                    ->circular()
+                    ->defaultImageUrl(function ($record): string {
+                        $name = $record->name;
+                        return "https://ui-avatars.com/api/?name={$name}";
+                    }),
                 TextColumn::make('name')->label('Tên')
                     ->searchable(),
                 TextColumn::make('roles')->label('Chức vụ')

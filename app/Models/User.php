@@ -4,17 +4,19 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Database\Factories\UserFactory;
-use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Database\Factories\UserFactory;
 use Spatie\Permission\Traits\HasRoles;
-use Yebor974\Filament\RenewPassword\Contracts\RenewPasswordContract;
+use Filament\Models\Contracts\HasAvatar;
+use Illuminate\Notifications\Notifiable;
+use Filament\Models\Contracts\FilamentUser;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Yebor974\Filament\RenewPassword\Traits\RenewPassword;
+use Yebor974\Filament\RenewPassword\Contracts\RenewPasswordContract;
 
 /**
  * @property int $id
@@ -61,7 +63,7 @@ use Yebor974\Filament\RenewPassword\Traits\RenewPassword;
  *
  * @mixin \Eloquent
  */
-class User extends Authenticatable implements FilamentUser, MustVerifyEmail, RenewPasswordContract
+class User extends Authenticatable implements FilamentUser, MustVerifyEmail, RenewPasswordContract, HasAvatar
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, HasRoles, Notifiable, RenewPassword;
@@ -81,6 +83,9 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail, Ren
         'Address',
         'Active',
         'force_renew_password',
+        'image',
+        'cccd',
+        'nhanvien_id',
     ];
 
     /**
@@ -98,9 +103,46 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail, Ren
         return true;
     }
 
+    public function getFilamentAvatarUrl(): ?string
+    {
+        if ($this->image) {
+            return asset('storage/' . $this->image);
+        }
+
+        return null;
+    }
+
     public function phieunhap(): HasMany
     {
         return $this->hasMany(phieunhap::class);
+    }
+
+    public function nhanvien(): BelongsTo
+    {
+        return $this->belongsTo(nhanvien::class, 'nhanvien_id');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::updated(function ($model) {
+            if ($model->nhanvien_id) {
+                $nhanvien = nhanvien::find($model->nhanvien_id);
+
+                if ($nhanvien) {
+                    nhanvien::withoutEvents(function () use ($nhanvien, $model) {
+                        $nhanvien->update([
+                            'name' => $model->name,
+                            'Phone' => $model->Phone,
+                            'Birth' => $model->Birth,
+                            'Address' => $model->Address,
+                            'cccd' => $model->cccd,
+                            'image' => $model->image,
+                        ]);
+                    });
+                }
+            }
+        });
     }
 
     /**

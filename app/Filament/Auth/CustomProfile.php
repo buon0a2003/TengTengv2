@@ -7,9 +7,12 @@ namespace App\Filament\Auth;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\ViewField;
 use Filament\Forms\Get;
 use Filament\Pages\Auth\EditProfile;
 use Illuminate\Database\Eloquent\Model;
@@ -28,7 +31,7 @@ class CustomProfile extends EditProfile
     {
         return Action::make('back')
             ->label('Hủy')
-            ->alpineClickHandler('document.referrer ? window.history.back() : (window.location.href = '.Js::from(filament()->getUrl()).')')
+            ->alpineClickHandler('document.referrer ? window.history.back() : (window.location.href = ' . Js::from(filament()->getUrl()) . ')')
             ->color('gray');
     }
 
@@ -38,6 +41,20 @@ class CustomProfile extends EditProfile
             'form' => $this->form(
                 $this->makeForm()
                     ->schema([
+                        Section::make('Ảnh đại diện')
+                            ->description('Cập nhật ảnh hồ sơ của bạn')
+                            ->schema([
+                                Grid::make()
+                                    ->schema([
+                                        ViewField::make('avatar_preview')
+                                            ->view('filament.components.avatar-preview')
+                                            ->columnSpan(1),
+                                        $this->getAvatarFormComponent()
+                                            ->columnSpan(1),
+                                    ])
+                                    ->columns(2),
+                            ])
+                            ->collapsible(),
                         Section::make('Thông tin tài khoản')
                             ->description('Cập nhật thông tin tài khoản của bạn')
                             ->schema([
@@ -62,6 +79,23 @@ class CustomProfile extends EditProfile
                     ->inlineLabel(! static::isSimple()),
             ),
         ];
+    }
+
+    protected function getAvatarFormComponent(): Component
+    {
+        return FileUpload::make('image')
+            ->label('Tải lên ảnh mới')
+            ->inlineLabel(false)
+            ->image()
+            ->imageEditor()
+            ->imageResizeMode('cover')
+            ->imageCropAspectRatio('1:1')
+            ->directory('nhanvien')
+            ->visibility('public')
+            ->maxSize(5120) // 5MB
+            ->helperText('Định dạng: JPG, PNG. Kích thước tối đa: 5MB')
+            ->downloadable()
+            ->reorderable(false);
     }
 
     protected function getNameFormComponent(): Component
@@ -98,8 +132,8 @@ class CustomProfile extends EditProfile
                 'regex' => 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, số và ký tự đặc biệt.',
             ])
             ->autocomplete('new-password')
-            ->dehydrated(fn ($state): bool => filled($state))
-            ->dehydrateStateUsing(fn ($state): string => Hash::make($state))
+            ->dehydrated(fn($state): bool => filled($state))
+            ->dehydrateStateUsing(fn($state): string => Hash::make($state))
             ->live(debounce: 500)
             ->same('passwordConfirmation');
     }
@@ -111,7 +145,7 @@ class CustomProfile extends EditProfile
             ->password()
             ->revealable(filament()->arePasswordsRevealable())
             ->required()
-            ->visible(fn (Get $get): bool => filled($get('password')))
+            ->visible(fn(Get $get): bool => filled($get('password')))
             ->dehydrated(false);
     }
 
