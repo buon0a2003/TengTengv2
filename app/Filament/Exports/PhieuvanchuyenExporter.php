@@ -34,8 +34,8 @@ class PhieuvanchuyenExporter extends Exporter
                         default => 'Không xác định',
                     };
                 }),
-            ExportColumn::make('created_at')->label('Ngày tạo hệ thống'),
-            ExportColumn::make('updated_at')->label('Ngày cập nhật'),
+            // ExportColumn::make('created_at')->label('Ngày tạo hệ thống'),
+            // ExportColumn::make('updated_at')->label('Ngày cập nhật'),
         ];
     }
 

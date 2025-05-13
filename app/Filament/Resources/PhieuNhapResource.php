@@ -60,11 +60,15 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
 
     protected static ?string $navigationIcon = 'heroicon-o-chevron-double-left';
 
+    protected static ?string $activeNavigationIcon = 'heroicon-s-chevron-double-left';
+
     protected static ?string $navigationLabel = 'Phiếu nhập';
 
     protected static ?string $navigationGroup = 'Quản lý Nhập & Xuất';
 
     protected static ?string $slug = 'phieunhap';
+
+    protected static ?int $navigationSort = 2;
 
     public static function getBreadcrumb(): string
     {
@@ -122,14 +126,14 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                                 ->modalDescription('Đặt mã phiếu nhập tự động theo định dạng PNddmmyy')
                                                 ->action(function ($set) {
                                                     $newId = 'PN';
-                                                    $set('id', $newId.now()->format('dmy'));
+                                                    $set('id', $newId . now()->format('dmy'));
                                                 })
                                         ),
 
                                     Select::make('user_id')
                                         ->label('Người tạo phiếu')
                                         ->relationship('user', 'name')
-                                        ->default(fn (): int => Auth::user()->id)
+                                        ->default(fn(): int => Auth::user()->id)
                                         // ->required()
                                         ->preload()
                                         ->searchable(),
@@ -138,7 +142,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                         ->label('Nhà cung cấp')
                                         ->relationship('nhacungcap', 'TenNCC')
                                         ->preload()
-                                        ->hidden(fn (Get $get): bool => $get('LyDo') == '0' || $get('LyDo') == '2')
+                                        ->hidden(fn(Get $get): bool => $get('LyDo') == '0' || $get('LyDo') == '2')
                                         ->searchable()
                                         ->createOptionForm([
                                             Section::make('Thông tin bắt buộc')
@@ -240,7 +244,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                         ->label('Vật tư')
                                         ->required(),
                                     TextInput::make('soluong')->label('Số lượng')
-                                        ->suffix(fn (Get $get): string => (string) vattu::find($get('id'))?->donvitinh->TenDVT ?? '')
+                                        ->suffix(fn(Get $get): string => (string) vattu::find($get('id'))?->donvitinh->TenDVT ?? '')
                                         ->numeric()
                                         ->minValue(1),
                                     Textarea::make('ghichu')->rows(2)->label('Ghi chú'),
@@ -267,7 +271,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                     ->label('Mã phiếu'),
 
                 TextColumn::make('nhacungcap.TenNCC')
-                    ->formatStateUsing(fn ($record) => $record->LyDo == 0 ? 'N/A' : $record->nhacungcap->TenNCC)
+                    ->formatStateUsing(fn($record) => $record->LyDo == 0 ? 'N/A' : $record->nhacungcap->TenNCC)
                     ->placeholder('N/A')
                     ->label('Nhà cung cấp'),
 
@@ -287,14 +291,14 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
 
                 TextColumn::make('LyDo')
                     ->label('Lý do')
-                    ->formatStateUsing(fn ($record) => match ($record->LyDo) {
+                    ->formatStateUsing(fn($record) => match ($record->LyDo) {
                         0 => 'Nhập thành phẩm',
                         1 => 'Nhập nguyên vật liệu',
                         2 => 'Nhập hàng huỷ',
                         default => ''
                     })
                     ->badge()
-                    ->color(fn ($record): string => match ($record->LyDo) {
+                    ->color(fn($record): string => match ($record->LyDo) {
                         0 => 'success',
                         1 => 'info',
                         2 => 'danger',
@@ -304,14 +308,14 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
 
                 TextColumn::make('TrangThai')
                     ->alignCenter()
-                    ->formatStateUsing(fn ($record) => match ($record->TrangThai) {
+                    ->formatStateUsing(fn($record) => match ($record->TrangThai) {
                         0 => 'Đang xử lý',
                         1 => 'Đã xử lý',
                         2 => 'Đã huỷ',
                         default => ''
                     })
                     ->badge()
-                    ->color(fn ($record): string => match ($record->TrangThai) {
+                    ->color(fn($record): string => match ($record->TrangThai) {
                         0 => 'warning',
                         1 => 'success',
                         2 => 'danger',
@@ -332,16 +336,16 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                 ActionGroup::make([
                     ViewAction::make()->color('info'),
                     EditAction::make()
-                        ->hidden(fn ($record): bool => ! $record->TrangThai == 0)
+                        ->hidden(fn($record): bool => ! $record->TrangThai == 0)
                         ->color('primary'),
 
                     Action::make('duyetphieunhap')
-                        ->authorize(fn (): bool => Auth::user()->can('duyetphieunhap_phieu::nhap'))
+                        ->authorize(fn(): bool => Auth::user()->can('duyetphieunhap_phieu::nhap'))
                         ->action(function ($record) {
                             $chiTietPhieuNhapRecords = chitietphieunhap::where('phieunhap_id', $record->id)->get();
 
                             if (count($chiTietPhieuNhapRecords) > 0) {
-                                $allHaveVitriId = collect($chiTietPhieuNhapRecords)->every(fn ($value) => ! is_null($value->vitri_id));
+                                $allHaveVitriId = collect($chiTietPhieuNhapRecords)->every(fn($value) => ! is_null($value->vitri_id));
 
                                 if ($allHaveVitriId) {
                                     foreach ($chiTietPhieuNhapRecords as $value) {
@@ -388,13 +392,13 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                             }
                             //
                         })
-                        ->hidden(fn ($record): bool => ! $record->TrangThai == 0)
+                        ->hidden(fn($record): bool => ! $record->TrangThai == 0)
                         ->label('Duyệt')
                         ->icon('heroicon-s-check')
                         ->color('success'),
 
                     Action::make('huyphieunhap')
-                        ->authorize(fn (): bool => Auth::user()->can('duyetphieunhap_phieu::nhap'))
+                        ->authorize(fn(): bool => Auth::user()->can('duyetphieunhap_phieu::nhap'))
                         ->action(function ($record) {
                             $record->update(['TrangThai' => 2]);
                             Notification::make()
@@ -402,7 +406,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                 ->danger()
                                 ->send();
                         })
-                        ->hidden(fn ($record): bool => ! $record->TrangThai == 0)
+                        ->hidden(fn($record): bool => ! $record->TrangThai == 0)
                         ->label('Huỷ')
                         ->icon('heroicon-s-trash')
                         ->color('danger'),

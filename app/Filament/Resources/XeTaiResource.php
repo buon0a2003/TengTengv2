@@ -32,11 +32,13 @@ class XeTaiResource extends Resource
 
     protected static ?string $navigationGroup = 'Quản lý vận chuyển';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 2;
 
     protected static ?string $slug = 'xetai';
 
     protected static ?string $navigationIcon = 'heroicon-o-truck';
+
+    protected static ?string $activeNavigationIcon = 'heroicon-s-truck';
 
     public static function getBreadcrumb(): string
     {
@@ -113,14 +115,14 @@ class XeTaiResource extends Resource
                 TextColumn::make('TrangThai')
                     ->label('Trạng thái')
                     ->alignCenter()
-                    ->formatStateUsing(fn ($record) => match ($record->TrangThai) {
+                    ->formatStateUsing(fn($record) => match ($record->TrangThai) {
                         0 => 'Đang giao',
                         1 => 'Có sẵn',
                         2 => 'Nghỉ',
                         default => 'N/A'
                     })
                     ->badge()
-                    ->color(fn ($record): string => match ($record->TrangThai) {
+                    ->color(fn($record): string => match ($record->TrangThai) {
                         0 => 'success',
                         1 => 'info',
                         2 => 'danger',

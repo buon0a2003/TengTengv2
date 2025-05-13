@@ -32,6 +32,8 @@ class NhanVienResource extends Resource implements HasShieldPermissions
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
+    protected static ?string $activeNavigationIcon = 'heroicon-s-users';
+
     protected static ?int $navigationSort = 2;
 
     protected static ?string $navigationLabel = 'Nhân viên';

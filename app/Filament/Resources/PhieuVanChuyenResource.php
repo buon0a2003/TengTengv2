@@ -34,7 +34,9 @@ class PhieuVanChuyenResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?string $activeNavigationIcon = 'heroicon-s-rectangle-stack';
+
+    protected static ?int $navigationSort = 1;
 
     protected static ?string $navigationLabel = 'Phiếu vận chuyển';
 
@@ -69,14 +71,14 @@ class PhieuVanChuyenResource extends Resource
                                     ->modalDescription('Đặt mã phiếu vận chuyển tự động theo định dạng PNddmmyy')
                                     ->action(function ($set) {
                                         $newId = 'PVC';
-                                        $set('id', $newId.now()->format('dmy'));
+                                        $set('id', $newId . now()->format('dmy'));
                                     })
                             ),
 
                         Select::make('user_id')
                             ->label('Người tạo phiếu')
                             ->relationship('user', 'name')
-                            ->default(fn (): int => Auth::user()->id)
+                            ->default(fn(): int => Auth::user()->id)
                             // ->required()
                             ->preload()
                             ->searchable(),
@@ -171,16 +173,16 @@ class PhieuVanChuyenResource extends Resource
                     ->date('d/m/Y'),
                 TextColumn::make('phieuxuat.id')
                     ->label('Mã phiếu xuất')
-                    ->url(fn ($record) => route('filament.admin.resources.phieuxuat.view', $record->phieuxuat_id))
+                    ->url(fn($record) => route('filament.admin.resources.phieuxuat.view', $record->phieuxuat_id))
                     ->searchable(),
                 TextColumn::make('XeTai.BienSo')
-                    ->url(fn ($record) => route('filament.admin.resources.xetai.edit', $record->xetai_id))
+                    ->url(fn($record) => route('filament.admin.resources.xetai.edit', $record->xetai_id))
                     ->alignCenter()
                     ->badge()
                     ->color('gray')
                     ->label('Xe vận chuyển'),
                 TextColumn::make('taixe.TenTaiXe')
-                    ->url(fn ($record) => route('filament.admin.resources.taixe.edit', $record->taixe_id))
+                    ->url(fn($record) => route('filament.admin.resources.taixe.edit', $record->taixe_id))
                     ->label('Tên tài xế')
                     ->searchable(),
                 TextColumn::make('GhiChu')
@@ -188,14 +190,14 @@ class PhieuVanChuyenResource extends Resource
                 TextColumn::make('TrangThai')
                     ->label('Trạng thái')
                     ->badge()
-                    ->color(fn ($record) => match ($record->TrangThai) {
+                    ->color(fn($record) => match ($record->TrangThai) {
                         0 => 'warning',
                         1 => 'info',
                         2 => 'success',
                         3 => 'danger',
                         default => 'gray',
                     })
-                    ->formatStateUsing(fn ($record) => match ($record->TrangThai) {
+                    ->formatStateUsing(fn($record) => match ($record->TrangThai) {
                         0 => 'Chưa vận chuyển',
                         1 => 'Đang vận chuyển',
                         2 => 'Đã hoàn thành',
@@ -216,7 +218,7 @@ class PhieuVanChuyenResource extends Resource
                     EditAction::make(),
                     Action::make('batdauvanchuyen')->label('Vận chuyển')
                         // ->authorize(fn(): bool => Auth::user()->can('duyetphieuxuat_phieu::xuat'))
-                        ->hidden(fn ($record): bool => ! $record->TrangThai == 0)
+                        ->hidden(fn($record): bool => ! $record->TrangThai == 0)
                         ->action(
                             function (phieuvanchuyen $record) {
                                 $record->update([
@@ -233,7 +235,7 @@ class PhieuVanChuyenResource extends Resource
 
                                 Notification::make()
                                     ->title('Vận chuyển')
-                                    ->body('Đã bắt đầu vận chuyển phiếu: '.$record->id)
+                                    ->body('Đã bắt đầu vận chuyển phiếu: ' . $record->id)
                                     ->success()
                                     ->duration(1000)
                                     ->send();
@@ -243,7 +245,7 @@ class PhieuVanChuyenResource extends Resource
                         ->icon('heroicon-o-check'),
                     Action::make('hoanthanhvc')->label('Hoàn thành vận chuyển')
                         // ->authorize(fn(): bool => Auth::user()->can('duyetphieuxuat_phieu::xuat'))
-                        ->hidden(fn ($record): bool => ! $record->TrangThai == 1)
+                        ->hidden(fn($record): bool => ! $record->TrangThai == 1)
                         ->action(
                             function (phieuvanchuyen $record) {
                                 $record->update([
@@ -260,7 +262,7 @@ class PhieuVanChuyenResource extends Resource
 
                                 Notification::make()
                                     ->title('Vận chuyển')
-                                    ->body('Đã hoaàn thành vận chuyển phiếu: '.$record->id)
+                                    ->body('Đã hoaàn thành vận chuyển phiếu: ' . $record->id)
                                     ->success()
                                     ->duration(1000)
                                     ->send();
@@ -278,13 +280,13 @@ class PhieuVanChuyenResource extends Resource
 
                                 Notification::make()
                                     ->title('Huỷ phiếu')
-                                    ->body('Đã huỷ phiếu: '.$record->id)
+                                    ->body('Đã huỷ phiếu: ' . $record->id)
                                     ->success()
                                     ->duration(1000)
                                     ->send();
                             }
                         )
-                        ->hidden(fn ($record): bool => ! $record->TrangThai == 0)
+                        ->hidden(fn($record): bool => ! $record->TrangThai == 0)
                         ->color('danger')
                         ->icon('heroicon-o-x-circle'),
 

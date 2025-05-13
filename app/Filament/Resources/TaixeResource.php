@@ -31,9 +31,11 @@ class TaixeResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
+    protected static ?string $activeNavigationIcon = 'heroicon-s-user';
+
     protected static ?string $navigationLabel = 'Tài xế';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 1;
 
     protected static ?string $navigationGroup = 'Quản lý vận chuyển';
 
@@ -124,14 +126,14 @@ class TaixeResource extends Resource
                 TextColumn::make('TrangThai')
                     ->label('Trạng thái')
                     ->alignCenter()
-                    ->formatStateUsing(fn ($record) => match ($record->TrangThai) {
+                    ->formatStateUsing(fn($record) => match ($record->TrangThai) {
                         0 => 'Đang giao',
                         1 => 'Có sẵn',
                         2 => 'Nghỉ',
                         default => 'N/A'
                     })
                     ->badge()
-                    ->color(fn ($record): string => match ($record->TrangThai) {
+                    ->color(fn($record): string => match ($record->TrangThai) {
                         0 => 'success',
                         1 => 'info',
                         2 => 'danger',

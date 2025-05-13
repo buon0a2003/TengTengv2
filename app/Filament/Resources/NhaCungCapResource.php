@@ -31,6 +31,8 @@ class NhaCungCapResource extends Resource implements HasShieldPermissions
 
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
 
+    protected static ?string $activeNavigationIcon = 'heroicon-s-briefcase';
+
     protected static ?int $navigationSort = 1;
 
     protected static ?string $navigationLabel = 'Nhà cung cấp';

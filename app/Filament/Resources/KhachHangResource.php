@@ -28,6 +28,8 @@ class KhachHangResource extends Resource implements HasShieldPermissions
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
+    protected static ?string $activeNavigationIcon = 'heroicon-s-user-group';
+
     protected static ?int $navigationSort = 1;
 
     protected static ?string $navigationLabel = 'Khách hàng';

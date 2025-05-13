@@ -33,6 +33,10 @@ class TonkhoResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-inbox-stack';
 
+    protected static ?string $activeNavigationIcon = 'heroicon-s-inbox-stack';
+
+    protected static ?int $navigationSort = 2;
+
     protected static ?string $slug = 'tonkho';
 
     public static function getBreadcrumb(): string

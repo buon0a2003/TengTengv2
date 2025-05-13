@@ -14,6 +14,10 @@ class Dashboard extends \Filament\Pages\Dashboard
 
     protected static ?string $title = 'Trang chủ';
 
+    protected static ?string $navigationIcon = 'heroicon-o-home';
+
+    protected static ?string $activeNavigationIcon = 'heroicon-s-home';
+
     /**
      * @return array<class-string<Widget> | WidgetConfiguration>
      */

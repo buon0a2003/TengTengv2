@@ -24,6 +24,8 @@ class KhoResource extends Resource implements HasShieldPermissions
 
     protected static ?string $navigationIcon = 'heroicon-o-building-office';
 
+    protected static ?string $activeNavigationIcon = 'heroicon-s-building-office';
+
     protected static ?int $navigationSort = 1;
 
     protected static ?string $navigationLabel = 'Kho';
@@ -77,6 +79,7 @@ class KhoResource extends Resource implements HasShieldPermissions
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->label('Mã kho')
+                    ->width(50)
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('TenKho')

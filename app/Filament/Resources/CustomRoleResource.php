@@ -28,6 +28,10 @@ use Illuminate\Support\Str;
 
 class CustomRoleResource extends RoleResource
 {
+    protected static ?string $navigationIcon = 'heroicon-o-shield-check';
+
+    protected static ?string $activeNavigationIcon = 'heroicon-s-shield-check';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -54,15 +58,15 @@ class CustomRoleResource extends RoleResource
                                     ->placeholder(__('filament-shield::filament-shield.field.team.placeholder'))
                                     /** @phpstan-ignore-next-line */
                                     ->default([Filament::getTenant()?->id])
-                                    ->options(fn (): Arrayable => Utils::getTenantModel() ? Utils::getTenantModel()::pluck('name', 'id') : collect())
-                                    ->hidden(fn (): bool => ! (static::shield()->isCentralApp() && Utils::isTenancyEnabled()))
-                                    ->dehydrated(fn (): bool => ! (static::shield()->isCentralApp() && Utils::isTenancyEnabled())),
+                                    ->options(fn(): Arrayable => Utils::getTenantModel() ? Utils::getTenantModel()::pluck('name', 'id') : collect())
+                                    ->hidden(fn(): bool => ! (static::shield()->isCentralApp() && Utils::isTenancyEnabled()))
+                                    ->dehydrated(fn(): bool => ! (static::shield()->isCentralApp() && Utils::isTenancyEnabled())),
                                 ShieldSelectAllToggle::make('select_all')
                                     ->onIcon('heroicon-s-shield-check')
                                     ->offIcon('heroicon-s-shield-exclamation')
                                     ->label(__('filament-shield::filament-shield.field.select_all.name'))
-                                    ->helperText(fn (): HtmlString => new HtmlString(__('filament-shield::filament-shield.field.select_all.message')))
-                                    ->dehydrated(fn (bool $state): bool => $state),
+                                    ->helperText(fn(): HtmlString => new HtmlString(__('filament-shield::filament-shield.field.select_all.message')))
+                                    ->dehydrated(fn(bool $state): bool => $state),
                             ])
                             ->columns([
                                 'sm' => 2,
@@ -80,7 +84,7 @@ class CustomRoleResource extends RoleResource
                 TextColumn::make('name')
                     ->weight('font-medium')
                     ->label('Tên vai trò')
-                    ->formatStateUsing(fn ($state): string => Str::headline($state))
+                    ->formatStateUsing(fn($state): string => Str::headline($state))
                     ->searchable(),
                 // TextColumn::make('guard_name')
                 //     ->badge()

@@ -31,11 +31,13 @@ class PhieuSuCoResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-exclamation-triangle';
 
+    protected static ?string $activeNavigationIcon = 'heroicon-s-exclamation-triangle';
+
     protected static ?string $navigationLabel = 'Phiếu sự cố';
 
     protected static ?string $navigationGroup = 'Quản lý vận chuyển';
 
-    protected static ?int $navigationSort = 99;
+    protected static ?int $navigationSort = 3;
 
     protected static ?string $slug = 'phieusuco';
 

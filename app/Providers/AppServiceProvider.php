@@ -40,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
             $table
                 ->striped()
                 ->header(new HtmlString(""))
-                ->deferLoading()
+                // ->deferLoading()
                 ->emptyStateHeading('Không có dữ liệu');
         });
 

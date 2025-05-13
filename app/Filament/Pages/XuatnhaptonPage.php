@@ -27,6 +27,8 @@ class XuatnhaptonPage extends Page implements HasForms
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
+    protected static ?string $activeNavigationIcon = 'heroicon-s-document-text';
+
     protected static string $view = 'filament.pages.xuatnhapton-page';
 
     protected static ?string $modelLabel = 'Thống kê';
@@ -126,15 +128,15 @@ class XuatnhaptonPage extends Page implements HasForms
             Forms\Components\Grid::make(2)->schema([
                 Forms\Components\Select::make('month')
                     ->label('Tháng')
-                    ->options(collect(range(1, 12))->mapWithKeys(fn ($m) => [$m => 'Tháng '.$m])->toArray())
+                    ->options(collect(range(1, 12))->mapWithKeys(fn($m) => [$m => 'Tháng ' . $m])->toArray())
                     ->reactive()
-                    ->afterStateUpdated(fn () => $this->updatedDate()),
+                    ->afterStateUpdated(fn() => $this->updatedDate()),
 
                 Forms\Components\Select::make('year')
                     ->label('Năm')
-                    ->options(collect(range(now()->year - 5, now()->year + 1))->mapWithKeys(fn ($y) => [$y => $y])->toArray())
+                    ->options(collect(range(now()->year - 5, now()->year + 1))->mapWithKeys(fn($y) => [$y => $y])->toArray())
                     ->reactive()
-                    ->afterStateUpdated(fn () => $this->updatedDate()),
+                    ->afterStateUpdated(fn() => $this->updatedDate()),
             ]),
         ];
     }

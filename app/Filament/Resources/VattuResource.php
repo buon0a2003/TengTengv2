@@ -29,6 +29,8 @@ class VattuResource extends Resource implements HasShieldPermissions
 
     protected static ?string $navigationIcon = 'heroicon-o-circle-stack';
 
+    protected static ?string $activeNavigationIcon = 'heroicon-s-circle-stack';
+
     protected static ?int $navigationSort = 1;
 
     protected static ?string $navigationLabel = 'Vật tư';

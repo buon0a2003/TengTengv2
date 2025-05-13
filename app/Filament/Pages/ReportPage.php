@@ -15,6 +15,8 @@ class ReportPage extends Page
     use HasPageShield;
     protected static ?string $navigationIcon = 'heroicon-o-chart-bar';
 
+    protected static ?string $activeNavigationIcon = 'heroicon-s-chart-bar';
+
     protected static string $view = 'filament.pages.report-page';
 
     protected static ?string $modelLabel = 'Trang thống kê';

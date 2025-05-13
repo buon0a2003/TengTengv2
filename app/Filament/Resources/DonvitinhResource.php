@@ -25,6 +25,8 @@ class DonvitinhResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-swatch';
 
+    protected static ?string $activeNavigationIcon = 'heroicon-s-swatch';
+
     protected static ?int $navigationSort = 1;
 
     protected static ?string $navigationLabel = 'Đơn vị tính';
