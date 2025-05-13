@@ -28,7 +28,6 @@ class BangWidget extends BaseWidget
         }
 
         return false;
-
     }
 
     public function table(Table $table): Table
@@ -68,7 +67,7 @@ class BangWidget extends BaseWidget
                 TextColumn::make('kho.TenKho')->label('Kho'),
                 TextColumn::make('vitri.Mota')->label('Vị trí'),
                 TextColumn::make('level')->label('Tình trạng')
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'Cảnh báo' => 'danger',
                         'Rất thấp' => 'warning',
                         'Thấp' => 'info',

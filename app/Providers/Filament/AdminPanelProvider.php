@@ -4,35 +4,36 @@ declare(strict_types=1);
 
 namespace App\Providers\Filament;
 
-use App\Filament\Auth\CustomLogin;
-use App\Filament\Auth\CustomProfile;
-use App\Filament\Resources\CustomRoleResource;
-use App\Filament\Widgets\BangWidget;
-use App\Filament\Widgets\BieuDoWidget;
-use App\Filament\Widgets\CanhBao;
-use App\Filament\Widgets\ThongSoWidget;
-use App\Models\User;
-use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Exception;
-use Filament\Enums\ThemeMode;
-use Filament\Http\Middleware\Authenticate;
-use Filament\Http\Middleware\AuthenticateSession;
-use Filament\Http\Middleware\DisableBladeIconComponents;
-use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Navigation\NavigationItem;
 use Filament\Pages;
 use Filament\Panel;
-use Filament\PanelProvider;
-use Filament\Support\Colors\Color;
+use App\Models\User;
 use Filament\Widgets;
-use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use Illuminate\Cookie\Middleware\EncryptCookies;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
-use Illuminate\Routing\Middleware\SubstituteBindings;
-use Illuminate\Session\Middleware\StartSession;
+use Filament\PanelProvider;
+use Filament\Enums\ThemeMode;
+use App\Filament\Pages\Dashboard;
+use App\Filament\Widgets\CanhBao;
+use App\Filament\Auth\CustomLogin;
+use Filament\Support\Colors\Color;
+use App\Filament\Auth\CustomProfile;
+use App\Filament\Widgets\BangWidget;
 use Illuminate\Support\Facades\Auth;
+use App\Filament\Widgets\BieuDoWidget;
+use App\Filament\Widgets\ThongSoWidget;
+use Filament\Navigation\NavigationItem;
+use Filament\Http\Middleware\Authenticate;
+use App\Filament\Resources\CustomRoleResource;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Cookie\Middleware\EncryptCookies;
+use Filament\Http\Middleware\AuthenticateSession;
+use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
+use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Filament\Http\Middleware\DisableBladeIconComponents;
 use Yebor974\Filament\RenewPassword\RenewPasswordPlugin;
+use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -43,6 +44,9 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
+            ->spa()
+            ->databaseTransactions()
+            ->unsavedChangesAlerts()
             ->id('admin')
             ->darkMode(false)
             ->defaultThemeMode(ThemeMode::Light)
@@ -79,7 +83,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                // Pages\Dashboard::class,
             ])
             // ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
@@ -105,7 +109,7 @@ class AdminPanelProvider extends PanelProvider
                 'Quản lý tài khoản',
             ])
             ->sidebarCollapsibleOnDesktop()
-            ->sidebarWidth('16rem')
+            ->sidebarWidth('17rem')
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

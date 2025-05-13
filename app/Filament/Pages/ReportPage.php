@@ -30,10 +30,10 @@ class ReportPage extends Page
     protected function getHeaderWidgets(): array
     {
         return [
-            ThongSoWidget::make([
-                'status' => 'active',
-            ]),
-            BangWidget::class,
+            // ThongSoWidget::make([
+            //     'status' => 'active',
+            // ]),
+            // BangWidget::class,
             BieuDoWidget::class,
         ];
     }

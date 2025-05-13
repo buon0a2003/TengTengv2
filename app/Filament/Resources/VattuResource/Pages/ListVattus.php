@@ -22,6 +22,10 @@ class ListVattus extends ListRecords
     {
         $thanhphamCount = $this->getModel()::where('LaTP', 1)->count();
         $nguyenvatlieuCount = $this->getModel()::count() - $thanhphamCount;
+
+        $tabs['all'] = Tab::make('All')
+            ->badge($this->getModel()::count())
+            ->badgeColor('gray');
         $tabs['tp'] = Tab::make('Thành phẩm')
             ->modifyQueryUsing(function ($query) {
                 return $query->where('LaTP', 1);

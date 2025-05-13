@@ -57,7 +57,7 @@ class DonvitinhResource extends Resource
                             ->label('Mô tả'),
                     ]),
                 Section::make('Ngưỡng cảnh báo tồn kho')
-                    ->description('Thông tin cụ thể về ngưỡng cảnh báo của đơn vị tính mới.')
+                    ->description('Thông tin cụ thể về ngưỡng cảnh báo của đơn vị tính mới. (Số lượng tồn kho dưới ngưỡng này sẽ được hiển thị trong bảng thống kê)')
                     ->columns([
                         'sm' => 3,
                         'xl' => 3,
