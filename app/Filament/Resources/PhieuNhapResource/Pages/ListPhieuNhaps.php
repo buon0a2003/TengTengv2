@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\PhieuNhapResource\Pages;
 
+use App\Filament\Exports\PhieunhapExporter;
 use App\Filament\Resources\PhieuNhapResource;
 use Filament\Actions;
+use Filament\Actions\Exports\Enums\ExportFormat;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 
@@ -54,10 +56,15 @@ class ListPhieuNhaps extends ListRecords
                 ->icon('heroicon-o-plus')
                 ->label('Tạo mới'),
 
-            Actions\CreateAction::make()->disabled()
+            Actions\ExportAction::make()
                 ->label('Xuất excel')
                 ->icon('heroicon-o-arrow-down-tray')
-                ->color('primary'),
+                ->color('success')
+                ->exporter(PhieunhapExporter::class)
+                ->formats([
+                    ExportFormat::Csv,
+                    ExportFormat::Xlsx,
+                ]),
         ];
     }
 }

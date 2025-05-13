@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\PhieuXuatResource\Pages;
 
+use App\Filament\Exports\PhieuxuatExporter;
 use App\Filament\Resources\PhieuXuatResource;
 use Filament\Actions;
+use Filament\Actions\Exports\Enums\ExportFormat;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 
@@ -47,10 +49,15 @@ class ListPhieuXuats extends ListRecords
                 ->icon('heroicon-o-plus')
                 ->label('Tạo mới'),
 
-            Actions\CreateAction::make()->disabled()
+            Actions\ExportAction::make()
                 ->label('Xuất excel')
                 ->icon('heroicon-o-arrow-down-tray')
-                ->color('primary'),
+                ->color('success')
+                ->exporter(PhieuxuatExporter::class)
+                ->formats([
+                    ExportFormat::Csv,
+                    ExportFormat::Xlsx,
+                ]),
         ];
     }
 }

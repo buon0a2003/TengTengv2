@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\PhieuVanChuyenResource\Pages;
 
+use App\Filament\Exports\PhieuvanchuyenExporter;
 use App\Filament\Resources\PhieuVanChuyenResource;
 use Filament\Actions;
+use Filament\Actions\Exports\Enums\ExportFormat;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 
@@ -66,6 +68,16 @@ class ListPhieuVanChuyens extends ListRecords
             Actions\CreateAction::make()
                 ->icon('heroicon-o-plus')
                 ->label('Tạo mới'),
+
+            Actions\ExportAction::make()
+                ->label('Xuất excel')
+                ->icon('heroicon-o-arrow-down-tray')
+                ->color('success')
+                ->exporter(PhieuvanchuyenExporter::class)
+                ->formats([
+                    ExportFormat::Csv,
+                    ExportFormat::Xlsx,
+                ]),
         ];
     }
 }
