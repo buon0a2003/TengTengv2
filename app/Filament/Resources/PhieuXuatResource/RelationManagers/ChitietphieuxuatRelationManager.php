@@ -4,22 +4,28 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\PhieuXuatResource\RelationManagers;
 
-use App\Filament\Resources\VattuResource;
-use App\Livewire\TonkhoList;
 use App\Models\kho;
+use Filament\Forms;
+use Filament\Tables;
 use App\Models\vattu;
 use App\Models\vitri;
-use Filament\Forms;
+use App\Models\tonkho;
+use Filament\Forms\Get;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
+use Livewire\Attributes\On;
+use App\Livewire\TonkhoList;
+use App\Models\chitietphieuxuat;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
+use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
+use App\Filament\Resources\VattuResource;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Resources\RelationManagers\RelationManager;
 
 class ChitietphieuxuatRelationManager extends RelationManager
 {
@@ -31,76 +37,37 @@ class ChitietphieuxuatRelationManager extends RelationManager
 
     protected static ?string $title = 'Danh sách vật tư';
 
-    //    protected $listeners = ['tonkhoSelected' => 'handleTonkhoSelected'];
-    //    public function handleTonkhoSelected($record): void
-    //    {
-    //        $state = $this->form->getRawState();
-    //
-    //        $state['dsvattuxuatedit'][] = [
-    //            'vattu_id' => $record['vattu_id'],
-    //            'tonkho_id' => $record['tonkho_id'],
-    //            'TenVT' => $record['TenVT'],
-    //            'soluongkhadung' => $record['soluongkhadung'],
-    //            'kho_id' => $record['kho_id'],
-    //            'soluong' => 0,
-    //            'vitri_id' => $record['vitri_id'],
-    //        ];
-    //
-    //        $this->form->fill($state);
-    //
-    //    } //buggggg
     public function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Livewire::make(TonkhoList::class)->columnSpanFull(),
-                Repeater::make('dsvattuxuatedit')
-                    ->required()
-                    ->validationMessages([
-                        'required' => 'Danh sách vật tư xuất không được trống.',
-                    ])
-                    ->reorderable(false)
-                    ->addable(false)
-                    //                    ->addActionLabel('Thêm vật tư')
-                    //                    ->addAction(function (Forms\Components\Actions\Action $action): Forms\Components\Actions\Action {
-                    //                        return $action->modalContent(
-                    //                            view('filament.tonkholist')
-                    //                        )
-                    //                            ->action(null)
-                    //                            ->modalWidth('7xl')
-                    //                            ->modalCancelAction(false)
-                    //                            ->modalSubmitActionLabel('Done');
-                    //                    })
-                    ->label('Danh sách vật tư xuất')
+                Section::make('Thông tin vật tư')
                     ->schema([
-                        TextInput::make('vattu_id')->hidden()->live(),
-                        TextInput::make('kho_id')->hidden()->live(),
-                        TextInput::make('vitri_id')->hidden()->live(),
                         TextInput::make('tonkho_id')->hidden(),
-                        TextInput::make('TenVT')
-                            ->readOnly(true)
+                        Select::make('vattu_id')
                             ->label('Vật tư')
+                            ->disabled()
+                            ->relationship('vattu', 'TenVT')
                             ->required(),
                         TextInput::make('soluongkhadung')->label('Số lượng khả dụng')
                             ->readOnly(true)
-                            ->suffix(fn (Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
+                            ->formatStateUsing(function ($record) {
+                                if ($record->tonkho_id) {
+                                    $tonkho = tonkho::find($record->tonkho_id);
+                                    return $tonkho ? $tonkho->SoLuong : 0;
+                                }
+                                return 0;
+                            })
+                            ->suffix(fn(Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
                             ->numeric(),
-                        TextInput::make('soluong')->label('Số lượng')
+                        TextInput::make('SoLuong')->label('Số lượng')
                             ->required()
-                            ->suffix(fn (Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
+                            ->suffix(fn(Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
                             ->numeric()
                             ->minValue(0)
-                            ->maxValue(fn (Get $get): int => (int) $get('soluongkhadung')),
+                            ->lte('soluongkhadung'),
                         Textarea::make('ghichu')->rows(2)->label('Ghi chú'),
                     ])
-                    ->defaultItems(0)
-                    ->grid(3)
-                    ->itemLabel(function ($state, $get): string {
-                        $kho = kho::find($state['kho_id']);
-                        $vitri = vitri::find($state['vitri_id']);
-
-                        return "{$kho->TenKho} - {$vitri->Mota}" ?? 'Lỗi';
-                    }),
             ]);
     }
 
@@ -113,35 +80,48 @@ class ChitietphieuxuatRelationManager extends RelationManager
             ->emptyStateDescription('Thêm mới vật tư để hoàn thành phiếu xuất')
             ->columns([
                 // TextColumn::make('vattu_id')->hidden(true),
+                TextColumn::make('index')->label('Stt')->width(10)
+                    ->rowIndex(),
                 TextColumn::make('vattu.TenVT')
                     ->label('Tên vật tư')
-                    ->url(fn ($record) => VattuResource::getUrl('edit', ['record' => $record->vattu_id])),
+                    ->url(fn($record) => VattuResource::getUrl('edit', ['record' => $record->vattu_id])),
                 TextColumn::make('SoLuong')->label('Số lượng xuất'),
                 TextColumn::make('vattu_id')
                     ->label('Đơn vị tính')
-                    ->formatStateUsing(fn ($record): string => (string) vattu::find($record->vattu_id)->donvitinh->TenDVT ?? 'N/A'),
+                    ->formatStateUsing(fn($record): string => (string) vattu::find($record->vattu_id)->donvitinh->TenDVT ?? 'N/A'),
+                TextColumn::make('tonkho.kho.TenKho')->label('Kho'),
+                TextColumn::make('tonkho.vitri.Mota')->label('Vị trí'),
                 TextColumn::make('GhiChu')->label('Ghi chú'),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                //                Tables\Actions\CreateAction::make()
-                //                    ->hidden($this->shouldbeHidden())
-                //                    ->modalWidth('7xl')
-                //                    ->label('Thêm')->icon('heroicon-o-plus'),
+                Tables\Actions\Action::make('tonkholist')->label('Danh sách tồn kho')
+                    ->hidden($this->shouldbeHidden())
+                    ->icon('heroicon-o-list-bullet')
+                    ->color('warning')
+                    ->modalHeading('Danh sách tồn kho')
+                    ->modalContent(fn() => view(
+                        'filament.tonkholist',
+                        [
+                            'LyDo' => $this->getOwnerRecord()->LyDo,
+                            'kho_id' => $this->getOwnerRecord()->kho_id,
+                        ]
+                    ))
+                    ->modalWidth('7xl')
             ])
             ->actions([
-                //                Tables\Actions\EditAction::make()
-                //                    ->hidden($this->shouldbeHidden())
-                //                    ->modalHeading('Chi tiết phiếu nhập'),
+                Tables\Actions\EditAction::make()
+                    ->hidden($this->shouldbeHidden())
+                    ->modalHeading('Chi tiết phiếu nhập'),
                 Tables\Actions\DeleteAction::make()
                     ->hidden($this->shouldbeHidden()),
 
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    //                    Tables\Actions\DeleteBulkAction::make(),
+                    //Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -149,5 +129,39 @@ class ChitietphieuxuatRelationManager extends RelationManager
     public function shouldbeHidden(): bool
     {
         return $this->getOwnerRecord()->TrangThai == 1 || $this->getOwnerRecord()->TrangThai == 2;
+    }
+
+    #[On('tonkhoSelected')]
+    public function handleTonkhoSelected($record): void
+    {
+        // dd($record);
+        $phieuxuat = $this->getOwnerRecord();
+
+        $existingItem = chitietphieuxuat::where('phieuxuat_id', $phieuxuat->id)
+            ->where('tonkho_id', $record['tonkho_id'])
+            ->first();
+
+        if ($existingItem) {
+            Notification::make()
+                ->title('Thông báo')
+                ->body('Vật tư đã tồn tại trong danh sách xuất.')
+                ->warning()
+                ->send();
+
+            return;
+        }
+        chitietphieuxuat::create([
+            'phieuxuat_id' => $phieuxuat->id,
+            'vattu_id' => $record['vattu_id'],
+            'tonkho_id' => $record['tonkho_id'],
+            'SoLuong' => 0,
+            'vitri_id' => $record['vitri_id'],
+        ]);
+
+        Notification::make()
+            ->title('Thành công')
+            ->body('Vật tư đã được thêm vào phiếu xuất')
+            ->success()
+            ->send();
     }
 }

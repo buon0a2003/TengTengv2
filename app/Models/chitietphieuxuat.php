@@ -67,9 +67,7 @@ class chitietphieuxuat extends Model
      *
      * @var array
      */
-    protected $hidden = [
-
-    ];
+    protected $hidden = [];
 
     /**
      * The attributes that should be mutated to dates.
@@ -89,5 +87,10 @@ class chitietphieuxuat extends Model
     public function vattu(): BelongsTo
     {
         return $this->belongsTo(vattu::class);
+    }
+
+    public function tonkho(): BelongsTo
+    {
+        return $this->belongsTo(tonkho::class);
     }
 }

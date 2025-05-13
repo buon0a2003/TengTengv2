@@ -89,7 +89,8 @@ class TonkhoResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->query(tonkho::with('vattu', 'kho', 'vitri'))
+            ->query(tonkho::join('vattu', 'tonkho.vattu_id', '=', 'vattu.id')
+                ->select('tonkho.*', 'vattu.LaTP'))
             ->emptyStateHeading('Không có hàng tồn kho')
             ->emptyStateDescription('Vui lòng thêm dữ liệu hoặc thay đổi bộ lọc tìm kiếm.')
             ->columns([
@@ -132,12 +133,6 @@ class TonkhoResource extends Resource
                         0 => 'Nguyên vật liệu',
                         1 => 'Thành phẩm',
                     ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query->when(
-                            isset($data['value']),
-                            fn(Builder $query, $value): Builder => $query->whereHas('vattu', fn($q) => $q->where('LaTP', '=', $data['value']))
-                        );
-                    })
                     ->label('Loại vật tư')
             ], layout: FiltersLayout::AboveContent)
             ->actions([

@@ -68,7 +68,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
 
     protected static ?string $slug = 'phieunhap';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 1;
 
     public static function getBreadcrumb(): string
     {

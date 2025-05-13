@@ -64,7 +64,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
 
     protected static ?string $slug = 'phieuxuat';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 2;
 
     public static function getPermissionPrefixes(): array
     {
