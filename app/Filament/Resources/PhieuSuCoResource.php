@@ -4,24 +4,26 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use App\Models\phieusuco;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Models\phieusuco;
 use Filament\Tables\Table;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\Hidden;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Actions\ViewAction;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Forms\Components\Actions\Action as FormAction;
+use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Auth;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use Illuminate\Database\Eloquent\Collection;
+use Filament\Forms\Components\DateTimePicker;
 use App\Filament\Resources\PhieuSuCoResource\Pages;
+use Filament\Forms\Components\Actions\Action as FormAction;
+use Filament\Support\Enums\MaxWidth;
 
 class PhieuSuCoResource extends Resource
 {
@@ -201,10 +203,53 @@ class PhieuSuCoResource extends Resource
                     ViewAction::make()->color('info'),
                     EditAction::make(),
                     DeleteAction::make(),
+                    \Filament\Tables\Actions\Action::make('changeStatus')
+                        ->label('Đổi trạng thái')
+                        ->icon('heroicon-o-arrow-path')
+                        ->color('success')
+                        ->form([
+                            Select::make('TrangThai')
+                                ->label('Trạng thái mới')
+                                ->options([
+                                    0 => 'Mới tạo',
+                                    1 => 'Đang xử lý',
+                                    2 => 'Đã giải quyết',
+                                    3 => 'Đã hủy',
+                                ])
+                                ->required()
+                        ])
+                        ->modalWidth(MaxWidth::Small)
+                        ->action(function (phieusuco $record, array $data): void {
+                            $record->TrangThai = $data['TrangThai'];
+                            $record->save();
+                        })
+                        ->successNotificationTitle('Đã cập nhật trạng thái phiếu sự cố'),
                 ]),
             ])
             ->bulkActions([
-                //
+                \Filament\Tables\Actions\BulkAction::make('bulkChangeStatus')
+                    ->label('Đổi trạng thái')
+                    ->icon('heroicon-o-arrow-path')
+                    ->color('success')
+                    ->form([
+                        Select::make('TrangThai')
+                            ->label('Trạng thái mới')
+                            ->options([
+                                0 => 'Mới tạo',
+                                1 => 'Đang xử lý',
+                                2 => 'Đã giải quyết',
+                                3 => 'Đã hủy',
+                            ])
+                            ->required()
+                    ])
+                    ->action(function (Collection $records, array $data): void {
+                        $records->each(function ($record) use ($data): void {
+                            $record->TrangThai = $data['TrangThai'];
+                            $record->save();
+                        });
+                    })
+                    ->deselectRecordsAfterCompletion()
+                    ->successNotificationTitle('Đã cập nhật trạng thái các phiếu sự cố'),
             ]);
     }
 
