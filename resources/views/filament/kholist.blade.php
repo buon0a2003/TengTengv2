@@ -1,0 +1,1 @@
+@livewire('kho-list', ['LyDonhap' => $LyDonhap, 'LyDoxuat' => $LyDoxuat])

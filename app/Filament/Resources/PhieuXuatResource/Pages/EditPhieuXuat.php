@@ -7,7 +7,9 @@ namespace App\Filament\Resources\PhieuXuatResource\Pages;
 use App\Filament\EditAndRedirectToIndex;
 use App\Filament\Resources\PhieuXuatResource;
 use App\Models\chitietphieuxuat;
+use App\Models\kho;
 use App\Models\phieuxuat;
+use Livewire\Attributes\On;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
@@ -32,11 +34,32 @@ class EditPhieuXuat extends EditAndRedirectToIndex
         return 'Sửa';
     }
 
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        $kho = kho::find($data['kho_id']);
+        if ($kho) {
+            $data['TenKho'] = $kho->TenKho;
+        }
+
+        return $data;
+    }
+
+    #[On('khoSelected')]
+    public function handleKhoSelected($record): void
+    {
+        $state = $this->form->getRawState();
+
+        $state['kho_id'] = $record['kho_id'];
+        $state['TenKho'] = $record['TenKho'];
+
+        $this->form->fill($state);
+    }
+
     protected function getHeaderActions(): array
     {
         return [
             DeleteAction::make()
-                ->hidden(fn ($record): bool => $record->TrangThai == 1 || $record->TrangThai == 2)
+                ->hidden(fn($record): bool => $record->TrangThai == 1 || $record->TrangThai == 2)
                 ->requiresConfirmation()
                 ->modalDescription('Xoá phiếu xuất sẽ xoá tất cả thông tin kèm theo. Bạn chắc chắn chưa?')
                 ->action(
@@ -84,10 +107,10 @@ class EditPhieuXuat extends EditAndRedirectToIndex
                         echo Pdf::loadHTML(
                             Blade::render('phieuxuat', ['record' => $thongtinphieuxuat, 'chitietphieuxuat' => $chitietphieuxuat])
                         )->stream();
-                    }, $record->id.'.pdf');
+                    }, $record->id . '.pdf');
                 })
                 // ->action(fn($record) => dd($record->chitietphieunhap))
-                ->hidden(fn ($record): bool => ! $record->TrangThai == 1)
+                ->hidden(fn($record): bool => ! $record->TrangThai == 1)
                 ->label('In phiếu')
                 ->icon('heroicon-o-printer')
                 ->color('primary'),

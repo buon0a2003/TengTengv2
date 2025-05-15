@@ -34,6 +34,17 @@ class CreatePhieuNhap extends CreateAndRedirectToIndex
         $this->form->fill($state);
     }
 
+    #[On('khoSelected')]
+    public function handleKhoSelected($record): void
+    {
+        $state = $this->form->getRawState();
+
+        $state['kho_id'] = $record['kho_id'];
+        $state['TenKho'] = $record['TenKho'];
+
+        $this->form->fill($state);
+    }
+
     protected function handleRecordCreation(array $data): Model
     {
 

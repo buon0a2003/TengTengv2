@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\PhieuNhapResource\Pages;
 
-use App\Filament\Resources\PhieuNhapResource;
-use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\kho;
 use Filament\Actions;
-use Filament\Resources\Pages\ViewRecord;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Blade;
+use Filament\Resources\Pages\ViewRecord;
+use App\Filament\Resources\PhieuNhapResource;
 
 class ViewPhieuNhap extends ViewRecord
 {
@@ -26,6 +27,17 @@ class ViewPhieuNhap extends ViewRecord
     public function getContentTabLabel(): ?string
     {
         return 'Xem';
+    }
+
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+
+        $kho = kho::find($data['kho_id']);
+        if ($kho) {
+            $data['TenKho'] = $kho->TenKho;
+        }
+
+        return $data;
     }
 
     protected function getHeaderActions(): array
@@ -68,10 +80,10 @@ class ViewPhieuNhap extends ViewRecord
                                 ['record' => $thongtinphieunhap, 'chitietphieunhap' => $chitietphieunhap]
                             )
                         )->stream();
-                    }, $record->id.'.pdf');
+                    }, $record->id . '.pdf');
                 })
                 // ->action(fn($record) => dd($record->chitietphieunhap))
-                ->hidden(fn ($record): bool => ! $record->TrangThai == 1)
+                ->hidden(fn($record): bool => ! $record->TrangThai == 1)
                 ->label('In phiếu')
                 ->icon('heroicon-o-printer')
                 ->color('primary'),

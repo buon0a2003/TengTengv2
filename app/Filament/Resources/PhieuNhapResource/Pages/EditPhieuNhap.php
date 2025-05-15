@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\PhieuNhapResource\Pages;
 
+use App\Models\kho;
 use App\Models\phieunhap;
 use Livewire\Attributes\On;
 use Filament\Actions\Action;
@@ -31,6 +32,29 @@ class EditPhieuNhap extends EditAndRedirectToIndex
     public function getContentTabLabel(): ?string
     {
         return 'Sửa';
+    }
+
+
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+
+        $kho = kho::find($data['kho_id']);
+        if ($kho) {
+            $data['TenKho'] = $kho->TenKho;
+        }
+
+        return $data;
+    }
+
+    #[On('khoSelected')]
+    public function handleKhoSelected($record): void
+    {
+        $state = $this->form->getRawState();
+
+        $state['kho_id'] = $record['kho_id'];
+        $state['TenKho'] = $record['TenKho'];
+
+        $this->form->fill($state);
     }
 
     protected function getHeaderActions(): array

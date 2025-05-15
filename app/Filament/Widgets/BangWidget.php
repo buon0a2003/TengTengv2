@@ -51,6 +51,7 @@ class BangWidget extends BaseWidget
                     ])
                     ->join('vattu', 'vattu.id', '=', 'tonkho.vattu_id')
                     ->join('donvitinh', 'donvitinh.id', '=', 'vattu.donvitinh_id')
+                    ->where('tonkho.SoLuong', '>', 0)
                     ->where(function ($query) {
                         $query->whereColumn('tonkho.SoLuong', '<=', 'donvitinh.critical')
                             ->orWhereColumn('tonkho.SoLuong', '<=', 'donvitinh.very_low')

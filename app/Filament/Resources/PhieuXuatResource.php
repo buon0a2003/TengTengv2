@@ -4,38 +4,39 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PhieuXuatResource\Pages;
-use App\Filament\Resources\PhieuXuatResource\RelationManagers\ChitietphieuxuatRelationManager;
-use App\Models\chitietphieuxuat;
 use App\Models\kho;
-use App\Models\phieuxuat;
-use App\Models\tonkho;
+use Filament\Tables;
 use App\Models\vattu;
 use App\Models\vitri;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
-use Filament\Forms\Components\Actions\Action as FormAction;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Radio;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Wizard;
-use Filament\Forms\Components\Wizard\Step;
-use Filament\Forms\Form;
+use App\Models\tonkho;
 use Filament\Forms\Get;
-use Filament\Notifications\Notification;
-use Filament\Resources\Resource;
-use Filament\Support\Exceptions\Cancel;
-use Filament\Tables;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\SelectFilter;
+use Filament\Forms\Form;
+use App\Models\phieuxuat;
 use Filament\Tables\Table;
-use Guava\FilamentModalRelationManagers\Actions\Table\RelationManagerAction;
+use App\Models\chitietphieuxuat;
+use Filament\Resources\Resource;
+use Filament\Tables\Actions\Action;
+use Filament\Forms\Components\Radio;
 use Illuminate\Support\Facades\Auth;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Wizard;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Textarea;
+use Filament\Support\Exceptions\Cancel;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Forms\Components\Wizard\Step;
+use App\Filament\Resources\PhieuXuatResource\Pages;
+use Filament\Forms\Components\Actions\Action as FormAction;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
+use Guava\FilamentModalRelationManagers\Actions\Table\RelationManagerAction;
+use App\Filament\Resources\PhieuXuatResource\RelationManagers\ChitietphieuxuatRelationManager;
 
 class PhieuXuatResource extends Resource implements HasShieldPermissions
 {
@@ -174,12 +175,28 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                                     TextInput::make('GhiChu')->label('Ghi chú'),
                                                 ])->columnSpanFull(),
                                         ]),
-                                    Select::make('kho_id')->label('Kho')
-                                        ->relationship('kho', 'TenKho')
+                                    Hidden::make('kho_id')
+                                        ->label('Mã kho')
                                         ->required()
-                                        ->live()
-                                        ->preload()
-                                        ->searchable(),
+                                        ->hidden()
+                                        ->live(),
+
+                                    TextInput::make('TenKho')
+                                        ->label('Kho')
+                                        ->required()
+                                        ->readOnly()
+                                        ->prefixAction(
+                                            FormAction::make('openKhoModal')
+                                                ->label('Chọn kho')
+                                                ->icon('heroicon-m-magnifying-glass')
+                                                ->modalHeading('Danh sách kho')
+                                                ->modalContent(
+                                                    fn(Get $get) => view('filament.kholist', ['LyDoxuat' => $get('LyDo'), 'LyDonhap' => ''])
+                                                )
+                                                ->action(null)
+                                                ->modalCancelAction(false)
+                                                ->modalSubmitActionLabel('Xong')
+                                        ),
                                 ]),
 
                             Section::make('Thông tin phụ')

@@ -118,7 +118,7 @@ return [
         'actions' => [
 
             'apply' => [
-                'label' => 'Apply filters',
+                'label' => 'Áp dụng bộ lọc',
             ],
 
             'remove' => [
@@ -126,8 +126,8 @@ return [
             ],
 
             'remove_all' => [
-                'label' => 'Remove all filters',
-                'tooltip' => 'Remove all filters',
+                'label' => 'Xóa tất cả bộ lọc',
+                'tooltip' => 'Xóa tất cả bộ lọc',
             ],
 
             'reset' => [
@@ -138,10 +138,10 @@ return [
 
         'heading' => 'Bộ lọc',
 
-        'indicator' => 'Active filters',
+        'indicator' => 'Bộ lọc đang hoạt động',
 
         'multi_select' => [
-            'placeholder' => 'All',
+            'placeholder' => 'Tất cả',
         ],
 
         'select' => [
@@ -150,13 +150,13 @@ return [
 
         'trashed' => [
 
-            'label' => 'Deleted records',
+            'label' => 'Bản ghi đã xóa',
 
-            'only_trashed' => 'Only deleted records',
+            'only_trashed' => 'Chỉ bản ghi đã xóa',
 
-            'with_trashed' => 'With deleted records',
+            'with_trashed' => 'Bao gồm bản ghi đã xóa',
 
-            'without_trashed' => 'Without deleted records',
+            'without_trashed' => 'Không bao gồm bản ghi đã xóa',
 
         ],
 

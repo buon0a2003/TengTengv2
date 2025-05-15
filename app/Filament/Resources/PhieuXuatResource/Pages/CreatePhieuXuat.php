@@ -25,6 +25,17 @@ class CreatePhieuXuat extends CreateAndRedirectToIndex
     protected static ?string $breadcrumb = 'Tạo mới';
     // protected $listeners = ['tonkhoSelected' => 'handleTonkhoSelected'];
 
+    #[On('khoSelected')]
+    public function handleKhoSelected($record): void
+    {
+        $state = $this->form->getRawState();
+
+        $state['kho_id'] = $record['kho_id'];
+        $state['TenKho'] = $record['TenKho'];
+
+        $this->form->fill($state);
+    }
+
     #[On('tonkhoSelected')]
     public function handleTonkhoSelected($record): void
     {
