@@ -96,7 +96,11 @@ class TonkhoList extends Component implements HasForms, HasTable
                         1 => 'Thành phẩm',
                     ])
                     ->label('Loại vật tư')
-                    ->default(fn() => $this->LyDo == '0' ? 0 : 1),
+                    ->default(fn() => match ($this->LyDo) {
+                        '0' => 0,
+                        '1' => 1,
+                        default => '',
+                    }),
             ], layout: FiltersLayout::AboveContent)
 
             ->actions([

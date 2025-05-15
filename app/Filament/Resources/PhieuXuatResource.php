@@ -48,6 +48,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
     public static array $lydo = [
         '0' => 'Xuất sản xuất',
         '1' => 'Xuất bán',
+        '2' => 'Xuất khác',
     ];
 
     protected static ?string $model = phieuxuat::class;
@@ -108,7 +109,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                         ->options(self::$lydo),
 
                                     TextInput::make('id')->label('Mã phiếu xuất')
-                                        ->placeholder('eg: PX001/xx/xx')
+                                        ->placeholder('eg: PXddmmyy-XXX')
                                         ->unique(ignoreRecord: true)
                                         ->required()
                                         ->prefixAction(
@@ -116,11 +117,22 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                                 ->icon('heroicon-m-sparkles')
                                                 ->requiresConfirmation()
                                                 ->color('info')
-                                                ->modalHeading('Tạo mã phiếu nhập')
-                                                ->modalDescription('Đặt mã phiếu nhập tự động theo định dạng PNddmmyy')
+                                                ->modalHeading('Tạo mã phiếu xuất')
+                                                ->modalDescription('Đặt mã phiếu xuất tự động theo định dạng PXddmmyy-XXX')
                                                 ->action(function ($set) {
-                                                    $newId = 'PX';
-                                                    $set('id', $newId . now()->format('dmy'));
+                                                    $today = now()->format('dmy');
+                                                    $lastRecord = phieuxuat::where('id', 'like', "PX{$today}-%")
+                                                        ->orderBy('id', 'desc')
+                                                        ->first();
+
+                                                    $sequence = 1;
+                                                    if ($lastRecord) {
+                                                        $lastSequence = (int) substr($lastRecord->id, -3);
+                                                        $sequence = $lastSequence + 1;
+                                                    }
+
+                                                    $newId = sprintf("PX%s-%03d", $today, $sequence);
+                                                    $set('id', $newId);
                                                 })
                                         ),
 
@@ -135,7 +147,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                         ->required()
                                         ->relationship('khachhang', 'TenKH')
                                         ->preload()
-                                        ->hidden(fn(Get $get): bool => $get('LyDo') == '0')
+                                        ->visible(fn(Get $get): bool => $get('LyDo') == '1')
                                         ->searchable()
                                         ->createOptionForm([
                                             Section::make('Thông tin bắt buộc')
@@ -162,7 +174,6 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                                     TextInput::make('GhiChu')->label('Ghi chú'),
                                                 ])->columnSpanFull(),
                                         ]),
-
                                     Select::make('kho_id')->label('Kho')
                                         ->relationship('kho', 'TenKho')
                                         ->required()
@@ -266,9 +277,14 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                     ->searchable(),
                 TextColumn::make('kho.TenKho')->label('Kho'),
                 TextColumn::make('LyDo')->label('Lý do')
-                    ->formatStateUsing(fn($record) => $record->LyDo == 0 ? 'Xuất sản xuất' : 'Xuất bán')
                     ->badge()
-                    ->color(fn($record): string => $record->LyDo == 0 ? 'info' : 'success')
+                    ->formatStateUsing(fn($record) => self::$lydo[$record->LyDo] ?? 'N/A')
+                    ->color(fn($record): string => match ($record->LyDo) {
+                        0 => 'info',
+                        1 => 'success',
+                        2 => 'warning',
+                        default => 'gray'
+                    })
                     ->searchable(),
                 TextColumn::make('TrangThai')->label('Trạng thái')
                     ->alignCenter()

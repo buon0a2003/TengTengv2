@@ -113,7 +113,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                         ->options(self::$lydo),
 
                                     TextInput::make('id')
-                                        ->placeholder('eg: PN001/xx/xx')
+                                        ->placeholder('eg: PNddmmyy-XXX')
                                         ->unique(ignoreRecord: true)
                                         // ->required()
                                         ->label('Mã phiếu nhập')
@@ -123,10 +123,21 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                                 ->requiresConfirmation()
                                                 ->color('info')
                                                 ->modalHeading('Tạo mã phiếu nhập')
-                                                ->modalDescription('Đặt mã phiếu nhập tự động theo định dạng PNddmmyy')
+                                                ->modalDescription('Đặt mã phiếu nhập tự động theo định dạng PNddmmyy-XXX')
                                                 ->action(function ($set) {
-                                                    $newId = 'PN';
-                                                    $set('id', $newId . now()->format('dmy'));
+                                                    $today = now()->format('dmy');
+                                                    $lastRecord = phieunhap::where('id', 'like', "PN{$today}-%")
+                                                        ->orderBy('id', 'desc')
+                                                        ->first();
+
+                                                    $sequence = 1;
+                                                    if ($lastRecord) {
+                                                        $lastSequence = (int) substr($lastRecord->id, -3);
+                                                        $sequence = $lastSequence + 1;
+                                                    }
+
+                                                    $newId = sprintf("PN%s-%03d", $today, $sequence);
+                                                    $set('id', $newId);
                                                 })
                                         ),
 

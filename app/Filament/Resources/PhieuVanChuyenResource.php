@@ -58,7 +58,7 @@ class PhieuVanChuyenResource extends Resource
                     ->aside()
                     ->schema([
                         TextInput::make('id')
-                            ->placeholder('eg: PVC001/xx/xx')
+                            ->placeholder('eg: PVCddmmyy-XXX')
                             ->unique(ignoreRecord: true)
                             // ->required()
                             ->label('Mã phiếu vận chuyển')
@@ -68,10 +68,21 @@ class PhieuVanChuyenResource extends Resource
                                     ->requiresConfirmation()
                                     ->color('info')
                                     ->modalHeading('Tạo mã phiếu vận chuyển')
-                                    ->modalDescription('Đặt mã phiếu vận chuyển tự động theo định dạng PNddmmyy')
+                                    ->modalDescription('Đặt mã phiếu vận chuyển tự động theo định dạng PVCddmmyy-XXX')
                                     ->action(function ($set) {
-                                        $newId = 'PVC';
-                                        $set('id', $newId . now()->format('dmy'));
+                                        $today = now()->format('dmy');
+                                        $lastRecord = phieuvanchuyen::where('id', 'like', "PVC{$today}-%")
+                                            ->orderBy('id', 'desc')
+                                            ->first();
+
+                                        $sequence = 1;
+                                        if ($lastRecord) {
+                                            $lastSequence = (int) substr($lastRecord->id, -3);
+                                            $sequence = $lastSequence + 1;
+                                        }
+
+                                        $newId = sprintf("PVC%s-%03d", $today, $sequence);
+                                        $set('id', $newId);
                                     })
                             ),
 

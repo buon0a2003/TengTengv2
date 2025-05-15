@@ -68,9 +68,7 @@ class phieuxuat extends Model
      *
      * @var array
      */
-    protected $hidden = [
-
-    ];
+    protected $hidden = [];
 
     public function user(): BelongsTo
     {
