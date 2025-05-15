@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property string $id
@@ -47,13 +49,24 @@ class phieudieuchuyen extends Model
      */
     protected $primaryKey = 'id';
 
+    protected $keyType = 'string';
+    public $incrementing = false;
+
     /**
      * Attributes that should be mass-assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'NgayLap', 'user_id', 'MaKhoNguon', 'MaKhoDich', 'GhiChu', 'TrangThai', 'created_at', 'updated_at',
+        'id',
+        'NgayLap',
+        'user_id',
+        'MaKhoNguon',
+        'MaKhoDich',
+        'GhiChu',
+        'TrangThai',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -61,18 +74,7 @@ class phieudieuchuyen extends Model
      *
      * @var array
      */
-    protected $hidden = [
-
-    ];
-
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'string', 'NgayLap' => 'datetime', 'user_id' => 'int', 'MaKhoNguon' => 'int', 'MaKhoDich' => 'int', 'GhiChu' => 'string', 'TrangThai' => 'int', 'created_at' => 'timestamp', 'updated_at' => 'timestamp',
-    ];
+    protected $hidden = [];
 
     /**
      * The attributes that should be mutated to dates.
@@ -80,7 +82,9 @@ class phieudieuchuyen extends Model
      * @var array
      */
     protected $dates = [
-        'NgayLap', 'created_at', 'updated_at',
+        'NgayLap',
+        'created_at',
+        'updated_at',
     ];
 
     // Scopes...
@@ -88,4 +92,35 @@ class phieudieuchuyen extends Model
     // Functions ...
 
     // Relations ...
+    /**
+     * Get the user that created the transfer note
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the source warehouse of the transfer note
+     */
+    public function khonguon(): BelongsTo
+    {
+        return $this->belongsTo(kho::class, 'MaKhoNguon');
+    }
+
+    /**
+     * Get the destination warehouse of the transfer note
+     */
+    public function khodich(): BelongsTo
+    {
+        return $this->belongsTo(kho::class, 'MaKhoDich');
+    }
+
+    /**
+     * Get the transfer note details
+     */
+    public function chitietphieudieuchuyen(): HasMany
+    {
+        return $this->hasMany(chitietphieudieuchuyen::class, 'phieudieuchuyen_id');
+    }
 }

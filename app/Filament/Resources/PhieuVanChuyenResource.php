@@ -148,7 +148,7 @@ class PhieuVanChuyenResource extends Resource
                     ->schema([
                         DatePicker::make('NgayVanChuyen')
                             ->displayFormat('d/m/Y')
-                            // ->default(now())
+                            ->default(now())
                             ->placeholder('Chọn ngày vận chuyển')
                             // ->required()
                             ->label('Ngày vận chuyển'),

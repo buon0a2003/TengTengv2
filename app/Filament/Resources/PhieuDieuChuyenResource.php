@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PhieuXuatResource\Pages;
-use App\Filament\Resources\PhieuXuatResource\RelationManagers\ChitietphieuxuatRelationManager;
-use App\Models\chitietphieuxuat;
+use App\Filament\Resources\PhieuDieuChuyenResource\Pages;
+use App\Filament\Resources\PhieuDieuChuyenResource\RelationManagers\ChitietphieudieuchuyenRelationManager;
+use App\Models\chitietphieudieuchuyen;
 use App\Models\kho;
-use App\Models\phieuxuat;
+use App\Models\phieudieuchuyen;
 use App\Models\tonkho;
 use App\Models\vattu;
 use App\Models\vitri;
@@ -37,7 +37,7 @@ use Filament\Tables\Table;
 use Guava\FilamentModalRelationManagers\Actions\Table\RelationManagerAction;
 use Illuminate\Support\Facades\Auth;
 
-class PhieuXuatResource extends Resource implements HasShieldPermissions
+class PhieuDieuChuyenResource extends Resource implements HasShieldPermissions
 {
     public static array $status = [
         '0' => 'Đang xử lý',
@@ -45,27 +45,21 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
         '2' => 'Đã huỷ',
     ];
 
-    public static array $lydo = [
-        '0' => 'Xuất sản xuất',
-        '1' => 'Xuất bán',
-        '2' => 'Xuất khác',
-    ];
+    protected static ?string $model = phieudieuchuyen::class;
 
-    protected static ?string $model = phieuxuat::class;
+    protected static ?string $modelLabel = 'Phiếu điều chuyển';
 
-    protected static ?string $modelLabel = 'Phiếu xuất';
+    protected static ?string $navigationIcon = 'heroicon-o-arrows-right-left';
 
-    protected static ?string $navigationIcon = 'heroicon-o-chevron-double-right';
+    protected static ?string $activeNavigationIcon = 'heroicon-s-arrows-right-left';
 
-    protected static ?string $activeNavigationIcon = 'heroicon-s-chevron-double-right';
-
-    protected static ?string $navigationLabel = 'Phiếu xuất';
+    protected static ?string $navigationLabel = 'Phiếu điều chuyển';
 
     protected static ?string $navigationGroup = 'Quản lý Nhập & Xuất';
 
-    protected static ?string $slug = 'phieuxuat';
+    protected static ?string $slug = 'phieudieuchuyen';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 3;
 
     public static function getPermissionPrefixes(): array
     {
@@ -76,18 +70,18 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
             'update',
             'delete',
             'delete_any',
-            'duyetphieuxuat',
+            'duyetphieudieuchuyen',
         ];
     }
 
     public static function getNavigationBadgeTooltip(): ?string
     {
-        return 'Số lượng phiếu xuất đang xử lý';
+        return 'Số lượng phiếu điều chuyển đang xử lý';
     }
 
     public static function getBreadcrumb(): string
     {
-        return 'Phiếu xuất';
+        return 'Phiếu điều chuyển';
     }
 
     public static function form(Form $form): Form
@@ -95,21 +89,14 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
         return $form
             ->schema([
                 Wizard::make([
-                    Step::make('Thông tin phiếu xuất')
+                    Step::make('Thông tin phiếu điều chuyển')
                         ->schema([
                             Section::make('Thông tin chính')
-                                ->description('Thông tin chi tiết phiếu xuất')
+                                ->description('Thông tin chi tiết phiếu điều chuyển')
                                 ->aside()
                                 ->schema([
-                                    Radio::make('LyDo')->label('Lý do xuất hàng?')
-                                        ->required()
-                                        ->inline()
-                                        ->default('0')
-                                        ->live()
-                                        ->options(self::$lydo),
-
-                                    TextInput::make('id')->label('Mã phiếu xuất')
-                                        ->placeholder('eg: PXddmmyy-XXX')
+                                    TextInput::make('id')->label('Mã phiếu điều chuyển')
+                                        ->placeholder('eg: PDCddmmyy-XXX')
                                         ->unique(ignoreRecord: true)
                                         ->required()
                                         ->prefixAction(
@@ -117,11 +104,11 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                                 ->icon('heroicon-m-sparkles')
                                                 ->requiresConfirmation()
                                                 ->color('info')
-                                                ->modalHeading('Tạo mã phiếu xuất')
-                                                ->modalDescription('Đặt mã phiếu xuất tự động theo định dạng PXddmmyy-XXX')
+                                                ->modalHeading('Tạo mã phiếu điều chuyển')
+                                                ->modalDescription('Đặt mã phiếu điều chuyển tự động theo định dạng PDCddmmyy-XXX')
                                                 ->action(function ($set) {
                                                     $today = now()->format('dmy');
-                                                    $lastRecord = phieuxuat::where('id', 'like', "PX{$today}-%")
+                                                    $lastRecord = phieudieuchuyen::where('id', 'like', "PDC{$today}-%")
                                                         ->orderBy('id', 'desc')
                                                         ->first();
 
@@ -131,7 +118,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                                         $sequence = $lastSequence + 1;
                                                     }
 
-                                                    $newId = sprintf("PX%s-%03d", $today, $sequence);
+                                                    $newId = sprintf("PDC%s-%03d", $today, $sequence);
                                                     $set('id', $newId);
                                                 })
                                         ),
@@ -143,59 +130,49 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                         ->preload()
                                         ->searchable(),
 
-                                    Select::make('khachhang_id')->label('Khách hàng')
-                                        ->required()
-                                        ->relationship('khachhang', 'TenKH')
-                                        ->preload()
-                                        ->visible(fn(Get $get): bool => $get('LyDo') == '1')
-                                        ->searchable()
-                                        ->createOptionForm([
-                                            Section::make('Thông tin bắt buộc')
-                                                ->description('Thông tin chi tiết của khách hàng mới')
-                                                ->aside()
-                                                ->schema([
-                                                    TextInput::make('TenKH')->label('Tên khách hàng')->required(),
-                                                    TextInput::make('Sdt')->label('Số điện thoại')->required()->unique(ignoreRecord: true)
-                                                        ->prefix('+84')
-                                                        ->regex('/^(0\d{9}|[1-9]\d{8})$/')
-                                                        ->validationMessages([
-                                                            'regex' => 'Số điện thoại sai quy cách.',
-                                                        ])
-                                                        ->validationMessages([
-                                                            'unique' => 'Số điện thoại này đã tồn tại.',
-                                                        ]),
-                                                    TextInput::make('DiaChi')->label('Địa chỉ')->required(),
-                                                ])->columnSpanFull(),
-
-                                            Section::make('Thông tin không bắt buộc')
-                                                ->aside()
-                                                ->schema([
-                                                    TextInput::make('Email'),
-                                                    TextInput::make('GhiChu')->label('Ghi chú'),
-                                                ])->columnSpanFull(),
-                                        ]),
-                                    Select::make('kho_id')->label('Kho')
-                                        ->relationship('kho', 'TenKho')
+                                    Select::make('MaKhoNguon')->label('Kho nguồn')
+                                        ->relationship('khonguon', 'TenKho')
                                         ->required()
                                         ->live()
                                         ->preload()
                                         ->searchable(),
+
+                                    Select::make('MaKhoDich')->label('Kho đích')
+                                        ->relationship('khodich', 'TenKho')
+                                        ->required()
+                                        ->live()
+                                        ->preload()
+                                        ->searchable()
+                                        ->different('MaKhoNguon')
+                                        ->validationMessages([
+                                            'different' => 'Kho đích phải khác kho nguồn',
+                                        ])
+                                        ->afterStateUpdated(function ($state, $get, $set) {
+                                            if ($state === $get('MaKhoNguon')) {
+                                                $set('MaKhoDich', null);
+                                                Notification::make()
+                                                    ->warning()
+                                                    ->title('Cảnh báo')
+                                                    ->body('Kho đích không được trùng với kho nguồn')
+                                                    ->send();
+                                            }
+                                        }),
                                 ]),
 
                             Section::make('Thông tin phụ')
                                 ->aside()
-                                ->description('Thông tin phụ của phiếu xuất')
+                                ->description('Thông tin phụ của phiếu điều chuyển')
                                 ->schema([
-                                    DatePicker::make('NgayXuat')
+                                    DatePicker::make('NgayLap')
                                         ->required()
                                         ->default(now())
-                                        ->label('Ngày xuất'),
+                                        ->label('Ngày lập'),
 
                                     Textarea::make('GhiChu')
                                         ->label('Ghi chú'),
                                 ]),
                             Section::make('Trạng thái')
-                                ->description('Trạng thái của phiếu xuất')
+                                ->description('Trạng thái của phiếu điều chuyển')
                                 ->aside()
                                 ->visibleOn('edit')
                                 ->schema([
@@ -206,27 +183,26 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                         ->options(self::$status),
                                 ]),
                         ]),
-                    Step::make('Thông tin chi tiết phiếu xuất')
+                    Step::make('Thông tin chi tiết phiếu điều chuyển')
                         ->schema([
-                            Repeater::make('dsvattuxuat')->label('Danh sách vật tư xuất')
+                            Repeater::make('dsvattudieuhuyen')->label('Danh sách vật tư điều chuyển')
                                 ->required()
                                 ->validationMessages([
-                                    'required' => 'Danh sách vật tư xuất không được trống.',
+                                    'required' => 'Danh sách vật tư điều chuyển không được trống.',
                                 ])
-                                // ->hidden(fn (Get $get): bool => $get('dsvattuxuat') == null)
                                 ->reorderable(false)
                                 ->addActionLabel('Thêm vật tư')
                                 ->addAction(function (FormAction $action, $get): FormAction {
                                     return $action->modalContent(
                                         view('filament.tonkholist', [
-                                            'LyDo' => $get('LyDo') ?? '',
-                                            'kho_id' => $get('kho_id') ?? '',
+                                            'LyDo' => '',
+                                            'kho_id' => $get('MaKhoNguon') ?? '',
                                         ])
                                     )
                                         ->action(null)
                                         ->modalWidth('7xl')
                                         ->modalCancelAction(false)
-                                        ->modalSubmitActionLabel('Done');
+                                        ->modalSubmitActionLabel('Xong');
                                 })
                                 ->schema([
                                     TextInput::make('vattu_id')->hidden()->live(),
@@ -245,13 +221,20 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                         ->required()
                                         ->suffix(fn(Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
                                         ->numeric()
-                                        ->minValue(0)
-                                        ->lte('soluongkhadung'),
+                                        ->minValue(0),
+                                    Select::make('vitri_dich_id')->label('Vị trí đích')
+                                        ->options(function ($get) {
+                                            $khoDich = $get('../../MaKhoDich');
+                                            return vitri::where('kho_id', $khoDich)->pluck('Mota', 'id')->toArray();
+                                        })
+                                        ->searchable()
+                                        ->required()
+                                        ->helperText('Vị trí đặt vật tư tại kho đích'),
                                     Textarea::make('ghichu')->rows(2)->label('Ghi chú'),
                                 ])
                                 ->defaultItems(0)
                                 ->grid(3)
-                                ->itemLabel(function ($state, $get): string {
+                                ->itemLabel(function ($state): string {
                                     $kho = kho::find($state['kho_id']);
                                     $vitri = vitri::find($state['vitri_id']);
 
@@ -268,25 +251,13 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
             ->defaultSort('TrangThai', 'asc')
             ->columns([
                 TextColumn::make('id')->label('Mã phiếu'),
-                TextColumn::make('khachhang.TenKH')->label('Khách hàng')
-                    ->placeholder('N/A'),
-                TextColumn::make('NgayXuat')->label('Ngày xuất')
+                TextColumn::make('NgayLap')->label('Ngày lập')
                     ->date('d/m/Y')
                     ->searchable(),
-
-                TextColumn::make('user.name')->label('Người nhập')
+                TextColumn::make('user.name')->label('Người tạo')
                     ->searchable(),
-                TextColumn::make('kho.TenKho')->label('Kho'),
-                TextColumn::make('LyDo')->label('Lý do')
-                    ->badge()
-                    ->formatStateUsing(fn($record) => self::$lydo[$record->LyDo] ?? 'N/A')
-                    ->color(fn($record): string => match ($record->LyDo) {
-                        0 => 'info',
-                        1 => 'success',
-                        2 => 'warning',
-                        default => 'gray'
-                    })
-                    ->searchable(),
+                TextColumn::make('khonguon.TenKho')->label('Kho nguồn'),
+                TextColumn::make('khodich.TenKho')->label('Kho đích'),
                 TextColumn::make('TrangThai')->label('Trạng thái')
                     ->alignCenter()
                     ->formatStateUsing(fn($record) => match ($record->TrangThai) {
@@ -302,10 +273,8 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                         2 => 'danger',
                         default => ''
                     }),
-
                 TextColumn::make('GhiChu')->label('Ghi chú')
                     ->wrap(),
-
             ])
             ->filters([
                 SelectFilter::make('TrangThai')->label('Trạng thái')
@@ -315,24 +284,58 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                 ActionGroup::make([
                     Tables\Actions\ViewAction::make()->color('info'),
                     Tables\Actions\EditAction::make()->color('primary'),
-                    Action::make('duyetphieuxuat')->label('Duyệt phiếu xuất')
-                        ->authorize(fn(): bool => Auth::user()->can('duyetphieuxuat_phieu::xuat'))
-                        ->hidden(fn($record): bool => ! $record->TrangThai == 0)
+                    Action::make('duyetphieudieuchuyen')->label('Duyệt phiếu điều chuyển')
+                        // ->authorize(fn(): bool => Auth::user()->can('duyetphieudieuchuyen_phieu::dieu::chuyen'))
+                        ->visible(fn($record): bool => $record->TrangThai == 0)
                         ->action(
-                            function (phieuxuat $record): void {
-                                $chitietphieuxuatRecord = chitietphieuxuat::where('phieuxuat_id', $record->id)->get();
-                                if (! $chitietphieuxuatRecord->isEmpty()) {
+                            function (phieudieuchuyen $record): void {
+                                $chitietphieudieuchuyenRecord = chitietphieudieuchuyen::where('phieudieuchuyen_id', $record->id)->get();
+                                if (! $chitietphieudieuchuyenRecord->isEmpty()) {
 
-                                    $chitietphieuxuatRecord->each(function ($item) {
-                                        $tonkho = tonkho::find($item->tonkho_id);
-                                        if ($tonkho && $tonkho->SoLuong >= $item->SoLuong) {
-                                            $tonkho->SoLuong -= $item->SoLuong;
-                                            $tonkho->NgayCapNhat = now();
-                                            $tonkho->save();
+                                    $chitietphieudieuchuyenRecord->each(function ($item) use ($record) {
+                                        // Tìm tồn kho nguồn
+                                        $tonkhoNguon = tonkho::find($item->tonkho_id);
+
+                                        if ($tonkhoNguon && $tonkhoNguon->SoLuong >= $item->SoLuong) {
+                                            // Giảm số lượng ở kho nguồn
+                                            $tonkhoNguon->SoLuong -= $item->SoLuong;
+                                            $tonkhoNguon->NgayCapNhat = now();
+                                            $tonkhoNguon->save();
+
+                                            // Tìm hoặc tạo tồn kho đích
+                                            $tonkhoDich = tonkho::where('kho_id', $record->MaKhoDich)
+                                                ->where('vattu_id', $item->vattu_id)
+                                                ->where('vitri_id', $item->vitri_dich_id)
+                                                ->first();
+
+                                            if ($tonkhoDich) {
+                                                // Cộng số lượng vào kho đích nếu đã có
+                                                $tonkhoDich->SoLuong += $item->SoLuong;
+                                                $tonkhoDich->NgayCapNhat = now();
+                                                $tonkhoDich->save();
+                                            } else {
+                                                // Tạo mới tồn kho ở kho đích nếu chưa có
+                                                if (!$item->vitri_dich_id) {
+                                                    Notification::make()
+                                                        ->title('Lỗi')
+                                                        ->body('Chưa chọn vị trí đích cho một số vật tư')
+                                                        ->danger()
+                                                        ->send();
+                                                    throw new Cancel();
+                                                }
+
+                                                tonkho::create([
+                                                    'vattu_id' => $item->vattu_id,
+                                                    'kho_id' => $record->MaKhoDich,
+                                                    'vitri_id' => $item->vitri_dich_id,
+                                                    'SoLuong' => $item->SoLuong,
+                                                    'NgayCapNhat' => now(),
+                                                ]);
+                                            }
                                         } else {
                                             Notification::make()
-                                                ->title('Lỗi update tồn kho')
-                                                ->body('Không tìm thấy tồn kho hoặc số lượng không đủ!')
+                                                ->title('Lỗi chuyển kho')
+                                                ->body('Không tìm thấy tồn kho nguồn hoặc số lượng không đủ!')
                                                 ->danger()
                                                 ->send();
 
@@ -342,13 +345,13 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                     $record->update(['TrangThai' => 1]);
                                     Notification::make()
                                         ->title('Thành công')
-                                        ->body('Đã duyệt phiếu xuất & update tồn kho!')
+                                        ->body('Đã duyệt phiếu điều chuyển & update tồn kho!')
                                         ->success()
                                         ->send();
                                 } else {
                                     Notification::make()
                                         ->title('Thất bại')
-                                        ->body('Phiếu xuất không có vật tư nào!')
+                                        ->body('Phiếu điều chuyển không có vật tư nào!')
                                         ->danger()
                                         ->send();
                                 }
@@ -357,12 +360,12 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                         ->color('success')
                         ->icon('heroicon-o-check'),
 
-                    Action::make('huyphieuxuat')->label('Huỷ phiếu xuất')
-                        ->authorize(fn(): bool => Auth::user()->can('duyetphieuxuat_phieu::xuat'))
+                    Action::make('huyphieudieuchuyen')->label('Huỷ phiếu điều chuyển')
+                        ->authorize(fn(): bool => Auth::user()->can('duyetphieudieuchuyen_phieu::dieu::chuyen'))
                         ->action(function ($record) {
                             $record->update(['TrangThai' => 2]);
                             Notification::make()
-                                ->title('Đã huỷ phiếu xuất!')
+                                ->title('Đã huỷ phiếu điều chuyển!')
                                 ->danger()
                                 ->send();
                         })
@@ -370,10 +373,10 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                         ->color('danger')
                         ->icon('heroicon-o-x-circle'),
 
-                    RelationManagerAction::make('chitietphieuxuat')->label('Xem DS vật tư xuất')
+                    RelationManagerAction::make('chitietphieudieuchuyen')->label('Xem DS vật tư chuyển')
                         ->icon('heroicon-o-list-bullet')
                         ->color('amber')
-                        ->relationManager(ChitietphieuxuatRelationManager::make()),
+                        ->relationManager(ChitietphieudieuchuyenRelationManager::make()),
 
                 ]),
             ])
@@ -387,17 +390,17 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
     public static function getRelations(): array
     {
         return [
-            ChitietphieuxuatRelationManager::make(),
+            ChitietphieudieuchuyenRelationManager::make(),
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPhieuXuats::route('/'),
-            'create' => Pages\CreatePhieuXuat::route('/create'),
-            'view' => Pages\ViewPhieuXuat::route('/{record}'),
-            'edit' => Pages\EditPhieuXuat::route('/{record}/edit'),
+            'index' => Pages\ListPhieuDieuChuyens::route('/'),
+            'create' => Pages\CreatePhieuDieuChuyen::route('/create'),
+            'view' => Pages\ViewPhieuDieuChuyen::route('/{record}'),
+            'edit' => Pages\EditPhieuDieuChuyen::route('/{record}/edit'),
         ];
     }
 }

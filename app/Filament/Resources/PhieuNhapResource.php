@@ -212,6 +212,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                 ->schema([
                                     DatePicker::make('NgayNhap')
                                         // ->required()
+                                        ->default(now())
                                         ->label('Ngày nhập'),
 
                                     Textarea::make('GhiChu')

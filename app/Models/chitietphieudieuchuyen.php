@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
@@ -50,7 +51,15 @@ class chitietphieudieuchuyen extends Model
      * @var array
      */
     protected $fillable = [
-        'phieudieuchuyen_id', 'vattu_id', 'SoLuong', 'GhiChu', 'created_at', 'updated_at',
+        'id',
+        'phieudieuchuyen_id',
+        'vattu_id',
+        'tonkho_id',
+        'vitri_dich_id',
+        'SoLuong',
+        'GhiChu',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -58,18 +67,7 @@ class chitietphieudieuchuyen extends Model
      *
      * @var array
      */
-    protected $hidden = [
-
-    ];
-
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'int', 'phieudieuchuyen_id' => 'string', 'vattu_id' => 'int', 'GhiChu' => 'string', 'created_at' => 'timestamp', 'updated_at' => 'timestamp',
-    ];
+    protected $hidden = [];
 
     /**
      * The attributes that should be mutated to dates.
@@ -77,7 +75,8 @@ class chitietphieudieuchuyen extends Model
      * @var array
      */
     protected $dates = [
-        'created_at', 'updated_at',
+        'created_at',
+        'updated_at',
     ];
 
     // Scopes...
@@ -85,4 +84,35 @@ class chitietphieudieuchuyen extends Model
     // Functions ...
 
     // Relations ...
+    /**
+     * Get the transfer note that owns the detail
+     */
+    public function phieudieuchuyen(): BelongsTo
+    {
+        return $this->belongsTo(phieudieuchuyen::class);
+    }
+
+    /**
+     * Get the item that is being transferred
+     */
+    public function vattu(): BelongsTo
+    {
+        return $this->belongsTo(vattu::class);
+    }
+
+    /**
+     * Get the inventory record for this transfer detail
+     */
+    public function tonkho(): BelongsTo
+    {
+        return $this->belongsTo(tonkho::class);
+    }
+
+    /**
+     * Get the destination position for this transfer detail
+     */
+    public function vitridich(): BelongsTo
+    {
+        return $this->belongsTo(vitri::class, 'vitri_dich_id');
+    }
 }
