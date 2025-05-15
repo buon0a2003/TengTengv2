@@ -7,6 +7,7 @@ namespace App\Filament\Resources;
 use App\Filament\Exports\DonvitinhExporter;
 use App\Filament\Resources\DonvitinhResource\Pages;
 use App\Models\donvitinh;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -17,7 +18,7 @@ use Filament\Tables;
 use Filament\Tables\Actions\ExportBulkAction;
 use Filament\Tables\Table;
 
-class DonvitinhResource extends Resource
+class DonvitinhResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = donvitinh::class;
 
@@ -38,6 +39,16 @@ class DonvitinhResource extends Resource
     public static function getBreadcrumb(): string
     {
         return 'Đơn vị tính';
+    }
+
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view',
+            'view_any',
+            'create',
+            'update',
+        ];
     }
 
     public static function form(Form $form): Form

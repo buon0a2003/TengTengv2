@@ -7,6 +7,8 @@ use App\Filament\Widgets\BangWidget;
 use App\Filament\Widgets\BieuDoWidget;
 use App\Filament\Widgets\ThongSoWidget;
 use Filament\Widgets\FilamentInfoWidget;
+use Filament\Widgets\Widget;
+use Filament\Widgets\WidgetConfiguration;
 
 class Dashboard extends \Filament\Pages\Dashboard
 {

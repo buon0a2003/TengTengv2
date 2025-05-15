@@ -6,6 +6,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\TaixeResource\Pages;
 use App\Models\taixe;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Section;
@@ -17,13 +18,23 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class TaixeResource extends Resource
+class TaixeResource extends Resource implements HasShieldPermissions
 {
     public static $trangthai = [
         0 => 'Đang giao',
         1 => 'Có sẵn',
         2 => 'Nghỉ',
     ];
+
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view',
+            'view_any',
+            'create',
+            'update',
+        ];
+    }
 
     protected static ?string $model = taixe::class;
 

@@ -6,6 +6,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\XeTaiResource\Pages;
 use App\Models\XeTai;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
@@ -16,7 +17,7 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class XeTaiResource extends Resource
+class XeTaiResource extends Resource  implements HasShieldPermissions
 {
     public static $trangthai = [
         0 => 'Đang giao',
@@ -43,6 +44,16 @@ class XeTaiResource extends Resource
     public static function getBreadcrumb(): string
     {
         return 'Xe tải';
+    }
+
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view',
+            'view_any',
+            'create',
+            'update',
+        ];
     }
 
     public static function form(Form $form): Form

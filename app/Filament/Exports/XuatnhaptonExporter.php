@@ -26,7 +26,7 @@ class XuatnhaptonExporter
 
     public function download(): BinaryFileResponse
     {
-        $templatePath = storage_path('app/public/template/TongHopNhapXuatTon.xls');
+        $templatePath = public_path('template/TongHopNhapXuatTon.xls');
 
         if (! file_exists($templatePath)) {
             abort(404, 'Không tìm thấy file mẫu.');
