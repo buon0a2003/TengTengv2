@@ -27,7 +27,7 @@ class ListKhos extends ListRecords
                 ->exporter(\App\Filament\Exports\KhoExporter::class)
                 ->label('Xuất excel')
                 ->icon('heroicon-o-arrow-down-tray')
-                ->color('primary'),
+                ->color('success'),
         ];
     }
 }

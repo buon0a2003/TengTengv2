@@ -28,7 +28,7 @@ class ListDonvitinhs extends ListRecords
                 ->exporter(DonvitinhExporter::class)
                 ->label('Xuất excel')
                 ->icon('heroicon-o-arrow-down-tray')
-                ->color('primary'),
+                ->color('success'),
         ];
     }
 }

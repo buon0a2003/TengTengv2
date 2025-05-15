@@ -33,7 +33,7 @@ class ListNhaCungCaps extends ListRecords
                 ->exporter(NhacungcapExporter::class)
                 ->label('Xuất excel')
                 ->icon('heroicon-o-arrow-down-tray')
-                ->color('primary'),
+                ->color('success'),
         ];
     }
 }

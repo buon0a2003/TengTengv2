@@ -28,7 +28,7 @@ class ListNhanViens extends ListRecords
                 ->exporter(NhanvienExporter::class)
                 ->label('Xuất excel')
                 ->icon('heroicon-o-arrow-down-tray')
-                ->color('primary'),
+                ->color('success'),
         ];
     }
 }

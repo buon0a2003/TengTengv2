@@ -27,7 +27,7 @@ class ListKhachHangs extends ListRecords
                 ->exporter(\App\Filament\Exports\KhachhangExporter::class)
                 ->label('Xuất excel')
                 ->icon('heroicon-o-arrow-down-tray')
-                ->color('primary'),
+                ->color('success'),
         ];
     }
 }

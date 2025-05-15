@@ -50,17 +50,18 @@ class ListVattus extends ListRecords
                 ->icon('heroicon-o-plus')
                 ->label('Tạo mới'),
 
+
             ImportAction::make()
                 ->importer(\App\Filament\Imports\VattuImporter::class)
                 ->label('Nhập CSV')
                 ->icon('heroicon-o-arrow-up-tray')
-                ->color('primary'),
+                ->color('info'),
 
             Actions\ExportAction::make()
                 ->exporter(\App\Filament\Exports\VattuExporter::class)
                 ->label('Xuất excel')
                 ->icon('heroicon-o-arrow-down-tray')
-                ->color('primary'),
+                ->color('success'),
         ];
     }
 }
