@@ -78,27 +78,34 @@ class XuatnhaptonPage extends Page implements HasForms
         foreach ($vattu as $vt) {
             $import = DB::table('phieunhap')
                 ->join('chitietphieunhap', 'phieunhap.id', '=', 'chitietphieunhap.phieunhap_id')
-                ->where('phieunhap.TrangThai', 1)
-                ->where('chitietphieunhap.vattu_id', $vt->id)
+                ->where('phieunhap.TrangThai', '=',1)
+                ->where('chitietphieunhap.vattu_id','=', $vt->id)
                 ->whereBetween('NgayNhap', [$start, $end])
                 ->sum('chitietphieunhap.SoLuong');
 
             $export = DB::table('phieuxuat')
                 ->join('chitietphieuxuat', 'phieuxuat.id', '=', 'chitietphieuxuat.phieuxuat_id')
-                ->where('phieuxuat.TrangThai', 1)
-                ->where('chitietphieuxuat.vattu_id', $vt->id)
+                ->where('phieuxuat.TrangThai','=', 1)
+                ->where('chitietphieuxuat.vattu_id','=', $vt->id)
                 ->whereBetween('NgayXuat', [$start, $end])
                 ->sum('chitietphieuxuat.SoLuong');
 
             $opening = DB::table('tonkho')
                 ->where('vattu_id', $vt->id)
-                ->whereDate('NgayCapNhat', '<=', $start->copy()->subMonth()->endOfMonth())
-                ->sum('SoLuong');
+                ->whereDate('NgayCapNhat', '<=', $start->copy()->subDay())
+                ->orderByDesc('NgayCapNhat')
+                ->limit(1)
+                ->sum('SoLuong') ?? 0;
 
-            $closing = DB::table('tonkho')
-                ->where('vattu_id', $vt->id)
-                ->whereDate('NgayCapNhat', '<=', $end)
-                ->sum('SoLuong');
+//            $closing = DB::table('tonkho')
+//                ->where('vattu_id', $vt->id)
+//                ->whereDate('NgayCapNhat', '<=', $end)
+//                ->orderByDesc('NgayCapNhat')
+//                ->limit(1)
+//                ->sum('SoLuong') ?? 0;
+
+            $closing = $opening + $import - $export;
+
 
             $records->push([
                 'MaVT' => $vt->MaVT,

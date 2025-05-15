@@ -94,6 +94,9 @@ class TonkhoResource extends Resource
             ->emptyStateHeading('Không có hàng tồn kho')
             ->emptyStateDescription('Vui lòng thêm dữ liệu hoặc thay đổi bộ lọc tìm kiếm.')
             ->columns([
+                TextColumn::make('vattu.MaVT')
+                    ->searchable()
+                    ->label('Mã vật tư'),
                 TextColumn::make('vattu.TenVT')
                     ->searchable()
                     ->label('Tên vật tư'),

@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\Exports;
 
+use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class XuatnhaptonExporter
@@ -24,6 +26,10 @@ class XuatnhaptonExporter
         $this->year = $year;
     }
 
+    /**
+     * @throws Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     */
     public function download(): BinaryFileResponse
     {
         $templatePath = public_path('template/TongHopNhapXuatTon.xls');
@@ -34,6 +40,7 @@ class XuatnhaptonExporter
 
         $spreadsheet = IOFactory::load($templatePath);
         $sheet = $spreadsheet->getActiveSheet();
+
 
         $startDate = now()->setDate($this->year, $this->month, 1)->format('d/m/Y');
         $endDate = now()->setDate($this->year, $this->month, 1)->endOfMonth()->format('d/m/Y');
@@ -138,7 +145,20 @@ class XuatnhaptonExporter
             $sheet->getStyle("{$col}{$currentRow}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
         }
 
-        $fileName = 'thongkeXuatNhapTon_T'.$this->month.'_'.$this->year.'.xlsx';
+        $highestRow = $sheet->getHighestRow();
+        $cols = ['D', 'E', 'F', 'G'];
+
+        foreach ($cols as $col) {
+            for ($row = 9; $row <= $highestRow; $row++) {
+                $cell = $sheet->getCell("{$col}{$row}");
+                $value = $cell->getValue();
+                if ($value === null || $value === '') {
+                    $cell->setValue(0);
+                }
+            }
+        }
+
+        $fileName = 'thongkeXuatNhapTon_Thang'.$this->month.'_'.$this->year.'.xlsx';
         $savePath = storage_path("app/tmp/{$fileName}");
         if (! is_dir(dirname($savePath))) {
             mkdir(dirname($savePath), 0755, true);

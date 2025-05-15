@@ -229,7 +229,8 @@ class UserResource extends Resource
                 ToggleColumn::make('Active')->label('Active')
                     ->alignCenter()
                     ->onColor('emerald')
-                    ->searchable(),
+                    ->searchable()
+                    ->disabled(),
                 // TextColumn::make('Active')
                 //     ->formatStateUsing(fn($record) => $record->Active == 1 ? 'Yes' : 'No')
                 //     ->badge()
@@ -242,7 +243,8 @@ class UserResource extends Resource
                     ->options([
                         '0' => 'Không',
                         '1' => 'Có',
-                    ]),
+                    ])
+                    ->default('1'),
             ])
             ->actions([
                 ActionGroup::make([
