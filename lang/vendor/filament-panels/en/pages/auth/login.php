@@ -2,9 +2,9 @@
 
 return [
 
-    'title' => 'Login',
+    'title' => 'Đăng nhập',
 
-    'heading' => 'Sign in',
+    'heading' => 'Đăng nhập',
 
     'actions' => [
 
@@ -22,21 +22,21 @@ return [
     'form' => [
 
         'email' => [
-            'label' => 'Email address',
+            'label' => 'Địa chỉ email',
         ],
 
         'password' => [
-            'label' => 'Password',
+            'label' => 'Mật khẩu',
         ],
 
         'remember' => [
-            'label' => 'Remember me',
+            'label' => 'Ghi nhớ đăng nhập',
         ],
 
         'actions' => [
 
             'authenticate' => [
-                'label' => 'Sign in',
+                'label' => 'Đăng nhập',
             ],
 
         ],
@@ -45,15 +45,15 @@ return [
 
     'messages' => [
 
-        'failed' => 'These credentials do not match our records.',
+        'failed' => 'Thông tin đăng nhập không chính xác.',
 
     ],
 
     'notifications' => [
 
         'throttled' => [
-            'title' => 'Too many login attempts',
-            'body' => 'Please try again in :seconds seconds.',
+            'title' => 'Quá nhiều lần đăng nhập thất bại',
+            'body' => 'Vui lòng thử lại sau :seconds giây.',
         ],
 
     ],

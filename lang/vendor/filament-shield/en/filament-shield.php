@@ -82,5 +82,6 @@ return [
         'replicate' => 'Replicate',
         'duyetphieunhap' => 'Duyệt phiếu nhập',
         'duyetphieuxuat' => 'Duyệt phiếu xuất',
+        'duyetphieudieuchuyen' => 'Duyệt phiếu điều chuyển'
     ],
 ];

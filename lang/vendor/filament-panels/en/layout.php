@@ -11,25 +11,25 @@ return [
         ],
 
         'logout' => [
-            'label' => 'Sign out',
+            'label' => 'Đăng xuất',
         ],
 
         'open_database_notifications' => [
-            'label' => 'Open notifications',
+            'label' => 'Mở thông báo',
         ],
 
         'open_user_menu' => [
-            'label' => 'User menu',
+            'label' => 'Menu người dùng',
         ],
 
         'sidebar' => [
 
             'collapse' => [
-                'label' => 'Collapse sidebar',
+                'label' => 'Thu gọn thanh bên',
             ],
 
             'expand' => [
-                'label' => 'Expand sidebar',
+                'label' => 'Mở rộng thanh bên',
             ],
 
         ],
@@ -37,15 +37,15 @@ return [
         'theme_switcher' => [
 
             'dark' => [
-                'label' => 'Enable dark theme',
+                'label' => 'Bật chế độ tối',
             ],
 
             'light' => [
-                'label' => 'Enable light theme',
+                'label' => 'Bật chế độ sáng',
             ],
 
             'system' => [
-                'label' => 'Enable system theme',
+                'label' => 'Bật chế độ hệ thống',
             ],
 
         ],
@@ -53,7 +53,7 @@ return [
     ],
 
     'avatar' => [
-        'alt' => 'Avatar of :name',
+        'alt' => 'Ảnh đại diện của :name',
     ],
 
     'logo' => [

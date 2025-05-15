@@ -27,14 +27,6 @@ class CustomProfile extends EditProfile
         return false;
     }
 
-    public function backAction(): Action
-    {
-        return Action::make('back')
-            ->label('Hủy')
-            ->alpineClickHandler('document.referrer ? window.history.back() : (window.location.href = ' . Js::from(filament()->getUrl()) . ')')
-            ->color('gray');
-    }
-
     protected function getForms(): array
     {
         return [

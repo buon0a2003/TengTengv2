@@ -5,11 +5,11 @@ return [
     'actions' => [
 
         'logout' => [
-            'label' => 'Sign out',
+            'label' => 'Đăng xuất',
         ],
 
     ],
 
-    'welcome' => 'Welcome',
+    'welcome' => 'Xin chào',
 
 ];

@@ -2,30 +2,30 @@
 
 return [
 
-    'label' => 'Profile',
+    'label' => 'Hồ sơ',
 
     'form' => [
 
         'email' => [
-            'label' => 'Email address',
+            'label' => 'Địa chỉ email',
         ],
 
         'name' => [
-            'label' => 'Name',
+            'label' => 'Họ tên',
         ],
 
         'password' => [
-            'label' => 'New password',
+            'label' => 'Mật khẩu mới',
         ],
 
         'password_confirmation' => [
-            'label' => 'Confirm new password',
+            'label' => 'Xác nhận mật khẩu mới',
         ],
 
         'actions' => [
 
             'save' => [
-                'label' => 'Save changes',
+                'label' => 'Lưu thay đổi',
             ],
 
         ],
@@ -35,7 +35,7 @@ return [
     'notifications' => [
 
         'saved' => [
-            'title' => 'Saved',
+            'title' => 'Đã lưu',
         ],
 
     ],
@@ -43,7 +43,7 @@ return [
     'actions' => [
 
         'cancel' => [
-            'label' => 'Cancel',
+            'label' => 'Quay lại',
         ],
 
     ],
