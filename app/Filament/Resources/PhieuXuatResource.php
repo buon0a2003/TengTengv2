@@ -37,6 +37,7 @@ use Filament\Forms\Components\Actions\Action as FormAction;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Guava\FilamentModalRelationManagers\Actions\Table\RelationManagerAction;
 use App\Filament\Resources\PhieuXuatResource\RelationManagers\ChitietphieuxuatRelationManager;
+use App\Models\User;
 
 class PhieuXuatResource extends Resource implements HasShieldPermissions
 {
@@ -143,6 +144,15 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                         ->required()
                                         ->preload()
                                         ->searchable(),
+
+                                    Select::make('giamsat_id')
+                                        ->label('Người giám sát')
+                                        ->relationship('giamsat', 'name')
+                                        ->preload()
+                                        ->searchable()
+                                        ->options(function () {
+                                            return User::role('Giám sát viên')->pluck('name', 'id');
+                                        }),
 
                                     Select::make('khachhang_id')->label('Khách hàng')
                                         ->required()
@@ -282,6 +292,14 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(function ($query) {
+                if (! Auth::user()->hasRole('super_admin')) {
+                    $query->where(function ($query) {
+                        $query->where('user_id', Auth::id())
+                            ->orWhere('giamsat_id', Auth::id());
+                    });
+                }
+            })
             ->defaultSort('TrangThai', 'asc')
             ->columns([
                 TextColumn::make('id')->label('Mã phiếu'),
@@ -292,6 +310,8 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                     ->searchable(),
 
                 TextColumn::make('user.name')->label('Người nhập')
+                    ->searchable(),
+                TextColumn::make('giamsat.name')->label('Người giám sát')
                     ->searchable(),
                 TextColumn::make('kho.TenKho')->label('Kho'),
                 TextColumn::make('LyDo')->label('Lý do')

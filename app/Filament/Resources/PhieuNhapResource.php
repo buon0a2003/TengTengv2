@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Models\User;
 use Filament\Tables;
 use App\Models\vattu;
 use App\Models\tonkho;
@@ -150,6 +151,15 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                         ->preload()
                                         ->searchable(),
 
+                                    Select::make('giamsat_id')
+                                        ->label('Người giám sát')
+                                        ->relationship('giamsat', 'name')
+                                        ->preload()
+                                        ->searchable()
+                                        ->options(function () {
+                                            return User::role('Giám sát viên')->pluck('name', 'id');
+                                        }),
+
                                     Select::make('nhacungcap_id')
                                         ->label('Nhà cung cấp')
                                         ->relationship('nhacungcap', 'TenNCC')
@@ -287,10 +297,12 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
         return $table
             ->modifyQueryUsing(function ($query) {
                 if (! Auth::user()->hasRole('super_admin')) {
-                    $query->where('user_id', Auth::user()->id);
+                    $query->where(function ($query) {
+                        $query->where('user_id', Auth::id())
+                            ->orWhere('giamsat_id', Auth::id());
+                    });
                 }
             })
-            //        VD: Hiển thị record cụ thể dựa trên người tạo. Tức là quản lí kho chỉ có thể thấy phiếu do mình tạo
             ->defaultSort('TrangThai', 'asc')
             ->columns([
                 TextColumn::make('id')
@@ -310,6 +322,10 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
 
                 TextColumn::make('user.name')
                     ->label('Người nhập')
+                    ->searchable(),
+
+                TextColumn::make('giamsat.name')
+                    ->label('Người giám sát')
                     ->searchable(),
 
                 TextColumn::make('kho.TenKho')

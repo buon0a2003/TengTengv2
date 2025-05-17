@@ -2,20 +2,20 @@
 
 return [
 
-    'title' => 'Edit :label',
+    'title' => 'Sửa :label',
 
-    'breadcrumb' => 'Edit',
+    'breadcrumb' => 'Sửa',
 
     'form' => [
 
         'actions' => [
 
             'cancel' => [
-                'label' => 'Cancel',
+                'label' => 'Hủy',
             ],
 
             'save' => [
-                'label' => 'Save changes',
+                'label' => 'Lưu thay đổi',
             ],
 
         ],
@@ -25,7 +25,7 @@ return [
     'content' => [
 
         'tab' => [
-            'label' => 'Edit',
+            'label' => 'Sửa',
         ],
 
     ],
@@ -33,7 +33,7 @@ return [
     'notifications' => [
 
         'saved' => [
-            'title' => 'Saved',
+            'title' => 'Đã lưu',
         ],
 
     ],

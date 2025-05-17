@@ -56,6 +56,7 @@ class phieuxuat extends Model
         'user_id',
         'kho_id',
         'LyDo',
+        'giamsat_id',
         'khachhang_id',
         'GhiChu',
         'TrangThai',
@@ -73,6 +74,11 @@ class phieuxuat extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function giamsat(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'giamsat_id');
     }
 
     public function kho(): BelongsTo

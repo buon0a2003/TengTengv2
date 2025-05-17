@@ -70,6 +70,8 @@ class CreatePhieuXuat extends CreateAndRedirectToIndex
             ->duration(500)
             ->send();
         // dd($record);
+
+        $this->dispatch('close-modal');
     }
 
     protected function handleRecordCreation(array $data): Model

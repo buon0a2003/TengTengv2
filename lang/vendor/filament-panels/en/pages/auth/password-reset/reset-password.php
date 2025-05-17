@@ -2,29 +2,29 @@
 
 return [
 
-    'title' => 'Reset your password',
+    'title' => 'Đặt lại mật khẩu',
 
-    'heading' => 'Reset your password',
+    'heading' => 'Đặt lại mật khẩu',
 
     'form' => [
 
         'email' => [
-            'label' => 'Email address',
+            'label' => 'Email',
         ],
 
         'password' => [
-            'label' => 'Password',
+            'label' => 'Mật khẩu',
             'validation_attribute' => 'password',
         ],
 
         'password_confirmation' => [
-            'label' => 'Confirm password',
+            'label' => 'Xác nhận mật khẩu',
         ],
 
         'actions' => [
 
             'reset' => [
-                'label' => 'Reset password',
+                'label' => 'Đặt lại mật khẩu',
             ],
 
         ],
@@ -34,8 +34,8 @@ return [
     'notifications' => [
 
         'throttled' => [
-            'title' => 'Too many reset attempts',
-            'body' => 'Please try again in :seconds seconds.',
+            'title' => 'Quá nhiều lần đặt lại',
+            'body' => 'Vui lòng thử lại sau :seconds giây.',
         ],
 
     ],

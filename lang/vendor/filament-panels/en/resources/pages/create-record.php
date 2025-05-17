@@ -2,24 +2,24 @@
 
 return [
 
-    'title' => 'Create :label',
+    'title' => 'Tạo :label',
 
-    'breadcrumb' => 'Create',
+    'breadcrumb' => 'Tạo',
 
     'form' => [
 
         'actions' => [
 
             'cancel' => [
-                'label' => 'Cancel',
+                'label' => 'Hủy',
             ],
 
             'create' => [
-                'label' => 'Create',
+                'label' => 'Tạo',
             ],
 
             'create_another' => [
-                'label' => 'Create & create another',
+                'label' => 'Tạo & tạo thêm',
             ],
 
         ],
@@ -29,7 +29,7 @@ return [
     'notifications' => [
 
         'created' => [
-            'title' => 'Created',
+            'title' => 'Đã tạo',
         ],
 
     ],

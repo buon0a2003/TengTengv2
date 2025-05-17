@@ -46,7 +46,6 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->spa()
             ->databaseTransactions()
-            ->unsavedChangesAlerts()
             ->id('admin')
             ->darkMode(false)
             ->defaultThemeMode(ThemeMode::Light)

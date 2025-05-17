@@ -58,6 +58,7 @@ class phieunhap extends Model
         'id',
         'NgayNhap',
         'users_id',
+        'giamsat_id',
         'nhacungcap_id',
         'MaKho',
         'LyDo',
@@ -73,6 +74,11 @@ class phieunhap extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function giamsat(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'giamsat_id');
     }
 
     public function kho(): BelongsTo

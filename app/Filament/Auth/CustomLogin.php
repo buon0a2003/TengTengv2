@@ -46,7 +46,7 @@ class CustomLogin extends Login
             Filament::auth()->logout();
 
             throw ValidationException::withMessages([
-                'data.login' => __('Tài khoản bị khoá, liên hệ admin.'),
+                'data.login' => 'Tài khoản bị khoá, liên hệ admin.',
             ]);
         }
 
@@ -73,7 +73,7 @@ class CustomLogin extends Login
     protected function getLoginFormComponent(): Component
     {
         return TextInput::make('login')
-            ->label(__('Email'))
+            ->label('Email')
             ->required()
             ->autocomplete()
             ->autofocus()
@@ -93,7 +93,7 @@ class CustomLogin extends Login
     protected function throwFailureValidationException(): never
     {
         throw ValidationException::withMessages([
-            'data.login' => __('Thông tin đăng nhập sai'),
+            'data.login' => 'Thông tin đăng nhập sai',
         ]);
     }
 }
