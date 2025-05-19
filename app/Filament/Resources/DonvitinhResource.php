@@ -4,19 +4,22 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use App\Filament\Exports\DonvitinhExporter;
-use App\Filament\Resources\DonvitinhResource\Pages;
+use Filament\Tables;
+use Filament\Forms\Form;
 use App\Models\donvitinh;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
+use Filament\Tables\Table;
+use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
-use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Tables\Actions\DeleteAction;
+use App\Filament\Exports\DonvitinhExporter;
 use Filament\Tables\Actions\ExportBulkAction;
-use Filament\Tables\Table;
+use App\Filament\Resources\DonvitinhResource\Pages;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 
 class DonvitinhResource extends Resource implements HasShieldPermissions
 {
@@ -103,35 +106,33 @@ class DonvitinhResource extends Resource implements HasShieldPermissions
             ->emptyStateHeading('Không có đơn vị tính')
             ->emptyStateDescription('Vui lòng thêm dữ liệu hoặc thay đổi bộ lọc tìm kiếm.')
             ->columns([
-                Tables\Columns\TextColumn::make('id')
+                TextColumn::make('id')
                     ->label('Mã')
                     ->searchable(),
-
-                Tables\Columns\TextColumn::make('TenDVT')
+                TextColumn::make('TenDVT')
                     ->label('Tên đơn vị tính')
                     ->searchable(),
-
-                Tables\Columns\TextColumn::make('Mota')
+                TextColumn::make('Mota')
                     ->label('Mô tả')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('low')
+                TextColumn::make('low')
                     ->alignEnd()
                     ->label('Ngưỡng thấp'),
-                Tables\Columns\TextColumn::make('very_low')
+                TextColumn::make('very_low')
                     ->alignEnd()
                     ->label('Ngưỡng rất thấp'),
-                Tables\Columns\TextColumn::make('critical')
+                TextColumn::make('critical')
                     ->alignEnd()
                     ->label('Ngưỡng nguy hiểm'),
-                Tables\Columns\TextColumn::make('created_at')->sortable()->label('Ngày tạo')->dateTime('d/m/Y')->wrap(),
+                TextColumn::make('created_at')->sortable()->label('Ngày tạo')->dateTime('d/m/Y')->wrap(),
 
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make()->color('amber'),
-                Tables\Actions\DeleteAction::make()
+                EditAction::make()->color('amber'),
+                DeleteAction::make()
                     ->action(
                         function ($record): void {
                             if ($record->vattu()->count() > 0) {
@@ -153,9 +154,6 @@ class DonvitinhResource extends Resource implements HasShieldPermissions
                     ),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    //                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
                 ExportBulkAction::make()
                     ->exporter(DonvitinhExporter::class)
                     ->label('Xuất excel')

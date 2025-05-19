@@ -472,9 +472,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                 // xoá thì phải để oncasade cho chi tiet phieu nhap nua
             ])
             ->bulkActions([
-                BulkActionGroup::make([
-                    // Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                //
             ]);
     }
 

@@ -150,9 +150,6 @@ class TonkhoResource extends Resource
                 ]),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
                 Tables\Actions\ExportBulkAction::make()
                     ->label('Xuất Excel')
                     ->icon('heroicon-o-document-arrow-down')

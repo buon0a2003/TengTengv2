@@ -381,9 +381,7 @@ class PhieuDieuChuyenResource extends Resource implements HasShieldPermissions
                 ]),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    // Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                //
             ]);
     }
 

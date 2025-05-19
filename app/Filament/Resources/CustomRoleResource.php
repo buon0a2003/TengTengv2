@@ -114,7 +114,7 @@ class CustomRoleResource extends RoleResource
                 DeleteAction::make(),
             ])
             ->bulkActions([
-                DeleteBulkAction::make(),
+                //
             ]);
     }
 

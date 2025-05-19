@@ -113,9 +113,7 @@ class KhachHangResource extends Resource implements HasShieldPermissions
                 ]),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    //                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                //
                 ExportBulkAction::make()
                     ->exporter(\App\Filament\Exports\KhachhangExporter::class)
                     ->label('Xuất excel')

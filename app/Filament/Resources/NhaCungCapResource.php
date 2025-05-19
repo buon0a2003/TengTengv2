@@ -140,9 +140,7 @@ class NhaCungCapResource extends Resource implements HasShieldPermissions
                 ]),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    //                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                //
                 ExportBulkAction::make()
                     ->label('Xuất Excel')
                     ->icon('heroicon-o-document-arrow-down')

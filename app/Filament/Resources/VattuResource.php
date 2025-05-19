@@ -147,9 +147,6 @@ class VattuResource extends Resource implements HasShieldPermissions
                 ]),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    //                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
                 ExportBulkAction::make()
                     ->exporter(\App\Filament\Exports\VattuExporter::class)
                     ->label('Xuất excel')

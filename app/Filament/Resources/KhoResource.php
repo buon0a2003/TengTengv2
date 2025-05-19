@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\KhoResource\Pages;
 use App\Models\kho;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Actions\ExportBulkAction;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use App\Filament\Resources\KhoResource\Pages;
+use Filament\Tables\Actions\ExportBulkAction;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 
 class KhoResource extends Resource implements HasShieldPermissions
 {
@@ -53,7 +56,7 @@ class KhoResource extends Resource implements HasShieldPermissions
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Điền thông tin kho')
+                Section::make('Điền thông tin kho')
                     ->description('Thông tin cụ thể về tên, địa chỉ, ghi chú của kho mới.')
                     ->aside()
                     ->schema([
@@ -77,20 +80,20 @@ class KhoResource extends Resource implements HasShieldPermissions
             ->emptyStateHeading('Không có kho')
             ->emptyStateDescription('Vui lòng thêm dữ liệu hoặc thay đổi bộ lọc tìm kiếm.')
             ->columns([
-                Tables\Columns\TextColumn::make('id')
+                TextColumn::make('id')
                     ->label('Mã kho')
                     ->width(50)
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('TenKho')
+                TextColumn::make('TenKho')
                     ->label('Tên kho')
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('DiaChi')
+                TextColumn::make('DiaChi')
                     ->label('Địa chỉ')
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('GhiChu')
+                TextColumn::make('GhiChu')
                     ->label('Ghi chú')
                     ->wrap(),
             ])
@@ -98,13 +101,10 @@ class KhoResource extends Resource implements HasShieldPermissions
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                //                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                //DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    //                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
                 ExportBulkAction::make()
                     ->label('Xuất excel')
                     ->icon('heroicon-o-arrow-down-tray')
