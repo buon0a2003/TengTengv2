@@ -150,6 +150,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                         ->relationship('giamsat', 'name')
                                         ->preload()
                                         ->searchable()
+                                        ->required()
                                         ->options(function () {
                                             return User::role('Giám sát viên')->pluck('name', 'id');
                                         }),
@@ -272,7 +273,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                         ->required()
                                         ->suffix(fn(Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
                                         ->numeric()
-                                        ->minValue(0)
+                                        ->minValue(1)
                                         ->lte('soluongkhadung'),
                                     Textarea::make('ghichu')->rows(2)->label('Ghi chú'),
                                 ])
@@ -286,6 +287,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                 }),
                         ])->visibleOn('create'),
                 ])->columnSpanFull()->skippable(),
+                // skipable dùng để test thôi hết test thì xóa
             ]);
     }
 

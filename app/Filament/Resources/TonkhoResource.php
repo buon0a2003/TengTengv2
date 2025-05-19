@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\TextColumn;
 use App\Filament\Exports\TonkhoExporter;
 use Filament\Forms\Components\TextInput;
@@ -89,8 +90,11 @@ class TonkhoResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->query(tonkho::join('vattu', 'tonkho.vattu_id', '=', 'vattu.id')
-                ->select('tonkho.*', 'vattu.LaTP'))
+            ->query(
+                tonkho::join('vattu', 'tonkho.vattu_id', '=', 'vattu.id')
+                    ->select('tonkho.*', 'vattu.LaTP')
+                    ->where('tonkho.SoLuong', '>', 0)
+            )
             ->emptyStateHeading('Không có hàng tồn kho')
             ->emptyStateDescription('Vui lòng thêm dữ liệu hoặc thay đổi bộ lọc tìm kiếm.')
             ->columns([
@@ -101,6 +105,7 @@ class TonkhoResource extends Resource
                     ->searchable()
                     ->label('Tên vật tư'),
                 TextColumn::make('SoLuong')
+                    ->weight(FontWeight::Bold)
                     ->label('Số lượng'),
                 TextColumn::make('vattu.donvitinh.TenDVT')
                     ->searchable()

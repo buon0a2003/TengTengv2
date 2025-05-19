@@ -156,6 +156,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                         ->relationship('giamsat', 'name')
                                         ->preload()
                                         ->searchable()
+                                        ->required()
                                         ->options(function () {
                                             return User::role('Giám sát viên')->pluck('name', 'id');
                                         }),
@@ -289,6 +290,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                             'create',
                         ]),
                 ])->columnSpanFull()->skippable(),
+                // skipable dùng để test thôi hết test thì xóa
             ]);
     }
 
@@ -387,6 +389,14 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                             $chiTietPhieuNhapRecords = chitietphieunhap::where('phieunhap_id', $record->id)->get();
 
                             if (count($chiTietPhieuNhapRecords) > 0) {
+                                $allHaveValidQuantity = collect($chiTietPhieuNhapRecords)->every(fn($value) => $value->SoLuong > 0);
+                                if (!$allHaveValidQuantity) {
+                                    Notification::make()
+                                        ->title('Số lượng nhập phải lớn hơn 0!')
+                                        ->danger()
+                                        ->send();
+                                    return;
+                                }
                                 $allHaveVitriId = collect($chiTietPhieuNhapRecords)->every(fn($value) => ! is_null($value->vitri_id));
 
                                 if ($allHaveVitriId) {
