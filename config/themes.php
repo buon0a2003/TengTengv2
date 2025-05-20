@@ -33,6 +33,6 @@ return [
 
     'default' => [
         'theme' => 'sunset',
-        'theme_color' => 'red',
+        'theme_color' => 'slate',
     ],
 ];
