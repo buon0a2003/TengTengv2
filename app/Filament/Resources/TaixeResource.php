@@ -114,26 +114,42 @@ class TaixeResource extends Resource implements HasShieldPermissions
             ->columns([
                 TextColumn::make('TenTaiXe')
                     ->label('Tên tài xế')
-                    ->searchable(),
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('Sdt')
                     ->label('Số điện thoại')
-                    ->searchable(),
+                    ->alignCenter()
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('CCCD')
                     ->label('Số căn cước')
-                    ->searchable(),
+                    ->alignCenter()
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('BangLai')
                     ->label('Bằng lái')
-                    ->searchable(),
+                    ->alignCenter()
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('DiaChi')
                     ->label('Địa chỉ')
-                    ->searchable(),
+                    ->alignLeft()
+                    ->searchable()
+                    ->limit(50)
+                    ->tooltip(fn($record) => $record->DiaChi),
                 TextColumn::make('NamSinh')
                     ->label('Năm sinh')
+                    ->alignCenter()
                     ->date('d/m/Y')
-                    ->searchable(),
+                    ->sortable(),
                 TextColumn::make('GhiChu')
                     ->label('Ghi chú')
-                    ->searchable(),
+                    ->alignLeft()
+                    ->wrap()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->limit(50)
+                    ->tooltip(fn($record) => $record->GhiChu),
                 TextColumn::make('TrangThai')
                     ->label('Trạng thái')
                     ->alignCenter()
@@ -149,7 +165,8 @@ class TaixeResource extends Resource implements HasShieldPermissions
                         1 => 'info',
                         2 => 'danger',
                         default => ''
-                    }),
+                    })
+                    ->sortable(),
             ])
             ->filters([
                 //

@@ -90,13 +90,49 @@ class KhachHangResource extends Resource implements HasShieldPermissions
             ->emptyStateHeading('Không có khách hàng')
             ->emptyStateDescription('Vui lòng thêm dữ liệu hoặc thay đổi bộ lọc tìm kiếm.')
             ->columns([
-                TextColumn::make('id')->label('Mã'),
-                TextColumn::make('TenKH')->searchable()->label('Tên khách hàng')->wrap(),
-                TextColumn::make('Sdt')->searchable()->label('Số điện thoại')->wrap(),
-                TextColumn::make('Email')->searchable()->wrap(),
-                TextColumn::make('DiaChi')->searchable()->label('Địa chỉ')->wrap(),
-                TextColumn::make('GhiChu')->label('Ghi chú')->wrap(),
-                TextColumn::make('created_at')->sortable()->label('Ngày tạo')->dateTime('d/m/Y')->wrap(),
+                TextColumn::make('id')
+                    ->label('Mã')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('TenKH')
+                    ->label('Tên khách hàng')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('Sdt')
+                    ->label('Số điện thoại')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('Email')
+                    ->label('Email')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('DiaChi')
+                    ->label('Địa chỉ')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('GhiChu')
+                    ->label('Ghi chú')
+                    ->alignLeft()
+                    ->wrap()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->limit(50)
+                    ->tooltip(fn($record) => $record->GhiChu),
+
+                TextColumn::make('created_at')
+                    ->label('Ngày tạo')
+                    ->alignCenter()
+                    ->dateTime('d/m/Y')
+                    ->sortable(),
             ])->striped()
             ->filters([
                 SelectFilter::make('DiaChi')

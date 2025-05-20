@@ -111,17 +111,49 @@ class NhaCungCapResource extends Resource implements HasShieldPermissions
             ->emptyStateHeading('Không có nhà cung cấp')
             ->emptyStateDescription('Vui lòng thêm dữ liệu hoặc thay đổi bộ lọc tìm kiếm.')
             ->columns([
-                TextColumn::make('id')->label('Mã'),
+                TextColumn::make('id')
+                    ->label('Mã')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
+
                 TextColumn::make('TenNCC')
-                    ->searchable()->label('Tên'),
+                    ->label('Tên')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
 
-                TextColumn::make('Sdt')->searchable()->label('Số điện thoại')->wrap(),
-                TextColumn::make('Email')->label('Email')->wrap(),
-                TextColumn::make('DiaChi')->searchable()->label('Địa chỉ')->wrap(),
-                TextColumn::make('MaSoThue')->searchable()->label('Mã Số thuế')->wrap(),
-                TextColumn::make('GhiChu')->label('Ghi chú')->wrap(),
-                //                TextColumn::make('created_at')->sortable(),
+                TextColumn::make('Sdt')
+                    ->label('Số điện thoại')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
 
+                TextColumn::make('Email')
+                    ->label('Email')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('DiaChi')
+                    ->label('Địa chỉ')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('MaSoThue')
+                    ->label('Mã Số thuế')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('GhiChu')
+                    ->label('Ghi chú')
+                    ->alignLeft()
+                    ->limit(50)
+                    ->wrap()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->tooltip(fn($record) => $record->GhiChu),
             ])
             ->striped()
             ->filters([

@@ -99,31 +99,48 @@ class TonkhoResource extends Resource
             ->emptyStateDescription('Vui lòng thêm dữ liệu hoặc thay đổi bộ lọc tìm kiếm.')
             ->columns([
                 TextColumn::make('vattu.MaVT')
+                    ->label('Mã vật tư')
+                    ->alignLeft()
                     ->searchable()
-                    ->label('Mã vật tư'),
+                    ->sortable(),
                 TextColumn::make('vattu.TenVT')
+                    ->label('Tên vật tư')
+                    ->alignLeft()
                     ->searchable()
-                    ->label('Tên vật tư'),
+                    ->sortable(),
                 TextColumn::make('SoLuong')
+                    ->label('Số lượng')
+                    ->alignRight()
+                    ->numeric(decimalPlaces: 0)
                     ->weight(FontWeight::Bold)
-                    ->label('Số lượng'),
+                    ->sortable(),
                 TextColumn::make('vattu.donvitinh.TenDVT')
+                    ->label('Đơn vị tính')
+                    ->alignCenter()
                     ->searchable()
-                    // ->formatStateUsing(fn ($record): string => (donvitinh::find($record->vattu_id)->TenDVT))
-                    ->label('Đơn vị tính'),
+                    ->sortable(),
                 TextColumn::make('kho.TenKho')
-                    ->label('Kho'),
-                TextColumn::make('vitri.Mota')
+                    ->label('Kho')
+                    ->alignLeft()
                     ->searchable()
-                    ->label('Vị trí'),
+                    ->sortable(),
+                TextColumn::make('vitri.Mota')
+                    ->label('Vị trí')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('vattu.LaTP')
                     ->label('Loại vật tư')
+                    ->alignCenter()
                     ->formatStateUsing(fn($state) => $state ? 'Thành phẩm' : 'Nguyên vật liệu')
                     ->badge()
-                    ->color(fn($state) => $state ? 'success' : 'warning'),
+                    ->color(fn($state) => $state ? 'success' : 'warning')
+                    ->sortable(),
                 TextColumn::make('NgayCapNhat')
+                    ->label('Ngày cập nhật')
+                    ->alignCenter()
                     ->date('d-m-Y')
-                    ->label('Ngày cập nhật'),
+                    ->sortable(),
             ])
             ->defaultPaginationPageOption(25)
             ->emptyStateHeading('Không có thông tin tồn kho')

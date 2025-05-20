@@ -151,6 +151,7 @@ class PhieuSuCoResource extends Resource
             ->columns([
                 TextColumn::make('id')
                     ->label('Mã phiếu')
+                    ->sortable()
                     ->searchable(),
 
                 TextColumn::make('NgayTao')
@@ -160,19 +161,23 @@ class PhieuSuCoResource extends Resource
 
                 TextColumn::make('phieuxuat.id')
                     ->label('Phiếu xuất')
+                    ->sortable()
                     ->searchable(),
 
                 TextColumn::make('phieuvanchuyen.id')
                     ->label('Phiếu vận chuyển')
+                    ->sortable()
                     ->searchable(),
 
                 TextColumn::make('user.name')
                     ->label('Người tạo')
+                    ->sortable()
                     ->searchable(),
 
                 TextColumn::make('Mota')
                     ->label('Mô tả sự cố')
                     ->limit(30)
+                    ->wrap()
                     ->searchable(),
 
                 TextColumn::make('TrangThai')

@@ -250,15 +250,39 @@ class PhieuDieuChuyenResource extends Resource implements HasShieldPermissions
         return $table
             ->defaultSort('TrangThai', 'asc')
             ->columns([
-                TextColumn::make('id')->label('Mã phiếu'),
-                TextColumn::make('NgayLap')->label('Ngày lập')
+                TextColumn::make('id')
+                    ->label('Mã phiếu')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('NgayLap')
+                    ->label('Ngày lập')
+                    ->alignCenter()
                     ->date('d/m/Y')
-                    ->searchable(),
-                TextColumn::make('user.name')->label('Người tạo')
-                    ->searchable(),
-                TextColumn::make('khonguon.TenKho')->label('Kho nguồn'),
-                TextColumn::make('khodich.TenKho')->label('Kho đích'),
-                TextColumn::make('TrangThai')->label('Trạng thái')
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('user.name')
+                    ->label('Người tạo')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('khonguon.TenKho')
+                    ->label('Kho nguồn')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('khodich.TenKho')
+                    ->label('Kho đích')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('TrangThai')
+                    ->label('Trạng thái')
                     ->alignCenter()
                     ->formatStateUsing(fn($record) => match ($record->TrangThai) {
                         0 => 'Đang xử lý',
@@ -272,9 +296,16 @@ class PhieuDieuChuyenResource extends Resource implements HasShieldPermissions
                         1 => 'success',
                         2 => 'danger',
                         default => ''
-                    }),
-                TextColumn::make('GhiChu')->label('Ghi chú')
-                    ->wrap(),
+                    })
+                    ->sortable(),
+
+                TextColumn::make('GhiChu')
+                    ->label('Ghi chú')
+                    ->alignLeft()
+                    ->limit(50)
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->wrap()
+                    ->tooltip(fn($record) => $record->GhiChu),
             ])
             ->filters([
                 SelectFilter::make('TrangThai')->label('Trạng thái')

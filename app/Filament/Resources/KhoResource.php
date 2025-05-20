@@ -82,20 +82,30 @@ class KhoResource extends Resource implements HasShieldPermissions
             ->columns([
                 TextColumn::make('id')
                     ->label('Mã kho')
+                    ->alignLeft()
                     ->width(50)
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
 
                 TextColumn::make('TenKho')
                     ->label('Tên kho')
-                    ->searchable(),
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
 
                 TextColumn::make('DiaChi')
                     ->label('Địa chỉ')
-                    ->searchable(),
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
 
                 TextColumn::make('GhiChu')
                     ->label('Ghi chú')
-                    ->wrap(),
+                    ->alignLeft()
+                    ->limit(50)
+                    ->wrap()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->tooltip(fn($record) => $record->GhiChu),
             ])
             ->filters([
                 //

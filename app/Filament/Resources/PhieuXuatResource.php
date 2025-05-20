@@ -304,19 +304,41 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
             })
             ->defaultSort('TrangThai', 'asc')
             ->columns([
-                TextColumn::make('id')->label('Mã phiếu'),
-                TextColumn::make('khachhang.TenKH')->label('Khách hàng')
-                    ->placeholder('N/A'),
-                TextColumn::make('NgayXuat')->label('Ngày xuất')
+                TextColumn::make('id')
+                    ->label('Mã phiếu')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('khachhang.TenKH')
+                    ->label('Khách hàng')
+                    ->alignLeft()
+                    ->placeholder('N/A')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('NgayXuat')
+                    ->label('Ngày xuất')
+                    ->alignCenter()
                     ->date('d/m/Y')
-                    ->searchable(),
-
-                TextColumn::make('user.name')->label('Người nhập')
-                    ->searchable(),
-                TextColumn::make('giamsat.name')->label('Người giám sát')
-                    ->searchable(),
-                TextColumn::make('kho.TenKho')->label('Kho'),
-                TextColumn::make('LyDo')->label('Lý do')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('user.name')
+                    ->label('Người nhập')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('giamsat.name')
+                    ->label('Người giám sát')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('kho.TenKho')
+                    ->label('Kho')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('LyDo')
+                    ->label('Lý do')
+                    ->alignCenter()
                     ->badge()
                     ->formatStateUsing(fn($record) => self::$lydo[$record->LyDo] ?? 'N/A')
                     ->color(fn($record): string => match ($record->LyDo) {
@@ -325,8 +347,10 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                         2 => 'warning',
                         default => 'gray'
                     })
-                    ->searchable(),
-                TextColumn::make('TrangThai')->label('Trạng thái')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('TrangThai')
+                    ->label('Trạng thái')
                     ->alignCenter()
                     ->formatStateUsing(fn($record) => match ($record->TrangThai) {
                         0 => 'Đang xử lý',
@@ -340,11 +364,15 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                         1 => 'success',
                         2 => 'danger',
                         default => ''
-                    }),
-
-                TextColumn::make('GhiChu')->label('Ghi chú')
+                    })
+                    ->sortable(),
+                TextColumn::make('GhiChu')
+                    ->label('Ghi chú')
+                    ->alignLeft()
+                    ->limit(50)
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->tooltip(fn($record) => $record->GhiChu)
                     ->wrap(),
-
             ])
             ->filters([
                 SelectFilter::make('TrangThai')->label('Trạng thái')

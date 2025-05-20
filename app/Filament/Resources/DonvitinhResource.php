@@ -117,12 +117,15 @@ class DonvitinhResource extends Resource implements HasShieldPermissions
                     ->searchable(),
                 TextColumn::make('low')
                     ->alignEnd()
+                    ->sortable()
                     ->label('Ngưỡng thấp'),
                 TextColumn::make('very_low')
                     ->alignEnd()
+                    ->sortable()
                     ->label('Ngưỡng rất thấp'),
                 TextColumn::make('critical')
                     ->alignEnd()
+                    ->sortable()
                     ->label('Ngưỡng nguy hiểm'),
                 TextColumn::make('created_at')->sortable()->label('Ngày tạo')->dateTime('d/m/Y')->wrap(),
 

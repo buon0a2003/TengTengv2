@@ -124,12 +124,36 @@ class NhanVienResource extends Resource implements HasShieldPermissions
                         $name = $record->name;
                         return "https://ui-avatars.com/api/?name={$name}";
                     }),
-                TextColumn::make('name')->searchable()->label('Tên nhân viên'),
-                TextColumn::make('Birth')->label('Ngày sinh')->date('d/m/Y'),
-                TextColumn::make('Phone')->searchable()->label('Số điện thoại'),
-                TextColumn::make('Address')->searchable()->label('Địa chỉ')->wrap(),
-                TextColumn::make('cccd')->label('CCCD')->searchable(),
-                TextColumn::make('created_at')->sortable()->label('Ngày tạo')->dateTime('d/m/Y'),
+                TextColumn::make('name')
+                    ->label('Tên nhân viên')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('Birth')
+                    ->label('Ngày sinh')
+                    ->alignCenter()
+                    ->date('d/m/Y')
+                    ->sortable(),
+                TextColumn::make('Phone')
+                    ->label('Số điện thoại')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('Address')
+                    ->label('Địa chỉ')
+                    ->alignLeft()
+                    ->searchable()
+                    ->wrap(),
+                TextColumn::make('cccd')
+                    ->label('CCCD')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('created_at')
+                    ->label('Ngày tạo')
+                    ->alignCenter()
+                    ->dateTime('d/m/Y')
+                    ->sortable(),
             ])->striped()
             ->filters([
                 //

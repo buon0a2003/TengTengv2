@@ -173,33 +173,50 @@ class PhieuVanChuyenResource extends Resource
             ->defaultSort('TrangThai', 'asc')
             ->columns([
                 TextColumn::make('id')
-                    ->label('Mã phiếu'),
+                    ->label('Mã phiếu')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('NgayTao')
                     ->label('Ngày tạo')
-                    ->sortable()
-                    ->date('d/m/Y'),
+                    ->alignCenter()
+                    ->date('d/m/Y')
+                    ->sortable(),
                 TextColumn::make('NgayVanChuyen')
                     ->label('Ngày vận chuyển')
-                    ->sortable()
-                    ->date('d/m/Y'),
+                    ->alignCenter()
+                    ->date('d/m/Y')
+                    ->sortable(),
                 TextColumn::make('phieuxuat.id')
                     ->label('Mã phiếu xuất')
+                    ->alignLeft()
                     ->url(fn($record) => route('filament.admin.resources.phieuxuat.view', $record->phieuxuat_id))
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('XeTai.BienSo')
-                    ->url(fn($record) => route('filament.admin.resources.xetai.edit', $record->xetai_id))
+                    ->label('Xe vận chuyển')
                     ->alignCenter()
                     ->badge()
                     ->color('gray')
-                    ->label('Xe vận chuyển'),
+                    ->url(fn($record) => route('filament.admin.resources.xetai.edit', $record->xetai_id))
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('taixe.TenTaiXe')
-                    ->url(fn($record) => route('filament.admin.resources.taixe.edit', $record->taixe_id))
                     ->label('Tên tài xế')
-                    ->searchable(),
+                    ->alignLeft()
+                    ->url(fn($record) => route('filament.admin.resources.taixe.edit', $record->taixe_id))
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('GhiChu')
-                    ->label('Ghi chú'),
+                    ->label('Ghi chú')
+                    ->alignLeft()
+                    ->limit(50)
+                    ->wrap()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->tooltip(fn($record) => $record->GhiChu),
                 TextColumn::make('TrangThai')
                     ->label('Trạng thái')
+                    ->alignCenter()
                     ->badge()
                     ->color(fn($record) => match ($record->TrangThai) {
                         0 => 'warning',
@@ -217,7 +234,6 @@ class PhieuVanChuyenResource extends Resource
                     })
                     ->searchable()
                     ->sortable(),
-
             ])
             ->filters([
                 //

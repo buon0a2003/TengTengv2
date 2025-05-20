@@ -105,24 +105,38 @@ class XeTaiResource extends Resource  implements HasShieldPermissions
             ->emptyStateDescription('Vui lòng thêm dữ liệu hoặc thay đổi bộ lọc tìm kiếm.')
             ->columns([
                 TextColumn::make('BienSo')
+                    ->label('Biển số xe')
                     ->alignCenter()
                     ->badge()
                     ->color('primary')
-                    ->label('Biển số xe')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('TenXe')
                     ->label('Loại xe')
-                    ->searchable(),
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('HangXe')
                     ->label('Hãng xe')
-                    ->searchable(),
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('TaiTrong')
                     ->label('Tải trọng (kg)')
-                    ->searchable(),
+                    ->alignRight()
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('MauSac')
-                    ->label('Màu sắc'),
+                    ->label('Màu sắc')
+                    ->alignLeft()
+                    ->searchable(),
                 TextColumn::make('GhiChu')
-                    ->label('Ghi chú'),
+                    ->label('Ghi chú')
+                    ->alignLeft()
+                    ->limit(50)
+                    ->wrap()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->tooltip(fn($record) => $record->GhiChu),
                 TextColumn::make('TrangThai')
                     ->label('Trạng thái')
                     ->alignCenter()
@@ -138,7 +152,8 @@ class XeTaiResource extends Resource  implements HasShieldPermissions
                         1 => 'info',
                         2 => 'danger',
                         default => ''
-                    }),
+                    })
+                    ->sortable(),
             ])
             ->filters([
                 //

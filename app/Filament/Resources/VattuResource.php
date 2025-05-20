@@ -107,29 +107,44 @@ class VattuResource extends Resource implements HasShieldPermissions
             ->emptyStateDescription('Vui lòng thêm dữ liệu hoặc thay đổi bộ lọc tìm kiếm.')
             ->columns([
                 TextColumn::make('MaVT')
-                    ->label('Mã vật tư'),
+                    ->label('Mã vật tư')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
 
                 TextColumn::make('TenVT')
+                    ->label('Tên vật tư')
+                    ->alignLeft()
                     ->searchable()
-                    ->label('Tên vật tư'),
+                    ->sortable(),
 
                 TextColumn::make('donvitinh.TenDVT')
+                    ->label('Đơn vị tính')
                     ->alignCenter()
-                    ->label('Đơn vị tính'),
+                    ->searchable()
+                    ->sortable(),
 
                 TextColumn::make('KichThuoc')
-                    ->label('Kích thước'),
+                    ->label('Kích thước')
+                    ->alignLeft()
+                    ->searchable(),
 
                 TextColumn::make('MauSac')
-                    ->label('Màu sắc'),
+                    ->label('Màu sắc')
+                    ->alignLeft()
+                    ->searchable(),
 
                 TextColumn::make('DacDiem')
-                    ->label('Dặc điểm'),
+                    ->label('Đặc điểm')
+                    ->alignLeft()
+                    ->limit(50)
+                    ->tooltip(fn($record) => $record->DacDiem),
 
                 IconColumn::make('LaTP')
+                    ->label('Là thành phẩm')
                     ->alignCenter()
                     ->boolean()
-                    ->label('Là thành phẩm'),
+                    ->sortable(),
             ])
             ->filters([
                 SelectFilter::make('LaTP')

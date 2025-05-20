@@ -4,24 +4,24 @@ return [
 
     'column_toggle' => [
 
-        'heading' => 'Columns',
+        'heading' => 'Cột',
 
     ],
 
     'columns' => [
 
         'actions' => [
-            'label' => 'Action|Actions',
+            'label' => 'Hành động|Hành động',
         ],
 
         'text' => [
 
             'actions' => [
-                'collapse_list' => 'Show :count less',
-                'expand_list' => 'Show :count more',
+                'collapse_list' => 'Hiển thị :count ít hơn',
+                'expand_list' => 'Hiển thị :count nhiều hơn',
             ],
 
-            'more_list_items' => 'and :count more',
+            'more_list_items' => 'và :count nhiều hơn',
 
         ],
 
@@ -30,47 +30,47 @@ return [
     'fields' => [
 
         'bulk_select_page' => [
-            'label' => 'Select/deselect all items for bulk actions.',
+            'label' => 'Chọn/bỏ chọn tất cả các mục cho hành động lô',
         ],
 
         'bulk_select_record' => [
-            'label' => 'Select/deselect item :key for bulk actions.',
+            'label' => 'Chọn/bỏ chọn mục :key cho hành động lô',
         ],
 
         'bulk_select_group' => [
-            'label' => 'Select/deselect group :title for bulk actions.',
+            'label' => 'Chọn/bỏ chọn nhóm :title cho hành động lô',
         ],
 
         'search' => [
-            'label' => 'Search',
+            'label' => 'Tìm kiếm',
             'placeholder' => 'Tìm kiếm',
-            'indicator' => 'Search',
+            'indicator' => 'Tìm kiếm',
         ],
 
     ],
 
     'summary' => [
 
-        'heading' => 'Summary',
+        'heading' => 'Tóm tắt',
 
         'subheadings' => [
-            'all' => 'All :label',
-            'group' => ':group summary',
-            'page' => 'This page',
+            'all' => 'Tất cả :label',
+            'group' => ':group tóm tắt',
+            'page' => 'Trang này',
         ],
 
         'summarizers' => [
 
             'average' => [
-                'label' => 'Average',
+                'label' => 'Trung bình',
             ],
 
             'count' => [
-                'label' => 'Count',
+                'label' => 'Đếm',
             ],
 
             'sum' => [
-                'label' => 'Sum',
+                'label' => 'Tổng',
             ],
 
         ],
@@ -80,27 +80,27 @@ return [
     'actions' => [
 
         'disable_reordering' => [
-            'label' => 'Finish reordering records',
+            'label' => 'Hoàn tất sắp xếp bản ghi',
         ],
 
         'enable_reordering' => [
-            'label' => 'Reorder records',
+            'label' => 'Sắp xếp lại bản ghi',
         ],
 
         'filter' => [
-            'label' => 'Filter',
+            'label' => 'Lọc',
         ],
 
         'group' => [
-            'label' => 'Group',
+            'label' => 'Nhóm',
         ],
 
         'open_bulk_actions' => [
-            'label' => 'Bulk actions',
+            'label' => 'Hành động lô',
         ],
 
         'toggle_columns' => [
-            'label' => 'Toggle columns',
+            'label' => 'Chuyển đổi cột',
         ],
 
     ],
@@ -109,7 +109,7 @@ return [
 
         'heading' => 'No :model',
 
-        'description' => 'Create a :model to get started.',
+        'description' => 'Tạo :model để bắt đầu.',
 
     ],
 
@@ -167,17 +167,17 @@ return [
         'fields' => [
 
             'group' => [
-                'label' => 'Group by',
-                'placeholder' => 'Group by',
+                'label' => 'Nhóm theo',
+                'placeholder' => 'Nhóm theo',
             ],
 
             'direction' => [
 
-                'label' => 'Group direction',
+                'label' => 'Hướng nhóm',
 
                 'options' => [
-                    'asc' => 'Ascending',
-                    'desc' => 'Descending',
+                    'asc' => 'Tăng dần',
+                    'desc' => 'Giảm dần',
                 ],
 
             ],
@@ -186,20 +186,20 @@ return [
 
     ],
 
-    'reorder_indicator' => 'Drag and drop the records into order.',
+    'reorder_indicator' => 'Kéo và thả các bản ghi để sắp xếp.',
 
     'selection_indicator' => [
 
-        'selected_count' => '1 record selected|:count records selected',
+        'selected_count' => '1 bản ghi đã chọn|:count bản ghi đã chọn',
 
         'actions' => [
 
             'select_all' => [
-                'label' => 'Select all :count',
+                'label' => 'Chọn tất cả :count',
             ],
 
             'deselect_all' => [
-                'label' => 'Deselect all',
+                'label' => 'Bỏ chọn tất cả',
             ],
 
         ],
@@ -211,16 +211,16 @@ return [
         'fields' => [
 
             'column' => [
-                'label' => 'Sort by',
+                'label' => 'Sắp xếp theo',
             ],
 
             'direction' => [
 
-                'label' => 'Sort direction',
+                'label' => 'Hướng sắp xếp',
 
                 'options' => [
-                    'asc' => 'Ascending',
-                    'desc' => 'Descending',
+                    'asc' => 'Tăng dần',
+                    'desc' => 'Giảm dần',
                 ],
 
             ],

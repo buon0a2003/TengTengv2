@@ -308,33 +308,48 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
             ->defaultSort('TrangThai', 'asc')
             ->columns([
                 TextColumn::make('id')
-                    ->label('Mã phiếu'),
+                    ->label('Mã phiếu')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
 
                 TextColumn::make('nhacungcap.TenNCC')
+                    ->label('Nhà cung cấp')
+                    ->alignLeft()
                     ->formatStateUsing(fn($record) => $record->LyDo == 0 ? 'N/A' : $record->nhacungcap->TenNCC)
                     ->placeholder('N/A')
-                    ->label('Nhà cung cấp'),
+                    ->searchable()
+                    ->sortable(),
 
                 TextColumn::make('NgayNhap')
-                    ->sortable()
-                    ->placeholder('N/A')
                     ->label('Ngày nhập')
+                    ->alignCenter()
                     ->date('d/m/Y')
-                    ->searchable(),
+                    ->placeholder('N/A')
+                    ->searchable()
+                    ->sortable(),
 
                 TextColumn::make('user.name')
                     ->label('Người nhập')
-                    ->searchable(),
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
 
                 TextColumn::make('giamsat.name')
                     ->label('Người giám sát')
-                    ->searchable(),
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
 
                 TextColumn::make('kho.TenKho')
-                    ->label('Kho'),
+                    ->label('Kho')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
 
                 TextColumn::make('LyDo')
                     ->label('Lý do')
+                    ->alignCenter()
                     ->formatStateUsing(fn($record) => match ($record->LyDo) {
                         0 => 'Nhập thành phẩm',
                         1 => 'Nhập nguyên vật liệu',
@@ -348,9 +363,11 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                         2 => 'danger',
                         default => ''
                     })
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
 
                 TextColumn::make('TrangThai')
+                    ->label('Trạng thái')
                     ->alignCenter()
                     ->formatStateUsing(fn($record) => match ($record->TrangThai) {
                         0 => 'Đang xử lý',
@@ -365,10 +382,15 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                         2 => 'danger',
                         default => ''
                     })
-                    ->label('Trạng thái'),
+                    ->sortable(),
 
                 TextColumn::make('GhiChu')
-                    ->label('Ghi chú'),
+                    ->label('Ghi chú')
+                    ->alignLeft()
+                    ->limit(50)
+                    ->wrap()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->tooltip(fn($record) => $record->GhiChu),
             ])
             ->filters([
                 SelectFilter::make('TrangThai')

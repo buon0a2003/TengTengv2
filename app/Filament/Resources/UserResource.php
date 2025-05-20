@@ -205,7 +205,8 @@ class UserResource extends Resource
                         return "https://ui-avatars.com/api/?name={$name}";
                     }),
                 TextColumn::make('name')->label('Tên')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('roles')->label('Chức vụ')
                     ->wrap()
                     ->badge()
@@ -218,14 +219,18 @@ class UserResource extends Resource
                         'warning',
                     ]),
                 TextColumn::make('email')->label('Email')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('Phone')->label('Số điện thoại')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('Birth')->label('Ngày sinh')
+                    ->sortable()
                     ->searchable()
                     ->date('d/m/Y'),
                 TextColumn::make('Address')->label('Địa chỉ')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 ToggleColumn::make('Active')->label('Active')
                     ->alignCenter()
                     ->onColor('emerald')
