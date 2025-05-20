@@ -201,17 +201,17 @@ return [
             'fields' => [
 
                 'height' => [
-                    'label' => 'Chiều cao',
+                    'label' => 'Cao',
                     'unit' => 'px',
                 ],
 
                 'rotation' => [
-                    'label' => 'Độ xoay',
-                    'unit' => 'deg',
+                    'label' => 'Xoay',
+                    'unit' => 'độ',
                 ],
 
                 'width' => [
-                    'label' => 'Chiều rộng',
+                    'label' => 'Rộng',
                     'unit' => 'px',
                 ],
 

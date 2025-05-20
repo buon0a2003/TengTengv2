@@ -4,19 +4,21 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\TaixeResource\Pages;
+use Filament\Tables;
 use App\Models\taixe;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
-use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
+use Filament\Resources\Resource;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Section;
+use App\Filament\Exports\TaixeExporter;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
-use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Actions\ExportBulkAction;
+use App\Filament\Resources\TaixeResource\Pages;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 
 class TaixeResource extends Resource implements HasShieldPermissions
 {
@@ -176,6 +178,11 @@ class TaixeResource extends Resource implements HasShieldPermissions
             ])
             ->bulkActions([
                 //
+                ExportBulkAction::make()
+                    ->exporter(TaixeExporter::class)
+                    ->label('Xuất excel')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->color('primary'),
             ]);
     }
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources;
 
 use App\Models\kho;
+use App\Models\User;
 use Filament\Tables;
 use App\Models\vattu;
 use App\Models\vitri;
@@ -25,6 +26,8 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
 use Filament\Support\Exceptions\Cancel;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
@@ -32,12 +35,17 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Forms\Components\Wizard\Step;
+use App\Filament\Exports\PhieuxuatExporter;
+use Filament\Tables\Actions\ExportBulkAction;
 use App\Filament\Resources\PhieuXuatResource\Pages;
 use Filament\Forms\Components\Actions\Action as FormAction;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
+use App\Filament\Resources\PhieuXuatResource\Pages\EditPhieuXuat;
+use App\Filament\Resources\PhieuXuatResource\Pages\ViewPhieuXuat;
+use App\Filament\Resources\PhieuXuatResource\Pages\ListPhieuXuats;
+use App\Filament\Resources\PhieuXuatResource\Pages\CreatePhieuXuat;
 use Guava\FilamentModalRelationManagers\Actions\Table\RelationManagerAction;
 use App\Filament\Resources\PhieuXuatResource\RelationManagers\ChitietphieuxuatRelationManager;
-use App\Models\User;
 
 class PhieuXuatResource extends Resource implements HasShieldPermissions
 {
@@ -446,6 +454,11 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
             ])
             ->bulkActions([
                 //
+                ExportBulkAction::make()
+                    ->exporter(PhieuxuatExporter::class)
+                    ->label('Xuất excel')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->color('primary'),
             ]);
     }
 

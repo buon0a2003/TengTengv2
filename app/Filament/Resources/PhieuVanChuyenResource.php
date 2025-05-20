@@ -4,27 +4,32 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PhieuVanChuyenResource\Pages;
-use App\Models\phieuvanchuyen;
-use Filament\Forms\Components\Actions\Action as FormAction;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Notifications\Notification;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
+use App\Models\phieuvanchuyen;
+use Filament\Resources\Resource;
 use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Actions\DeleteAction;
+use Illuminate\Support\Facades\Auth;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Textarea;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
-use Illuminate\Support\Facades\Auth;
+use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\ExportBulkAction;
+use App\Filament\Exports\PhieuvanchuyenExporter;
+use App\Filament\Resources\PhieuVanChuyenResource\Pages;
+use Filament\Forms\Components\Actions\Action as FormAction;
+use App\Filament\Resources\PhieuVanChuyenResource\Pages\EditPhieuVanChuyen;
+use App\Filament\Resources\PhieuVanChuyenResource\Pages\ListPhieuVanChuyens;
+use App\Filament\Resources\PhieuVanChuyenResource\Pages\CreatePhieuVanChuyen;
 
 class PhieuVanChuyenResource extends Resource
 {
@@ -319,7 +324,13 @@ class PhieuVanChuyenResource extends Resource
 
                 ]),
             ])
-            ->bulkActions([]);
+            ->bulkActions([
+                ExportBulkAction::make()
+                    ->exporter(PhieuvanchuyenExporter::class)
+                    ->label('Xuất excel')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->color('primary'),
+            ]);
     }
 
     public static function getRelations(): array

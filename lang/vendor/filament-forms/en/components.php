@@ -201,7 +201,7 @@ return [
             'fields' => [
 
                 'height' => [
-                    'label' => 'Chiều cao',
+                    'label' => 'Cao',
                     'unit' => 'px',
                 ],
 
@@ -211,7 +211,7 @@ return [
                 ],
 
                 'width' => [
-                    'label' => 'Chiều rộng',
+                    'label' => 'Rộng',
                     'unit' => 'px',
                 ],
 

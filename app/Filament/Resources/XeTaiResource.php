@@ -4,18 +4,21 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\XeTaiResource\Pages;
+use Filament\Tables;
 use App\Models\XeTai;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
+use Filament\Resources\Resource;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Section;
+use Filament\Support\Enums\FontWeight;
+use App\Filament\Exports\XetaiExporter;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
-use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Actions\ExportBulkAction;
+use App\Filament\Resources\XeTaiResource\Pages;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 
 class XeTaiResource extends Resource  implements HasShieldPermissions
 {
@@ -123,7 +126,8 @@ class XeTaiResource extends Resource  implements HasShieldPermissions
                     ->sortable(),
                 TextColumn::make('TaiTrong')
                     ->label('Tải trọng (kg)')
-                    ->alignRight()
+                    ->numeric()
+                    ->weight(FontWeight::Bold)
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('MauSac')
@@ -163,6 +167,11 @@ class XeTaiResource extends Resource  implements HasShieldPermissions
             ])
             ->bulkActions([
                 //
+                ExportBulkAction::make()
+                    ->exporter(XetaiExporter::class)
+                    ->label('Xuất excel')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->color('primary'),
             ]);
     }
 

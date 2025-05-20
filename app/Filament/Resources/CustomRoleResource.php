@@ -30,8 +30,6 @@ class CustomRoleResource extends RoleResource
 {
     protected static ?string $navigationIcon = 'heroicon-o-shield-check';
 
-    protected static ?string $activeNavigationIcon = 'heroicon-s-shield-check';
-
     public static function form(Form $form): Form
     {
         return $form

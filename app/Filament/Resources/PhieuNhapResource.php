@@ -32,7 +32,9 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Forms\Components\Wizard\Step;
+use App\Filament\Exports\PhieunhapExporter;
 use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\ExportBulkAction;
 use App\Filament\Resources\PhieuNhapResource\Pages;
 use Filament\Forms\Components\Actions\Action as FormAction;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
@@ -495,6 +497,11 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
             ])
             ->bulkActions([
                 //
+                ExportBulkAction::make()
+                    ->exporter(PhieunhapExporter::class)
+                    ->label('Xuất excel')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->color('primary'),
             ]);
     }
 

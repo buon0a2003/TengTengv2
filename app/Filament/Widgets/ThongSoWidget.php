@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Filament\Widgets;
 
 use App\Models\User;
-use EightyNine\FilamentAdvancedWidget\AdvancedStatsOverviewWidget as BaseWidget;
+use App\Models\chitietphieunhap;
+use App\Models\chitietphieuxuat;
 use EightyNine\FilamentAdvancedWidget\AdvancedStatsOverviewWidget\Stat;
+use EightyNine\FilamentAdvancedWidget\AdvancedStatsOverviewWidget as BaseWidget;
 
 class ThongSoWidget extends BaseWidget
 {
@@ -24,16 +26,24 @@ class ThongSoWidget extends BaseWidget
                 ->descriptionIcon('heroicon-o-chevron-up', 'before')
                 ->descriptionColor('info')
                 ->iconColor('info'),
-            Stat::make('Tổng nhập', '14.2k')->icon('heroicon-o-chevron-double-left')
+
+            Stat::make(
+                'Tổng nhập',
+                (string) chitietphieunhap::where('soluong', '!=', 0)->sum('soluong')
+            )->icon('heroicon-o-chevron-double-left')
                 ->descriptionIcon('heroicon-o-chevron-up', 'before')
                 ->descriptionColor('success')
                 // ->progress(89)
                 ->chartColor('success')
                 // ->progressBarColor('success')
-                ->chart([12, 24, 11, 22, 11])
+                ->chart([12, 14, 13, 15, 12])
                 ->description('Tổng phiếu nhập tháng này')
                 ->iconColor('success'),
-            Stat::make('Tổng xuất', '23.4k')->icon('heroicon-o-chevron-double-right')
+
+            Stat::make(
+                'Tổng xuất',
+                (string) chitietphieuxuat::where('soluong', '!=', 0)->sum('soluong')
+            )->icon('heroicon-o-chevron-double-right')
                 ->description('Tổng phiếu xuất tháng này')
                 ->descriptionIcon('heroicon-o-chevron-down', 'before')
                 ->descriptionColor('danger')

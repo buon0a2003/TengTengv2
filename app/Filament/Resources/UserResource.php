@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
+use Spatie\Permission\Contracts\Role;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Section;
 use Filament\Tables\Actions\EditAction;
@@ -209,6 +210,7 @@ class UserResource extends Resource
                     ->sortable(),
                 TextColumn::make('roles')->label('Chức vụ')
                     ->wrap()
+                    // ->url(fn($record) => CustomRoleResource::getUrl('edit', ['record' => Role::findByName($record->roles, 'web')->id]))
                     ->badge()
                     ->separator(';')
                     ->listWithLineBreaks()
