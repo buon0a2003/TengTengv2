@@ -29,7 +29,11 @@ class ThongSoWidget extends BaseWidget
 
             Stat::make(
                 'Tổng nhập',
-                (string) chitietphieunhap::where('soluong', '!=', 0)->sum('soluong')
+                (string) chitietphieunhap::join('phieunhap', 'chitietphieunhap.phieunhap_id', '=', 'phieunhap.id')
+                    ->whereMonth('phieunhap.NgayNhap', now()->month)
+                    ->whereYear('phieunhap.NgayNhap', now()->year)
+                    ->where('phieunhap.TrangThai', 1)
+                    ->sum('chitietphieunhap.SoLuong')
             )->icon('heroicon-o-chevron-double-left')
                 ->descriptionIcon('heroicon-o-chevron-up', 'before')
                 ->descriptionColor('success')
@@ -37,14 +41,18 @@ class ThongSoWidget extends BaseWidget
                 ->chartColor('success')
                 // ->progressBarColor('success')
                 ->chart([12, 14, 13, 15, 12])
-                ->description('Tổng phiếu nhập tháng này')
+                ->description('Tổng phiếu nhập tháng ' . now()->format('m'))
                 ->iconColor('success'),
 
             Stat::make(
                 'Tổng xuất',
-                (string) chitietphieuxuat::where('soluong', '!=', 0)->sum('soluong')
+                (string) chitietphieuxuat::join('phieuxuat', 'chitietphieuxuat.phieuxuat_id', '=', 'phieuxuat.id')
+                    ->whereMonth('phieuxuat.NgayXuat', now()->month)
+                    ->whereYear('phieuxuat.NgayXuat', now()->year)
+                    ->where('phieuxuat.TrangThai', 1)
+                    ->sum('chitietphieuxuat.SoLuong')
             )->icon('heroicon-o-chevron-double-right')
-                ->description('Tổng phiếu xuất tháng này')
+                ->description('Tổng phiếu xuất tháng ' . now()->format('m'))
                 ->descriptionIcon('heroicon-o-chevron-down', 'before')
                 ->descriptionColor('danger')
                 ->iconColor('danger')

@@ -121,13 +121,11 @@ class XuatnhaptonExporter
             }
         }
 
-        // Dòng tổng cộng toàn bộ
-        $sheet->setCellValue("B{$currentRow}", 'Tổng cộng');
-        $sheet->mergeCells("B{$currentRow}:C{$currentRow}");
-
-        // Dòng tổng cộng cuối cùng
+        // Dòng tổng cộng
         $sheet->setCellValue("A{$currentRow}", 'Tổng cộng');
         $sheet->mergeCells("A{$currentRow}:C{$currentRow}");
+
+        $sheet->getStyle("A{$currentRow}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
         $sheet->setCellValue("D{$currentRow}", $totalAll['opening']);
         $sheet->setCellValue("E{$currentRow}", $totalAll['import']);
