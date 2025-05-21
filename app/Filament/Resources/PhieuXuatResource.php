@@ -294,7 +294,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                     return "{$kho->TenKho} - {$vitri->Mota}" ?? 'Lỗi';
                                 }),
                         ])->visibleOn('create'),
-                ])->columnSpanFull()->skippable(),
+                ])->columnSpanFull(),
                 // skipable dùng để test thôi hết test thì xóa
             ]);
     }

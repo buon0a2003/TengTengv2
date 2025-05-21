@@ -109,7 +109,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                 ->aside()
                                 ->schema([
                                     Radio::make('LyDo')
-                                        // ->required()
+                                        ->required()
                                         ->inline()
                                         ->default('0')
                                         ->live()
@@ -119,7 +119,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                     TextInput::make('id')
                                         ->placeholder('eg: PNddmmyy-XXX')
                                         ->unique(ignoreRecord: true)
-                                        // ->required()
+                                        ->required()
                                         ->label('Mã phiếu nhập')
                                         ->prefixAction(
                                             FormAction::make('suggest')
@@ -149,7 +149,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                         ->label('Người tạo phiếu')
                                         ->relationship('user', 'name')
                                         ->default(fn(): int => Auth::user()->id)
-                                        // ->required()
+                                        ->required()
                                         ->preload()
                                         ->searchable(),
 
@@ -214,10 +214,12 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
 
                                     Hidden::make('kho_id')
                                         ->label('Mã kho')
+                                        ->required()
                                         ->hidden(),
 
                                     TextInput::make('TenKho')
                                         ->label('Kho')
+                                        ->required()
                                         ->readOnly()
                                         ->prefixAction(
                                             FormAction::make('openKhoModal')
@@ -291,7 +293,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                         ])->visibleOn([
                             'create',
                         ]),
-                ])->columnSpanFull()->skippable(),
+                ])->columnSpanFull(),
                 // skipable dùng để test thôi hết test thì xóa
             ]);
     }
