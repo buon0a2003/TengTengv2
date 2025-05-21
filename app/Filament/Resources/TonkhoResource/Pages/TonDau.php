@@ -60,7 +60,7 @@ class TonDau extends Page implements HasForms
                                     ->action(null)
                                     ->modalCancelAction(false)
                                     ->modalWidth('7xl')
-                                    ->modalSubmitActionLabel('Done');
+                                    ->modalSubmitActionLabel('Xong');
                             })
                             ->label('Danh sách vật tư')
                             ->schema([
@@ -70,7 +70,7 @@ class TonDau extends Page implements HasForms
                                     ->label('Vật tư')
                                     ->required(),
                                 TextInput::make('soluong')->label('Số lượng')
-                                    ->suffix(fn (Get $get): string => (string) vattu::find($get('id'))?->donvitinh->TenDVT ?? '')
+                                    ->suffix(fn(Get $get): string => (string) vattu::find($get('id'))?->donvitinh->TenDVT ?? '')
                                     ->numeric()
                                     ->minValue(1),
                                 Select::make('kho_id')
@@ -170,7 +170,7 @@ class TonDau extends Page implements HasForms
     {
         return Action::make('cancel')
             ->label('Thoát')
-            ->alpineClickHandler('document.referrer ? window.history.back() : (window.location.href = '.Js::from($this->previousUrl ?? static::getResource()::getUrl()).')')
+            ->alpineClickHandler('document.referrer ? window.history.back() : (window.location.href = ' . Js::from($this->previousUrl ?? static::getResource()::getUrl()) . ')')
             ->color('gray');
     }
 

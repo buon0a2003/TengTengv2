@@ -144,9 +144,6 @@ class TonkhoResource extends Resource
             ])
             ->defaultPaginationPageOption(25)
             ->emptyStateHeading('Không có thông tin tồn kho')
-            //            ->headerActions([
-            //                Tables\Actions\ExportAction::make(),
-            //            ])
             ->filters([
                 SelectFilter::make('kho_id')
                     ->relationship('kho', 'TenKho')

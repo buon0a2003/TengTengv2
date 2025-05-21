@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         FilamentAsset::register([
-            Css::make('naly-stylesheet', realpath(__DIR__ . '/../../app/Providers/custom.css')),
+            Css::make('naly-stylesheet', realpath(__DIR__ . '/../../resources/css/custom.css')),
             Js::make('scrollUpFix', realpath(__DIR__ . '/../../resources/js/scrollUpFix.js')),
         ]);
 
