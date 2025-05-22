@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers\Filament;
 
+use App\Filament\Widgets\TiLeSuCoChart;
 use Exception;
 use Filament\Pages;
 use Filament\Panel;
@@ -92,6 +93,7 @@ class AdminPanelProvider extends PanelProvider
                 ThongSoWidget::class,
                 BangWidget::class,
                 BieuDoWidget::class,
+                TiLeSuCoChart::class
             ])
             ->navigationItems([
                 NavigationItem::make('Chức vụ')
