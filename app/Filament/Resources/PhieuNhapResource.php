@@ -160,7 +160,11 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                         ->searchable()
                                         ->required()
                                         ->options(function () {
-                                            return User::role('Giám sát viên')->pluck('name', 'id');
+                                            try {
+                                                return User::role('Giám sát viên')->pluck('name', 'id');
+                                            } catch (\Exception $e) {
+                                                return [];
+                                            }
                                         }),
 
                                     Select::make('nhacungcap_id')
