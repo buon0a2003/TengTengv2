@@ -218,8 +218,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
 
                                     Hidden::make('kho_id')
                                         ->label('Mã kho')
-                                        ->required()
-                                        ->hidden(),
+                                        ->required(),
 
                                     TextInput::make('TenKho')
                                         ->label('Kho')

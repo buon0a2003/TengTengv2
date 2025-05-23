@@ -102,9 +102,11 @@ class TonkhoResource extends Resource
     {
         return $table
             ->query(
-                tonkho::join('vattu', 'tonkho.vattu_id', '=', 'vattu.id')
-                    ->select('tonkho.*', 'vattu.LaTP')
-                    ->where('tonkho.SoLuong', '>', 0)
+
+                tonkho::query()
+                    ->with(['kho', 'vattu.donvitinh', 'vitri'])
+                    ->where('SoLuong', '>', 0)
+
             )
             ->emptyStateHeading('Không có hàng tồn kho')
             ->emptyStateDescription('Vui lòng thêm dữ liệu hoặc thay đổi bộ lọc tìm kiếm.')
@@ -166,7 +168,15 @@ class TonkhoResource extends Resource
                     ->options([
                         0 => 'Nguyên vật liệu',
                         1 => 'Thành phẩm',
-                    ]),
+                    ])
+                    ->label('Loại vật tư')
+                    ->query(function ($query, array $data) {
+                        if (isset($data['value']) && $data['value'] !== '') {
+                            $query->whereHas('vattu', function ($q) use ($data) {
+                                $q->where('LaTP', $data['value']);
+                            });
+                        }
+                    }),
                 Filter::make('NgayCapNhat')
                     ->form([
                         DatePicker::make('NgayCapNhat')

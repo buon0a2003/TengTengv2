@@ -60,7 +60,7 @@ class KhoList extends Component implements HasForms, HasTable
                     ->default(
                         function () {
                             if ($this->LyDonhap != '') {
-                                match ($this->LyDonhap) {
+                                return match ($this->LyDonhap) {
                                     '0' => 'Thành phẩm',
                                     '1' => 'Nguyên vật liệu',
                                     '2' => 'Thành phẩm',
@@ -68,7 +68,7 @@ class KhoList extends Component implements HasForms, HasTable
                                 };
                             }
                             if ($this->LyDoxuat != '') {
-                                match ($this->LyDoxuat) {
+                                return match ($this->LyDoxuat) {
                                     '0' => 'Nguyên vật liệu',
                                     '1' => 'Thành phẩm',
                                     default => ''

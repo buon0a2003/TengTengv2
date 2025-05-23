@@ -27,8 +27,11 @@ class TonkhoList extends Component implements HasForms, HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->query(tonkho::query()->join('vattu', 'tonkho.vattu_id', '=', 'vattu.id')
-                ->select('tonkho.*', 'vattu.LaTP'))
+            ->query(
+                tonkho::query()
+                    ->with(['kho', 'vattu.donvitinh', 'vitri'])
+                    ->where('SoLuong', '>', 0)
+            )
             ->columns([
                 Tables\Columns\TextColumn::make('kho.TenKho')
                     ->label('Tên kho')
@@ -57,9 +60,6 @@ class TonkhoList extends Component implements HasForms, HasTable
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('vattu.donvitinh.TenDVT')
-                    ->formatStateUsing(
-                        fn($record) => $record->vattu->donvitinh->TenDVT ?? 'Chưa có'
-                    )
                     ->label('Đơn vị tính')
                     ->alignCenter()
                     ->searchable(),
@@ -96,6 +96,13 @@ class TonkhoList extends Component implements HasForms, HasTable
                         1 => 'Thành phẩm',
                     ])
                     ->label('Loại vật tư')
+                    ->query(function ($query, array $data) {
+                        if (isset($data['value']) && $data['value'] !== '') {
+                            $query->whereHas('vattu', function ($q) use ($data) {
+                                $q->where('LaTP', $data['value']);
+                            });
+                        }
+                    })
                     ->default(fn() => match ($this->LyDo) {
                         '0' => 0,
                         '1' => 1,

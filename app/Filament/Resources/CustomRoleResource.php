@@ -4,30 +4,33 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\Shield\Pages\CustomCreateRole;
-use App\Filament\Resources\Shield\Pages\CustomEditRole;
-use App\Filament\Resources\Shield\Pages\CustomListRoles;
-use App\Filament\Resources\Shield\Pages\CustomViewRole;
-use BezhanSalleh\FilamentShield\Forms\ShieldSelectAllToggle;
-use BezhanSalleh\FilamentShield\Resources\RoleResource;
-use BezhanSalleh\FilamentShield\Support\Utils;
-use Filament\Facades\Filament;
 use Filament\Forms;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Table;
+use Illuminate\Support\Str;
+use Filament\Facades\Filament;
+use Illuminate\Support\HtmlString;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Section;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Actions\DeleteAction;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Support\HtmlString;
-use Illuminate\Support\Str;
+use Filament\Tables\Actions\DeleteBulkAction;
+use BezhanSalleh\FilamentShield\Support\Utils;
+use App\Filament\Resources\Shield\Pages\CustomEditRole;
+use App\Filament\Resources\Shield\Pages\CustomViewRole;
+use BezhanSalleh\FilamentShield\Resources\RoleResource;
+use App\Filament\Resources\Shield\Pages\CustomListRoles;
+use App\Filament\Resources\Shield\Pages\CustomCreateRole;
+use BezhanSalleh\FilamentShield\Forms\ShieldSelectAllToggle;
+use BezhanSalleh\FilamentShield\Traits\HasShieldFormComponents;
 
 class CustomRoleResource extends RoleResource
 {
+    use HasShieldFormComponents;
+
     protected static ?string $navigationIcon = 'heroicon-o-shield-check';
 
     public static function form(Form $form): Form
@@ -49,11 +52,12 @@ class CustomRoleResource extends RoleResource
                                     ->label(__('filament-shield::filament-shield.field.guard_name'))
                                     ->default(Utils::getFilamentAuthGuard())
                                     ->nullable()
+                                    ->default('web')
                                     ->maxLength(255),
 
                                 Select::make(config('permission.column_names.team_foreign_key'))
                                     ->label('filament-shield::filament-shield.field.team')
-                                    ->placeholder(__('filament-shield::filament-shield.field.team.placeholder'))
+                                    ->placeholder('filament-shield::filament-shield.field.team.placeholder')
                                     /** @phpstan-ignore-next-line */
                                     ->default([Filament::getTenant()?->id])
                                     ->options(fn(): Arrayable => Utils::getTenantModel() ? Utils::getTenantModel()::pluck('name', 'id') : collect())

@@ -40,6 +40,7 @@ class AppServiceProvider extends ServiceProvider
 
         Table::configureUsing(function (Table $table): void {
             $table
+                ->poll('5s')
                 ->striped()
                 ->emptyStateHeading('Không có dữ liệu');
         });

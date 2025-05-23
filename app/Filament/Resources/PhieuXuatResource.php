@@ -201,7 +201,6 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                     Hidden::make('kho_id')
                                         ->label('Mã kho')
                                         ->required()
-                                        ->hidden()
                                         ->live(),
 
                                     TextInput::make('TenKho')

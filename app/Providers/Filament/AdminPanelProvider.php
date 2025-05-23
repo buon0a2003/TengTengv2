@@ -104,7 +104,7 @@ class AdminPanelProvider extends PanelProvider
                     ->group('Quản lý tài khoản')
                     ->isActiveWhen(fn() => request()->routeIs('filament.admin.resources.shield.roles.index'))
                     ->url(fn(): string => CustomRoleResource::getUrl('index'))
-                    ->visible(fn() => Auth::user()->can('view_any_custom::role')),
+                    ->visible(fn() => Auth::user()->can('view_any_custom::role') || Auth::user()->hasRole('super_admin')),
             ])
             ->navigationGroups([
                 'Quản lý danh mục',

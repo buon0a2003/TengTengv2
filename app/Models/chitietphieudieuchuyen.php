@@ -62,6 +62,13 @@ class chitietphieudieuchuyen extends Model
         'updated_at',
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'SoLuong' => 'decimal:2',
+        ];
+    }
+
     /**
      * The attributes excluded from the model's JSON form.
      *

@@ -57,10 +57,10 @@ class phieunhap extends Model
     protected $fillable = [
         'id',
         'NgayNhap',
-        'users_id',
+        'user_id',
         'giamsat_id',
         'nhacungcap_id',
-        'MaKho',
+        'kho_id',
         'LyDo',
         'GhiChu',
         'TrangThai',
