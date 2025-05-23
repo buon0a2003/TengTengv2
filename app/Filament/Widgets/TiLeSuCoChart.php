@@ -8,7 +8,13 @@ use Illuminate\Support\Facades\DB;
 
 class TiLeSuCoChart extends ChartWidget
 {
-    protected static ?string $heading = 'Tỷ lệ sự cố trên mỗi chuyến vận chuyển';
+    public function getHeading(): string
+    {
+        $month = static::$month ?? now()->month;
+        $year = static::$year ?? now()->year;
+
+        return 'Tỷ lệ sự cố trên mỗi chuyến vận chuyển - Tháng ' . $month . '/' . $year;
+    }
     protected static ?int $sort = 1;
 
     public static ?int $year = null;

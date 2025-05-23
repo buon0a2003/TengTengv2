@@ -85,6 +85,8 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail, Ren
         'image',
         'cccd',
         'nhanvien_id',
+        'theme',
+        'theme_color'
     ];
 
     /**

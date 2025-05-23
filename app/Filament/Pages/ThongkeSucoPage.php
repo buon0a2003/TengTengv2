@@ -159,8 +159,8 @@ class ThongkeSucoPage extends Page implements HasForms
     }
     protected function getFooterWidgets(): array
     {
-        TiLeSuCoChart::$year = $this->year;
-        TiLeSuCoChart::$month = $this->month;
+//        TiLeSuCoChart::$year = $this->year;
+//        TiLeSuCoChart::$month = $this->month;
 
         return [
             TiLeSuCoChart::class,
