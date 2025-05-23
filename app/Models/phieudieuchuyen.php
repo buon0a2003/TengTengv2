@@ -61,6 +61,7 @@ class phieudieuchuyen extends Model
         'id',
         'NgayLap',
         'user_id',
+        'giamsat_id',
         'MaKhoNguon',
         'MaKhoDich',
         'GhiChu',
@@ -122,5 +123,10 @@ class phieudieuchuyen extends Model
     public function chitietphieudieuchuyen(): HasMany
     {
         return $this->hasMany(chitietphieudieuchuyen::class, 'phieudieuchuyen_id');
+    }
+
+    public function giamsat(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'giamsat_id');
     }
 }

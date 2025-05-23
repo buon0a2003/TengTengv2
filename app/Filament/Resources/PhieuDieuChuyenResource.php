@@ -4,38 +4,39 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PhieuDieuChuyenResource\Pages;
-use App\Filament\Resources\PhieuDieuChuyenResource\RelationManagers\ChitietphieudieuchuyenRelationManager;
-use App\Models\chitietphieudieuchuyen;
 use App\Models\kho;
-use App\Models\phieudieuchuyen;
-use App\Models\tonkho;
+use App\Models\User;
+use Filament\Tables;
 use App\Models\vattu;
 use App\Models\vitri;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
-use Filament\Forms\Components\Actions\Action as FormAction;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Radio;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Wizard;
-use Filament\Forms\Components\Wizard\Step;
-use Filament\Forms\Form;
+use App\Models\tonkho;
 use Filament\Forms\Get;
-use Filament\Notifications\Notification;
-use Filament\Resources\Resource;
-use Filament\Support\Exceptions\Cancel;
-use Filament\Tables;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\SelectFilter;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
-use Guava\FilamentModalRelationManagers\Actions\Table\RelationManagerAction;
+use App\Models\phieudieuchuyen;
+use Filament\Resources\Resource;
+use Filament\Tables\Actions\Action;
+use Filament\Forms\Components\Radio;
 use Illuminate\Support\Facades\Auth;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Wizard;
+use App\Models\chitietphieudieuchuyen;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Textarea;
+use Filament\Support\Exceptions\Cancel;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Forms\Components\Wizard\Step;
+use App\Filament\Resources\PhieuDieuChuyenResource\Pages;
+use Filament\Forms\Components\Actions\Action as FormAction;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
+use Guava\FilamentModalRelationManagers\Actions\Table\RelationManagerAction;
+use App\Filament\Resources\PhieuDieuChuyenResource\RelationManagers\ChitietphieudieuchuyenRelationManager;
 
 class PhieuDieuChuyenResource extends Resource implements HasShieldPermissions
 {
@@ -128,6 +129,19 @@ class PhieuDieuChuyenResource extends Resource implements HasShieldPermissions
                                         ->default(fn(): int => Auth::user()->id)
                                         ->required()
                                         ->preload()
+                                        ->searchable(),
+
+                                    Select::make('giamsat_id')->label('Người giám sát')
+                                        ->relationship('giamsat', 'name')
+                                        ->required()
+                                        ->preload()
+                                        ->options(function () {
+                                            try {
+                                                return User::role('Giám sát viên')->pluck('name', 'id');
+                                            } catch (\Exception $e) {
+                                                return [];
+                                            }
+                                        })
                                         ->searchable(),
 
                                     Select::make('MaKhoNguon')->label('Kho nguồn')
@@ -248,6 +262,13 @@ class PhieuDieuChuyenResource extends Resource implements HasShieldPermissions
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(function ($query) {
+                if (! Auth::user()->hasRole('super_admin')) {
+                    $query->where(function ($query) {
+                        $query->Where('giamsat_id', Auth::id());
+                    });
+                }
+            })
             ->defaultSort('TrangThai', 'asc')
             ->columns([
                 TextColumn::make('id')
@@ -265,6 +286,12 @@ class PhieuDieuChuyenResource extends Resource implements HasShieldPermissions
 
                 TextColumn::make('user.name')
                     ->label('Người tạo')
+                    ->alignLeft()
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('giamsat.name')
+                    ->label('Người giám sát')
                     ->alignLeft()
                     ->searchable()
                     ->sortable(),
