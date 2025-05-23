@@ -10,17 +10,28 @@ use Filament\Forms\Get;
 use Filament\Forms\Form;
 use App\Models\donvitinh;
 use Filament\Tables\Table;
+use Illuminate\Support\Carbon;
 use Filament\Resources\Resource;
+use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Support\Enums\FontWeight;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use App\Filament\Exports\TonkhoExporter;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Enums\FiltersLayout;
+use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Actions\ExportBulkAction;
 use App\Filament\Resources\TonkhoResource\Pages;
+use App\Filament\Resources\TonkhoResource\Pages\TonDau;
+use App\Filament\Resources\TonkhoResource\Pages\EditTonkho;
+use App\Filament\Resources\TonkhoResource\Pages\ListTonkhos;
+use App\Filament\Resources\TonkhoResource\Pages\CreateTonkho;
 
 class TonkhoResource extends Resource
 {
@@ -151,11 +162,38 @@ class TonkhoResource extends Resource
                     ->searchable()
                     ->label('Chọn kho'),
                 SelectFilter::make('LaTP')
+                    ->label('Loại vật tư')
                     ->options([
                         0 => 'Nguyên vật liệu',
                         1 => 'Thành phẩm',
+                    ]),
+                Filter::make('NgayCapNhat')
+                    ->form([
+                        DatePicker::make('NgayCapNhat')
+                            ->label('Tháng')
+                            ->displayFormat('m/Y')
+                            ->format('Y-m')
+                            ->default(now()->format('Y-m'))
+                            // ->native(false)
+                            ->closeOnDateSelection()
+                            ->placeholder('Chọn tháng')
                     ])
-                    ->label('Loại vật tư')
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['NgayCapNhat'],
+                                fn(Builder $query, $date): Builder => $query->whereYear('NgayCapNhat', Carbon::parse($date)->year)
+                                    ->whereMonth('NgayCapNhat', Carbon::parse($date)->month),
+                            );
+                    })
+                    ->indicateUsing(function (array $data): ?string {
+                        if (! $data['NgayCapNhat']) {
+                            return null;
+                        }
+
+                        return 'Tháng: ' . Carbon::parse($data['NgayCapNhat'])->format('m/Y');
+                    })
+
             ], layout: FiltersLayout::AboveContent)
             ->actions([
                 Tables\Actions\ActionGroup::make([
