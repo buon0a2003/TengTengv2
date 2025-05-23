@@ -134,7 +134,7 @@ class TonDau extends Page implements HasForms
                     $tonkho->soluong = $item['soluong'];
                     $tonkho->NgayCapNhat = now();
 //                    $tonkho->NgayCapNhat = now()->startOfMonth()->subDay();
-                    
+
                     $tonkho->save();
 
                     Notification::make()

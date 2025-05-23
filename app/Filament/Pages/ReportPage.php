@@ -6,6 +6,7 @@ namespace App\Filament\Pages;
 
 use App\Filament\Widgets\BangWidget;
 use App\Filament\Widgets\BieuDoWidget;
+use App\Filament\Widgets\ThongKeNhapXuatNamChart;
 use App\Filament\Widgets\ThongSoWidget;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Pages\Page;
@@ -37,6 +38,7 @@ class ReportPage extends Page
             // ]),
             // BangWidget::class,
             BieuDoWidget::class,
+            ThongKeNhapXuatNamChart::class
         ];
     }
 }
