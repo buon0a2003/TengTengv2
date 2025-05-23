@@ -24,7 +24,7 @@ class ThongkeSucoPage extends Page implements HasForms
 
     public $data = [];
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'heroicon-o-exclamation-circle';
 
     protected static string $view = 'filament.pages.thongke-suco-page';
 

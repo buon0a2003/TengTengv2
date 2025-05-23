@@ -113,12 +113,28 @@ class TonDau extends Page implements HasForms
             $records = $this->data;
             if ($records['dsvattu']) {
                 foreach ($records['dsvattu'] as $item) {
+
+                    $existing = tonkho::where('vattu_id', $item['id'])
+                        ->where('kho_id', $item['kho_id'])
+                        ->where('vitri_id', $item['vitri_id'])
+                        ->exists();
+
+                    if ($existing) {
+                        Notification::make()
+                            ->title("Vật tư '{$item['TenVT']}' đã tồn tại trong kho tại vị trí này")
+                            ->danger()
+                            ->send();
+                        continue;
+                    }
+
                     $tonkho = new tonkho();
                     $tonkho->vattu_id = $item['id'];
                     $tonkho->kho_id = $item['kho_id'];
                     $tonkho->vitri_id = $item['vitri_id'];
                     $tonkho->soluong = $item['soluong'];
                     $tonkho->NgayCapNhat = now();
+//                    $tonkho->NgayCapNhat = now()->startOfMonth()->subDay();
+                    
                     $tonkho->save();
 
                     Notification::make()
