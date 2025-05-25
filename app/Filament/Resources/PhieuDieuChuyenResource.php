@@ -129,7 +129,9 @@ class PhieuDieuChuyenResource extends Resource implements HasShieldPermissions
                                         ->default(fn(): int => Auth::user()->id)
                                         ->required()
                                         ->preload()
-                                        ->searchable(),
+                                        ->searchable()
+                                        ->disabled()
+                                        ->dehydrated(),
 
                                     Select::make('giamsat_id')->label('Người giám sát')
                                         ->relationship('giamsat', 'name')

@@ -151,7 +151,8 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                         ->default(fn(): int => Auth::user()->id)
                                         ->required()
                                         ->preload()
-                                        ->searchable(),
+                                        ->disabled()
+                                        ->dehydrated(),
 
                                     Select::make('giamsat_id')
                                         ->label('Người giám sát')

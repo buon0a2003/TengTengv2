@@ -95,9 +95,9 @@ class PhieuVanChuyenResource extends Resource
                             ->label('Người tạo phiếu')
                             ->relationship('user', 'name')
                             ->default(fn(): int => Auth::user()->id)
-                            // ->required()
-                            ->preload()
-                            ->searchable(),
+                            ->required()
+                            ->disabled()
+                            ->dehydrated(),
 
                         Hidden::make('NgayTao')
                             ->default(now()),

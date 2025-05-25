@@ -110,8 +110,8 @@ class PhieuSuCoResource extends Resource
                             ->relationship('user', 'name')
                             ->default(fn(): int => Auth::user()->id)
                             ->required()
-                            ->preload()
-                            ->searchable(),
+                            ->disabled()
+                            ->dehydrated(),
 
                         Hidden::make('NgayTao')
                             ->default(now()),
