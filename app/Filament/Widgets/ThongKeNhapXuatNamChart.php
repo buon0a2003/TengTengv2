@@ -13,7 +13,7 @@ class ThongKeNhapXuatNamChart extends ChartWidget
     }
 
     protected static ?int $sort = 1;
-    
+
     protected function getData(): array
     {
         $year = now()->year;
