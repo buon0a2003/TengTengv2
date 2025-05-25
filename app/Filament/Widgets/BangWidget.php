@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Filament\Widgets;
 
 use App\Models\tonkho;
-use EightyNine\FilamentAdvancedWidget\AdvancedTableWidget as BaseWidget;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\DB;
+use Filament\Support\Enums\FontWeight;
+use Filament\Tables\Columns\TextColumn;
+use EightyNine\FilamentAdvancedWidget\AdvancedTableWidget as BaseWidget;
 
 class BangWidget extends BaseWidget
 {
@@ -63,7 +64,7 @@ class BangWidget extends BaseWidget
             )
             ->columns([
                 TextColumn::make('vattu.TenVT')->label('Tên vật tư'),
-                TextColumn::make('SoLuong')->label('Số lượng còn lại'),
+                TextColumn::make('SoLuong')->label('Số lượng còn lại')->weight(FontWeight::Bold),
                 TextColumn::make('vattu.donvitinh.TenDVT')->label('Đơn vị tính'),
                 TextColumn::make('kho.TenKho')->label('Kho'),
                 TextColumn::make('vitri.Mota')->label('Vị trí'),
