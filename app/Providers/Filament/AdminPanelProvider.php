@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers\Filament;
 
+use App\Filament\Widgets\ThongKeHuyChart;
 use Exception;
 use Filament\Pages;
 use Filament\Panel;
@@ -97,6 +98,7 @@ class AdminPanelProvider extends PanelProvider
                 BieuDoWidget::class,
                 TiLeSuCoChart::class,
                 ThongKeNhapXuatNamChart::class,
+                ThongKeHuyChart::class
             ])
             ->navigationItems([
                 NavigationItem::make('Chức vụ')

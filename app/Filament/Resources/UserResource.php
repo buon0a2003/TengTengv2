@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use Filament\Forms\Get;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password as PasswordRule;
 use Str;
@@ -197,22 +198,26 @@ class UserResource extends Resource
                     ->schema([
                         TextInput::make('password')
                             ->label('Mật khẩu mới')
+                            ->dehydrated(fn($state): bool => filled($state))
+                            ->dehydrateStateUsing(fn($state): string => Hash::make($state))
                             ->password()
-                            ->required()
-                            ->revealable()
+                            ->revealable(filament()->arePasswordsRevealable())
                             ->regex('/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/')
                             ->validationMessages([
                                 'regex' => 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, số và ký tự đặc biệt.',
                             ])
+                            ->autocomplete('new-password')
                             ->inlineLabel()
                             ->rule(PasswordRule::default())
+                            ->live(debounce: 500)
                             ->same('passwordConfirmation'),
 
                         TextInput::make('passwordConfirmation')
                             ->dehydrated(false)
                             ->label('Xác nhận mật khẩu mới')
-                            ->password()
+                            ->visible(fn(Get $get): bool => filled($get('password')))
                             ->required()
+                            ->password()
                             ->revealable()
                             ->inlineLabel(),
                     ]),

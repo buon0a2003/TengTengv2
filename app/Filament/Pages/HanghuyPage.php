@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Widgets\ThongKeHuyChart;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Carbon\Carbon;
 use Filament\Forms;
@@ -69,6 +70,7 @@ class HanghuyPage extends Page
             ->join('users as nguoinhap', 'phieunhap.user_id', '=', 'nguoinhap.id')
             ->join('users as giamsat', 'phieunhap.giamsat_id', '=', 'giamsat.id')
             ->join('kho', 'phieunhap.kho_id', '=', 'kho.id')
+            ->join('chitietphieunhap', 'chitietphieunhap.phieunhap_id', '=', 'phieunhap.id')
             ->where('phieunhap.LyDo', '=', '2')
             ->where('phieunhap.TrangThai', '=', '1')
             ->select('phieunhap.id as id',
@@ -76,9 +78,16 @@ class HanghuyPage extends Page
                 'nguoinhap.name as user_name',
                 'giamsat.name as giamsat_name',
                 'kho.TenKho as kho_name',
-                'phieunhap.GhiChu as GhiChu')
-            ->whereBetween('NgayNhap', [$start, $end]);
-
+                DB::raw('SUM(chitietphieunhap.SoLuong) as TongSoLuong'))
+            ->whereBetween('NgayNhap', [$start, $end])
+        ->groupBy(
+        'phieunhap.id',
+        'phieunhap.NgayNhap',
+        'nguoinhap.name',
+        'giamsat.name',
+        'kho.TenKho',
+        'phieunhap.GhiChu'
+    );
         $ds_huy = $query->get();
 
 
@@ -90,8 +99,7 @@ class HanghuyPage extends Page
                 'NguoiTao' => $huy->user_name,
                 'NguoiGiamSat' => $huy->giamsat_name,
                 'Kho' => $huy->kho_name,
-                'GhiChu' => $huy->GhiChu,
-
+                'TongSoLuong' => $huy->TongSoLuong,
             ]);
         }
 
@@ -115,6 +123,14 @@ class HanghuyPage extends Page
                     ->afterStateUpdated(fn() => $this->updatedDate()),
 
             ]),
+        ];
+    }
+
+    protected function getFooterWidgets(): array
+    {
+        return [
+            ThongKeHuyChart::class
+
         ];
     }
 

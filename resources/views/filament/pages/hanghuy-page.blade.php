@@ -3,7 +3,7 @@
         {{ $this->form }}
 
         <h2 class="text-lg font-bold text-gray-800">
-            Thống kê sự cố tháng {{ str_pad($month, 2, '0', STR_PAD_LEFT) }}/{{ $year }}
+            Thống kê hàng hủy tháng {{ str_pad($month, 2, '0', STR_PAD_LEFT) }}/{{ $year }}
         </h2>
     </div>
 
@@ -16,7 +16,7 @@
                 <th class="border px-3 py-2">Người tạo</th>
                 <th class="border px-3 py-2">Người giám sát</th>
                 <th class="border px-3 py-2">Kho</th>
-                <th class="border px-3 py-2">Ghi chú</th>
+                <th class="border px-3 py-2">Số lượng hủy</th>
             </tr>
             </thead>
 
@@ -28,7 +28,7 @@
                     <td class="border px-3 py-1 text-center">{{ $row['NguoiTao'] }}</td>
                     <td class="border px-3 py-1 text-center">{{ $row['NguoiGiamSat'] }}</td>
                     <td class="border px-3 py-1 text-center">{{ $row['Kho'] }}</td>
-                    <td class="border px-3 py-1 text-center">{{ $row['GhiChu'] }}</td>
+                    <td class="border px-3 py-1 text-center">{{ $row['TongSoLuong'] }}</td>
                 </tr>
             @empty
                 <tr>
