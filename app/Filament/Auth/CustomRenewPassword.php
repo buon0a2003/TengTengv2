@@ -9,8 +9,9 @@ use Filament\Forms\Components\TextInput;
 use Filament\Pages\SimplePage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password as PasswordRule;
+use Yebor974\Filament\RenewPassword\Pages\Auth\RenewPassword;
 
-class CustomRenewPassword extends SimplePage
+class CustomRenewPassword extends RenewPassword
 {
     protected static string $view = 'filament-renew-password::pages.auth.renew-password';
 

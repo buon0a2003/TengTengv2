@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password as PasswordRule;
 use Str;
 use Filament\Forms;
 use App\Models\User;
@@ -188,6 +190,33 @@ class UserResource extends Resource
                             ->searchable()
                             ->inlineLabel(),
                     ]),
+                Section::make('Đặt lại mật khẩu')
+                    ->aside()
+                    ->description('Đặt lại mật khẩu cho người dùng')
+                    ->visibleOn('edit')
+                    ->schema([
+                        TextInput::make('password')
+                            ->label('Mật khẩu mới')
+                            ->password()
+                            ->required()
+                            ->revealable()
+                            ->regex('/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/')
+                            ->validationMessages([
+                                'regex' => 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, số và ký tự đặc biệt.',
+                            ])
+                            ->inlineLabel()
+                            ->rule(PasswordRule::default())
+                            ->same('passwordConfirmation'),
+
+                        TextInput::make('passwordConfirmation')
+                            ->dehydrated(false)
+                            ->label('Xác nhận mật khẩu mới')
+                            ->password()
+                            ->required()
+                            ->revealable()
+                            ->inlineLabel(),
+                    ]),
+
             ]);
     }
 
@@ -223,16 +252,16 @@ class UserResource extends Resource
                 TextColumn::make('email')->label('Email')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('Phone')->label('Số điện thoại')
-                    ->searchable()
-                    ->sortable(),
-                TextColumn::make('Birth')->label('Ngày sinh')
-                    ->sortable()
-                    ->searchable()
-                    ->date('d/m/Y'),
-                TextColumn::make('Address')->label('Địa chỉ')
-                    ->searchable()
-                    ->sortable(),
+//                TextColumn::make('Phone')->label('Số điện thoại')
+//                    ->searchable()
+//                    ->sortable(),
+//                TextColumn::make('Birth')->label('Ngày sinh')
+//                    ->sortable()
+//                    ->searchable()
+//                    ->date('d/m/Y'),
+//                TextColumn::make('Address')->label('Địa chỉ')
+//                    ->searchable()
+//                    ->sortable(),
                 ToggleColumn::make('Active')->label('Active')
                     ->alignCenter()
                     ->onColor('emerald')
