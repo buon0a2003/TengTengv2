@@ -1248,9 +1248,11 @@ CREATE TABLE IF NOT EXISTS `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `last_renew_password_at` timestamp NULL DEFAULT NULL,
   `force_renew_password` tinyint(1) NOT NULL DEFAULT '0',
+  `theme` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `theme_color` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
