@@ -16,6 +16,7 @@ use Filament\Tables\Table;
 use Livewire\Attributes\On;
 use App\Livewire\TonkhoList;
 use App\Models\chitietphieudieuchuyen;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Repeater;
@@ -44,7 +45,7 @@ class ChitietphieudieuchuyenRelationManager extends RelationManager
                 Section::make('Thông tin vật tư')
                     ->columns(2)
                     ->schema([
-                        TextInput::make('tonkho_id')->hidden(),
+                        Hidden::make('tonkho_id'),
                         Select::make('vattu_id')
                             ->label('Vật tư')
                             ->columnSpanFull()

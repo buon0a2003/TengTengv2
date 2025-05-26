@@ -39,6 +39,7 @@ class CreatePhieuXuat extends CreateAndRedirectToIndex
     #[On('tonkhoSelected')]
     public function handleTonkhoSelected($record): void
     {
+        // dd($record);
         $state = $this->form->getRawState();
 
         foreach ($state['dsvattuxuat'] as $item) {

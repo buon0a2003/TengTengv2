@@ -47,7 +47,7 @@ class CreatePhieuNhap extends CreateAndRedirectToIndex
 
     protected function handleRecordCreation(array $data): Model
     {
-
+        // dd($data);
         $record = static::getModel()::create($data);
 
         foreach ($data['dsvattu'] as $key) {

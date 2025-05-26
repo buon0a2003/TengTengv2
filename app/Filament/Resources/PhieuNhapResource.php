@@ -282,7 +282,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                 })
                                 ->label('Danh sách vật tư')
                                 ->schema([
-                                    TextInput::make('id')->hidden()->live(),
+                                    Hidden::make('id')->live(),
                                     TextInput::make('TenVT')
                                         ->readOnly(true)
                                         ->label('Vật tư')

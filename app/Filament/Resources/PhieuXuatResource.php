@@ -274,10 +274,10 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                         ->modalSubmitActionLabel('Done');
                                 })
                                 ->schema([
-                                    TextInput::make('vattu_id')->hidden()->live(),
-                                    TextInput::make('kho_id')->hidden()->live(),
-                                    TextInput::make('vitri_id')->hidden()->live(),
-                                    TextInput::make('tonkho_id')->hidden(),
+                                    Hidden::make('vattu_id')->live(),
+                                    Hidden::make('kho_id')->live(),
+                                    Hidden::make('vitri_id')->live(),
+                                    Hidden::make('tonkho_id'),
                                     TextInput::make('TenVT')
                                         ->readOnly(true)
                                         ->label('Vật tư')
@@ -413,6 +413,19 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                 $chitietphieuxuatRecord = chitietphieuxuat::where('phieuxuat_id', $record->id)->get();
                                 if (! $chitietphieuxuatRecord->isEmpty()) {
 
+                                    $hasInvalidQuantity = $chitietphieuxuatRecord->contains(function ($item) {
+                                        return $item->SoLuong <= 0;
+                                    });
+
+                                    if ($hasInvalidQuantity) {
+                                        Notification::make()
+                                            ->title('Lỗi duyệt phiếu')
+                                            ->body('Tất cả vật tư phải có số lượng lớn hơn 0!')
+                                            ->danger()
+                                            ->send();
+
+                                        throw new Cancel();
+                                    }
                                     $chitietphieuxuatRecord->each(function ($item) {
                                         $tonkho = tonkho::find($item->tonkho_id);
                                         if ($tonkho && $tonkho->SoLuong >= $item->SoLuong) {

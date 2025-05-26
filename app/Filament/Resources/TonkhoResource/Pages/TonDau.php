@@ -11,6 +11,7 @@ use App\Models\vattu;
 use Filament\Actions\Action;
 use Filament\Actions\ImportAction;
 use Filament\Forms\Components\Actions\Action as FormAction;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -64,7 +65,7 @@ class TonDau extends Page implements HasForms
                             })
                             ->label('Danh sách vật tư')
                             ->schema([
-                                TextInput::make('id')->hidden()->live(),
+                                Hidden::make('id')->live(),
                                 TextInput::make('TenVT')
                                     ->readOnly(true)
                                     ->label('Vật tư')
@@ -133,7 +134,7 @@ class TonDau extends Page implements HasForms
                     $tonkho->vitri_id = $item['vitri_id'];
                     $tonkho->soluong = $item['soluong'];
                     $tonkho->NgayCapNhat = now();
-//                    $tonkho->NgayCapNhat = now()->startOfMonth()->subDay();
+                    //                    $tonkho->NgayCapNhat = now()->startOfMonth()->subDay();
 
                     $tonkho->save();
 

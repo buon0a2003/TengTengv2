@@ -21,13 +21,13 @@ use Filament\Tables\Actions\DeleteBulkAction;
 use BezhanSalleh\FilamentShield\Support\Utils;
 use App\Filament\Resources\Shield\Pages\CustomEditRole;
 use App\Filament\Resources\Shield\Pages\CustomViewRole;
-use BezhanSalleh\FilamentShield\Resources\RoleResource;
+use BezhanSalleh\FilamentShield\Resources\RoleResource as BaseRoleResource;
 use App\Filament\Resources\Shield\Pages\CustomListRoles;
 use App\Filament\Resources\Shield\Pages\CustomCreateRole;
 use BezhanSalleh\FilamentShield\Forms\ShieldSelectAllToggle;
 use BezhanSalleh\FilamentShield\Traits\HasShieldFormComponents;
 
-class CustomRoleResource extends RoleResource
+class CustomRoleResource extends BaseRoleResource
 {
     use HasShieldFormComponents;
 

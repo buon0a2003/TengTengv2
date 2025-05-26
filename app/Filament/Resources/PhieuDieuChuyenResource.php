@@ -18,6 +18,7 @@ use Filament\Resources\Resource;
 use Filament\Tables\Actions\Action;
 use Filament\Forms\Components\Radio;
 use Illuminate\Support\Facades\Auth;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Wizard;
 use App\Models\chitietphieudieuchuyen;
@@ -226,10 +227,10 @@ class PhieuDieuChuyenResource extends Resource implements HasShieldPermissions
                                         ->modalSubmitActionLabel('Xong');
                                 })
                                 ->schema([
-                                    TextInput::make('vattu_id')->hidden()->live(),
-                                    TextInput::make('kho_id')->hidden()->live(),
-                                    TextInput::make('vitri_id')->hidden()->live(),
-                                    TextInput::make('tonkho_id')->hidden(),
+                                    Hidden::make('vattu_id')->live(),
+                                    Hidden::make('kho_id')->live(),
+                                    Hidden::make('vitri_id')->live(),
+                                    Hidden::make('tonkho_id'),
                                     TextInput::make('TenVT')
                                         ->readOnly(true)
                                         ->label('Vật tư')
