@@ -47,7 +47,10 @@ class PhieuSuCoResource extends Resource
     {
         return 'Phiếu sự cố';
     }
-
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) static::getModel()::where('TrangThai', 0)->count();
+    }
     public static function form(Form $form): Form
     {
         return $form
@@ -183,6 +186,13 @@ class PhieuSuCoResource extends Resource
                 TextColumn::make('TrangThai')
                     ->label('Trạng thái')
                     ->badge()
+                    ->icon(fn($record): string => match ($record->TrangThai) {
+                        0 => 'heroicon-o-pencil',
+                        1 => 'heroicon-o-clock',
+                        2 => 'heroicon-o-check-circle',
+                        3 => 'heroicon-o-x-circle',
+                        default => '',
+                    })
                     ->color(fn($record) => match ($record->TrangThai) {
                         0 => 'warning',
                         1 => 'info',

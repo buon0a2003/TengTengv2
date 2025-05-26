@@ -100,6 +100,11 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
         return 'Phiếu xuất';
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) static::getModel()::where('TrangThai', 0)->count();
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -364,6 +369,12 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                 TextColumn::make('TrangThai')
                     ->label('Trạng thái')
                     ->alignCenter()
+                    ->icon(fn($record): string => match ($record->TrangThai) {
+                        0 => 'heroicon-o-clock',
+                        1 => 'heroicon-o-check-circle',
+                        2 => 'heroicon-o-x-circle',
+                        default => '',
+                    })
                     ->formatStateUsing(fn($record) => match ($record->TrangThai) {
                         0 => 'Đang xử lý',
                         1 => 'Đã xử lý',
