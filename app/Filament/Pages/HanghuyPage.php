@@ -23,7 +23,7 @@ class HanghuyPage extends Page
 
     public $data = [];
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'heroicon-o-archive-box-x-mark';
 
     protected static string $view = 'filament.pages.hanghuy-page';
 

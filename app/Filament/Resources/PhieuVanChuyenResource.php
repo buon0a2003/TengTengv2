@@ -70,7 +70,7 @@ class PhieuVanChuyenResource extends Resource
                         TextInput::make('id')
                             ->placeholder('eg: PVCddmmyy-XXX')
                             ->unique(ignoreRecord: true)
-                            // ->required()
+                            ->required()
                             ->label('Mã phiếu vận chuyển')
                             ->prefixAction(
                                 FormAction::make('suggest')
@@ -108,7 +108,7 @@ class PhieuVanChuyenResource extends Resource
                             ->default(now()),
 
                         TextInput::make('phieuxuat_id')->label('Phiếu xuất')
-                            // ->required()
+                            ->required()
                             ->placeholder('Chọn phiếu xuất')
                             ->prefixAction(
                                 FormAction::make('phieuxuat_select')
@@ -123,7 +123,7 @@ class PhieuVanChuyenResource extends Resource
                             ),
                         Hidden::make('taixe_id'),
                         TextInput::make('tentaixe')->label('Tài xế')
-                            // ->required()
+                            ->required()
                             ->placeholder('Chọn tài xế')
                             ->prefixAction(
                                 FormAction::make('phieuxuat_select')
@@ -138,7 +138,7 @@ class PhieuVanChuyenResource extends Resource
                             ),
                         Hidden::make('xetai_id'),
                         TextInput::make('Bienso')->label('Xe tải')
-                            // ->required()
+                             ->required()
                             ->placeholder('Chọn xe tải')
                             ->prefixAction(
                                 FormAction::make('phieuxuat_select')
@@ -160,7 +160,7 @@ class PhieuVanChuyenResource extends Resource
                             ->displayFormat('d/m/Y')
                             ->default(now())
                             ->placeholder('Chọn ngày vận chuyển')
-                            // ->required()
+                            ->required()
                             ->label('Ngày vận chuyển'),
                         // ->reactive()
                         // ->afterStateUpdated(function ($state, callable $ set) {
