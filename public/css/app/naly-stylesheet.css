@@ -11,3 +11,7 @@
 .fi-main {
     scrollbar-width: none;
 }
+
+.fi-aside {
+    box-shadow: none !important;
+}
