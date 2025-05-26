@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Providers\Filament;
 
-use App\Filament\Widgets\ThongKeNhapXuatNamChart;
-use App\Filament\Widgets\TiLeSuCoChart;
 use Exception;
 use Filament\Pages;
 use Filament\Panel;
@@ -22,15 +20,18 @@ use App\Filament\Widgets\BangWidget;
 use Illuminate\Support\Facades\Auth;
 use App\Filament\Widgets\BieuDoWidget;
 use App\Filament\Widgets\ThongSoWidget;
+use App\Filament\Widgets\TiLeSuCoChart;
 use Filament\Navigation\NavigationItem;
 use Filament\Http\Middleware\Authenticate;
 use App\Filament\Resources\CustomRoleResource;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
+use App\Filament\Widgets\ThongKeNhapXuatNamChart;
 use Filament\Http\Middleware\AuthenticateSession;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use BezhanSalleh\FilamentShield\Resources\RoleResource;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Yebor974\Filament\RenewPassword\RenewPasswordPlugin;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -103,7 +104,7 @@ class AdminPanelProvider extends PanelProvider
                     ->activeIcon('heroicon-s-shield-check')
                     ->group('Quản lý tài khoản')
                     ->isActiveWhen(fn() => request()->routeIs('filament.admin.resources.shield.roles.index'))
-                    ->url(fn(): string => CustomRoleResource::getUrl('index'))
+                    ->url(fn(): string => RoleResource::getUrl('index'))
                     ->visible(fn() => Auth::user()->can('view_any_custom::role') || Auth::user()->hasRole('super_admin')),
             ])
             ->navigationGroups([

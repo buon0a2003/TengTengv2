@@ -139,8 +139,12 @@ class PhieuSuCoResource extends Resource
                                 2 => 'Đã giải quyết',
                                 3 => 'Đã hủy',
                             ])
-                            ->default(0)
-                            ->required(),
+                            ->required()
+                            ->validationMessages([
+                                'required' => 'Chọn một trạng thái',
+                            ])
+                            ->native(false)
+                            ->default(0),
                     ]),
             ]);
     }

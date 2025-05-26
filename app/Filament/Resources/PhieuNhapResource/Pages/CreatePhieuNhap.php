@@ -56,6 +56,7 @@ class CreatePhieuNhap extends CreateAndRedirectToIndex
             $chitietphieunhap->vattu_id = $key['id'];
             $chitietphieunhap->SoLuong = $key['soluong'];
             $chitietphieunhap->GhiChu = $key['ghichu'];
+            $chitietphieunhap->vitri_id = $key['vitri_id'];
 
             $chitietphieunhap->phieunhap_id = $record->id;
 

@@ -7,6 +7,7 @@ namespace App\Filament\Resources;
 use App\Models\User;
 use Filament\Tables;
 use App\Models\vattu;
+use App\Models\vitri;
 use App\Models\tonkho;
 use Filament\Forms\Get;
 use Filament\Forms\Form;
@@ -291,6 +292,14 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                         ->suffix(fn(Get $get): string => (string) vattu::find($get('id'))?->donvitinh->TenDVT ?? '')
                                         ->numeric()
                                         ->minValue(1),
+                                    Select::make('vitri_id')->label('Vị trí đích')
+                                        ->options(function ($get) {
+                                            $kho = $get('../../kho_id') ?? '';
+                                            return vitri::where('kho_id', $kho)->pluck('Mota', 'id')->toArray();
+                                        })
+                                        ->searchable()
+                                        ->required()
+                                        ->helperText('Vị trí đặt vật tư tại kho đích'),
                                     Textarea::make('ghichu')->rows(2)->label('Ghi chú'),
                                 ])->defaultItems(0)->grid(4),
                         ])->visibleOn([
