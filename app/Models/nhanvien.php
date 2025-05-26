@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class nhanvien extends Model
 {
@@ -55,5 +56,15 @@ class nhanvien extends Model
                 });
             }
         });
+    }
+
+    public function phieuxuat(): HasMany
+    {
+        return $this->hasMany(phieuxuat::class);
+    }
+
+    public function phieunhap(): HasMany
+    {
+        return $this->hasMany(phieunhap::class);
     }
 }

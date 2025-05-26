@@ -62,6 +62,15 @@ class vitri extends Model
     public function tonkho(): HasMany
     {
         return $this->hasMany(tonkho::class);
+    }
 
+    public function chitietphieuxuat(): HasMany
+    {
+        return $this->hasMany(chitietphieuxuat::class);
+    }
+
+    public function chitietphieudieuchuyen(): HasMany
+    {
+        return $this->hasMany(chitietphieudieuchuyen::class, 'vitri_dich_id');
     }
 }

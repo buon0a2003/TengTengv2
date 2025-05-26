@@ -95,4 +95,9 @@ class phieuxuat extends Model
     {
         return $this->hasMany(chitietphieuxuat::class);
     }
+
+    public function phieusuco(): HasMany
+    {
+        return $this->hasMany(phieusuco::class);
+    }
 }

@@ -118,6 +118,26 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail, Ren
         return $this->hasMany(phieunhap::class);
     }
 
+    public function phieuxuat(): HasMany
+    {
+        return $this->hasMany(phieuxuat::class);
+    }
+
+    public function phieudieuchuyen(): HasMany
+    {
+        return $this->hasMany(phieudieuchuyen::class);
+    }
+
+    public function phieuxuatgiamsat(): HasMany
+    {
+        return $this->hasMany(phieuxuat::class, 'giamsat_id');
+    }
+
+    public function phieudieuchuyengiamsat(): HasMany
+    {
+        return $this->hasMany(phieudieuchuyen::class, 'giamsat_id');
+    }
+
     public function nhanvien(): BelongsTo
     {
         return $this->belongsTo(nhanvien::class, 'nhanvien_id');

@@ -61,4 +61,19 @@ class kho extends Model
     {
         return $this->hasMany(tonkho::class);
     }
+
+    public function phieuxuat(): HasMany
+    {
+        return $this->hasMany(phieuxuat::class);
+    }
+
+    public function phieudieuchuyennguon(): HasMany
+    {
+        return $this->hasMany(phieudieuchuyen::class, 'MaKhoNguon');
+    }
+
+    public function phieudieuchuyendich(): HasMany
+    {
+        return $this->hasMany(phieudieuchuyen::class, 'MaKhoDich');
+    }
 }

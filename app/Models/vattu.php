@@ -78,4 +78,14 @@ class vattu extends Model
     {
         return $this->hasMany(tonkho::class);
     }
+
+    public function chitietphieuxuat(): HasMany
+    {
+        return $this->hasMany(chitietphieuxuat::class);
+    }
+
+    public function chitietphieudieuchuyen(): HasMany
+    {
+        return $this->hasMany(chitietphieudieuchuyen::class);
+    }
 }

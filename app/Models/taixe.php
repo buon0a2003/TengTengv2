@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\phieuvanchuyen;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
@@ -55,7 +57,16 @@ class taixe extends Model
      * @var array
      */
     protected $fillable = [
-        'TenTaiXe', 'Sdt', 'CCCD', 'BangLai', 'DiaChi', 'NamSinh', 'GhiChu', 'TrangThai', 'created_at', 'updated_at',
+        'TenTaiXe',
+        'Sdt',
+        'CCCD',
+        'BangLai',
+        'DiaChi',
+        'NamSinh',
+        'GhiChu',
+        'TrangThai',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -63,9 +74,7 @@ class taixe extends Model
      *
      * @var array
      */
-    protected $hidden = [
-
-    ];
+    protected $hidden = [];
 
     /**
      * The attributes that should be casted to native types.
@@ -73,7 +82,17 @@ class taixe extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'int', 'TenTaiXe' => 'string', 'Sdt' => 'string', 'CCCD' => 'string', 'BangLai' => 'string', 'DiaChi' => 'string', 'NamSinh' => 'date', 'GhiChu' => 'string', 'TrangThai' => 'int', 'created_at' => 'timestamp', 'updated_at' => 'timestamp',
+        'id' => 'int',
+        'TenTaiXe' => 'string',
+        'Sdt' => 'string',
+        'CCCD' => 'string',
+        'BangLai' => 'string',
+        'DiaChi' => 'string',
+        'NamSinh' => 'date',
+        'GhiChu' => 'string',
+        'TrangThai' => 'int',
+        'created_at' => 'timestamp',
+        'updated_at' => 'timestamp',
     ];
 
     /**
@@ -82,7 +101,9 @@ class taixe extends Model
      * @var array
      */
     protected $dates = [
-        'NamSinh', 'created_at', 'updated_at',
+        'NamSinh',
+        'created_at',
+        'updated_at',
     ];
 
     // Scopes...
@@ -90,4 +111,9 @@ class taixe extends Model
     // Functions ...
 
     // Relations ...
+
+    public function phieuvanchuyen(): HasMany
+    {
+        return $this->hasMany(phieuvanchuyen::class);
+    }
 }

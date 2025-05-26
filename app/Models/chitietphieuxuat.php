@@ -56,6 +56,7 @@ class chitietphieuxuat extends Model
         'phieuxuat_id',
         'tonkho_id',
         'vattu_id',
+        'vitri_id',
         'SoLuong',
         'GhiChu',
         'created_at',
@@ -99,5 +100,10 @@ class chitietphieuxuat extends Model
     public function tonkho(): BelongsTo
     {
         return $this->belongsTo(tonkho::class);
+    }
+
+    public function vitri(): BelongsTo
+    {
+        return $this->belongsTo(vitri::class);
     }
 }

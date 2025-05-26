@@ -76,6 +76,21 @@ class tonkho extends Model
         return $this->belongsTo(vattu::class);
     }
 
+    public function chitietphieunhap(): HasMany
+    {
+        return $this->hasMany(chitietphieunhap::class);
+    }
+
+    public function chitietphieuxuat(): HasMany
+    {
+        return $this->hasMany(chitietphieuxuat::class);
+    }
+
+    public function chitietphieudieuchuyen(): HasMany
+    {
+        return $this->hasMany(chitietphieudieuchuyen::class);
+    }
+
     //    public function chitietphieunhap(): HasMany
     //    {
     //        return $this->hasMany(chitietphieunhap::class);
