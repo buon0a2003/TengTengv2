@@ -50,13 +50,6 @@ class chitietphieunhap extends Model
         'GhiChu',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'SoLuong' => 'decimal:2',
-        ];
-    }
-
     public function phieunhap(): BelongsTo
     {
         return $this->belongsTo(phieunhap::class);
@@ -70,5 +63,12 @@ class chitietphieunhap extends Model
     public function vitri(): BelongsTo
     {
         return $this->belongsTo(vitri::class);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'SoLuong' => 'decimal:2',
+        ];
     }
 }

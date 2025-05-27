@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,15 +14,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            if (!Schema::hasColumn('users', 'image')) {
+            if (! Schema::hasColumn('users', 'image')) {
                 $table->string('image')->nullable();
             }
 
-            if (!Schema::hasColumn('users', 'cccd')) {
+            if (! Schema::hasColumn('users', 'cccd')) {
                 $table->string('cccd')->nullable();
             }
 
-            if (!Schema::hasColumn('users', 'nhanvien_id')) {
+            if (! Schema::hasColumn('users', 'nhanvien_id')) {
                 $table->unsignedBigInteger('nhanvien_id')->nullable();
                 $table->foreign('nhanvien_id')
                     ->references('id')

@@ -4,32 +4,30 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use Filament\Tables;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use App\Models\phieuvanchuyen;
-use Filament\Resources\Resource;
-use Filament\Tables\Actions\Action;
-use Illuminate\Support\Facades\Auth;
-use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Textarea;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\ViewAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Forms\Components\DatePicker;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\ExportBulkAction;
 use App\Filament\Exports\PhieuvanchuyenExporter;
-use App\Filament\Resources\PhieuVanChuyenResource\Pages;
-use Filament\Forms\Components\Actions\Action as FormAction;
+use App\Filament\Resources\PhieuVanChuyenResource\Pages\CreatePhieuVanChuyen;
 use App\Filament\Resources\PhieuVanChuyenResource\Pages\EditPhieuVanChuyen;
 use App\Filament\Resources\PhieuVanChuyenResource\Pages\ListPhieuVanChuyens;
-use App\Filament\Resources\PhieuVanChuyenResource\Pages\CreatePhieuVanChuyen;
+use App\Models\phieuvanchuyen;
+use Filament\Forms\Components\Actions\Action as FormAction;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
+use Filament\Notifications\Notification;
+use Filament\Resources\Resource;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ExportBulkAction;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 
 class PhieuVanChuyenResource extends Resource
 {
@@ -87,11 +85,11 @@ class PhieuVanChuyenResource extends Resource
 
                                         $sequence = 1;
                                         if ($lastRecord) {
-                                            $lastSequence = (int) substr($lastRecord->id, -3);
+                                            $lastSequence = (int) mb_substr($lastRecord->id, -3);
                                             $sequence = $lastSequence + 1;
                                         }
 
-                                        $newId = sprintf("PVC%s-%03d", $today, $sequence);
+                                        $newId = sprintf('PVC%s-%03d', $today, $sequence);
                                         $set('id', $newId);
                                     })
                             ),
@@ -99,7 +97,7 @@ class PhieuVanChuyenResource extends Resource
                         Select::make('user_id')
                             ->label('Người tạo phiếu')
                             ->relationship('user', 'name')
-                            ->default(fn(): int => Auth::user()->id)
+                            ->default(fn (): int => Auth::user()->id)
                             ->required()
                             ->disabled()
                             ->dehydrated(),
@@ -138,7 +136,7 @@ class PhieuVanChuyenResource extends Resource
                             ),
                         Hidden::make('xetai_id'),
                         TextInput::make('Bienso')->label('Xe tải')
-                             ->required()
+                            ->required()
                             ->placeholder('Chọn xe tải')
                             ->prefixAction(
                                 FormAction::make('phieuxuat_select')
@@ -200,7 +198,7 @@ class PhieuVanChuyenResource extends Resource
                 TextColumn::make('phieuxuat.id')
                     ->label('Mã phiếu xuất')
                     ->alignLeft()
-                    ->url(fn($record) => route('filament.admin.resources.phieuxuat.view', $record->phieuxuat_id))
+                    ->url(fn ($record) => route('filament.admin.resources.phieuxuat.view', $record->phieuxuat_id))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('XeTai.BienSo')
@@ -208,13 +206,13 @@ class PhieuVanChuyenResource extends Resource
                     ->alignCenter()
                     ->badge()
                     ->color('gray')
-                    ->url(fn($record) => route('filament.admin.resources.xetai.edit', $record->xetai_id))
+                    ->url(fn ($record) => route('filament.admin.resources.xetai.edit', $record->xetai_id))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('taixe.TenTaiXe')
                     ->label('Tên tài xế')
                     ->alignLeft()
-                    ->url(fn($record) => route('filament.admin.resources.taixe.edit', $record->taixe_id))
+                    ->url(fn ($record) => route('filament.admin.resources.taixe.edit', $record->taixe_id))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('GhiChu')
@@ -223,25 +221,25 @@ class PhieuVanChuyenResource extends Resource
                     ->limit(50)
                     ->wrap()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->tooltip(fn($record) => $record->GhiChu),
+                    ->tooltip(fn ($record) => $record->GhiChu),
                 TextColumn::make('TrangThai')
                     ->label('Trạng thái')
                     ->alignCenter()
                     ->badge()
-                    ->icon(fn($record): string => match ($record->TrangThai) {
+                    ->icon(fn ($record): string => match ($record->TrangThai) {
                         1 => 'heroicon-o-clock',
                         2 => 'heroicon-o-check-circle',
                         3 => 'heroicon-o-x-circle',
                         default => '',
                     })
-                    ->color(fn($record) => match ($record->TrangThai) {
+                    ->color(fn ($record) => match ($record->TrangThai) {
                         0 => 'warning',
                         1 => 'info',
                         2 => 'success',
                         3 => 'danger',
                         default => 'gray',
                     })
-                    ->formatStateUsing(fn($record) => match ($record->TrangThai) {
+                    ->formatStateUsing(fn ($record) => match ($record->TrangThai) {
                         0 => 'Chưa vận chuyển',
                         1 => 'Đang vận chuyển',
                         2 => 'Đã hoàn thành',
@@ -261,7 +259,7 @@ class PhieuVanChuyenResource extends Resource
                     EditAction::make(),
                     Action::make('batdauvanchuyen')->label('Vận chuyển')
                         // ->authorize(fn(): bool => Auth::user()->can('duyetphieuxuat_phieu::xuat'))
-                        ->hidden(fn($record): bool => ! $record->TrangThai == 0)
+                        ->hidden(fn ($record): bool => ! $record->TrangThai == 0)
                         ->action(
                             function (phieuvanchuyen $record) {
                                 $record->update([
@@ -278,7 +276,7 @@ class PhieuVanChuyenResource extends Resource
 
                                 Notification::make()
                                     ->title('Vận chuyển')
-                                    ->body('Đã bắt đầu vận chuyển phiếu: ' . $record->id)
+                                    ->body('Đã bắt đầu vận chuyển phiếu: '.$record->id)
                                     ->success()
                                     ->duration(1000)
                                     ->send();
@@ -288,7 +286,7 @@ class PhieuVanChuyenResource extends Resource
                         ->icon('heroicon-o-check'),
                     Action::make('hoanthanhvc')->label('Hoàn thành vận chuyển')
                         // ->authorize(fn(): bool => Auth::user()->can('duyetphieuxuat_phieu::xuat'))
-                        ->hidden(fn($record): bool => ! $record->TrangThai == 1)
+                        ->hidden(fn ($record): bool => ! $record->TrangThai == 1)
                         ->action(
                             function (phieuvanchuyen $record) {
                                 $record->update([
@@ -305,7 +303,7 @@ class PhieuVanChuyenResource extends Resource
 
                                 Notification::make()
                                     ->title('Vận chuyển')
-                                    ->body('Đã hoaàn thành vận chuyển phiếu: ' . $record->id)
+                                    ->body('Đã hoaàn thành vận chuyển phiếu: '.$record->id)
                                     ->success()
                                     ->duration(1000)
                                     ->send();
@@ -323,13 +321,13 @@ class PhieuVanChuyenResource extends Resource
 
                                 Notification::make()
                                     ->title('Huỷ phiếu')
-                                    ->body('Đã huỷ phiếu: ' . $record->id)
+                                    ->body('Đã huỷ phiếu: '.$record->id)
                                     ->success()
                                     ->duration(1000)
                                     ->send();
                             }
                         )
-                        ->hidden(fn($record): bool => ! $record->TrangThai == 0)
+                        ->hidden(fn ($record): bool => ! $record->TrangThai == 0)
                         ->color('danger')
                         ->icon('heroicon-o-x-circle'),
 
@@ -354,9 +352,9 @@ class PhieuVanChuyenResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPhieuVanChuyens::route('/'),
-            'create' => Pages\CreatePhieuVanChuyen::route('/create'),
-            'edit' => Pages\EditPhieuVanChuyen::route('/{record}/edit'),
+            'index' => ListPhieuVanChuyens::route('/'),
+            'create' => CreatePhieuVanChuyen::route('/create'),
+            'edit' => EditPhieuVanChuyen::route('/{record}/edit'),
         ];
     }
 }

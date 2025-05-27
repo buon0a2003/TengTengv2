@@ -44,7 +44,7 @@ class PhieuvanchuyenExporter extends Exporter
         $body = 'Xuất dữ liệu phiếu vận chuyển hoàn tất';
 
         if ($failedRowsCount = $export->getFailedRowsCount()) {
-            $body = 'Xuất dữ liệu phiếu vận chuyển hoàn tất, nhưng có ' . $failedRowsCount . ' hàng không thành công';
+            $body = 'Xuất dữ liệu phiếu vận chuyển hoàn tất, nhưng có '.$failedRowsCount.' hàng không thành công';
         }
 
         return $body;

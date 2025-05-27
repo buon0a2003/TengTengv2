@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use Filament\Tables;
+use App\Filament\Exports\XetaiExporter;
+use App\Filament\Resources\XeTaiResource\Pages;
 use App\Models\XeTai;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Section;
-use Filament\Support\Enums\FontWeight;
-use App\Filament\Exports\XetaiExporter;
 use Filament\Forms\Components\Textarea;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
+use Filament\Tables;
 use Filament\Tables\Actions\ExportBulkAction;
-use App\Filament\Resources\XeTaiResource\Pages;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
-class XeTaiResource extends Resource  implements HasShieldPermissions
+class XeTaiResource extends Resource implements HasShieldPermissions
 {
     public static $trangthai = [
         0 => 'Đang giao',
@@ -140,24 +140,24 @@ class XeTaiResource extends Resource  implements HasShieldPermissions
                     ->limit(50)
                     ->wrap()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->tooltip(fn($record) => $record->GhiChu),
+                    ->tooltip(fn ($record) => $record->GhiChu),
                 TextColumn::make('TrangThai')
                     ->label('Trạng thái')
                     ->alignCenter()
-                    ->icon(fn($record): string => match ($record->TrangThai) {
+                    ->icon(fn ($record): string => match ($record->TrangThai) {
                         0 => 'heroicon-o-clock',
                         1 => 'heroicon-o-check-circle',
                         2 => 'heroicon-o-x-circle',
                         default => ''
                     })
-                    ->formatStateUsing(fn($record) => match ($record->TrangThai) {
+                    ->formatStateUsing(fn ($record) => match ($record->TrangThai) {
                         0 => 'Đang giao',
                         1 => 'Có sẵn',
                         2 => 'Nghỉ',
                         default => 'N/A'
                     })
                     ->badge()
-                    ->color(fn($record): string => match ($record->TrangThai) {
+                    ->color(fn ($record): string => match ($record->TrangThai) {
                         0 => 'success',
                         1 => 'info',
                         2 => 'danger',

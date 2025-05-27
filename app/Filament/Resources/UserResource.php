@@ -4,35 +4,35 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use Filament\Forms\Get;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\Password as PasswordRule;
-use Str;
-use Filament\Forms;
+use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
-use Filament\Tables;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
-use Filament\Forms\Components\Radio;
-use Filament\Forms\Components\Select;
-use Spatie\Permission\Contracts\Role;
+use Filament\Forms;
 use Filament\Forms\Components\Actions;
-use Filament\Forms\Components\Section;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\ViewAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Radio;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Notifications\Notification;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Filament\Forms\Components\Actions\Action;
-use App\Filament\Resources\UserResource\Pages;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password as PasswordRule;
+use Spatie\Permission\Contracts\Role;
+use Str;
 
 class UserResource extends Resource
 {
@@ -80,7 +80,7 @@ class UserResource extends Resource
                             })
                             ->searchable()
                             ->preload()
-                            ->hidden(fn($get) => $get('option') == 0)
+                            ->hidden(fn ($get) => $get('option') == 0)
                             ->inlineLabel(),
                     ])->visibleOn('create'),
                 Section::make('Thông tin tài khoản')
@@ -101,12 +101,12 @@ class UserResource extends Resource
                             ->reorderable(false)
                             ->columnSpanFull()
                             ->inlineLabel()
-                            ->hidden(fn($get) => $get('option') == 1),
+                            ->hidden(fn ($get) => $get('option') == 1),
                         TextInput::make('name')
                             ->label('Tên')
                             ->required()
                             ->inlineLabel()
-                            ->hidden(fn($get) => $get('option') == 1),
+                            ->hidden(fn ($get) => $get('option') == 1),
 
                         TextInput::make('email')
                             ->required()
@@ -149,17 +149,17 @@ class UserResource extends Resource
                             ])
                             ->label('Số điện thoại')
                             ->inlineLabel()
-                            ->hidden(fn($get) => $get('option') == 1),
+                            ->hidden(fn ($get) => $get('option') == 1),
 
                         TextInput::make('Address')
                             ->label('Địa Chỉ')
                             ->inlineLabel()
-                            ->hidden(fn($get) => $get('option') == 1),
+                            ->hidden(fn ($get) => $get('option') == 1),
                         DatePicker::make('Birth')
                             ->label('Ngày sinh')
                             ->displayFormat('d/m/Y')
                             ->inlineLabel()
-                            ->hidden(fn($get) => $get('option') == 1),
+                            ->hidden(fn ($get) => $get('option') == 1),
                         TextInput::make('cccd')
                             ->label('Căn cước công dân')
                             ->unique(ignoreRecord: true)
@@ -169,7 +169,7 @@ class UserResource extends Resource
                                 'unique' => 'CCCD này đã tồn tại trong hệ thống.',
                             ])
                             ->inlineLabel()
-                            ->hidden(fn($get) => $get('option') == 1),
+                            ->hidden(fn ($get) => $get('option') == 1),
                     ]),
 
                 Section::make('Chức vụ')
@@ -177,7 +177,7 @@ class UserResource extends Resource
                     ->description('Lựa chọn chức vụ cho người dùng')
                     ->schema([
                         Forms\Components\Toggle::make('Active')
-                            ->label(fn($state): string => $state ? 'Active' : 'Inactive')
+                            ->label(fn ($state): string => $state ? 'Active' : 'Inactive')
                             ->reactive()
                             ->onColor('emerald')
                             ->visibleOn('edit')
@@ -198,8 +198,8 @@ class UserResource extends Resource
                     ->schema([
                         TextInput::make('password')
                             ->label('Mật khẩu mới')
-                            ->dehydrated(fn($state): bool => filled($state))
-                            ->dehydrateStateUsing(fn($state): string => Hash::make($state))
+                            ->dehydrated(fn ($state): bool => filled($state))
+                            ->dehydrateStateUsing(fn ($state): string => Hash::make($state))
                             ->password()
                             ->revealable(filament()->arePasswordsRevealable())
                             ->regex('/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/')
@@ -215,7 +215,7 @@ class UserResource extends Resource
                         TextInput::make('passwordConfirmation')
                             ->dehydrated(false)
                             ->label('Xác nhận mật khẩu mới')
-                            ->visible(fn(Get $get): bool => filled($get('password')))
+                            ->visible(fn (Get $get): bool => filled($get('password')))
                             ->required()
                             ->password()
                             ->revealable()
@@ -237,6 +237,7 @@ class UserResource extends Resource
                     ->circular()
                     ->defaultImageUrl(function ($record): string {
                         $name = $record->name;
+
                         return "https://ui-avatars.com/api/?name={$name}";
                     }),
                 TextColumn::make('name')->label('Tên')
@@ -248,25 +249,25 @@ class UserResource extends Resource
                     ->badge()
                     ->separator(';')
                     ->listWithLineBreaks()
-                    ->getStateUsing(fn($record) => collect($record->roles)
+                    ->getStateUsing(fn ($record) => collect($record->roles)
                         ->pluck('name')
-                        ->map(fn($name) => Str::headline(str_replace('_', ' ', $name))))
+                        ->map(fn ($name) => Str::headline(str_replace('_', ' ', $name))))
                     ->colors([
                         'warning',
                     ]),
                 TextColumn::make('email')->label('Email')
                     ->searchable()
                     ->sortable(),
-//                TextColumn::make('Phone')->label('Số điện thoại')
-//                    ->searchable()
-//                    ->sortable(),
-//                TextColumn::make('Birth')->label('Ngày sinh')
-//                    ->sortable()
-//                    ->searchable()
-//                    ->date('d/m/Y'),
-//                TextColumn::make('Address')->label('Địa chỉ')
-//                    ->searchable()
-//                    ->sortable(),
+                //                TextColumn::make('Phone')->label('Số điện thoại')
+                //                    ->searchable()
+                //                    ->sortable(),
+                //                TextColumn::make('Birth')->label('Ngày sinh')
+                //                    ->sortable()
+                //                    ->searchable()
+                //                    ->date('d/m/Y'),
+                //                TextColumn::make('Address')->label('Địa chỉ')
+                //                    ->searchable()
+                //                    ->sortable(),
                 ToggleColumn::make('Active')->label('Active')
                     ->alignCenter()
                     ->onColor('emerald')

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Pages;
 
 use App\Filament\Widgets\ThongKeHuyChart;
@@ -12,7 +14,6 @@ use Illuminate\Support\Facades\DB;
 
 class HanghuyPage extends Page
 {
-
     use HasPageShield;
     use InteractsWithForms;
 
@@ -37,6 +38,7 @@ class HanghuyPage extends Page
     protected static ?string $slug = 'thongke-hanghuy';
 
     protected static ?string $title = 'Thống kê hàng hủy';
+
     public function mount(): void
     {
         $now = now();
@@ -80,16 +82,15 @@ class HanghuyPage extends Page
                 'kho.TenKho as kho_name',
                 DB::raw('SUM(chitietphieunhap.SoLuong) as TongSoLuong'))
             ->whereBetween('NgayNhap', [$start, $end])
-        ->groupBy(
-        'phieunhap.id',
-        'phieunhap.NgayNhap',
-        'nguoinhap.name',
-        'giamsat.name',
-        'kho.TenKho',
-        'phieunhap.GhiChu'
-    );
+            ->groupBy(
+                'phieunhap.id',
+                'phieunhap.NgayNhap',
+                'nguoinhap.name',
+                'giamsat.name',
+                'kho.TenKho',
+                'phieunhap.GhiChu'
+            );
         $ds_huy = $query->get();
-
 
         foreach ($ds_huy as $huy) {
 
@@ -112,15 +113,15 @@ class HanghuyPage extends Page
             Forms\Components\Grid::make(2)->schema([
                 Forms\Components\Select::make('month')
                     ->label('Tháng')
-                    ->options(collect(range(1, 12))->mapWithKeys(fn($m) => [$m => 'Tháng ' . $m])->toArray())
+                    ->options(collect(range(1, 12))->mapWithKeys(fn ($m) => [$m => 'Tháng '.$m])->toArray())
                     ->reactive()
-                    ->afterStateUpdated(fn() => $this->updatedDate()),
+                    ->afterStateUpdated(fn () => $this->updatedDate()),
 
                 Forms\Components\Select::make('year')
                     ->label('Năm')
-                    ->options(collect(range(now()->year - 5, now()->year + 1))->mapWithKeys(fn($y) => [$y => $y])->toArray())
+                    ->options(collect(range(now()->year - 5, now()->year + 1))->mapWithKeys(fn ($y) => [$y => $y])->toArray())
                     ->reactive()
-                    ->afterStateUpdated(fn() => $this->updatedDate()),
+                    ->afterStateUpdated(fn () => $this->updatedDate()),
 
             ]),
         ];
@@ -129,9 +130,8 @@ class HanghuyPage extends Page
     protected function getFooterWidgets(): array
     {
         return [
-            ThongKeHuyChart::class
+            ThongKeHuyChart::class,
 
         ];
     }
-
 }

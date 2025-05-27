@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Widgets;
 
 use Carbon\Carbon;
@@ -8,17 +10,19 @@ use Illuminate\Support\Facades\DB;
 
 class TiLeSuCoChart extends ChartWidget
 {
+    public static ?int $year = null;
+
+    public static ?int $month = null;
+
+    protected static ?int $sort = 1;
+
     public function getHeading(): string
     {
         $month = static::$month ?? now()->month;
         $year = static::$year ?? now()->year;
 
-        return 'Tỷ lệ sự cố trên mỗi chuyến vận chuyển - Tháng ' . $month . '/' . $year;
+        return 'Tỷ lệ sự cố trên mỗi chuyến vận chuyển - Tháng '.$month.'/'.$year;
     }
-    protected static ?int $sort = 1;
-
-    public static ?int $year = null;
-    public static ?int $month = null;
 
     protected function getData(): array
     {
@@ -43,8 +47,8 @@ class TiLeSuCoChart extends ChartWidget
         $tong = max($totalChuyen, 1); // tránh chia 0
 
         $labels = [
-            'Có sự cố (' . number_format(($chuyenCoSuCo / $tong) * 100, 1) . '%)',
-//            'Không sự cố (' . number_format(($chuyenKhongSuCo / $tong) * 100, 1) . '%)',
+            'Có sự cố ('.number_format(($chuyenCoSuCo / $tong) * 100, 1).'%)',
+            //            'Không sự cố (' . number_format(($chuyenKhongSuCo / $tong) * 100, 1) . '%)',
         ];
 
         return [
@@ -61,6 +65,7 @@ class TiLeSuCoChart extends ChartWidget
             'labels' => $labels,
         ];
     }
+
     protected function getType(): string
     {
         return 'pie';

@@ -4,28 +4,27 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Illuminate\Support\Str;
+use App\Filament\Resources\Shield\Pages\CustomCreateRole;
+use App\Filament\Resources\Shield\Pages\CustomEditRole;
+use App\Filament\Resources\Shield\Pages\CustomListRoles;
+use App\Filament\Resources\Shield\Pages\CustomViewRole;
+use BezhanSalleh\FilamentShield\Forms\ShieldSelectAllToggle;
+use BezhanSalleh\FilamentShield\Resources\RoleResource as BaseRoleResource;
+use BezhanSalleh\FilamentShield\Support\Utils;
+use BezhanSalleh\FilamentShield\Traits\HasShieldFormComponents;
 use Filament\Facades\Filament;
-use Illuminate\Support\HtmlString;
-use Filament\Forms\Components\Select;
+use Filament\Forms;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Arrayable;
-use Filament\Tables\Actions\DeleteBulkAction;
-use BezhanSalleh\FilamentShield\Support\Utils;
-use App\Filament\Resources\Shield\Pages\CustomEditRole;
-use App\Filament\Resources\Shield\Pages\CustomViewRole;
-use BezhanSalleh\FilamentShield\Resources\RoleResource as BaseRoleResource;
-use App\Filament\Resources\Shield\Pages\CustomListRoles;
-use App\Filament\Resources\Shield\Pages\CustomCreateRole;
-use BezhanSalleh\FilamentShield\Forms\ShieldSelectAllToggle;
-use BezhanSalleh\FilamentShield\Traits\HasShieldFormComponents;
+use Illuminate\Support\HtmlString;
+use Illuminate\Support\Str;
 
 class CustomRoleResource extends BaseRoleResource
 {
@@ -60,15 +59,15 @@ class CustomRoleResource extends BaseRoleResource
                                     ->placeholder('filament-shield::filament-shield.field.team.placeholder')
                                     /** @phpstan-ignore-next-line */
                                     ->default([Filament::getTenant()?->id])
-                                    ->options(fn(): Arrayable => Utils::getTenantModel() ? Utils::getTenantModel()::pluck('name', 'id') : collect())
-                                    ->hidden(fn(): bool => ! (static::shield()->isCentralApp() && Utils::isTenancyEnabled()))
-                                    ->dehydrated(fn(): bool => ! (static::shield()->isCentralApp() && Utils::isTenancyEnabled())),
+                                    ->options(fn (): Arrayable => Utils::getTenantModel() ? Utils::getTenantModel()::pluck('name', 'id') : collect())
+                                    ->hidden(fn (): bool => ! (static::shield()->isCentralApp() && Utils::isTenancyEnabled()))
+                                    ->dehydrated(fn (): bool => ! (static::shield()->isCentralApp() && Utils::isTenancyEnabled())),
                                 ShieldSelectAllToggle::make('select_all')
                                     ->onIcon('heroicon-s-shield-check')
                                     ->offIcon('heroicon-s-shield-exclamation')
                                     ->label(__('filament-shield::filament-shield.field.select_all.name'))
-                                    ->helperText(fn(): HtmlString => new HtmlString(__('filament-shield::filament-shield.field.select_all.message')))
-                                    ->dehydrated(fn(bool $state): bool => $state),
+                                    ->helperText(fn (): HtmlString => new HtmlString(__('filament-shield::filament-shield.field.select_all.message')))
+                                    ->dehydrated(fn (bool $state): bool => $state),
                             ])
                             ->columns([
                                 'sm' => 2,
@@ -86,7 +85,7 @@ class CustomRoleResource extends BaseRoleResource
                 TextColumn::make('name')
                     ->weight('font-medium')
                     ->label('Tên vai trò')
-                    ->formatStateUsing(fn($state): string => Str::headline($state))
+                    ->formatStateUsing(fn ($state): string => Str::headline($state))
                     ->searchable(),
                 // TextColumn::make('guard_name')
                 //     ->badge()

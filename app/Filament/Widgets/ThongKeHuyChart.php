@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Widgets;
 
 use App\Models\chitietphieunhap;
@@ -7,22 +9,23 @@ use Filament\Widgets\ChartWidget;
 
 class ThongKeHuyChart extends ChartWidget
 {
+    protected static ?int $sort = 1;
+
     public function getHeading(): string
     {
-        return 'Thống kê nhập hàng hủy tháng '. now()->month. ' năm ' . now()->year;
+        return 'Thống kê nhập hàng hủy tháng '.now()->month.' năm '.now()->year;
     }
 
-    protected static ?int $sort = 1;
-//    protected int|string|array $columnSpan = 'full';
+    //    protected int|string|array $columnSpan = 'full';
     protected function getData(): array
     {
         $year = now()->year;
 
-        $labels = collect(range(1, 12))->map(fn($month) => 'Tháng ' . $month)->toArray();
+        $labels = collect(range(1, 12))->map(fn ($month) => 'Tháng '.$month)->toArray();
 
         $huy = array_fill(1, 12, 0);
 
-        $huyData = ChitietPhieuNhap::query()
+        $huyData = chitietphieunhap::query()
             ->selectRaw('MONTH(phieunhap.NgayNhap) as thang, SUM(SoLuong) as tong')
             ->join('phieunhap', 'phieunhap.id', '=', 'chitietphieunhap.phieunhap_id')
             ->where('phieunhap.LyDo', '=', '2')
@@ -32,7 +35,7 @@ class ThongKeHuyChart extends ChartWidget
             ->pluck('tong', 'thang');
 
         foreach ($huyData as $thang => $tong) {
-            $huy[(int)$thang] = $tong;
+            $huy[(int) $thang] = $tong;
         }
 
         return [

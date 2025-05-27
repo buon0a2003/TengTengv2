@@ -6,7 +6,6 @@ namespace App\Filament\Auth;
 
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
-use Filament\Pages\SimplePage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password as PasswordRule;
 use Yebor974\Filament\RenewPassword\Pages\Auth\RenewPassword;

@@ -52,14 +52,14 @@ class PhieuvanchuyenList extends Component implements HasForms, HasTable
                 TextColumn::make('TrangThai')
                     ->label('Trạng thái')
                     ->badge()
-                    ->color(fn($record) => match ($record->TrangThai) {
+                    ->color(fn ($record) => match ($record->TrangThai) {
                         0 => 'warning',
                         1 => 'info',
                         2 => 'success',
                         3 => 'danger',
                         default => 'gray',
                     })
-                    ->formatStateUsing(fn($record) => match ($record->TrangThai) {
+                    ->formatStateUsing(fn ($record) => match ($record->TrangThai) {
                         0 => 'Chưa vận chuyển',
                         1 => 'Đang vận chuyển',
                         2 => 'Đã hoàn thành',
@@ -91,7 +91,7 @@ class PhieuvanchuyenList extends Component implements HasForms, HasTable
 
                             Notification::make()
                                 ->title('Chọn phiếu vận chuyển')
-                                ->body('Đã chọn phiếu vận chuyển: ' . $record->id)
+                                ->body('Đã chọn phiếu vận chuyển: '.$record->id)
                                 ->success()
                                 ->duration(1000)
                                 ->send();

@@ -54,10 +54,10 @@ class EditUser extends EditAndRedirectToIndex
         return Action::make('lmao')
             ->label('Lưu thay đổi')
             ->requiresConfirmation(
-                fn() => $this->shouldGetConfirm()
+                fn () => $this->shouldGetConfirm()
             )
             ->modalDescription(
-                fn() => $this->shouldGetConfirm()
+                fn () => $this->shouldGetConfirm()
                     ? 'Bạn có chắc chắn muốn lưu người dùng với vai trò Super Admin?'
                     : ''
             )

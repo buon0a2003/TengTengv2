@@ -4,40 +4,37 @@ declare(strict_types=1);
 
 namespace App\Providers\Filament;
 
-use App\Filament\Widgets\ThongKeHuyChart;
-use Exception;
-use Filament\Pages;
-use Filament\Panel;
-use App\Models\User;
-use Filament\Widgets;
-use Filament\PanelProvider;
-use Filament\Enums\ThemeMode;
-use App\Filament\Pages\Dashboard;
-use App\Filament\Widgets\CanhBao;
 use App\Filament\Auth\CustomLogin;
-use Filament\Support\Colors\Color;
 use App\Filament\Auth\CustomProfile;
 use App\Filament\Widgets\BangWidget;
-use Illuminate\Support\Facades\Auth;
 use App\Filament\Widgets\BieuDoWidget;
+use App\Filament\Widgets\CanhBao;
+use App\Filament\Widgets\ThongKeHuyChart;
+use App\Filament\Widgets\ThongKeNhapXuatNamChart;
 use App\Filament\Widgets\ThongSoWidget;
 use App\Filament\Widgets\TiLeSuCoChart;
-use Filament\Navigation\NavigationItem;
-use Filament\Http\Middleware\Authenticate;
-use App\Filament\Resources\CustomRoleResource;
-use Illuminate\Session\Middleware\StartSession;
-use Illuminate\Cookie\Middleware\EncryptCookies;
-use App\Filament\Widgets\ThongKeNhapXuatNamChart;
-use Filament\Http\Middleware\AuthenticateSession;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
-use Illuminate\Routing\Middleware\SubstituteBindings;
-use Illuminate\View\Middleware\ShareErrorsFromSession;
 use BezhanSalleh\FilamentShield\Resources\RoleResource;
+use Exception;
+use Filament\Enums\ThemeMode;
+use Filament\Http\Middleware\Authenticate;
+use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
-use Yebor974\Filament\RenewPassword\RenewPasswordPlugin;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Filament\Navigation\NavigationItem;
+use Filament\Pages;
+use Filament\Panel;
+use Filament\PanelProvider;
+use Filament\Support\Colors\Color;
+use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Illuminate\Cookie\Middleware\EncryptCookies;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Yebor974\Filament\RenewPassword\RenewPasswordPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -79,8 +76,8 @@ class AdminPanelProvider extends PanelProvider
                 'violet' => Color::Violet,
             ])
             ->theme(asset('css/filament/admin/theme.css'))
-            ->brandLogo(fn() => view('filament.logo'))
-            ->favicon(fn() => asset('images/fav/favicon-120.png'))
+            ->brandLogo(fn () => view('filament.logo'))
+            ->favicon(fn () => asset('images/fav/favicon-120.png'))
             ->authGuard('web')
             // ->authPasswordBroker('users')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
@@ -91,23 +88,23 @@ class AdminPanelProvider extends PanelProvider
             // ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                //Widgets\FilamentInfoWidget::class,
+                // Widgets\FilamentInfoWidget::class,
                 // CanhBao::class,
                 ThongSoWidget::class,
                 BangWidget::class,
                 BieuDoWidget::class,
                 TiLeSuCoChart::class,
                 ThongKeNhapXuatNamChart::class,
-                ThongKeHuyChart::class
+                ThongKeHuyChart::class,
             ])
             ->navigationItems([
                 NavigationItem::make('Chức vụ')
                     ->icon('heroicon-o-shield-check')
                     ->activeIcon('heroicon-s-shield-check')
                     ->group('Quản lý tài khoản')
-                    ->isActiveWhen(fn() => request()->routeIs('filament.admin.resources.shield.roles.index'))
-                    ->url(fn(): string => RoleResource::getUrl('index'))
-                    ->visible(fn() => Auth::user()->can('view_any_custom::role') || Auth::user()->hasRole('super_admin')),
+                    ->isActiveWhen(fn () => request()->routeIs('filament.admin.resources.shield.roles.index'))
+                    ->url(fn (): string => RoleResource::getUrl('index'))
+                    ->visible(fn () => Auth::user()->can('view_any_custom::role') || Auth::user()->hasRole('super_admin')),
             ])
             ->navigationGroups([
                 'Quản lý danh mục',

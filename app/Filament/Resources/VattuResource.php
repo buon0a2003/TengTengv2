@@ -10,7 +10,6 @@ use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
@@ -138,7 +137,7 @@ class VattuResource extends Resource implements HasShieldPermissions
                     ->label('Đặc điểm')
                     ->alignLeft()
                     ->limit(50)
-                    ->tooltip(fn($record) => $record->DacDiem),
+                    ->tooltip(fn ($record) => $record->DacDiem),
 
                 IconColumn::make('LaTP')
                     ->label('Là thành phẩm')

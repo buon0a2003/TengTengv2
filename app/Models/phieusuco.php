@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Models\phieuxuat;
-use App\Models\phieuvanchuyen;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -32,6 +29,13 @@ class phieusuco extends Model
     public $timestamps = false;
 
     /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
      * The connection name for the model.
      *
      * @var string
@@ -51,13 +55,6 @@ class phieusuco extends Model
      * @var string
      */
     protected $primaryKey = 'id';
-
-    /**
-     * Indicates if the IDs are auto-incrementing.
-     *
-     * @var bool
-     */
-    public $incrementing = false;
 
     /**
      * The data type of the auto-incrementing ID.
@@ -90,8 +87,6 @@ class phieusuco extends Model
      * @var array
      */
     protected $hidden = [];
-
-
 
     /**
      * The attributes that should be mutated to dates.

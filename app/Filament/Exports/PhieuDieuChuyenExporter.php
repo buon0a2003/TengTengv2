@@ -34,7 +34,7 @@ class PhieuDieuChuyenExporter extends Exporter
                 ->label('Ghi chú'),
             ExportColumn::make('TrangThai')
                 ->label('Trạng thái')
-                ->formatStateUsing(fn($state) => match ($state) {
+                ->formatStateUsing(fn ($state) => match ($state) {
                     0 => 'Đang xử lý',
                     1 => 'Đã xử lý',
                     2 => 'Đã huỷ',
@@ -52,7 +52,7 @@ class PhieuDieuChuyenExporter extends Exporter
         $body = 'Xuất dữ liệu phiếu điều chuyển hoàn tất';
 
         if ($failedRowsCount = $export->getFailedRowsCount()) {
-            $body = 'Xuất dữ liệu phiếu điều chuyển hoàn tất, nhưng có ' . $failedRowsCount . ' hàng không thành công';
+            $body = 'Xuất dữ liệu phiếu điều chuyển hoàn tất, nhưng có '.$failedRowsCount.' hàng không thành công';
         }
 
         return $body;

@@ -6,8 +6,6 @@ namespace App\Filament\Resources\NhanVienResource\Pages;
 
 use App\Filament\CreateAndRedirectToIndex;
 use App\Filament\Resources\NhanVienResource;
-use Filament\Actions;
-use Filament\Resources\Pages\CreateRecord;
 
 class CreateNhanVien extends CreateAndRedirectToIndex
 {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\PhieuSuCoResource\Pages;
 
 use App\Filament\CreateAndRedirectToIndex;
@@ -25,7 +27,7 @@ class CreatePhieuSuCo extends CreateAndRedirectToIndex
 
         $phieuvanchuyen = phieuvanchuyen::find($data['phieuvanchuyen_id']);
 
-        if ($phieuvanchuyen && !empty($phieuvanchuyen->phieuxuat_id)) {
+        if ($phieuvanchuyen && ! empty($phieuvanchuyen->phieuxuat_id)) {
             $this->data['phieuxuat_id'] = $phieuvanchuyen->phieuxuat_id;
         }
     }

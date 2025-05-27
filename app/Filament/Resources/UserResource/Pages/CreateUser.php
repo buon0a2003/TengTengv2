@@ -12,7 +12,6 @@ use App\Notifications\NewAccount;
 use Exception;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
-use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
 
 class CreateUser extends CreateAndRedirectToIndex
@@ -40,6 +39,7 @@ class CreateUser extends CreateAndRedirectToIndex
             ]);
         }
     }
+
     public function shouldGetConfirm(): bool
     {
         try {
@@ -58,10 +58,10 @@ class CreateUser extends CreateAndRedirectToIndex
             ->label('Tạo mới')
             ->icon('heroicon-s-plus')
             ->requiresConfirmation(
-                fn() => $this->shouldGetConfirm()
+                fn () => $this->shouldGetConfirm()
             )
             ->modalDescription(
-                fn() => $this->shouldGetConfirm()
+                fn () => $this->shouldGetConfirm()
                     ? 'Bạn có chắc chắn muốn tạo người dùng với vai trò Super Admin?'
                     : null
             )
@@ -108,7 +108,7 @@ class CreateUser extends CreateAndRedirectToIndex
         $user = parent::handleRecordCreation($data);
 
         // If option 0 was selected, create a new nhanvien record
-        if (isset($data['option']) && $data['option'] == 0 && !empty($this->nhanvienData)) {
+        if (isset($data['option']) && $data['option'] == 0 && ! empty($this->nhanvienData)) {
             $nhanvien = nhanvien::create($this->nhanvienData);
 
             // Link the nhanvien to the user (without triggering observer events)
@@ -127,10 +127,10 @@ class CreateUser extends CreateAndRedirectToIndex
         return parent::getCreateAnotherFormAction()
             ->label('Tạo tiếp')
             ->requiresConfirmation(
-                fn() => $this->shouldGetConfirm()
+                fn () => $this->shouldGetConfirm()
             )
             ->modalDescription(
-                fn() => $this->shouldGetConfirm()
+                fn () => $this->shouldGetConfirm()
                     ? 'Bạn có chắc chắn muốn tạo người dùng với vai trò Super Admin?'
                     : null
             )

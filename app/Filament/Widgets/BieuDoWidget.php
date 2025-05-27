@@ -31,7 +31,9 @@ class BieuDoWidget extends AdvancedChartWidget
     protected static ?string $badgeIconPosition = 'after';
 
     protected static ?string $badgeSize = 'xs';
+
     protected int|string|array $columnSpan = 'full';
+
     protected function getFilters(): ?array
     {
         return [

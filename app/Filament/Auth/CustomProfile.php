@@ -17,7 +17,6 @@ use Filament\Forms\Get;
 use Filament\Pages\Auth\EditProfile;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Js;
 use Illuminate\Validation\Rules\Password;
 
 class CustomProfile extends EditProfile
@@ -124,8 +123,8 @@ class CustomProfile extends EditProfile
                 'regex' => 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, số và ký tự đặc biệt.',
             ])
             ->autocomplete('new-password')
-            ->dehydrated(fn($state): bool => filled($state))
-            ->dehydrateStateUsing(fn($state): string => Hash::make($state))
+            ->dehydrated(fn ($state): bool => filled($state))
+            ->dehydrateStateUsing(fn ($state): string => Hash::make($state))
             ->live(debounce: 500)
             ->same('passwordConfirmation');
     }
@@ -137,7 +136,7 @@ class CustomProfile extends EditProfile
             ->password()
             ->revealable(filament()->arePasswordsRevealable())
             ->required()
-            ->visible(fn(Get $get): bool => filled($get('password')))
+            ->visible(fn (Get $get): bool => filled($get('password')))
             ->dehydrated(false);
     }
 

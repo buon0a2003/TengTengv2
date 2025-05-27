@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Filament\Widgets;
 
 use App\Models\tonkho;
-use Filament\Tables\Table;
-use Illuminate\Support\Facades\DB;
+use EightyNine\FilamentAdvancedWidget\AdvancedTableWidget as BaseWidget;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\TextColumn;
-use EightyNine\FilamentAdvancedWidget\AdvancedTableWidget as BaseWidget;
+use Filament\Tables\Table;
+use Illuminate\Support\Facades\DB;
 
 class BangWidget extends BaseWidget
 {
@@ -69,7 +69,7 @@ class BangWidget extends BaseWidget
                 TextColumn::make('kho.TenKho')->label('Kho'),
                 TextColumn::make('vitri.Mota')->label('Vị trí'),
                 TextColumn::make('level')->label('Tình trạng')
-                    ->color(fn(string $state): string => match ($state) {
+                    ->color(fn (string $state): string => match ($state) {
                         'Cảnh báo' => 'danger',
                         'Rất thấp' => 'warning',
                         'Thấp' => 'info',

@@ -71,7 +71,7 @@ class TonDau extends Page implements HasForms
                                     ->label('Vật tư')
                                     ->required(),
                                 TextInput::make('soluong')->label('Số lượng')
-                                    ->suffix(fn(Get $get): string => (string) vattu::find($get('id'))?->donvitinh->TenDVT ?? '')
+                                    ->suffix(fn (Get $get): string => (string) vattu::find($get('id'))?->donvitinh->TenDVT ?? '')
                                     ->numeric()
                                     ->minValue(1),
                                 Select::make('kho_id')
@@ -125,6 +125,7 @@ class TonDau extends Page implements HasForms
                             ->title("Vật tư '{$item['TenVT']}' đã tồn tại trong kho tại vị trí này")
                             ->danger()
                             ->send();
+
                         continue;
                     }
 
@@ -187,7 +188,7 @@ class TonDau extends Page implements HasForms
     {
         return Action::make('cancel')
             ->label('Thoát')
-            ->alpineClickHandler('document.referrer ? window.history.back() : (window.location.href = ' . Js::from($this->previousUrl ?? static::getResource()::getUrl()) . ')')
+            ->alpineClickHandler('document.referrer ? window.history.back() : (window.location.href = '.Js::from($this->previousUrl ?? static::getResource()::getUrl()).')')
             ->color('gray');
     }
 

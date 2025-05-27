@@ -53,7 +53,7 @@ class PhieuxuatExporter extends Exporter
         $body = 'Xuất dữ liệu phiếu xuất hoàn tất';
 
         if ($failedRowsCount = $export->getFailedRowsCount()) {
-            $body = 'Xuất dữ liệu phiếu xuất hoàn tất, nhưng có ' . $failedRowsCount . ' hàng không thành công';
+            $body = 'Xuất dữ liệu phiếu xuất hoàn tất, nhưng có '.$failedRowsCount.' hàng không thành công';
         }
 
         return $body;

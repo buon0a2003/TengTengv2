@@ -103,7 +103,7 @@ class TonkhoList extends Component implements HasForms, HasTable
                             });
                         }
                     })
-                    ->default(fn() => match ($this->LyDo) {
+                    ->default(fn () => match ($this->LyDo) {
                         '0' => 0,
                         '1' => 1,
                         default => '',

@@ -4,34 +4,31 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use Filament\Tables;
-use App\Models\tonkho;
-use Filament\Forms\Get;
-use Filament\Forms\Form;
-use App\Models\donvitinh;
-use Filament\Tables\Table;
-use Illuminate\Support\Carbon;
-use Filament\Resources\Resource;
-use Filament\Tables\Filters\Filter;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Section;
-use Filament\Support\Enums\FontWeight;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\ViewAction;
-use Filament\Tables\Columns\TextColumn;
 use App\Filament\Exports\TonkhoExporter;
-use Filament\Forms\Components\TextInput;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Enums\FiltersLayout;
-use Filament\Forms\Components\DatePicker;
-use Filament\Tables\Filters\SelectFilter;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Tables\Actions\ExportBulkAction;
-use App\Filament\Resources\TonkhoResource\Pages;
-use App\Filament\Resources\TonkhoResource\Pages\TonDau;
+use App\Filament\Resources\TonkhoResource\Pages\CreateTonkho;
 use App\Filament\Resources\TonkhoResource\Pages\EditTonkho;
 use App\Filament\Resources\TonkhoResource\Pages\ListTonkhos;
-use App\Filament\Resources\TonkhoResource\Pages\CreateTonkho;
+use App\Filament\Resources\TonkhoResource\Pages\TonDau;
+use App\Models\tonkho;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ExportBulkAction;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
 
 class TonkhoResource extends Resource
 {
@@ -145,9 +142,9 @@ class TonkhoResource extends Resource
                 TextColumn::make('vattu.LaTP')
                     ->label('Loại vật tư')
                     ->alignCenter()
-                    ->formatStateUsing(fn($state) => $state ? 'Thành phẩm' : 'Nguyên vật liệu')
+                    ->formatStateUsing(fn ($state) => $state ? 'Thành phẩm' : 'Nguyên vật liệu')
                     ->badge()
-                    ->color(fn($state) => $state ? 'success' : 'warning')
+                    ->color(fn ($state) => $state ? 'success' : 'warning')
                     ->sortable(),
                 TextColumn::make('NgayCapNhat')
                     ->label('Ngày cập nhật')
@@ -186,13 +183,13 @@ class TonkhoResource extends Resource
                             ->default(now()->format('Y-m'))
                             // ->native(false)
                             ->closeOnDateSelection()
-                            ->placeholder('Chọn tháng')
+                            ->placeholder('Chọn tháng'),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
                             ->when(
                                 $data['NgayCapNhat'],
-                                fn(Builder $query, $date): Builder => $query->whereYear('NgayCapNhat', Carbon::parse($date)->year)
+                                fn (Builder $query, $date): Builder => $query->whereYear('NgayCapNhat', Carbon::parse($date)->year)
                                     ->whereMonth('NgayCapNhat', Carbon::parse($date)->month),
                             );
                     })
@@ -201,18 +198,18 @@ class TonkhoResource extends Resource
                             return null;
                         }
 
-                        return 'Tháng: ' . Carbon::parse($data['NgayCapNhat'])->format('m/Y');
-                    })
+                        return 'Tháng: '.Carbon::parse($data['NgayCapNhat'])->format('m/Y');
+                    }),
 
             ], layout: FiltersLayout::AboveContent)
             ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make()->label('Sửa'),
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make()->label('Sửa'),
                 ]),
             ])
             ->bulkActions([
-                Tables\Actions\ExportBulkAction::make()
+                ExportBulkAction::make()
                     ->label('Xuất Excel')
                     ->icon('heroicon-o-document-arrow-down')
                     ->color('primary')
@@ -230,10 +227,10 @@ class TonkhoResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTonkhos::route('/'),
-            'create' => Pages\CreateTonkho::route('/create'),
-            'edit' => Pages\EditTonkho::route('/{record}/edit'),
-            'tondau' => Pages\TonDau::route('/tondau'),
+            'index' => ListTonkhos::route('/'),
+            'create' => CreateTonkho::route('/create'),
+            'edit' => EditTonkho::route('/{record}/edit'),
+            'tondau' => TonDau::route('/tondau'),
         ];
     }
 }

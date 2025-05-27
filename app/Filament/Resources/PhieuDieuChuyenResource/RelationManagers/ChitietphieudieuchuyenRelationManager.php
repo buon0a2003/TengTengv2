@@ -4,29 +4,25 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\PhieuDieuChuyenResource\RelationManagers;
 
-use App\Models\kho;
-use Filament\Forms;
-use Filament\Tables;
+use App\Filament\Resources\VattuResource;
+use App\Models\chitietphieudieuchuyen;
+use App\Models\tonkho;
 use App\Models\vattu;
 use App\Models\vitri;
-use App\Models\tonkho;
-use Filament\Forms\Get;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Notifications\Notification;
+use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Livewire\Attributes\On;
-use App\Livewire\TonkhoList;
-use App\Models\chitietphieudieuchuyen;
-use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Textarea;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
-use App\Filament\Resources\VattuResource;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Resources\RelationManagers\RelationManager;
 
 class ChitietphieudieuchuyenRelationManager extends RelationManager
 {
@@ -58,16 +54,18 @@ class ChitietphieudieuchuyenRelationManager extends RelationManager
                             ->formatStateUsing(function ($record) {
                                 if ($record->tonkho_id) {
                                     $tonkho = tonkho::find($record->tonkho_id);
+
                                     return $tonkho ? $tonkho->SoLuong : 0;
                                 }
+
                                 return 0;
                             })
-                            ->suffix(fn(Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
+                            ->suffix(fn (Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
                             ->numeric(),
                         TextInput::make('SoLuong')->label('Số lượng')
                             ->required()
                             ->columnSpan(1)
-                            ->suffix(fn(Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
+                            ->suffix(fn (Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
                             ->numeric()
                             ->minValue(0)
                             ->lte('soluongkhadung'),
@@ -76,6 +74,7 @@ class ChitietphieudieuchuyenRelationManager extends RelationManager
                             ->columnSpanFull()
                             ->options(function ($record) {
                                 $phieuDieuChuyen = $record->phieudieuchuyen;
+
                                 return vitri::where('kho_id', $phieuDieuChuyen->MaKhoDich)
                                     ->pluck('Mota', 'id')
                                     ->toArray();
@@ -83,7 +82,7 @@ class ChitietphieudieuchuyenRelationManager extends RelationManager
                             ->required()
                             ->searchable(),
                         Textarea::make('GhiChu')->rows(2)->label('Ghi chú')->columnSpanFull(),
-                    ])
+                    ]),
             ]);
     }
 
@@ -99,11 +98,11 @@ class ChitietphieudieuchuyenRelationManager extends RelationManager
                     ->rowIndex(),
                 TextColumn::make('vattu.TenVT')
                     ->label('Tên vật tư')
-                    ->url(fn($record) => VattuResource::getUrl('edit', ['record' => $record->vattu_id])),
+                    ->url(fn ($record) => VattuResource::getUrl('edit', ['record' => $record->vattu_id])),
                 TextColumn::make('SoLuong')->label('Số lượng chuyển'),
                 TextColumn::make('vattu_id')
                     ->label('Đơn vị tính')
-                    ->formatStateUsing(fn($record): string => (string) vattu::find($record->vattu_id)->donvitinh->TenDVT ?? 'N/A'),
+                    ->formatStateUsing(fn ($record): string => (string) vattu::find($record->vattu_id)->donvitinh->TenDVT ?? 'N/A'),
                 TextColumn::make('tonkho.kho.TenKho')->label('Kho nguồn'),
                 TextColumn::make('tonkho.vitri.Mota')->label('Vị trí nguồn'),
                 TextColumn::make('vitridich.Mota')->label('Vị trí đích'),
@@ -118,14 +117,14 @@ class ChitietphieudieuchuyenRelationManager extends RelationManager
                     ->icon('heroicon-o-list-bullet')
                     ->color('warning')
                     ->modalHeading('Danh sách tồn kho')
-                    ->modalContent(fn() => view(
+                    ->modalContent(fn () => view(
                         'filament.tonkholist',
                         [
                             'LyDo' => '',
                             'kho_id' => $this->getOwnerRecord()->MaKhoNguon,
                         ]
                     ))
-                    ->modalWidth('7xl')
+                    ->modalWidth('7xl'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
@@ -137,7 +136,7 @@ class ChitietphieudieuchuyenRelationManager extends RelationManager
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    //Tables\Actions\DeleteBulkAction::make(),
+                    // Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

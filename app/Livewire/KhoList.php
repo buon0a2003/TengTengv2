@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace App\Livewire;
 
 use App\Models\kho;
-use Livewire\Component;
-use Filament\Tables\Table;
-use Filament\Tables\Actions\Action;
+use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
 use Filament\Notifications\Notification;
-use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
+use Livewire\Component;
 
 class KhoList extends Component implements HasForms, HasTable
 {
@@ -24,6 +24,7 @@ class KhoList extends Component implements HasForms, HasTable
     use InteractsWithTable;
 
     public $LyDonhap = '';
+
     public $LyDoxuat = '';
 
     public function table(Table $table): Table
@@ -74,9 +75,10 @@ class KhoList extends Component implements HasForms, HasTable
                                     default => ''
                                 };
                             }
+
                             return 'Nguyên vật liệu';
                         }
-                    )
+                    ),
             ])
             ->actions([
                 Action::make('khoSelected')
@@ -93,7 +95,7 @@ class KhoList extends Component implements HasForms, HasTable
 
                             Notification::make()
                                 ->title('Chọn kho')
-                                ->body('Đã chọn kho: ' . $record->TenKho)
+                                ->body('Đã chọn kho: '.$record->TenKho)
                                 ->success()
                                 ->duration(1000)
                                 ->send();

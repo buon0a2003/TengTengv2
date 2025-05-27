@@ -63,13 +63,6 @@ class chitietphieuxuat extends Model
         'updated_at',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'SoLuong' => 'decimal:2',
-        ];
-    }
-
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -105,5 +98,12 @@ class chitietphieuxuat extends Model
     public function vitri(): BelongsTo
     {
         return $this->belongsTo(vitri::class);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'SoLuong' => 'decimal:2',
+        ];
     }
 }

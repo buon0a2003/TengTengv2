@@ -7,9 +7,6 @@ namespace App\Filament\Resources\PhieuDieuChuyenResource\Pages;
 use App\Filament\CreateAndRedirectToIndex;
 use App\Filament\Resources\PhieuDieuChuyenResource;
 use App\Models\chitietphieudieuchuyen;
-use App\Models\phieudieuchuyen;
-use App\Models\tonkho;
-use App\Models\vitri;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
@@ -33,6 +30,7 @@ class CreatePhieuDieuChuyen extends CreateAndRedirectToIndex
                 ->body('Vui lòng chọn kho đích trước khi thêm vật tư.')
                 ->warning()
                 ->send();
+
             return;
         }
 

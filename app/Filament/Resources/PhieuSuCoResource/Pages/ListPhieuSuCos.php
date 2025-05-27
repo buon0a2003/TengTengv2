@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\PhieuSuCoResource\Pages;
 
 use App\Filament\Exports\PhieusucoExporter;
@@ -11,6 +13,11 @@ use Filament\Resources\Pages\ListRecords;
 class ListPhieuSuCos extends ListRecords
 {
     protected static string $resource = PhieuSuCoResource::class;
+
+    public function getTitle(): string
+    {
+        return 'Danh sách phiếu sự cố';
+    }
 
     protected function getHeaderActions(): array
     {
@@ -27,10 +34,5 @@ class ListPhieuSuCos extends ListRecords
                     ExportFormat::Xlsx,
                 ]),
         ];
-    }
-
-    public function getTitle(): string
-    {
-        return 'Danh sách phiếu sự cố';
     }
 }

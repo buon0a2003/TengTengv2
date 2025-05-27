@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\PhieuSuCoResource\Pages;
 
 use App\Filament\EditAndRedirectToIndex;
@@ -14,13 +16,6 @@ class EditPhieuSuCo extends EditAndRedirectToIndex
 {
     protected static string $resource = PhieuSuCoResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\DeleteAction::make()->label('Xóa'),
-        ];
-    }
-
     public function getTitle(): string
     {
         return 'Chỉnh sửa phiếu sự cố';
@@ -33,9 +28,16 @@ class EditPhieuSuCo extends EditAndRedirectToIndex
 
         $phieuvanchuyen = phieuvanchuyen::find($data['phieuvanchuyen_id']);
 
-        if ($phieuvanchuyen && !empty($phieuvanchuyen->phieuxuat_id)) {
+        if ($phieuvanchuyen && ! empty($phieuvanchuyen->phieuxuat_id)) {
             $this->data['phieuxuat_id'] = $phieuvanchuyen->phieuxuat_id;
         }
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Actions\DeleteAction::make()->label('Xóa'),
+        ];
     }
 
     // #[On('phieuxuatSelected')]

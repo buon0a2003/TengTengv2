@@ -4,40 +4,41 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\PhieuDieuChuyenResource\Pages;
+use App\Filament\Resources\PhieuDieuChuyenResource\RelationManagers\ChitietphieudieuchuyenRelationManager;
+use App\Models\chitietphieudieuchuyen;
 use App\Models\kho;
+use App\Models\phieudieuchuyen;
+use App\Models\tonkho;
 use App\Models\User;
-use Filament\Tables;
 use App\Models\vattu;
 use App\Models\vitri;
-use App\Models\tonkho;
-use Filament\Forms\Get;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use App\Models\phieudieuchuyen;
-use Filament\Resources\Resource;
-use Filament\Tables\Actions\Action;
-use Filament\Forms\Components\Radio;
-use Illuminate\Support\Facades\Auth;
-use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Wizard;
-use App\Models\chitietphieudieuchuyen;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Textarea;
-use Filament\Support\Exceptions\Cancel;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Forms\Components\DatePicker;
-use Filament\Tables\Filters\SelectFilter;
-use Filament\Forms\Components\Wizard\Step;
-use App\Filament\Resources\PhieuDieuChuyenResource\Pages;
-use Filament\Forms\Components\Actions\Action as FormAction;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
+use Exception;
+use Filament\Forms\Components\Actions\Action as FormAction;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Radio;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Wizard;
+use Filament\Forms\Components\Wizard\Step;
+use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Notifications\Notification;
+use Filament\Resources\Resource;
+use Filament\Support\Exceptions\Cancel;
+use Filament\Tables;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
 use Guava\FilamentModalRelationManagers\Actions\Table\RelationManagerAction;
-use App\Filament\Resources\PhieuDieuChuyenResource\RelationManagers\ChitietphieudieuchuyenRelationManager;
+use Illuminate\Support\Facades\Auth;
 
 class PhieuDieuChuyenResource extends Resource implements HasShieldPermissions
 {
@@ -121,18 +122,18 @@ class PhieuDieuChuyenResource extends Resource implements HasShieldPermissions
 
                                                     $sequence = 1;
                                                     if ($lastRecord) {
-                                                        $lastSequence = (int) substr($lastRecord->id, -3);
+                                                        $lastSequence = (int) mb_substr($lastRecord->id, -3);
                                                         $sequence = $lastSequence + 1;
                                                     }
 
-                                                    $newId = sprintf("PDC%s-%03d", $today, $sequence);
+                                                    $newId = sprintf('PDC%s-%03d', $today, $sequence);
                                                     $set('id', $newId);
                                                 })
                                         ),
 
                                     Select::make('user_id')->label('Người tạo phiếu')
                                         ->relationship('user', 'name')
-                                        ->default(fn(): int => Auth::user()->id)
+                                        ->default(fn (): int => Auth::user()->id)
                                         ->required()
                                         ->preload()
                                         ->searchable()
@@ -146,7 +147,7 @@ class PhieuDieuChuyenResource extends Resource implements HasShieldPermissions
                                         ->options(function () {
                                             try {
                                                 return User::role('Giám sát viên')->pluck('name', 'id');
-                                            } catch (\Exception $e) {
+                                            } catch (Exception $e) {
                                                 return [];
                                             }
                                         })
@@ -237,16 +238,17 @@ class PhieuDieuChuyenResource extends Resource implements HasShieldPermissions
                                         ->required(),
                                     TextInput::make('soluongkhadung')->label('Số lượng khả dụng')
                                         ->readOnly(true)
-                                        ->suffix(fn(Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
+                                        ->suffix(fn (Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
                                         ->numeric(),
                                     TextInput::make('soluong')->label('Số lượng')
                                         ->required()
-                                        ->suffix(fn(Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
+                                        ->suffix(fn (Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
                                         ->numeric()
                                         ->minValue(0),
                                     Select::make('vitri_dich_id')->label('Vị trí đích')
                                         ->options(function ($get) {
                                             $khoDich = $get('../../MaKhoDich');
+
                                             return vitri::where('kho_id', $khoDich)->pluck('Mota', 'id')->toArray();
                                         })
                                         ->searchable()
@@ -319,20 +321,20 @@ class PhieuDieuChuyenResource extends Resource implements HasShieldPermissions
                 TextColumn::make('TrangThai')
                     ->label('Trạng thái')
                     ->alignCenter()
-                    ->formatStateUsing(fn($record) => match ($record->TrangThai) {
+                    ->formatStateUsing(fn ($record) => match ($record->TrangThai) {
                         0 => 'Đang xử lý',
                         1 => 'Đã xử lý',
                         2 => 'Đã huỷ',
                         default => 'N/A'
                     })
-                    ->icon(fn($record): string => match ($record->TrangThai) {
+                    ->icon(fn ($record): string => match ($record->TrangThai) {
                         0 => 'heroicon-o-clock',
                         1 => 'heroicon-o-check-circle',
                         2 => 'heroicon-o-x-circle',
                         default => ''
                     })
                     ->badge()
-                    ->color(fn($record): string => match ($record->TrangThai) {
+                    ->color(fn ($record): string => match ($record->TrangThai) {
                         0 => 'warning',
                         1 => 'success',
                         2 => 'danger',
@@ -346,7 +348,7 @@ class PhieuDieuChuyenResource extends Resource implements HasShieldPermissions
                     ->limit(50)
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->wrap()
-                    ->tooltip(fn($record) => $record->GhiChu),
+                    ->tooltip(fn ($record) => $record->GhiChu),
             ])
             ->filters([
                 SelectFilter::make('TrangThai')->label('Trạng thái')
@@ -358,7 +360,7 @@ class PhieuDieuChuyenResource extends Resource implements HasShieldPermissions
                     Tables\Actions\EditAction::make()->color('primary'),
                     Action::make('duyetphieudieuchuyen')->label('Duyệt phiếu điều chuyển')
                         // ->authorize(fn(): bool => Auth::user()->can('duyetphieudieuchuyen_phieu::dieu::chuyen'))
-                        ->visible(fn($record): bool => $record->TrangThai == 0)
+                        ->visible(fn ($record): bool => $record->TrangThai == 0)
                         ->action(
                             function (phieudieuchuyen $record): void {
                                 $chitietphieudieuchuyenRecord = chitietphieudieuchuyen::where('phieudieuchuyen_id', $record->id)->get();
@@ -387,7 +389,7 @@ class PhieuDieuChuyenResource extends Resource implements HasShieldPermissions
                                                 $tonkhoDich->save();
                                             } else {
                                                 // Tạo mới tồn kho ở kho đích nếu chưa có
-                                                if (!$item->vitri_dich_id) {
+                                                if (! $item->vitri_dich_id) {
                                                     Notification::make()
                                                         ->title('Lỗi')
                                                         ->body('Chưa chọn vị trí đích cho một số vật tư')
@@ -433,7 +435,7 @@ class PhieuDieuChuyenResource extends Resource implements HasShieldPermissions
                         ->icon('heroicon-o-check'),
 
                     Action::make('huyphieudieuchuyen')->label('Huỷ phiếu điều chuyển')
-                        ->authorize(fn(): bool => Auth::user()->can('duyetphieudieuchuyen_phieu::dieu::chuyen'))
+                        ->authorize(fn (): bool => Auth::user()->can('duyetphieudieuchuyen_phieu::dieu::chuyen'))
                         ->action(function ($record) {
                             $record->update(['TrangThai' => 2]);
                             Notification::make()
@@ -441,7 +443,7 @@ class PhieuDieuChuyenResource extends Resource implements HasShieldPermissions
                                 ->danger()
                                 ->send();
                         })
-                        ->hidden(fn($record): bool => ! $record->TrangThai == 0)
+                        ->hidden(fn ($record): bool => ! $record->TrangThai == 0)
                         ->color('danger')
                         ->icon('heroicon-o-x-circle'),
 

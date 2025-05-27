@@ -14,6 +14,7 @@ use Filament\Pages\Page;
 class ReportPage extends Page
 {
     use HasPageShield;
+
     protected static ?string $navigationIcon = 'heroicon-o-chart-bar';
 
     protected static ?string $activeNavigationIcon = 'heroicon-s-chart-bar';
@@ -38,7 +39,7 @@ class ReportPage extends Page
             // ]),
             // BangWidget::class,
             BieuDoWidget::class,
-            ThongKeNhapXuatNamChart::class
+            ThongKeNhapXuatNamChart::class,
         ];
     }
 }

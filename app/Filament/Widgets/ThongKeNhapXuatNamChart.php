@@ -1,50 +1,55 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Widgets;
 
 use App\Models\chitietphieunhap;
 use App\Models\chitietphieuxuat;
 use Filament\Widgets\ChartWidget;
+
 class ThongKeNhapXuatNamChart extends ChartWidget
 {
+    protected static ?int $sort = 1;
+
+    protected int|string|array $columnSpan = 'full';
+
     public function getHeading(): string
     {
-        return 'Thống kê nhập – xuất hàng hóa năm ' . now()->year;
+        return 'Thống kê nhập – xuất hàng hóa năm '.now()->year;
     }
 
-    protected static ?int $sort = 1;
-    protected int|string|array $columnSpan = 'full';
     protected function getData(): array
     {
         $year = now()->year;
 
-        $labels = collect(range(1, 12))->map(fn($month) => 'Tháng ' . $month)->toArray();
+        $labels = collect(range(1, 12))->map(fn ($month) => 'Tháng '.$month)->toArray();
 
         $nhap = array_fill(1, 12, 0);
         $xuat = array_fill(1, 12, 0);
 
-        $nhapData = ChitietPhieuNhap::query()
+        $nhapData = chitietphieunhap::query()
             ->selectRaw('MONTH(phieunhap.NgayNhap) as thang, SUM(SoLuong) as tong')
             ->join('phieunhap', 'phieunhap.id', '=', 'chitietphieunhap.phieunhap_id')
-            ->where('phieunhap.TrangThai', '=',1)
+            ->where('phieunhap.TrangThai', '=', 1)
             ->whereYear('phieunhap.NgayNhap', $year)
             ->groupByRaw('MONTH(phieunhap.NgayNhap)')
             ->pluck('tong', 'thang');
 
         foreach ($nhapData as $thang => $tong) {
-            $nhap[(int)$thang] = $tong;
+            $nhap[(int) $thang] = $tong;
         }
 
-        $xuatData = ChitietPhieuXuat::query()
+        $xuatData = chitietphieuxuat::query()
             ->selectRaw('MONTH(phieuxuat.NgayXuat) as thang, SUM(SoLuong) as tong')
             ->join('phieuxuat', 'phieuxuat.id', '=', 'chitietphieuxuat.phieuxuat_id')
-            ->where('phieuxuat.TrangThai', '=',1)
+            ->where('phieuxuat.TrangThai', '=', 1)
             ->whereYear('phieuxuat.NgayXuat', $year)
             ->groupByRaw('MONTH(phieuxuat.NgayXuat)')
             ->pluck('tong', 'thang');
 
         foreach ($xuatData as $thang => $tong) {
-            $xuat[(int)$thang] = $tong;
+            $xuat[(int) $thang] = $tong;
         }
 
         return [

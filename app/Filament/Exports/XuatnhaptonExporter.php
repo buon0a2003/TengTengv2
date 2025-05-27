@@ -40,7 +40,6 @@ class XuatnhaptonExporter
         $spreadsheet = IOFactory::load($templatePath);
         $sheet = $spreadsheet->getActiveSheet();
 
-
         $startDate = now()->setDate($this->year, $this->month, 1)->format('d/m/Y');
         $endDate = now()->setDate($this->year, $this->month, 1)->endOfMonth()->format('d/m/Y');
         $sheet->setCellValue('A4', "Từ ngày {$startDate} đến ngày {$endDate}");

@@ -4,25 +4,23 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use Filament\Tables;
+use App\Filament\Resources\NhanVienResource\Pages;
 use App\Models\nhanvien;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
-use Illuminate\Support\HtmlString;
-use Filament\Forms\Components\Section;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\ViewAction;
-use Filament\Tables\Columns\TextColumn;
-use Illuminate\Support\Facades\Storage;
-use Filament\Forms\Components\TextInput;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Columns\ImageColumn;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ExportBulkAction;
-use App\Filament\Resources\NhanVienResource\Pages;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class NhanVienResource extends Resource implements HasShieldPermissions
 {
@@ -122,6 +120,7 @@ class NhanVienResource extends Resource implements HasShieldPermissions
                     ->circular()
                     ->defaultImageUrl(function (nhanvien $record): string {
                         $name = $record->name;
+
                         return "https://ui-avatars.com/api/?name={$name}";
                     }),
                 TextColumn::make('name')
@@ -160,11 +159,11 @@ class NhanVienResource extends Resource implements HasShieldPermissions
             ])
             ->actions([
                 Tables\Actions\Action::make('create_account')
-                    ->visible(fn(nhanvien $record): bool => !$record->user)
+                    ->visible(fn (nhanvien $record): bool => ! $record->user)
                     ->label('Tạo TK')
                     ->icon('heroicon-o-user-plus')
                     ->color('success')
-                    ->url(fn(nhanvien $record): string => UserResource::getUrl('create', [
+                    ->url(fn (nhanvien $record): string => UserResource::getUrl('create', [
                         'nhanvien_id' => $record->id,
                     ])),
                 ActionGroup::make([

@@ -53,14 +53,6 @@ class tonkho extends Model
         'NgayCapNhat',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'SoLuong' => 'decimal:2',
-            'NgayCapNhat' => 'datetime',
-        ];
-    }
-
     public function vitri(): BelongsTo
     {
         return $this->belongsTo(vitri::class);
@@ -89,6 +81,14 @@ class tonkho extends Model
     public function chitietphieudieuchuyen(): HasMany
     {
         return $this->hasMany(chitietphieudieuchuyen::class);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'SoLuong' => 'decimal:2',
+            'NgayCapNhat' => 'datetime',
+        ];
     }
 
     //    public function chitietphieunhap(): HasMany

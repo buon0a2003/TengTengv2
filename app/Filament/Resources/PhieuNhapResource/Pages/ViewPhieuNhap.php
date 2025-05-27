@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\PhieuNhapResource\Pages;
 
-use App\Models\kho;
-use Filament\Actions;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Facades\Blade;
-use Filament\Resources\Pages\ViewRecord;
 use App\Filament\Resources\PhieuNhapResource;
+use App\Models\kho;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Filament\Actions;
+use Filament\Resources\Pages\ViewRecord;
+use Illuminate\Support\Facades\Blade;
 
 class ViewPhieuNhap extends ViewRecord
 {
@@ -80,10 +80,10 @@ class ViewPhieuNhap extends ViewRecord
                                 ['record' => $thongtinphieunhap, 'chitietphieunhap' => $chitietphieunhap]
                             )
                         )->stream();
-                    }, $record->id . '.pdf');
+                    }, $record->id.'.pdf');
                 })
                 // ->action(fn($record) => dd($record->chitietphieunhap))
-                ->hidden(fn($record): bool => ! $record->TrangThai == 1)
+                ->hidden(fn ($record): bool => ! $record->TrangThai == 1)
                 ->label('In phiếu')
                 ->icon('heroicon-o-printer')
                 ->color('primary'),

@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use Filament\Tables;
+use App\Filament\Exports\TaixeExporter;
+use App\Filament\Resources\TaixeResource\Pages;
 use App\Models\taixe;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Section;
-use App\Filament\Exports\TaixeExporter;
 use Filament\Forms\Components\Textarea;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
 use Filament\Tables\Actions\ExportBulkAction;
-use App\Filament\Resources\TaixeResource\Pages;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class TaixeResource extends Resource implements HasShieldPermissions
 {
@@ -27,16 +27,6 @@ class TaixeResource extends Resource implements HasShieldPermissions
         1 => 'Có sẵn',
         2 => 'Nghỉ',
     ];
-
-    public static function getPermissionPrefixes(): array
-    {
-        return [
-            'view',
-            'view_any',
-            'create',
-            'update',
-        ];
-    }
 
     protected static ?string $model = taixe::class;
 
@@ -53,6 +43,16 @@ class TaixeResource extends Resource implements HasShieldPermissions
     protected static ?string $navigationGroup = 'Quản lý vận chuyển';
 
     protected static ?string $slug = 'taixe';
+
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view',
+            'view_any',
+            'create',
+            'update',
+        ];
+    }
 
     public static function getBreadcrumb(): string
     {
@@ -139,7 +139,7 @@ class TaixeResource extends Resource implements HasShieldPermissions
                     ->alignLeft()
                     ->searchable()
                     ->limit(50)
-                    ->tooltip(fn($record) => $record->DiaChi),
+                    ->tooltip(fn ($record) => $record->DiaChi),
                 TextColumn::make('NamSinh')
                     ->label('Năm sinh')
                     ->alignCenter()
@@ -151,24 +151,24 @@ class TaixeResource extends Resource implements HasShieldPermissions
                     ->wrap()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->limit(50)
-                    ->tooltip(fn($record) => $record->GhiChu),
+                    ->tooltip(fn ($record) => $record->GhiChu),
                 TextColumn::make('TrangThai')
                     ->label('Trạng thái')
                     ->alignCenter()
-                    ->icon(fn($record): string => match ($record->TrangThai) {
+                    ->icon(fn ($record): string => match ($record->TrangThai) {
                         0 => 'heroicon-o-clock',
                         1 => 'heroicon-o-check-circle',
                         2 => 'heroicon-o-x-circle',
                         default => ''
                     })
-                    ->formatStateUsing(fn($record) => match ($record->TrangThai) {
+                    ->formatStateUsing(fn ($record) => match ($record->TrangThai) {
                         0 => 'Đang giao',
                         1 => 'Có sẵn',
                         2 => 'Nghỉ',
                         default => 'N/A'
                     })
                     ->badge()
-                    ->color(fn($record): string => match ($record->TrangThai) {
+                    ->color(fn ($record): string => match ($record->TrangThai) {
                         0 => 'success',
                         1 => 'info',
                         2 => 'danger',

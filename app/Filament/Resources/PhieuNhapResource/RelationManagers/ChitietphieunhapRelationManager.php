@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\PhieuNhapResource\RelationManagers;
 
-use Filament\Forms;
-use Filament\Tables;
 use App\Models\vattu;
-use Filament\Forms\Get;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Livewire\Attributes\On;
+use Filament\Forms;
 use Filament\Forms\Components\Section;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Actions\CreateAction;
-use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Livewire\Attributes\On;
 
 class ChitietphieunhapRelationManager extends RelationManager
 {
@@ -39,7 +38,7 @@ class ChitietphieunhapRelationManager extends RelationManager
                         ->required(),
                     Forms\Components\TextInput::make('SoLuong')
                         ->label('Số lượng')
-                        ->suffix(fn(Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
+                        ->suffix(fn (Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
                         ->numeric()
                         ->required(),
                     Forms\Components\Select::make('vitri_id')
@@ -67,7 +66,7 @@ class ChitietphieunhapRelationManager extends RelationManager
             ->emptyStateDescription('Thêm mới vật tư để hoàn thành phiếu nhập')
             ->recordTitleAttribute('phieunhap_id')
             ->columns([
-                //Tables\Columns\TextColumn::make('phieunhap_id'),
+                // Tables\Columns\TextColumn::make('phieunhap_id'),
                 TextColumn::make('vattu.TenVT')->label('Tên vật tư'),
                 TextColumn::make('SoLuong')->label('Số lượng'),
                 TextColumn::make('vattu.donvitinh.TenDVT')->label('Đơn vị tính'),
@@ -83,8 +82,8 @@ class ChitietphieunhapRelationManager extends RelationManager
                     ->icon('heroicon-o-list-bullet')
                     ->color('warning')
                     ->modalHeading('Danh sách vật tư')
-                    ->modalContent(fn() => view('filament.vattulist', ['LyDo' => $this->getOwnerRecord()->LyDo]))
-                    ->modalWidth('7xl')
+                    ->modalContent(fn () => view('filament.vattulist', ['LyDo' => $this->getOwnerRecord()->LyDo]))
+                    ->modalWidth('7xl'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
@@ -95,7 +94,7 @@ class ChitietphieunhapRelationManager extends RelationManager
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    //Tables\Actions\DeleteBulkAction::make(),
+                    // Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

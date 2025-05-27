@@ -4,26 +4,25 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use Filament\Forms\Form;
+use App\Filament\Resources\PhieuSuCoResource\Pages;
 use App\Models\phieusuco;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
-use Illuminate\Support\Facades\Auth;
+use Filament\Forms\Components\Actions\Action as FormAction;
 use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Support\Enums\MaxWidth;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Collection;
-use Filament\Forms\Components\DateTimePicker;
-use App\Filament\Resources\PhieuSuCoResource\Pages;
-use Filament\Forms\Components\Actions\Action as FormAction;
-use Filament\Support\Enums\MaxWidth;
+use Illuminate\Support\Facades\Auth;
 
 class PhieuSuCoResource extends Resource
 {
@@ -47,10 +46,12 @@ class PhieuSuCoResource extends Resource
     {
         return 'Phiếu sự cố';
     }
+
     public static function getNavigationBadge(): ?string
     {
         return (string) static::getModel()::where('TrangThai', 0)->count();
     }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -74,7 +75,7 @@ class PhieuSuCoResource extends Resource
                                     ->modalDescription('Đặt mã phiếu sự cố tự động theo định dạng PSCddmmyy')
                                     ->action(function ($set) {
                                         $newId = 'PSC';
-                                        $set('id', $newId . now()->format('dmy'));
+                                        $set('id', $newId.now()->format('dmy'));
                                     })
                             ),
 
@@ -111,7 +112,7 @@ class PhieuSuCoResource extends Resource
                         Select::make('user_id')
                             ->label('Người tạo phiếu')
                             ->relationship('user', 'name')
-                            ->default(fn(): int => Auth::user()->id)
+                            ->default(fn (): int => Auth::user()->id)
                             ->required()
                             ->disabled()
                             ->dehydrated(),
@@ -190,21 +191,21 @@ class PhieuSuCoResource extends Resource
                 TextColumn::make('TrangThai')
                     ->label('Trạng thái')
                     ->badge()
-                    ->icon(fn($record): string => match ($record->TrangThai) {
+                    ->icon(fn ($record): string => match ($record->TrangThai) {
                         0 => 'heroicon-o-pencil',
                         1 => 'heroicon-o-clock',
                         2 => 'heroicon-o-check-circle',
                         3 => 'heroicon-o-x-circle',
                         default => '',
                     })
-                    ->color(fn($record) => match ($record->TrangThai) {
+                    ->color(fn ($record) => match ($record->TrangThai) {
                         0 => 'warning',
                         1 => 'info',
                         2 => 'success',
                         3 => 'danger',
                         default => 'gray',
                     })
-                    ->formatStateUsing(fn($record) => match ($record->TrangThai) {
+                    ->formatStateUsing(fn ($record) => match ($record->TrangThai) {
                         0 => 'Mới tạo',
                         1 => 'Đang xử lý',
                         2 => 'Đã giải quyết',
@@ -235,7 +236,7 @@ class PhieuSuCoResource extends Resource
                                     2 => 'Đã giải quyết',
                                     3 => 'Đã hủy',
                                 ])
-                                ->required()
+                                ->required(),
                         ])
                         ->modalWidth(MaxWidth::Small)
                         ->action(function (phieusuco $record, array $data): void {
@@ -259,7 +260,7 @@ class PhieuSuCoResource extends Resource
                                 2 => 'Đã giải quyết',
                                 3 => 'Đã hủy',
                             ])
-                            ->required()
+                            ->required(),
                     ])
                     ->action(function (Collection $records, array $data): void {
                         $records->each(function ($record) use ($data): void {

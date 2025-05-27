@@ -4,20 +4,18 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\KhoResource\Pages;
 use App\Models\kho;
-use Filament\Forms;
-use Filament\Tables;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
-use App\Filament\Resources\KhoResource\Pages;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ExportBulkAction;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class KhoResource extends Resource implements HasShieldPermissions
 {
@@ -105,14 +103,14 @@ class KhoResource extends Resource implements HasShieldPermissions
                     ->limit(50)
                     ->wrap()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->tooltip(fn($record) => $record->GhiChu),
+                    ->tooltip(fn ($record) => $record->GhiChu),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 EditAction::make(),
-                //DeleteAction::make(),
+                // DeleteAction::make(),
             ])
             ->bulkActions([
                 ExportBulkAction::make()

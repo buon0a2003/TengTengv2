@@ -11,7 +11,6 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ExportBulkAction;
@@ -126,7 +125,7 @@ class KhachHangResource extends Resource implements HasShieldPermissions
                     ->wrap()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->limit(50)
-                    ->tooltip(fn($record) => $record->GhiChu),
+                    ->tooltip(fn ($record) => $record->GhiChu),
 
                 TextColumn::make('created_at')
                     ->label('Ngày tạo')

@@ -78,15 +78,15 @@ class XuatnhaptonPage extends Page implements HasForms
         foreach ($vattu as $vt) {
             $import = DB::table('phieunhap')
                 ->join('chitietphieunhap', 'phieunhap.id', '=', 'chitietphieunhap.phieunhap_id')
-                ->where('phieunhap.TrangThai', '=',1)
-                ->where('chitietphieunhap.vattu_id','=', $vt->id)
+                ->where('phieunhap.TrangThai', '=', 1)
+                ->where('chitietphieunhap.vattu_id', '=', $vt->id)
                 ->whereBetween('NgayNhap', [$start, $end])
                 ->sum('chitietphieunhap.SoLuong');
 
             $export = DB::table('phieuxuat')
                 ->join('chitietphieuxuat', 'phieuxuat.id', '=', 'chitietphieuxuat.phieuxuat_id')
-                ->where('phieuxuat.TrangThai','=', 1)
-                ->where('chitietphieuxuat.vattu_id','=', $vt->id)
+                ->where('phieuxuat.TrangThai', '=', 1)
+                ->where('chitietphieuxuat.vattu_id', '=', $vt->id)
                 ->whereBetween('NgayXuat', [$start, $end])
                 ->sum('chitietphieuxuat.SoLuong');
 
@@ -104,8 +104,7 @@ class XuatnhaptonPage extends Page implements HasForms
                 ->limit(1)
                 ->sum('SoLuong');
 
-//            $closing = $opening + $import - $export;
-
+            //            $closing = $opening + $import - $export;
 
             $records->push([
                 'MaVT' => $vt->MaVT,
@@ -135,15 +134,15 @@ class XuatnhaptonPage extends Page implements HasForms
             Forms\Components\Grid::make(2)->schema([
                 Forms\Components\Select::make('month')
                     ->label('Tháng')
-                    ->options(collect(range(1, 12))->mapWithKeys(fn($m) => [$m => 'Tháng ' . $m])->toArray())
+                    ->options(collect(range(1, 12))->mapWithKeys(fn ($m) => [$m => 'Tháng '.$m])->toArray())
                     ->reactive()
-                    ->afterStateUpdated(fn() => $this->updatedDate()),
+                    ->afterStateUpdated(fn () => $this->updatedDate()),
 
                 Forms\Components\Select::make('year')
                     ->label('Năm')
-                    ->options(collect(range(now()->year - 5, now()->year + 1))->mapWithKeys(fn($y) => [$y => $y])->toArray())
+                    ->options(collect(range(now()->year - 5, now()->year + 1))->mapWithKeys(fn ($y) => [$y => $y])->toArray())
                     ->reactive()
-                    ->afterStateUpdated(fn() => $this->updatedDate()),
+                    ->afterStateUpdated(fn () => $this->updatedDate()),
             ]),
         ];
     }

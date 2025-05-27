@@ -72,10 +72,10 @@ class ViewPhieuXuat extends ViewRecord
                         echo Pdf::loadHTML(
                             Blade::render('phieuxuat', ['record' => $thongtinphieuxuat, 'chitietphieuxuat' => $chitietphieuxuat])
                         )->stream();
-                    }, $record->id . '.pdf');
+                    }, $record->id.'.pdf');
                 })
                 // ->action(fn($record) => dd($record->chitietphieunhap))
-                ->hidden(fn($record): bool => ! $record->TrangThai == 1)
+                ->hidden(fn ($record): bool => ! $record->TrangThai == 1)
                 ->label('In phiếu')
                 ->icon('heroicon-o-printer')
                 ->color('primary'),

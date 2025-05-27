@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Pages;
 
+use App\Filament\Widgets\TiLeSuCoChart;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Carbon\Carbon;
+use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Pages\Page;
-use Filament\Forms;
 use Illuminate\Support\Facades\DB;
-use \App\Filament\Widgets\TiLeSuCoChart;
+
 class ThongkeSucoPage extends Page implements HasForms
 {
-
     use HasPageShield;
     use InteractsWithForms;
 
@@ -79,12 +81,11 @@ class ThongkeSucoPage extends Page implements HasForms
                 'TrangThai')
             ->whereBetween('NgayTao', [$start, $end]);
 
-            if (!is_null($this->status)) {
-                $query->where('TrangThai', $this->status);
-            }
+        if (! is_null($this->status)) {
+            $query->where('TrangThai', $this->status);
+        }
 
-            $ds_suco = $query->get();
-
+        $ds_suco = $query->get();
 
         foreach ($ds_suco as $suco) {
 
@@ -112,21 +113,32 @@ class ThongkeSucoPage extends Page implements HasForms
         $this->data = $records->toArray();
     }
 
+    public function getTrangThaiText($value): string
+    {
+        return match ((int) $value) {
+            0 => 'Mới tạo',
+            1 => 'Đang xử lý',
+            2 => 'Đã giải quyết',
+            3 => 'Đã hủy',
+            default => 'Không xác định',
+        };
+    }
+
     protected function getFormSchema(): array
     {
         return [
             Forms\Components\Grid::make(2)->schema([
                 Forms\Components\Select::make('month')
                     ->label('Tháng')
-                    ->options(collect(range(1, 12))->mapWithKeys(fn($m) => [$m => 'Tháng ' . $m])->toArray())
+                    ->options(collect(range(1, 12))->mapWithKeys(fn ($m) => [$m => 'Tháng '.$m])->toArray())
                     ->reactive()
-                    ->afterStateUpdated(fn() => $this->updatedDate()),
+                    ->afterStateUpdated(fn () => $this->updatedDate()),
 
                 Forms\Components\Select::make('year')
                     ->label('Năm')
-                    ->options(collect(range(now()->year - 5, now()->year + 1))->mapWithKeys(fn($y) => [$y => $y])->toArray())
+                    ->options(collect(range(now()->year - 5, now()->year + 1))->mapWithKeys(fn ($y) => [$y => $y])->toArray())
                     ->reactive()
-                    ->afterStateUpdated(fn() => $this->updatedDate()),
+                    ->afterStateUpdated(fn () => $this->updatedDate()),
 
                 Forms\Components\Select::make('status')
                     ->label('Phân loại')
@@ -147,20 +159,10 @@ class ThongkeSucoPage extends Page implements HasForms
         ];
     }
 
-    public function getTrangThaiText($value): string
-    {
-        return match ((int)$value) {
-            0 => 'Mới tạo',
-            1 => 'Đang xử lý',
-            2 => 'Đã giải quyết',
-            3 => 'Đã hủy',
-            default => 'Không xác định',
-        };
-    }
     protected function getFooterWidgets(): array
     {
-//        TiLeSuCoChart::$year = $this->year;
-//        TiLeSuCoChart::$month = $this->month;
+        //        TiLeSuCoChart::$year = $this->year;
+        //        TiLeSuCoChart::$month = $this->month;
 
         return [
             TiLeSuCoChart::class,

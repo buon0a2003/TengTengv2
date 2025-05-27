@@ -57,13 +57,6 @@ class vattu extends Model
         'DacDiem',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'LaTP' => 'boolean',
-        ];
-    }
-
     public function donvitinh(): BelongsTo
     {
         return $this->belongsTo(donvitinh::class);
@@ -87,5 +80,12 @@ class vattu extends Model
     public function chitietphieudieuchuyen(): HasMany
     {
         return $this->hasMany(chitietphieudieuchuyen::class);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'LaTP' => 'boolean',
+        ];
     }
 }

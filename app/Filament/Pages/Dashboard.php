@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Pages;
 
-use Filament\Widgets\AccountWidget;
 use App\Filament\Widgets\BangWidget;
-use App\Filament\Widgets\BieuDoWidget;
 use App\Filament\Widgets\ThongSoWidget;
+use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
 use Filament\Widgets\Widget;
 use Filament\Widgets\WidgetConfiguration;

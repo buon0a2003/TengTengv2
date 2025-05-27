@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\NhanVienResource\Pages;
 
-use Filament\Actions;
 use App\Filament\EditAndRedirectToIndex;
-use Filament\Resources\Pages\EditRecord;
 use App\Filament\Resources\NhanVienResource;
+use Filament\Actions;
 
 class EditNhanVien extends EditAndRedirectToIndex
 {

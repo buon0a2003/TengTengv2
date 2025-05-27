@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Filament\Panel;
 use Database\Factories\UserFactory;
-use Spatie\Permission\Traits\HasRoles;
-use Filament\Models\Contracts\HasAvatar;
-use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasAvatar;
+use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Yebor974\Filament\RenewPassword\Traits\RenewPassword;
+use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 use Yebor974\Filament\RenewPassword\Contracts\RenewPasswordContract;
+use Yebor974\Filament\RenewPassword\Traits\RenewPassword;
 
 /**
  * @property int $id
@@ -63,7 +63,7 @@ use Yebor974\Filament\RenewPassword\Contracts\RenewPasswordContract;
  *
  * @mixin \Eloquent
  */
-class User extends Authenticatable implements FilamentUser, MustVerifyEmail, RenewPasswordContract, HasAvatar
+class User extends Authenticatable implements FilamentUser, HasAvatar, MustVerifyEmail, RenewPasswordContract
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, HasRoles, Notifiable, RenewPassword;
@@ -86,7 +86,7 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail, Ren
         'cccd',
         'nhanvien_id',
         'theme',
-        'theme_color'
+        'theme_color',
     ];
 
     /**
@@ -107,7 +107,7 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail, Ren
     public function getFilamentAvatarUrl(): ?string
     {
         if ($this->image) {
-            return asset('storage/' . $this->image);
+            return asset('storage/'.$this->image);
         }
 
         return null;

@@ -52,7 +52,7 @@ class PhieunhapExporter extends Exporter
         $body = 'Xuất dữ liệu phiếu nhập hoàn tất';
 
         if ($failedRowsCount = $export->getFailedRowsCount()) {
-            $body = 'Xuất dữ liệu phiếu nhập hoàn tất, nhưng có ' . $failedRowsCount . ' hàng không thành công';
+            $body = 'Xuất dữ liệu phiếu nhập hoàn tất, nhưng có '.$failedRowsCount.' hàng không thành công';
         }
 
         return $body;

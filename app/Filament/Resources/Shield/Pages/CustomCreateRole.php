@@ -35,10 +35,10 @@ class CustomCreateRole extends CreateRole
             ->label('Tạo mới')
             ->icon('heroicon-s-plus')
             ->requiresConfirmation(
-                fn() => $this->shouldGetConfirm()
+                fn () => $this->shouldGetConfirm()
             )
             ->modalDescription(
-                fn() => $this->shouldGetConfirm()
+                fn () => $this->shouldGetConfirm()
                     ? 'Bạn có chắc chắn muốn tạo mới vai trò với Toàn bộ quyền không?'
                     : null
             )

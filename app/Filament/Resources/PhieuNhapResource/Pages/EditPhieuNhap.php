@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\PhieuNhapResource\Pages;
 
+use App\Filament\EditAndRedirectToIndex;
+use App\Filament\Resources\PhieuNhapResource;
+use App\Models\chitietphieunhap;
 use App\Models\kho;
 use App\Models\phieunhap;
-use Livewire\Attributes\On;
-use Filament\Actions\Action;
-use Barryvdh\DomPDF\Facade\Pdf;
-use App\Models\chitietphieunhap;
 use Filament\Actions\DeleteAction;
-use Illuminate\Support\Facades\Blade;
-use App\Filament\EditAndRedirectToIndex;
 use Filament\Notifications\Notification;
-use App\Filament\Resources\PhieuNhapResource;
+use Livewire\Attributes\On;
 
 class EditPhieuNhap extends EditAndRedirectToIndex
 {
@@ -34,6 +31,16 @@ class EditPhieuNhap extends EditAndRedirectToIndex
         return 'Sửa';
     }
 
+    #[On('khoSelected')]
+    public function handleKhoSelected($record): void
+    {
+        $state = $this->form->getRawState();
+
+        $state['kho_id'] = $record['kho_id'];
+        $state['TenKho'] = $record['TenKho'];
+
+        $this->form->fill($state);
+    }
 
     protected function mutateFormDataBeforeFill(array $data): array
     {
@@ -46,22 +53,11 @@ class EditPhieuNhap extends EditAndRedirectToIndex
         return $data;
     }
 
-    #[On('khoSelected')]
-    public function handleKhoSelected($record): void
-    {
-        $state = $this->form->getRawState();
-
-        $state['kho_id'] = $record['kho_id'];
-        $state['TenKho'] = $record['TenKho'];
-
-        $this->form->fill($state);
-    }
-
     protected function getHeaderActions(): array
     {
         return [
             DeleteAction::make()
-                ->hidden(fn($record): bool => $record->TrangThai == 1 || $record->TrangThai == 2)
+                ->hidden(fn ($record): bool => $record->TrangThai == 1 || $record->TrangThai == 2)
                 ->requiresConfirmation()
                 ->modalDescription('Xoá phiếu nhập sẽ xoá tất cả thông tin kèm theo. Bạn chắc chắn chưa?')
                 ->action(

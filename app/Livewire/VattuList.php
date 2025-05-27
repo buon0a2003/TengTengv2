@@ -58,7 +58,7 @@ class VattuList extends Component implements HasForms, HasTable
                             return '1';
                         }
 
-return ! $this->LyDo;
+                        return ! $this->LyDo;
                     }),
             ])
             ->actions([

@@ -28,6 +28,8 @@ class phieudieuchuyen extends Model
      */
     public $timestamps = false;
 
+    public $incrementing = false;
+
     /**
      * The connection name for the model.
      *
@@ -50,7 +52,6 @@ class phieudieuchuyen extends Model
     protected $primaryKey = 'id';
 
     protected $keyType = 'string';
-    public $incrementing = false;
 
     /**
      * Attributes that should be mass-assignable.
