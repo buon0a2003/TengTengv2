@@ -5,39 +5,39 @@ declare(strict_types=1);
 namespace App\Filament\Pages;
 
 use App\Filament\Widgets\ThongKeHuyChart;
+use App\Models\phieunhap;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
 use Filament\Pages\Page;
-use Illuminate\Support\Facades\DB;
+use Filament\Tables;
+use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
-class HanghuyPage extends Page
+class HanghuyPage extends Page implements HasForms, HasTable
 {
     use HasPageShield;
     use InteractsWithForms;
+    use InteractsWithTable;
 
     public $year;
-
     public $month;
 
-    public ?int $status = null;
-
-    public $data = [];
-
     protected static ?string $navigationIcon = 'heroicon-o-archive-box-x-mark';
-
     protected static string $view = 'filament.pages.hanghuy-page';
-
     protected static ?string $modelLabel = 'Thống kê';
-
     protected static ?string $navigationLabel = 'Thống kê hàng hủy';
-
     protected static ?string $navigationGroup = 'Báo cáo thống kê';
-
     protected static ?string $slug = 'thongke-hanghuy';
 
-    protected static ?string $title = 'Thống kê hàng hủy';
+    public function getHeading(): string
+    {
+        return 'Thống kê hàng hủy tháng ' . str_pad((string) $this->month, 2, '0', STR_PAD_LEFT) . '/' . $this->year;
+    }
 
     public function mount(): void
     {
@@ -49,62 +49,56 @@ class HanghuyPage extends Page
             'year' => $this->year,
             'month' => $this->month,
         ]);
-
-        $this->loadData();
     }
 
-    public function updatedDate()
+    public function updatedDate(): void
     {
         $state = $this->form->getState();
-        $this->year = $state['year'];
-        $this->month = $state['month'];
-        $this->loadData();
+        $this->year = (int) $state['year'];
+        $this->month = (int) $state['month'];
     }
 
-    public function loadData()
+    public function table(Table $table): Table
     {
-        $records = collect();
+        return $table
+            ->query($this->getTableQuery())
+            ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('Mã phiếu')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('NgayNhap')
+                    ->label('Ngày nhập')
+                    ->date('d/m/Y')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('Người tạo')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('giamsat.name')
+                    ->label('Người giám sát')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('kho.TenKho')
+                    ->label('Kho')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('chitietphieunhap_sum_soluong')
+                    ->label('Số lượng hàng hủy')
+                    ->numeric()
+                    ->sortable(),
+            ])
+            ->defaultSort('NgayNhap', 'desc')
+            ->paginated([10, 25, 50, 100]);
+    }
 
+    protected function getTableQuery(): Builder
+    {
         $start = Carbon::createFromDate($this->year, $this->month, 1)->startOfMonth();
         $end = $start->copy()->endOfMonth();
 
-        $query = DB::table('phieunhap')
-            ->join('users as nguoinhap', 'phieunhap.user_id', '=', 'nguoinhap.id')
-            ->join('users as giamsat', 'phieunhap.giamsat_id', '=', 'giamsat.id')
-            ->join('kho', 'phieunhap.kho_id', '=', 'kho.id')
-            ->join('chitietphieunhap', 'chitietphieunhap.phieunhap_id', '=', 'phieunhap.id')
-            ->where('phieunhap.LyDo', '=', '2')
-            ->where('phieunhap.TrangThai', '=', '1')
-            ->select('phieunhap.id as id',
-                'NgayNhap',
-                'nguoinhap.name as user_name',
-                'giamsat.name as giamsat_name',
-                'kho.TenKho as kho_name',
-                DB::raw('SUM(chitietphieunhap.SoLuong) as TongSoLuong'))
+        return phieunhap::query()
+            ->where('LyDo', '=', '2')
+            ->where('TrangThai', '=', '1')
             ->whereBetween('NgayNhap', [$start, $end])
-            ->groupBy(
-                'phieunhap.id',
-                'phieunhap.NgayNhap',
-                'nguoinhap.name',
-                'giamsat.name',
-                'kho.TenKho',
-                'phieunhap.GhiChu'
-            );
-        $ds_huy = $query->get();
-
-        foreach ($ds_huy as $huy) {
-
-            $records->push([
-                'MaPhieu' => $huy->id,
-                'NgayNhap' => $huy->NgayNhap,
-                'NguoiTao' => $huy->user_name,
-                'NguoiGiamSat' => $huy->giamsat_name,
-                'Kho' => $huy->kho_name,
-                'TongSoLuong' => $huy->TongSoLuong,
-            ]);
-        }
-
-        $this->data = $records->toArray();
+            ->withSum('chitietphieunhap', 'SoLuong')
+            ->with(['user', 'giamsat', 'kho']);
     }
 
     protected function getFormSchema(): array
@@ -115,23 +109,30 @@ class HanghuyPage extends Page
                     ->label('Tháng')
                     ->options(collect(range(1, 12))->mapWithKeys(fn ($m) => [$m => 'Tháng '.$m])->toArray())
                     ->reactive()
-                    ->afterStateUpdated(fn () => $this->updatedDate()),
+                    ->afterStateUpdated(function () {
+                        $this->updatedDate();
+                        $this->dispatch('refresh');
+                    }),
 
                 Forms\Components\Select::make('year')
                     ->label('Năm')
                     ->options(collect(range(now()->year - 5, now()->year + 1))->mapWithKeys(fn ($y) => [$y => $y])->toArray())
                     ->reactive()
-                    ->afterStateUpdated(fn () => $this->updatedDate()),
-
+                    ->afterStateUpdated(function () {
+                        $this->updatedDate();
+                        $this->dispatch('refresh');
+                    }),
             ]),
         ];
     }
 
     protected function getFooterWidgets(): array
     {
+        ThongKeHuyChart::$year = (int) $this->year;
+        ThongKeHuyChart::$month = (int) $this->month;
+
         return [
             ThongKeHuyChart::class,
-
         ];
     }
 }

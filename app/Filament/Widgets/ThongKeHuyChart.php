@@ -9,11 +9,13 @@ use Filament\Widgets\ChartWidget;
 
 class ThongKeHuyChart extends ChartWidget
 {
+    public static ?int $year = null;
+    public static ?int $month = null;
     protected static ?int $sort = 1;
-
+    protected int|string|array $columnSpan = 'full';
     public function getHeading(): string
     {
-        return 'Thống kê nhập hàng hủy tháng '.now()->month.' năm '.now()->year;
+        return 'Thống kê nhập hàng hủy năm '.now()->year;
     }
 
     //    protected int|string|array $columnSpan = 'full';
@@ -42,7 +44,7 @@ class ThongKeHuyChart extends ChartWidget
             'labels' => $labels,
             'datasets' => [
                 [
-                    'label' => 'Hàng hủy',
+                    'label' => 'Số hàng hủy',
                     'data' => array_values($huy),
                     'backgroundColor' => 'rgba(248, 113, 113, 0.7)', // đỏ
                     'borderColor' => 'rgba(248, 113, 113, 1)',

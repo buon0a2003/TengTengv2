@@ -123,7 +123,7 @@ class XuatnhaptonPage extends Page implements HasForms
 
     public function exportToExcel()
     {
-        $export = new XuatnhaptonExporter($this->data, $this->month, $this->year);
+        $export = new XuatnhaptonExporter($this->data,(int) $this->month,(int) $this->year);
 
         return $export->download();
     }
@@ -155,5 +155,10 @@ class XuatnhaptonPage extends Page implements HasForms
                 ->icon('heroicon-o-arrow-down-tray')
                 ->action('exportToExcel'),
         ];
+    }
+
+    public function getHeading(): string
+    {
+        return 'Thống kê Xuất Nhập Tồn tháng ' . str_pad((string) $this->month, 2, '0', STR_PAD_LEFT) . '/' . $this->year;
     }
 }

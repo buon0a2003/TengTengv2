@@ -41,7 +41,7 @@ class ThongSoWidget extends BaseWidget
                 ->chartColor('success')
                 // ->progressBarColor('success')
                 ->chart([12, 14, 13, 15, 12])
-                ->description('Tổng phiếu nhập tháng '.now()->format('m'))
+                ->description('Tổng nhập tháng '.now()->format('m'))
                 ->iconColor('success'),
 
             Stat::make(
@@ -52,7 +52,7 @@ class ThongSoWidget extends BaseWidget
                     ->where('phieuxuat.TrangThai', 1)
                     ->sum('chitietphieuxuat.SoLuong')
             )->icon('heroicon-o-chevron-double-right')
-                ->description('Tổng phiếu xuất tháng '.now()->format('m'))
+                ->description('Tổng xuất tháng '.now()->format('m'))
                 ->descriptionIcon('heroicon-o-chevron-down', 'before')
                 ->descriptionColor('danger')
                 ->iconColor('danger')

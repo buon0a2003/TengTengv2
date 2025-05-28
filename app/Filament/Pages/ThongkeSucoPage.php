@@ -5,40 +5,40 @@ declare(strict_types=1);
 namespace App\Filament\Pages;
 
 use App\Filament\Widgets\TiLeSuCoChart;
+use App\Models\phieusuco;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Pages\Page;
-use Illuminate\Support\Facades\DB;
+use Filament\Tables;
+use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
-class ThongkeSucoPage extends Page implements HasForms
+class ThongkeSucoPage extends Page implements HasForms, HasTable
 {
     use HasPageShield;
     use InteractsWithForms;
+    use InteractsWithTable;
 
     public $year;
-
     public $month;
-
     public ?int $status = null;
 
-    public $data = [];
-
     protected static ?string $navigationIcon = 'heroicon-o-exclamation-circle';
-
     protected static string $view = 'filament.pages.thongke-suco-page';
-
     protected static ?string $modelLabel = 'Thống kê';
-
     protected static ?string $navigationLabel = 'Thống kê sự cố';
-
     protected static ?string $navigationGroup = 'Báo cáo thống kê';
-
     protected static ?string $slug = 'thongke-suco';
 
-    protected static ?string $title = 'Thống kê sự cố';
+    public function getHeading(): string 
+    {
+        return 'Thống kê sự cố tháng ' . str_pad((string) $this->month, 2, '0', STR_PAD_LEFT) . '/' . $this->year;
+    }
 
     public function mount(): void
     {
@@ -50,78 +50,13 @@ class ThongkeSucoPage extends Page implements HasForms
             'year' => $this->year,
             'month' => $this->month,
         ]);
-
-        $this->loadData();
     }
 
-    public function updatedDate()
+    public function updatedDate(): void
     {
         $state = $this->form->getState();
-        $this->year = $state['year'];
-        $this->month = $state['month'];
-        $this->loadData();
-    }
-
-    public function loadData()
-    {
-        $records = collect();
-
-        $start = Carbon::createFromDate($this->year, $this->month, 1)->startOfMonth();
-        $end = $start->copy()->endOfMonth();
-
-        $query = DB::table('phieusuco')
-            ->join('users', 'phieusuco.user_id', '=', 'users.id')
-            ->select('phieusuco.id as id',
-                'phieuxuat_id',
-                'phieuvanchuyen_id',
-                'NgayTao',
-                'users.name as user_name',
-                'Mota',
-                'GhiChu',
-                'TrangThai')
-            ->whereBetween('NgayTao', [$start, $end]);
-
-        if (! is_null($this->status)) {
-            $query->where('TrangThai', $this->status);
-        }
-
-        $ds_suco = $query->get();
-
-        foreach ($ds_suco as $suco) {
-
-            $color = match ((int) $suco->TrangThai) {
-                0 => 'bg-yellow-100 text-yellow-800',   // Mới tạo
-                1 => 'bg-blue-100 text-blue-800',       // Đang xử lý
-                2 => 'bg-green-100 text-green-800',     // Đã giải quyết
-                3 => 'bg-red-100 text-red-800',         // Đã hủy
-                default => 'bg-gray-100 text-gray-800',
-            };
-
-            $records->push([
-                'MaSuCo' => $suco->id,
-                'PhieuXuat' => $suco->phieuxuat_id,
-                'PhieuVanChuyen' => $suco->phieuvanchuyen_id,
-                'NgayTao' => $suco->NgayTao,
-                'NguoiTao' => $suco->user_name,
-                'MoTa' => $suco->Mota,
-                'GhiChu' => $suco->GhiChu,
-                'TrangThai' => $suco->TrangThai,
-                'ColorClass' => $color,
-            ]);
-        }
-
-        $this->data = $records->toArray();
-    }
-
-    public function getTrangThaiText($value): string
-    {
-        return match ((int) $value) {
-            0 => 'Mới tạo',
-            1 => 'Đang xử lý',
-            2 => 'Đã giải quyết',
-            3 => 'Đã hủy',
-            default => 'Không xác định',
-        };
+        $this->year = (int) $state['year'];
+        $this->month = (int) $state['month'];
     }
 
     protected function getFormSchema(): array
@@ -132,13 +67,19 @@ class ThongkeSucoPage extends Page implements HasForms
                     ->label('Tháng')
                     ->options(collect(range(1, 12))->mapWithKeys(fn ($m) => [$m => 'Tháng '.$m])->toArray())
                     ->reactive()
-                    ->afterStateUpdated(fn () => $this->updatedDate()),
+                    ->afterStateUpdated(function () {
+                        $this->updatedDate();
+                        $this->dispatch('refresh');
+                    }),
 
                 Forms\Components\Select::make('year')
                     ->label('Năm')
                     ->options(collect(range(now()->year - 5, now()->year + 1))->mapWithKeys(fn ($y) => [$y => $y])->toArray())
                     ->reactive()
-                    ->afterStateUpdated(fn () => $this->updatedDate()),
+                    ->afterStateUpdated(function () {
+                        $this->updatedDate();
+                        $this->dispatch('refresh');
+                    }),
 
                 Forms\Components\Select::make('status')
                     ->label('Phân loại')
@@ -152,17 +93,88 @@ class ThongkeSucoPage extends Page implements HasForms
                     ->placeholder('Tất cả')
                     ->afterStateUpdated(function ($state) {
                         $this->status = $state;
-                        $this->loadData();
                     })
                     ->columnSpan(2),
             ]),
         ];
     }
 
+    public function table(Table $table): Table
+    {
+        return $table
+            ->query($this->getTableQuery())
+            ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('Mã sự cố')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('phieuxuat_id')
+                    ->label('Phiếu xuất')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('phieuvanchuyen_id')
+                    ->label('Phiếu vận chuyển')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('NgayTao')
+                    ->label('Ngày tạo')
+                    ->date('d/m/Y')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('Người tạo')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('Mota')
+                    ->label('Mô tả')
+                    ->searchable()
+                    ->wrap(),
+                Tables\Columns\TextColumn::make('GhiChu')
+                    ->label('Ghi chú')
+                    ->searchable()
+                    ->wrap(),
+                Tables\Columns\TextColumn::make('TrangThai')
+                    ->label('Trạng thái')
+                    ->formatStateUsing(fn (string $state): string => $this->getTrangThaiText($state))
+                    ->badge()
+                    ->color(fn (string $state): string => match ((int) $state) {
+                        0 => 'warning',   // Mới tạo
+                        1 => 'info',      // Đang xử lý
+                        2 => 'success',   // Đã giải quyết
+                        3 => 'danger',    // Đã hủy
+                        default => 'gray',
+                    })
+            ])
+            ->defaultSort('NgayTao', 'desc')
+            ->paginated([10, 25, 50, 100]);
+    }
+
+    protected function getTableQuery(): Builder
+    {
+        $start = Carbon::createFromDate($this->year, $this->month, 1)->startOfMonth();
+        $end = $start->copy()->endOfMonth();
+
+        $query = phieusuco::query()
+            ->with('user')
+            ->whereBetween('NgayTao', [$start, $end]);
+
+        if (! is_null($this->status)) {
+            $query->where('TrangThai', $this->status);
+        }
+
+        return $query;
+    }
+
+    public function getTrangThaiText($value): string
+    {
+        return match ((int) $value) {
+            0 => 'Mới tạo',
+            1 => 'Đang xử lý',
+            2 => 'Đã giải quyết',
+            3 => 'Đã hủy',
+            default => 'Không xác định',
+        };
+    }
+
     protected function getFooterWidgets(): array
     {
-        //        TiLeSuCoChart::$year = $this->year;
-        //        TiLeSuCoChart::$month = $this->month;
+        TiLeSuCoChart::$year = (int) $this->year;
+        TiLeSuCoChart::$month = (int) $this->month;
 
         return [
             TiLeSuCoChart::class,
