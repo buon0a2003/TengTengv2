@@ -10,10 +10,8 @@ use App\Filament\Resources\PhieuXuatResource\Pages\EditPhieuXuat;
 use App\Filament\Resources\PhieuXuatResource\Pages\ListPhieuXuats;
 use App\Filament\Resources\PhieuXuatResource\Pages\ViewPhieuXuat;
 use App\Filament\Resources\PhieuXuatResource\RelationManagers\ChitietphieuxuatRelationManager;
-use App\Models\chitietphieuxuat;
 use App\Models\kho;
 use App\Models\phieuxuat;
-use App\Models\tonkho;
 use App\Models\User;
 use App\Models\vattu;
 use App\Models\vitri;
@@ -34,7 +32,6 @@ use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
-use Filament\Support\Exceptions\Cancel;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\EditAction;
@@ -46,6 +43,7 @@ use Filament\Tables\Table;
 use Guava\FilamentModalRelationManagers\Actions\Table\RelationManagerAction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
+use App\Services\InventoryService;
 
 class PhieuXuatResource extends Resource implements HasShieldPermissions
 {
@@ -312,6 +310,14 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
     {
         return $table
             ->modifyQueryUsing(function ($query) {
+                // Add eager loading to prevent N+1 queries
+                $query->with([
+                    'user:id,name',
+                    'giamsat:id,name',
+                    'kho:id,TenKho',
+                    'khachhang:id,TenKH'
+                ]);
+
                 if (! Auth::user()->hasRole('super_admin')) {
                     $query->where(function ($query) {
                         $query->where('user_id', Auth::id())
@@ -414,48 +420,19 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                         ->hidden(fn($record): bool => ! $record->TrangThai == 0)
                         ->action(
                             function (phieuxuat $record): void {
-                                $chitietphieuxuatRecord = chitietphieuxuat::where('phieuxuat_id', $record->id)->get();
-                                if (! $chitietphieuxuatRecord->isEmpty()) {
+                                $inventoryService = app(InventoryService::class);
+                                $result = $inventoryService->approvePhieuXuat($record);
 
-                                    $hasInvalidQuantity = $chitietphieuxuatRecord->contains(function ($item) {
-                                        return $item->SoLuong <= 0;
-                                    });
-
-                                    if ($hasInvalidQuantity) {
-                                        Notification::make()
-                                            ->title('Lỗi duyệt phiếu')
-                                            ->body('Tất cả vật tư phải có số lượng lớn hơn 0!')
-                                            ->danger()
-                                            ->send();
-
-                                        throw new Cancel();
-                                    }
-                                    $chitietphieuxuatRecord->each(function ($item) {
-                                        $tonkho = tonkho::find($item->tonkho_id);
-                                        if ($tonkho && $tonkho->SoLuong >= $item->SoLuong) {
-                                            $tonkho->SoLuong -= $item->SoLuong;
-                                            $tonkho->NgayCapNhat = now();
-                                            $tonkho->save();
-                                        } else {
-                                            Notification::make()
-                                                ->title('Lỗi update tồn kho')
-                                                ->body('Không tìm thấy tồn kho hoặc số lượng không đủ!')
-                                                ->danger()
-                                                ->send();
-
-                                            throw new Cancel();
-                                        }
-                                    });
-                                    $record->update(['TrangThai' => 1]);
+                                if ($result['success']) {
                                     Notification::make()
                                         ->title('Thành công')
-                                        ->body('Đã duyệt phiếu xuất & update tồn kho!')
+                                        ->body($result['message'])
                                         ->success()
                                         ->send();
                                 } else {
                                     Notification::make()
                                         ->title('Thất bại')
-                                        ->body('Phiếu xuất không có vật tư nào!')
+                                        ->body($result['message'])
                                         ->danger()
                                         ->send();
                                 }

@@ -8,13 +8,10 @@ use Exception;
 use App\Models\User;
 use App\Models\vattu;
 use App\Models\vitri;
-use App\Models\tonkho;
 use Filament\Forms\Get;
 use Filament\Forms\Form;
 use App\Models\phieunhap;
 use Filament\Tables\Table;
-use App\Models\chitietphieunhap;
-use Filament\Resources\Resource;
 use Filament\Tables\Actions\Action;
 use Filament\Forms\Components\Radio;
 use Illuminate\Support\Facades\Auth;
@@ -44,6 +41,8 @@ use App\Filament\Resources\PhieuNhapResource\Pages\ListPhieuNhaps;
 use App\Filament\Resources\PhieuNhapResource\Pages\CreatePhieuNhap;
 use Guava\FilamentModalRelationManagers\Actions\Table\RelationManagerAction;
 use App\Filament\Resources\PhieuNhapResource\RelationManagers\ChitietphieunhapRelationManager;
+use App\Services\InventoryService;
+use Filament\Resources\Resource;
 
 class PhieuNhapResource extends Resource implements HasShieldPermissions
 {
@@ -315,6 +314,13 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
     {
         return $table
             ->modifyQueryUsing(function ($query) {
+                $query->with([
+                    'user:id,name',
+                    'giamsat:id,name',
+                    'kho:id,TenKho',
+                    'nhacungcap:id,TenNCC'
+                ]);
+
                 if (! Auth::user()->hasRole('super_admin')) {
                     $query->where(function ($query) {
                         $query->where('user_id', Auth::id())
@@ -435,64 +441,22 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                     Action::make('duyetphieunhap')
                         ->authorize(fn(): bool => Auth::user()->can('duyetphieunhap_phieu::nhap'))
                         ->action(function ($record) {
-                            $chiTietPhieuNhapRecords = chitietphieunhap::where('phieunhap_id', $record->id)->get();
+                            $inventoryService = app(InventoryService::class);
+                            $result = $inventoryService->approvePhieuNhap($record);
 
-                            if (count($chiTietPhieuNhapRecords) > 0) {
-                                $allHaveValidQuantity = collect($chiTietPhieuNhapRecords)->every(fn($value) => $value->SoLuong > 0);
-                                if (! $allHaveValidQuantity) {
-                                    Notification::make()
-                                        ->title('Số lượng nhập phải lớn hơn 0!')
-                                        ->danger()
-                                        ->send();
-
-                                    return;
-                                }
-                                $allHaveVitriId = collect($chiTietPhieuNhapRecords)->every(fn($value) => ! is_null($value->vitri_id));
-
-                                if ($allHaveVitriId) {
-                                    foreach ($chiTietPhieuNhapRecords as $value) {
-                                        $existingRecord = tonkho::where('vattu_id', $value->vattu_id)
-                                            ->where('vitri_id', $value->vitri_id)
-                                            ->first();
-
-                                        if ($existingRecord) {
-                                            $existingRecord->update([
-                                                'SoLuong' => $existingRecord->SoLuong + $value->SoLuong,
-                                                'NgayCapNhat' => now(),
-                                                'updated_at' => now(),
-                                            ]);
-                                        } else {
-                                            tonkho::create([
-                                                'vattu_id' => $value->vattu_id,
-                                                'SoLuong' => $value->SoLuong,
-                                                'kho_id' => $record->kho_id,
-                                                'vitri_id' => $value->vitri_id,
-                                                'NgayCapNhat' => now(),
-                                                'created_at' => now(),
-                                                'updated_at' => now(),
-                                            ]);
-                                        }
-                                    }
-
-                                    Notification::make()
-                                        ->title('Đã duyệt phiếu nhập & update tồn kho!')
-                                        ->success()
-                                        ->send();
-
-                                    $record->update(['TrangThai' => 1]);
-                                } else {
-                                    Notification::make()
-                                        ->title('Chưa cập nhật vị trí cho dữ liệu!')
-                                        ->danger()
-                                        ->send();
-                                }
+                            if ($result['success']) {
+                                Notification::make()
+                                    ->title('Thành công')
+                                    ->body($result['message'])
+                                    ->success()
+                                    ->send();
                             } else {
                                 Notification::make()
-                                    ->title('Chưa có dữ liệu nhập kho!')
+                                    ->title('Thất bại')
+                                    ->body($result['message'])
                                     ->danger()
                                     ->send();
                             }
-                            //
                         })
                         ->hidden(fn($record): bool => ! $record->TrangThai == 0)
                         ->label('Duyệt')

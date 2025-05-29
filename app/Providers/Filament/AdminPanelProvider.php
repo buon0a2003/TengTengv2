@@ -113,7 +113,7 @@ class AdminPanelProvider extends PanelProvider
                 'Quản lý tài khoản',
             ])
             ->sidebarCollapsibleOnDesktop()
-            ->sidebarWidth('17rem')
+            ->sidebarWidth('16rem')
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

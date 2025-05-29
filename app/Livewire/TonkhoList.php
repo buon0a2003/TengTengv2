@@ -98,12 +98,12 @@ class TonkhoList extends Component implements HasForms, HasTable
                     ->label('Loại vật tư')
                     ->query(function ($query, array $data) {
                         if (isset($data['value']) && $data['value'] !== '') {
-                            $query->whereHas('vattu', function ($q) use ($data) {
+                            $query->withWhereHas('vattu', function ($q) use ($data) {
                                 $q->where('LaTP', $data['value']);
                             });
                         }
                     })
-                    ->default(fn () => match ($this->LyDo) {
+                    ->default(fn() => match ($this->LyDo) {
                         '0' => 0,
                         '1' => 1,
                         default => '',
