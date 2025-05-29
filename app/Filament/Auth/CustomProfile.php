@@ -94,6 +94,11 @@ class CustomProfile extends EditProfile
         return TextInput::make('name')
             ->label('Tên người dùng')
             ->required()
+            ->afterStateUpdated(function ($state, callable $set) {
+                if ($state) {
+                    $set('name', mb_convert_case($state, MB_CASE_TITLE));
+                }
+            })
             ->maxLength(255)
             ->autofocus();
     }

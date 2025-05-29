@@ -1,16 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\HtmlString;
 
-class NewAccount extends Notification
+class ResetAccount extends Notification
 {
     use Queueable;
 
@@ -38,15 +37,14 @@ class NewAccount extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         $appName = config('app.name');
-
         return (new MailMessage)
-            ->subject("Tài khoản của bạn đã được tạo trên $appName")
+            ->subject("Mật khẩu của bạn đã được thay đổi")
             ->greeting('Xin chào '.$notifiable->name.',')
-            ->line('Tài khoản của bạn đã được tạo thành công trên hệ thống.')
-            ->line('Dưới đây là thông tin đăng nhập của bạn:')
-            ->line(new HtmlString("<strong>Email</strong> : {$notifiable->email}"))
-            ->line(new HtmlString("<strong>Mật khẩu</strong> : {$this->password}"))
-            ->line('Vui lòng đăng nhập vào hệ thống và đổi mật khẩu ngay để đảm bảo an toàn.')
+            ->line('Chúng tôi xin thông báo rằng mật khẩu tài khoản của bạn đã được thay đổi thành công.')
+            ->line('Dưới đây là mật khẩu mới của bạn:')
+            ->line(new HtmlString("<strong>{$this->password}</strong>"))
+            ->line('Nếu bạn không thực hiện hành động này, vui lòng liên hệ với bộ phận hỗ trợ ngay lập tức để bảo vệ tài khoản của bạn.')
+            ->line('Nếu đây là bạn, vui lòng đăng nhập vào hệ thống.')
             ->action('Đăng nhập ngay', filament()->getUrl($this->tenant))
             ->salutation("Trân trọng,\n$appName");
     }

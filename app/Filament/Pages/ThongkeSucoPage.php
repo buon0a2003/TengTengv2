@@ -34,8 +34,8 @@ class ThongkeSucoPage extends Page implements HasForms, HasTable
     protected static ?string $navigationLabel = 'Thống kê sự cố';
     protected static ?string $navigationGroup = 'Báo cáo thống kê';
     protected static ?string $slug = 'thongke-suco';
-
-    public function getHeading(): string 
+    protected static ?string $title = 'Thống kê sự cố';
+    public function getHeading(): string
     {
         return 'Thống kê sự cố tháng ' . str_pad((string) $this->month, 2, '0', STR_PAD_LEFT) . '/' . $this->year;
     }

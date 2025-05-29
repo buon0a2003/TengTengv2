@@ -6,6 +6,7 @@ namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\EditAndRedirectToIndex;
 use App\Filament\Resources\UserResource;
+use App\Notifications\ResetAccount;
 use Exception;
 use Filament\Actions;
 use Filament\Actions\Action;
@@ -20,6 +21,7 @@ class EditUser extends EditAndRedirectToIndex
 
     protected static ?string $breadcrumb = 'Sửa';
 
+    protected string $plainPassword = '';
     public function shouldGetConfirm(): bool
     {
         try {
@@ -63,6 +65,14 @@ class EditUser extends EditAndRedirectToIndex
             )
             ->action(function () {
                 $this->closeActionModal();
+
+                $data = $this->form->getRawState();
+
+                if (isset($data['password']) && !empty($data['password'])) {
+                    $this->plainPassword = $data['password'];
+                    $this->record->notify(new ResetAccount($this->plainPassword));
+                }
+
                 $this->save();
             });
     }
