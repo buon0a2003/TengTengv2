@@ -25,11 +25,11 @@ class KhoService
                 return ['success' => false, 'message' => 'Chưa có dữ liệu nhập kho!'];
             }
 
-            if (!$chiTietRecords->every(fn($item) => $item->SoLuong > 0)) {
+            if (! $chiTietRecords->every(fn ($item) => $item->SoLuong > 0)) {
                 return ['success' => false, 'message' => 'Số lượng nhập phải lớn hơn 0!'];
             }
 
-            if (!$chiTietRecords->every(fn($item) => !is_null($item->vitri_id))) {
+            if (! $chiTietRecords->every(fn ($item) => ! is_null($item->vitri_id))) {
                 return ['success' => false, 'message' => 'Chưa cập nhật vị trí cho dữ liệu!'];
             }
 
@@ -52,13 +52,13 @@ class KhoService
                 return ['success' => false, 'message' => 'Phiếu xuất không có vật tư nào!'];
             }
 
-            if ($chiTietRecords->contains(fn($item) => $item->SoLuong <= 0)) {
+            if ($chiTietRecords->contains(fn ($item) => $item->SoLuong <= 0)) {
                 return ['success' => false, 'message' => 'Tất cả vật tư phải có số lượng lớn hơn 0!'];
             }
 
             foreach ($chiTietRecords as $item) {
                 $tonkho = $item->tonkho;
-                if (!$tonkho || $tonkho->SoLuong < $item->SoLuong) {
+                if (! $tonkho || $tonkho->SoLuong < $item->SoLuong) {
                     return ['success' => false, 'message' => 'Không tìm thấy tồn kho hoặc số lượng không đủ!'];
                 }
             }
@@ -113,7 +113,7 @@ class KhoService
             ]);
         }
 
-        if (!empty($tonkhoCreates)) {
+        if (! empty($tonkhoCreates)) {
             tonkho::insert($tonkhoCreates);
         }
     }

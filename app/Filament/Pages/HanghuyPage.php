@@ -25,18 +25,26 @@ class HanghuyPage extends Page implements HasForms, HasTable
     use InteractsWithTable;
 
     public $year;
+
     public $month;
 
     protected static ?string $navigationIcon = 'heroicon-o-archive-box-x-mark';
+
     protected static string $view = 'filament.pages.hanghuy-page';
+
     protected static ?string $modelLabel = 'Thống kê';
+
     protected static ?string $navigationLabel = 'Thống kê hàng hủy';
+
     protected static ?string $navigationGroup = 'Báo cáo thống kê';
+
     protected static ?string $slug = 'thongke-hanghuy';
+
     protected static ?string $title = 'Thống kê hàng hủy';
+
     public function getHeading(): string
     {
-        return 'Thống kê hàng hủy tháng ' . str_pad((string) $this->month, 2, '0', STR_PAD_LEFT) . '/' . $this->year;
+        return 'Thống kê hàng hủy tháng '.str_pad((string) $this->month, 2, '0', STR_PAD_LEFT).'/'.$this->year;
     }
 
     public function mount(): void

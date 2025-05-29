@@ -42,20 +42,20 @@ class PhieuxuatList extends Component implements HasForms, HasTable
                     ->searchable(),
                 TextColumn::make('kho.TenKho')->label('Kho'),
                 TextColumn::make('LyDo')->label('Lý do')
-                    ->formatStateUsing(fn($record) => $record->LyDo == 0 ? 'Xuất sản xuất' : 'Xuất bán')
+                    ->formatStateUsing(fn ($record) => $record->LyDo == 0 ? 'Xuất sản xuất' : 'Xuất bán')
                     ->badge()
-                    ->color(fn($record): string => $record->LyDo == 0 ? 'info' : 'success')
+                    ->color(fn ($record): string => $record->LyDo == 0 ? 'info' : 'success')
                     ->searchable(),
                 TextColumn::make('TrangThai')->label('Trạng thái')
                     ->alignCenter()
-                    ->formatStateUsing(fn($record) => match ($record->TrangThai) {
+                    ->formatStateUsing(fn ($record) => match ($record->TrangThai) {
                         0 => 'Đang xử lý',
                         1 => 'Đã xử lý',
                         2 => 'Đã huỷ',
                         default => 'N/A'
                     })
                     ->badge()
-                    ->color(fn($record): string => match ($record->TrangThai) {
+                    ->color(fn ($record): string => match ($record->TrangThai) {
                         0 => 'warning',
                         1 => 'success',
                         2 => 'danger',
@@ -86,7 +86,7 @@ class PhieuxuatList extends Component implements HasForms, HasTable
 
                             Notification::make()
                                 ->title('Chọn phiếu xuất')
-                                ->body('Đã chọn phiếu xuất: ' . $record->id)
+                                ->body('Đã chọn phiếu xuất: '.$record->id)
                                 ->success()
                                 ->duration(1000)
                                 ->send();

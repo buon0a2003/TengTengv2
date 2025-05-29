@@ -22,6 +22,7 @@ class EditUser extends EditAndRedirectToIndex
     protected static ?string $breadcrumb = 'Sửa';
 
     protected string $plainPassword = '';
+
     public function shouldGetConfirm(): bool
     {
         try {
@@ -68,7 +69,7 @@ class EditUser extends EditAndRedirectToIndex
 
                 $data = $this->form->getRawState();
 
-                if (isset($data['password']) && !empty($data['password'])) {
+                if (isset($data['password']) && ! empty($data['password'])) {
                     $this->plainPassword = $data['password'];
                     $this->record->notify(new ResetAccount($this->plainPassword));
                 }

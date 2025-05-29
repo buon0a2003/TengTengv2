@@ -28,7 +28,7 @@ class XeTaiResource extends Resource implements HasShieldPermissions
         2 => 'Nghỉ',
     ];
 
-    protected static ?string $model = XeTai::class;
+    protected static ?string $model = xetai::class;
 
     protected static ?string $modelLabel = 'Xe tải';
 

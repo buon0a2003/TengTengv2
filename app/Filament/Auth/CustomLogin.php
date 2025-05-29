@@ -4,22 +4,23 @@ declare(strict_types=1);
 
 namespace App\Filament\Auth;
 
+use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use Filament\Facades\Filament;
-use Filament\Pages\Auth\Login;
-use Illuminate\Support\HtmlString;
-use Illuminate\Support\Facades\Blade;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
-use Illuminate\Contracts\Support\Htmlable;
-use Filament\Models\Contracts\FilamentUser;
-use Illuminate\Validation\ValidationException;
 use Filament\Http\Responses\Auth\Contracts\LoginResponse;
-use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Pages\Auth\Login;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\HtmlString;
+use Illuminate\Validation\ValidationException;
 
 class CustomLogin extends Login
 {
     protected static string $view = 'filament.pages.customLogin';
-    public function getHeading(): string | Htmlable
+
+    public function getHeading(): string|Htmlable
     {
         return new HtmlString('
         <h1 
@@ -47,6 +48,7 @@ class CustomLogin extends Login
         </p>
         ');
     }
+
     public function authenticate(): ?LoginResponse
     {
         try {

@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
@@ -37,8 +38,9 @@ class ResetAccount extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         $appName = config('app.name');
+
         return (new MailMessage)
-            ->subject("Mật khẩu của bạn đã được thay đổi")
+            ->subject('Mật khẩu của bạn đã được thay đổi')
             ->greeting('Xin chào '.$notifiable->name.',')
             ->line('Chúng tôi xin thông báo rằng mật khẩu tài khoản của bạn đã được thay đổi thành công.')
             ->line('Dưới đây là mật khẩu mới của bạn:')

@@ -10,9 +10,13 @@ use Filament\Widgets\ChartWidget;
 class ThongKeHuyChart extends ChartWidget
 {
     public static ?int $year = null;
+
     public static ?int $month = null;
+
     protected static ?int $sort = 1;
+
     protected int|string|array $columnSpan = 'full';
+
     public function getHeading(): string
     {
         return 'Thống kê nhập hàng hủy năm '.now()->year;

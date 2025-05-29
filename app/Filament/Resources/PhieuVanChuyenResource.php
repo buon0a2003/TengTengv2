@@ -4,32 +4,32 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use App\Models\phieuvanchuyen;
-use Filament\Resources\Resource;
-use Filament\Tables\Actions\Action;
-use Illuminate\Support\Facades\Auth;
-use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Textarea;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\ViewAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Forms\Components\DatePicker;
-use Filament\Tables\Actions\DeleteAction;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Tables\Actions\ExportBulkAction;
 use App\Filament\Exports\PhieuvanchuyenExporter;
-use Filament\Forms\Components\Actions\Action as FormAction;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
+use App\Filament\Resources\PhieuVanChuyenResource\Pages\CreatePhieuVanChuyen;
 use App\Filament\Resources\PhieuVanChuyenResource\Pages\EditPhieuVanChuyen;
 use App\Filament\Resources\PhieuVanChuyenResource\Pages\ListPhieuVanChuyens;
-use App\Filament\Resources\PhieuVanChuyenResource\Pages\CreatePhieuVanChuyen;
+use App\Models\phieuvanchuyen;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
+use Filament\Forms\Components\Actions\Action as FormAction;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
+use Filament\Notifications\Notification;
+use Filament\Resources\Resource;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ExportBulkAction;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class PhieuVanChuyenResource extends Resource implements HasShieldPermissions
 {
@@ -58,6 +58,7 @@ class PhieuVanChuyenResource extends Resource implements HasShieldPermissions
     {
         return (string) static::getModel()::where('TrangThai', 0)->count();
     }
+
     public static function getPermissionPrefixes(): array
     {
         return [
@@ -111,7 +112,7 @@ class PhieuVanChuyenResource extends Resource implements HasShieldPermissions
                         Select::make('user_id')
                             ->label('Người tạo phiếu')
                             ->relationship('user', 'name')
-                            ->default(fn(): int => Auth::user()->id)
+                            ->default(fn (): int => Auth::user()->id)
                             ->required()
                             ->disabled()
                             ->dehydrated(),
@@ -216,7 +217,7 @@ class PhieuVanChuyenResource extends Resource implements HasShieldPermissions
                 TextColumn::make('phieuxuat.id')
                     ->label('Mã phiếu xuất')
                     ->alignLeft()
-                    ->url(fn($record) => route('filament.admin.resources.phieuxuat.view', $record->phieuxuat_id))
+                    ->url(fn ($record) => route('filament.admin.resources.phieuxuat.view', $record->phieuxuat_id))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('XeTai.BienSo')
@@ -224,13 +225,13 @@ class PhieuVanChuyenResource extends Resource implements HasShieldPermissions
                     ->alignCenter()
                     ->badge()
                     ->color('gray')
-                    ->url(fn($record) => route('filament.admin.resources.xetai.edit', $record->xetai_id))
+                    ->url(fn ($record) => route('filament.admin.resources.xetai.edit', $record->xetai_id))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('taixe.TenTaiXe')
                     ->label('Tên tài xế')
                     ->alignLeft()
-                    ->url(fn($record) => route('filament.admin.resources.taixe.edit', $record->taixe_id))
+                    ->url(fn ($record) => route('filament.admin.resources.taixe.edit', $record->taixe_id))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('GhiChu')
@@ -239,25 +240,25 @@ class PhieuVanChuyenResource extends Resource implements HasShieldPermissions
                     ->limit(50)
                     ->wrap()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->tooltip(fn($record) => $record->GhiChu),
+                    ->tooltip(fn ($record) => $record->GhiChu),
                 TextColumn::make('TrangThai')
                     ->label('Trạng thái')
                     ->alignCenter()
                     ->badge()
-                    ->icon(fn($record): string => match ($record->TrangThai) {
+                    ->icon(fn ($record): string => match ($record->TrangThai) {
                         1 => 'heroicon-o-clock',
                         2 => 'heroicon-o-check-circle',
                         3 => 'heroicon-o-x-circle',
                         default => '',
                     })
-                    ->color(fn($record) => match ($record->TrangThai) {
+                    ->color(fn ($record) => match ($record->TrangThai) {
                         0 => 'warning',
                         1 => 'info',
                         2 => 'success',
                         3 => 'danger',
                         default => 'gray',
                     })
-                    ->formatStateUsing(fn($record) => match ($record->TrangThai) {
+                    ->formatStateUsing(fn ($record) => match ($record->TrangThai) {
                         0 => 'Chưa vận chuyển',
                         1 => 'Đang vận chuyển',
                         2 => 'Đã hoàn thành',
@@ -274,14 +275,14 @@ class PhieuVanChuyenResource extends Resource implements HasShieldPermissions
                 ActionGroup::make([
                     ViewAction::make()->color('info'),
                     DeleteAction::make()
-                        ->authorize(fn(): bool => Auth::user()->can('duyetphieuvanchuyen_phieu::van::chuyen'))
-                        ->visible(fn($record): bool => $record->TrangThai == 0),
+                        ->authorize(fn (): bool => Auth::user()->can('duyetphieuvanchuyen_phieu::van::chuyen'))
+                        ->visible(fn ($record): bool => $record->TrangThai == 0),
                     EditAction::make()
-                        ->authorize(fn(): bool => Auth::user()->can('duyetphieuvanchuyen_phieu::van::chuyen'))
-                        ->visible(fn($record): bool => $record->TrangThai == 0),
+                        ->authorize(fn (): bool => Auth::user()->can('duyetphieuvanchuyen_phieu::van::chuyen'))
+                        ->visible(fn ($record): bool => $record->TrangThai == 0),
                     Action::make('batdauvanchuyen')->label('Vận chuyển')
-                        ->authorize(fn(): bool => Auth::user()->can('duyetphieuvanchuyen_phieu::van::chuyen'))
-                        ->visible(fn($record): bool => $record->TrangThai == 0)
+                        ->authorize(fn (): bool => Auth::user()->can('duyetphieuvanchuyen_phieu::van::chuyen'))
+                        ->visible(fn ($record): bool => $record->TrangThai == 0)
                         ->action(
                             function (phieuvanchuyen $record) {
                                 $record->update([
@@ -298,7 +299,7 @@ class PhieuVanChuyenResource extends Resource implements HasShieldPermissions
 
                                 Notification::make()
                                     ->title('Vận chuyển')
-                                    ->body('Đã bắt đầu vận chuyển phiếu: ' . $record->id)
+                                    ->body('Đã bắt đầu vận chuyển phiếu: '.$record->id)
                                     ->success()
                                     ->duration(1000)
                                     ->send();
@@ -307,8 +308,8 @@ class PhieuVanChuyenResource extends Resource implements HasShieldPermissions
                         ->color('success')
                         ->icon('heroicon-o-check'),
                     Action::make('hoanthanhvc')->label('Hoàn thành vận chuyển')
-                        ->authorize(fn(): bool => Auth::user()->can('duyetphieuvanchuyen_phieu::van::chuyen'))
-                        ->visible(fn($record): bool => $record->TrangThai == 1)
+                        ->authorize(fn (): bool => Auth::user()->can('duyetphieuvanchuyen_phieu::van::chuyen'))
+                        ->visible(fn ($record): bool => $record->TrangThai == 1)
                         ->action(
                             function (phieuvanchuyen $record) {
                                 $record->update([
@@ -325,7 +326,7 @@ class PhieuVanChuyenResource extends Resource implements HasShieldPermissions
 
                                 Notification::make()
                                     ->title('Vận chuyển')
-                                    ->body('Đã hoaàn thành vận chuyển phiếu: ' . $record->id)
+                                    ->body('Đã hoaàn thành vận chuyển phiếu: '.$record->id)
                                     ->success()
                                     ->duration(1000)
                                     ->send();
@@ -334,8 +335,8 @@ class PhieuVanChuyenResource extends Resource implements HasShieldPermissions
                         ->color('yellow')
                         ->icon('heroicon-o-check-badge'),
                     Action::make('huyphieuxuat')->label('Huỷ phiếu vận chuyển')
-                        ->authorize(fn(): bool => Auth::user()->can('duyetphieuvanchuyen_phieu::van::chuyen'))
-                        ->visible(fn($record): bool => $record->TrangThai == 0)
+                        ->authorize(fn (): bool => Auth::user()->can('duyetphieuvanchuyen_phieu::van::chuyen'))
+                        ->visible(fn ($record): bool => $record->TrangThai == 0)
                         ->action(
                             function (phieuvanchuyen $record) {
                                 $record->update([
@@ -344,7 +345,7 @@ class PhieuVanChuyenResource extends Resource implements HasShieldPermissions
 
                                 Notification::make()
                                     ->title('Huỷ phiếu')
-                                    ->body('Đã huỷ phiếu: ' . $record->id)
+                                    ->body('Đã huỷ phiếu: '.$record->id)
                                     ->success()
                                     ->duration(1000)
                                     ->send();
