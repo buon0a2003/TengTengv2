@@ -458,6 +458,7 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                                     ->send();
                             }
                         })
+                        //66666
                         ->hidden(fn($record): bool => ! $record->TrangThai == 0)
                         ->label('Duyệt')
                         ->icon('heroicon-s-check')
