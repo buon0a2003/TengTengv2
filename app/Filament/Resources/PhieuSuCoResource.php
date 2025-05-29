@@ -23,6 +23,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
 
 class PhieuSuCoResource extends Resource
 {
@@ -75,7 +76,7 @@ class PhieuSuCoResource extends Resource
                                     ->modalDescription('Đặt mã phiếu sự cố tự động theo định dạng PSCddmmyy')
                                     ->action(function ($set) {
                                         $newId = 'PSC';
-                                        $set('id', $newId.now()->format('dmy'));
+                                        $set('id', $newId . now()->format('dmy'));
                                     })
                             ),
 
@@ -112,7 +113,7 @@ class PhieuSuCoResource extends Resource
                         Select::make('user_id')
                             ->label('Người tạo phiếu')
                             ->relationship('user', 'name')
-                            ->default(fn (): int => Auth::user()->id)
+                            ->default(fn(): int => Auth::user()->id)
                             ->required()
                             ->disabled()
                             ->dehydrated(),
@@ -155,7 +156,11 @@ class PhieuSuCoResource extends Resource
         return $table
             ->emptyStateHeading('Không có phiếu sự cố')
             ->emptyStateDescription('Vui lòng thêm dữ liệu hoặc thay đổi bộ lọc tìm kiếm.')
-            ->defaultSort('created_at', 'desc')
+            ->defaultSort(function (Builder $query): Builder {
+                return $query
+                    ->orderBy('TrangThai', 'asc')
+                    ->orderBy('NgayTao', 'desc');
+            })
             ->columns([
                 TextColumn::make('id')
                     ->label('Mã phiếu')
@@ -191,21 +196,21 @@ class PhieuSuCoResource extends Resource
                 TextColumn::make('TrangThai')
                     ->label('Trạng thái')
                     ->badge()
-                    ->icon(fn ($record): string => match ($record->TrangThai) {
+                    ->icon(fn($record): string => match ($record->TrangThai) {
                         0 => 'heroicon-o-pencil',
                         1 => 'heroicon-o-clock',
                         2 => 'heroicon-o-check-circle',
                         3 => 'heroicon-o-x-circle',
                         default => '',
                     })
-                    ->color(fn ($record) => match ($record->TrangThai) {
+                    ->color(fn($record) => match ($record->TrangThai) {
                         0 => 'warning',
                         1 => 'info',
                         2 => 'success',
                         3 => 'danger',
                         default => 'gray',
                     })
-                    ->formatStateUsing(fn ($record) => match ($record->TrangThai) {
+                    ->formatStateUsing(fn($record) => match ($record->TrangThai) {
                         0 => 'Mới tạo',
                         1 => 'Đang xử lý',
                         2 => 'Đã giải quyết',

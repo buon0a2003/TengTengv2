@@ -76,8 +76,8 @@ class AdminPanelProvider extends PanelProvider
                 'violet' => Color::Violet,
             ])
             ->theme(asset('css/filament/admin/theme.css'))
-            ->brandLogo(fn () => view('filament.logo'))
-            ->favicon(fn () => asset('images/fav/favicon-120.png'))
+            ->brandLogo(fn() => view('filament.logo'))
+            ->favicon(fn() => asset('images/fav/favicon-120.png'))
             ->authGuard('web')
             // ->authPasswordBroker('users')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
@@ -102,9 +102,9 @@ class AdminPanelProvider extends PanelProvider
                     ->icon('heroicon-o-shield-check')
                     ->activeIcon('heroicon-s-shield-check')
                     ->group('Quản lý tài khoản')
-                    ->isActiveWhen(fn () => request()->routeIs('filament.admin.resources.shield.roles.index'))
-                    ->url(fn (): string => RoleResource::getUrl('index'))
-                    ->visible(fn () => Auth::user()->can('view_any_custom::role') || Auth::user()->hasRole('super_admin')),
+                    ->isActiveWhen(fn() => request()->routeIs('filament.admin.resources.shield.roles.index'))
+                    ->url(fn(): string => RoleResource::getUrl('index'))
+                    ->visible(fn() => Auth::user()->can('view_any_custom::role') || Auth::user()->hasRole('super_admin')),
             ])
             ->navigationGroups([
                 'Quản lý danh mục',

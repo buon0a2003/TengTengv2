@@ -2,14 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 @tailwind variants;
-@import '../../../../vendor/filament/filament/resources/css/base.css';
+@import "../../../../vendor/filament/filament/resources/css/base.css";
 
 @config 'tailwind.config.js';
 
-.fi-ta-table>thead>tr {
+.fi-ta-table > thead > tr {
     @apply divide-x divide-gray-200 dark:divide-white/5;
 }
 
 .fi-ta-row {
     @apply divide-x divide-gray-200 dark:divide-white/5;
+}
+
+.fi-main {
+    background-image: url("/images/bg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+.fi-simple-main-ctn {
+    background-image: url("/images/bg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.dark .fi-main {
+    background-image: none;
+}
+
+.dark .fi-simple-main-ctn {
+    background-image: none;
 }

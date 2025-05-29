@@ -45,6 +45,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Guava\FilamentModalRelationManagers\Actions\Table\RelationManagerAction;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
 
 class PhieuXuatResource extends Resource implements HasShieldPermissions
 {
@@ -152,7 +153,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
 
                                     Select::make('user_id')->label('Người tạo phiếu')
                                         ->relationship('user', 'name')
-                                        ->default(fn (): int => Auth::user()->id)
+                                        ->default(fn(): int => Auth::user()->id)
                                         ->required()
                                         ->preload()
                                         ->disabled()
@@ -176,7 +177,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                         ->required()
                                         ->relationship('khachhang', 'TenKH')
                                         ->preload()
-                                        ->visible(fn (Get $get): bool => $get('LyDo') == '1')
+                                        ->visible(fn(Get $get): bool => $get('LyDo') == '1')
                                         ->searchable()
                                         ->createOptionForm([
                                             Section::make('Thông tin bắt buộc')
@@ -218,7 +219,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                                 ->icon('heroicon-m-magnifying-glass')
                                                 ->modalHeading('Danh sách kho')
                                                 ->modalContent(
-                                                    fn (Get $get) => view('filament.kholist', ['LyDoxuat' => $get('LyDo'), 'LyDonhap' => ''])
+                                                    fn(Get $get) => view('filament.kholist', ['LyDoxuat' => $get('LyDo'), 'LyDonhap' => ''])
                                                 )
                                                 ->action(null)
                                                 ->modalCancelAction(false)
@@ -283,11 +284,11 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                         ->required(),
                                     TextInput::make('soluongkhadung')->label('Số lượng khả dụng')
                                         ->readOnly(true)
-                                        ->suffix(fn (Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
+                                        ->suffix(fn(Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
                                         ->numeric(),
                                     TextInput::make('soluong')->label('Số lượng')
                                         ->required()
-                                        ->suffix(fn (Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
+                                        ->suffix(fn(Get $get): string => (string) vattu::find($get('vattu_id'))?->donvitinh->TenDVT ?? '')
                                         ->numeric()
                                         ->minValue(1)
                                         ->lte('soluongkhadung'),
@@ -318,7 +319,11 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                     });
                 }
             })
-            ->defaultSort('TrangThai', 'asc')
+            ->defaultSort(function (Builder $query): Builder {
+                return $query
+                    ->orderBy('TrangThai', 'asc')
+                    ->orderBy('NgayXuat', 'desc');
+            })
             ->columns([
                 TextColumn::make('id')
                     ->label('Mã phiếu')
@@ -356,8 +361,8 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                     ->label('Lý do')
                     ->alignCenter()
                     ->badge()
-                    ->formatStateUsing(fn ($record) => self::$lydo[$record->LyDo] ?? 'N/A')
-                    ->color(fn ($record): string => match ($record->LyDo) {
+                    ->formatStateUsing(fn($record) => self::$lydo[$record->LyDo] ?? 'N/A')
+                    ->color(fn($record): string => match ($record->LyDo) {
                         0 => 'info',
                         1 => 'success',
                         2 => 'warning',
@@ -368,20 +373,20 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                 TextColumn::make('TrangThai')
                     ->label('Trạng thái')
                     ->alignCenter()
-                    ->icon(fn ($record): string => match ($record->TrangThai) {
+                    ->icon(fn($record): string => match ($record->TrangThai) {
                         0 => 'heroicon-o-clock',
                         1 => 'heroicon-o-check-circle',
                         2 => 'heroicon-o-x-circle',
                         default => '',
                     })
-                    ->formatStateUsing(fn ($record) => match ($record->TrangThai) {
+                    ->formatStateUsing(fn($record) => match ($record->TrangThai) {
                         0 => 'Đang xử lý',
                         1 => 'Đã xử lý',
                         2 => 'Đã huỷ',
                         default => 'N/A'
                     })
                     ->badge()
-                    ->color(fn ($record): string => match ($record->TrangThai) {
+                    ->color(fn($record): string => match ($record->TrangThai) {
                         0 => 'warning',
                         1 => 'success',
                         2 => 'danger',
@@ -393,7 +398,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                     ->alignLeft()
                     ->limit(50)
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->tooltip(fn ($record) => $record->GhiChu)
+                    ->tooltip(fn($record) => $record->GhiChu)
                     ->wrap(),
             ])
             ->filters([
@@ -405,8 +410,8 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                     ViewAction::make()->color('info'),
                     EditAction::make()->color('primary'),
                     Action::make('duyetphieuxuat')->label('Duyệt phiếu xuất')
-                        ->authorize(fn (): bool => Auth::user()->can('duyetphieuxuat_phieu::xuat'))
-                        ->hidden(fn ($record): bool => ! $record->TrangThai == 0)
+                        ->authorize(fn(): bool => Auth::user()->can('duyetphieuxuat_phieu::xuat'))
+                        ->hidden(fn($record): bool => ! $record->TrangThai == 0)
                         ->action(
                             function (phieuxuat $record): void {
                                 $chitietphieuxuatRecord = chitietphieuxuat::where('phieuxuat_id', $record->id)->get();
@@ -460,7 +465,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                         ->icon('heroicon-o-check'),
 
                     Action::make('huyphieuxuat')->label('Huỷ phiếu xuất')
-                        ->authorize(fn (): bool => Auth::user()->can('duyetphieuxuat_phieu::xuat'))
+                        ->authorize(fn(): bool => Auth::user()->can('duyetphieuxuat_phieu::xuat'))
                         ->action(function ($record) {
                             $record->update(['TrangThai' => 2]);
                             Notification::make()
@@ -468,7 +473,7 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                                 ->danger()
                                 ->send();
                         })
-                        ->hidden(fn ($record): bool => ! $record->TrangThai == 0)
+                        ->hidden(fn($record): bool => ! $record->TrangThai == 0)
                         ->color('danger')
                         ->icon('heroicon-o-x-circle'),
 
