@@ -43,7 +43,7 @@ use Filament\Tables\Table;
 use Guava\FilamentModalRelationManagers\Actions\Table\RelationManagerAction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
-use App\Services\InventoryService;
+use App\Services\KhoService;
 
 class PhieuXuatResource extends Resource implements HasShieldPermissions
 {
@@ -420,8 +420,8 @@ class PhieuXuatResource extends Resource implements HasShieldPermissions
                         ->hidden(fn($record): bool => ! $record->TrangThai == 0)
                         ->action(
                             function (phieuxuat $record): void {
-                                $inventoryService = app(InventoryService::class);
-                                $result = $inventoryService->approvePhieuXuat($record);
+                                $inventoryService = app(KhoService::class);
+                                $result = $inventoryService->duyetPhieuXuat($record);
 
                                 if ($result['success']) {
                                     Notification::make()

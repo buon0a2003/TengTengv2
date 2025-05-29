@@ -12,9 +12,9 @@ use App\Models\tonkho;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
-class InventoryService
+class KhoService
 {
-    public function approvePhieuNhap(phieunhap $phieunhap): array
+    public function duyetPhieuNhap(phieunhap $phieunhap): array
     {
         return DB::transaction(function () use ($phieunhap) {
             $chiTietRecords = chitietphieunhap::with(['vattu', 'vitri'])
@@ -33,7 +33,7 @@ class InventoryService
                 return ['success' => false, 'message' => 'Chưa cập nhật vị trí cho dữ liệu!'];
             }
 
-            $this->updateInventoryFromNhap($chiTietRecords, $phieunhap->kho_id);
+            $this->capNhatTonKho($chiTietRecords, $phieunhap->kho_id);
 
             $phieunhap->update(['TrangThai' => 1]);
 
@@ -41,7 +41,7 @@ class InventoryService
         });
     }
 
-    public function approvePhieuXuat(phieuxuat $phieuxuat): array
+    public function duyetPhieuXuat(phieuxuat $phieuxuat): array
     {
         return DB::transaction(function () use ($phieuxuat) {
             $chiTietRecords = chitietphieuxuat::with('tonkho')
@@ -77,7 +77,7 @@ class InventoryService
         });
     }
 
-    private function updateInventoryFromNhap(Collection $chiTietRecords, int $khoId): void
+    private function capNhatTonKho(Collection $chiTietRecords, int $khoId): void
     {
         $tonkhoUpdates = [];
         $tonkhoCreates = [];

@@ -41,7 +41,7 @@ use App\Filament\Resources\PhieuNhapResource\Pages\ListPhieuNhaps;
 use App\Filament\Resources\PhieuNhapResource\Pages\CreatePhieuNhap;
 use Guava\FilamentModalRelationManagers\Actions\Table\RelationManagerAction;
 use App\Filament\Resources\PhieuNhapResource\RelationManagers\ChitietphieunhapRelationManager;
-use App\Services\InventoryService;
+use App\Services\KhoService;
 use Filament\Resources\Resource;
 
 class PhieuNhapResource extends Resource implements HasShieldPermissions
@@ -441,8 +441,8 @@ class PhieuNhapResource extends Resource implements HasShieldPermissions
                     Action::make('duyetphieunhap')
                         ->authorize(fn(): bool => Auth::user()->can('duyetphieunhap_phieu::nhap'))
                         ->action(function ($record) {
-                            $inventoryService = app(InventoryService::class);
-                            $result = $inventoryService->approvePhieuNhap($record);
+                            $inventoryService = app(KhoService::class);
+                            $result = $inventoryService->duyetPhieuNhap($record);
 
                             if ($result['success']) {
                                 Notification::make()
