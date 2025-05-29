@@ -37,9 +37,9 @@ class ThongSoWidget extends BaseWidget
             )->icon('heroicon-o-chevron-double-left')
                 ->descriptionIcon('heroicon-o-chevron-up', 'before')
                 ->descriptionColor('success')
-                // ->progress(89)
+                ->progress(89)
                 ->chartColor('success')
-                // ->progressBarColor('success')
+                ->progressBarColor('success')
                 ->chart([12, 14, 13, 15, 12])
                 ->description('Tổng nhập tháng '.now()->format('m'))
                 ->iconColor('success'),
@@ -57,6 +57,7 @@ class ThongSoWidget extends BaseWidget
                 ->descriptionColor('danger')
                 ->iconColor('danger')
                 ->progress(69)
+                ->progressBarColor('danger')
                 ->chartColor('danger'),
         ];
     }
