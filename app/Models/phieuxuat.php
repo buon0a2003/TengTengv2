@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class phieuxuat extends Model
 {
@@ -99,5 +100,10 @@ class phieuxuat extends Model
     public function phieusuco(): HasMany
     {
         return $this->hasMany(phieusuco::class);
+    }
+
+    public function phieuvanchuyen(): HasOne
+    {
+        return $this->hasOne(phieuvanchuyen::class);
     }
 }

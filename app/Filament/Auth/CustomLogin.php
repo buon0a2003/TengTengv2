@@ -10,6 +10,7 @@ use Illuminate\Support\HtmlString;
 use Illuminate\Support\Facades\Blade;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
+use Illuminate\Contracts\Support\Htmlable;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Validation\ValidationException;
 use Filament\Http\Responses\Auth\Contracts\LoginResponse;
@@ -18,7 +19,34 @@ use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 class CustomLogin extends Login
 {
     protected static string $view = 'filament.pages.customLogin';
-
+    public function getHeading(): string | Htmlable
+    {
+        return new HtmlString('
+        <h1 
+            class="
+                text-3xl 
+                font-extrabold 
+                mt-3 
+                bg-gradient-to-r 
+                from-blue-600 
+                to-indigo-500 
+                text-transparent 
+                bg-clip-text 
+                animate-pulse 
+                drop-shadow-md"
+        >
+            Đăng nhập
+        </h1>
+        <p 
+            class="
+                text-gray-500
+                text-sm
+                mt-2"
+        >
+            Vui lòng đăng nhập để tiếp tục
+        </p>
+        ');
+    }
     public function authenticate(): ?LoginResponse
     {
         try {

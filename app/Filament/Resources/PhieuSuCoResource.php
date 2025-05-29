@@ -4,28 +4,32 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PhieuSuCoResource\Pages;
-use App\Models\phieusuco;
-use Filament\Forms\Components\Actions\Action as FormAction;
-use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use App\Models\phieusuco;
+use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\MaxWidth;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Actions\DeleteAction;
+use Illuminate\Support\Facades\Auth;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Textarea;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Auth;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\DeleteAction;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Exports\PhieusucoExporter;
+use Illuminate\Database\Eloquent\Collection;
+use Filament\Tables\Actions\ExportBulkAction;
+use App\Filament\Exports\PhieuvanchuyenExporter;
+use App\Filament\Resources\PhieuSuCoResource\Pages;
+use Filament\Forms\Components\Actions\Action as FormAction;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 
-class PhieuSuCoResource extends Resource
+class PhieuSuCoResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = phieusuco::class;
 
@@ -51,6 +55,18 @@ class PhieuSuCoResource extends Resource
     public static function getNavigationBadge(): ?string
     {
         return (string) static::getModel()::where('TrangThai', 0)->count();
+    }
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view',
+            'view_any',
+            'create',
+            'update',
+            'delete',
+            'delete_any',
+            'duyetphieusuco',
+        ];
     }
 
     public static function form(Form $form): Form
@@ -226,10 +242,15 @@ class PhieuSuCoResource extends Resource
             ->actions([
                 ActionGroup::make([
                     ViewAction::make()->color('info'),
-                    EditAction::make(),
-                    DeleteAction::make(),
-                    \Filament\Tables\Actions\Action::make('changeStatus')
-                        ->label('Đổi trạng thái')
+                    EditAction::make()
+                        ->authorize(fn(): bool => Auth::user()->can('duyetphieusuco_phieu::su::co'))
+                        ->visible(fn($record): bool => $record->TrangThai == 0),
+                    DeleteAction::make()
+                        ->authorize(fn(): bool => Auth::user()->can('duyetphieusuco_phieu::su::co'))
+                        ->visible(fn($record): bool => $record->TrangThai == 0),
+                    \Filament\Tables\Actions\Action::make('changeStatus')->label('Đổi trạng thái')
+                        ->authorize(fn(): bool => Auth::user()->can('duyetphieusuco_phieu::su::co'))
+                        ->visible(fn($record): bool => $record->TrangThai == 0)
                         ->icon('heroicon-o-arrow-path')
                         ->color('success')
                         ->form([
@@ -252,29 +273,11 @@ class PhieuSuCoResource extends Resource
                 ]),
             ])
             ->bulkActions([
-                \Filament\Tables\Actions\BulkAction::make('bulkChangeStatus')
-                    ->label('Đổi trạng thái')
-                    ->icon('heroicon-o-arrow-path')
-                    ->color('success')
-                    ->form([
-                        Select::make('TrangThai')
-                            ->label('Trạng thái mới')
-                            ->options([
-                                0 => 'Mới tạo',
-                                1 => 'Đang xử lý',
-                                2 => 'Đã giải quyết',
-                                3 => 'Đã hủy',
-                            ])
-                            ->required(),
-                    ])
-                    ->action(function (Collection $records, array $data): void {
-                        $records->each(function ($record) use ($data): void {
-                            $record->TrangThai = $data['TrangThai'];
-                            $record->save();
-                        });
-                    })
-                    ->deselectRecordsAfterCompletion()
-                    ->successNotificationTitle('Đã cập nhật trạng thái các phiếu sự cố'),
+                ExportBulkAction::make()
+                    ->exporter(PhieusucoExporter::class)
+                    ->label('Xuất excel')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->color('primary'),
             ]);
     }
 
@@ -297,5 +300,10 @@ class PhieuSuCoResource extends Resource
     public static function getPluralModelLabel(): string
     {
         return 'Phiếu sự cố';
+    }
+
+    public static function shouldBeHidden($record): bool
+    {
+        return $record->TrangThai == 2 || $record->TrangThai == 3;
     }
 }

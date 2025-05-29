@@ -79,5 +79,7 @@ return [
         'duyetphieunhap' => 'Duyệt phiếu nhập',
         'duyetphieuxuat' => 'Duyệt phiếu xuất',
         'duyetphieudieuchuyen' => 'Duyệt phiếu điều chuyển',
+        'duyetphieusuco' => 'Duyệt phiếu sự cố',
+        'duyetphieuvanchuyen' => 'Duyệt phiếu vận chuyển',
     ],
 ];

@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Policies;
 
-use App\Models\phieusuco;
 use App\Models\User;
+use App\Models\phieusuco;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class phieusucoPolicy
@@ -106,5 +104,10 @@ class phieusucoPolicy
     public function reorder(User $user): bool
     {
         return $user->can('{{ Reorder }}');
+    }
+
+    public function duyetphieusuco(User $user): bool
+    {
+        return $user->can('duyetphieusuco_phieu::su::co');
     }
 }
