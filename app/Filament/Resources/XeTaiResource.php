@@ -6,7 +6,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Exports\XetaiExporter;
 use App\Filament\Resources\XeTaiResource\Pages;
-use App\Models\XeTai;
+use App\Models\xetai;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Section;
