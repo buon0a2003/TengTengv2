@@ -326,7 +326,7 @@ class PhieuVanChuyenResource extends Resource implements HasShieldPermissions
 
                                 Notification::make()
                                     ->title('Vận chuyển')
-                                    ->body('Đã hoaàn thành vận chuyển phiếu: '.$record->id)
+                                    ->body('Đã hoàn thành vận chuyển phiếu: '.$record->id)
                                     ->success()
                                     ->duration(1000)
                                     ->send();
