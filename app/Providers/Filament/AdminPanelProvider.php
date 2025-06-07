@@ -6,6 +6,7 @@ namespace App\Providers\Filament;
 
 use App\Filament\Auth\CustomLogin;
 use App\Filament\Auth\CustomProfile;
+use App\Filament\Pages\Backups;
 use App\Filament\Widgets\BangWidget;
 use App\Filament\Widgets\BieuDoWidget;
 use App\Filament\Widgets\CanhBao;
@@ -34,6 +35,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use ShuvroRoy\FilamentSpatieLaravelBackup\FilamentSpatieLaravelBackupPlugin;
 use Yebor974\Filament\RenewPassword\RenewPasswordPlugin;
 
 class AdminPanelProvider extends PanelProvider
@@ -135,6 +137,8 @@ class AdminPanelProvider extends PanelProvider
                     ->forceRenewPassword()
                     ->timestampColumn(),
                 \Hasnayeen\Themes\ThemesPlugin::make(),
+                FilamentSpatieLaravelBackupPlugin::make()
+                    ->usingPage(Backups::class),
                 FilamentShieldPlugin::make()
                     ->gridColumns([
                         'default' => 1,

@@ -20,6 +20,7 @@
         "laravel/tinker": "^2.10.1",
         "maatwebsite/excel": "^3.1",
         "phpoffice/phpspreadsheet": "*",
+        "shuvroroy/filament-spatie-laravel-backup": "^2.2",
         "yebor974/filament-renew-password": "^2.1"
     },
     "require-dev": {
