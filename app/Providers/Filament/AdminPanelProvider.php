@@ -37,6 +37,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use ShuvroRoy\FilamentSpatieLaravelBackup\FilamentSpatieLaravelBackupPlugin;
 use Yebor974\Filament\RenewPassword\RenewPasswordPlugin;
+use App\Filament\Components\BackupListCustom;
+use Livewire\Livewire;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -156,5 +158,10 @@ class AdminPanelProvider extends PanelProvider
                         'sm' => 2,
                     ]),
             ]);
+    }
+
+    public function boot(): void
+    {
+        Livewire::component('backup-list-custom', BackupListCustom::class);
     }
 }
