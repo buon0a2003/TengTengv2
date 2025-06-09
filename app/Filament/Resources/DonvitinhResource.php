@@ -4,21 +4,22 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use App\Filament\Exports\DonvitinhExporter;
-use App\Filament\Resources\DonvitinhResource\Pages;
+use Filament\Forms\Form;
 use App\Models\donvitinh;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
+use Filament\Tables\Table;
+use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Notifications\Notification;
-use Filament\Resources\Resource;
-use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\ExportBulkAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
+use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use App\Filament\Exports\DonvitinhExporter;
+use Filament\Tables\Actions\ExportBulkAction;
+use App\Filament\Resources\DonvitinhResource\Pages;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 
 class DonvitinhResource extends Resource implements HasShieldPermissions
 {
@@ -50,6 +51,7 @@ class DonvitinhResource extends Resource implements HasShieldPermissions
             'view_any',
             'create',
             'update',
+            'delete',
         ];
     }
 
@@ -133,27 +135,29 @@ class DonvitinhResource extends Resource implements HasShieldPermissions
                 //
             ])
             ->actions([
-                EditAction::make()->color('amber'),
-                DeleteAction::make()
-                    ->action(
-                        function ($record): void {
-                            if ($record->vattu()->count() > 0) {
+                ActionGroup::make([
+                    EditAction::make()->color('amber'),
+                    DeleteAction::make()
+                        ->action(
+                            function ($record): void {
+                                if ($record->vattu()->count() > 0) {
+                                    Notification::make()
+                                        ->danger()
+                                        ->title('Xoá không thành công')
+                                        ->body('Đơn vị tính đang được sử dụng bởi vật tư!')
+                                        ->send();
+
+                                    return;
+                                }
+                                $record->delete();
                                 Notification::make()
                                     ->danger()
-                                    ->title('Xoá không thành công')
-                                    ->body('Đơn vị tính đang được sử dụng bởi vật tư!')
+                                    ->title('Xoá  thành công')
+                                    ->body('Đơn vị tính đã xoá thành công!')
                                     ->send();
-
-                                return;
                             }
-                            $record->delete();
-                            Notification::make()
-                                ->danger()
-                                ->title('Xoá  thành công')
-                                ->body('Đơn vị tính đã xoá thành công!')
-                                ->send();
-                        }
-                    ),
+                        ),
+                ])
             ])
             ->bulkActions([
                 ExportBulkAction::make()

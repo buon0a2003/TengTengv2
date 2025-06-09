@@ -16,9 +16,12 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\ExportBulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Notifications\Notification;
 
 class TaixeResource extends Resource implements HasShieldPermissions
 {
@@ -51,6 +54,7 @@ class TaixeResource extends Resource implements HasShieldPermissions
             'view_any',
             'create',
             'update',
+            'delete',
         ];
     }
 
@@ -139,7 +143,7 @@ class TaixeResource extends Resource implements HasShieldPermissions
                     ->alignLeft()
                     ->searchable()
                     ->limit(50)
-                    ->tooltip(fn ($record) => $record->DiaChi),
+                    ->tooltip(fn($record) => $record->DiaChi),
                 TextColumn::make('NamSinh')
                     ->label('Năm sinh')
                     ->alignCenter()
@@ -151,24 +155,24 @@ class TaixeResource extends Resource implements HasShieldPermissions
                     ->wrap()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->limit(50)
-                    ->tooltip(fn ($record) => $record->GhiChu),
+                    ->tooltip(fn($record) => $record->GhiChu),
                 TextColumn::make('TrangThai')
                     ->label('Trạng thái')
                     ->alignCenter()
-                    ->icon(fn ($record): string => match ($record->TrangThai) {
+                    ->icon(fn($record): string => match ($record->TrangThai) {
                         0 => 'heroicon-o-clock',
                         1 => 'heroicon-o-check-circle',
                         2 => 'heroicon-o-x-circle',
                         default => ''
                     })
-                    ->formatStateUsing(fn ($record) => match ($record->TrangThai) {
+                    ->formatStateUsing(fn($record) => match ($record->TrangThai) {
                         0 => 'Đang giao',
                         1 => 'Có sẵn',
                         2 => 'Nghỉ',
                         default => 'N/A'
                     })
                     ->badge()
-                    ->color(fn ($record): string => match ($record->TrangThai) {
+                    ->color(fn($record): string => match ($record->TrangThai) {
                         0 => 'success',
                         1 => 'info',
                         2 => 'danger',
@@ -180,7 +184,29 @@ class TaixeResource extends Resource implements HasShieldPermissions
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                ActionGroup::make([
+                    Tables\Actions\EditAction::make()->color('amber'),
+                    DeleteAction::make()
+                        ->action(
+                            function ($record): void {
+                                if ($record->phieuvanchuyen()->count() > 0) {
+                                    Notification::make()
+                                        ->danger()
+                                        ->title('Xoá không thành công')
+                                        ->body('Tài xế đang được sử dụng trong phiếu vận chuyển!')
+                                        ->send();
+
+                                    return;
+                                }
+                                $record->delete();
+                                Notification::make()
+                                    ->success()
+                                    ->title('Xoá thành công')
+                                    ->body('Tài xế đã xoá thành công!')
+                                    ->send();
+                            }
+                        ),
+                ])
             ])
             ->bulkActions([
                 //

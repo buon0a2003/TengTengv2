@@ -15,9 +15,11 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ExportBulkAction;
 use Filament\Tables\Actions\ViewAction;
+use Filament\Notifications\Notification;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -52,6 +54,7 @@ class NhanVienResource extends Resource implements HasShieldPermissions
             'view_any',
             'create',
             'update',
+            'delete',
         ];
     }
 
@@ -159,16 +162,58 @@ class NhanVienResource extends Resource implements HasShieldPermissions
             ])
             ->actions([
                 Tables\Actions\Action::make('create_account')
-                    ->visible(fn (nhanvien $record): bool => ! $record->user)
+                    ->visible(fn(nhanvien $record): bool => ! $record->user)
                     ->label('Tạo TK')
                     ->icon('heroicon-o-user-plus')
                     ->color('success')
-                    ->url(fn (nhanvien $record): string => UserResource::getUrl('create', [
+                    ->url(fn(nhanvien $record): string => UserResource::getUrl('create', [
                         'nhanvien_id' => $record->id,
                     ])),
                 ActionGroup::make([
                     ViewAction::make()->color('secondary'),
                     EditAction::make()->color('primary'),
+                    DeleteAction::make()
+                        ->action(
+                            function ($record): void {
+                                $hasRelatedRecords = false;
+                                $relationshipMessages = [];
+
+                                // Check if nhanvien has a linked user account
+                                if ($record->user) {
+                                    $hasRelatedRecords = true;
+                                    $relationshipMessages[] = 'tài khoản người dùng';
+                                }
+
+                                // Check phieunhap relationship
+                                if ($record->phieunhap()->count() > 0) {
+                                    $hasRelatedRecords = true;
+                                    $relationshipMessages[] = 'phiếu nhập';
+                                }
+
+                                // Check phieuxuat relationship
+                                if ($record->phieuxuat()->count() > 0) {
+                                    $hasRelatedRecords = true;
+                                    $relationshipMessages[] = 'phiếu xuất';
+                                }
+
+                                if ($hasRelatedRecords) {
+                                    Notification::make()
+                                        ->danger()
+                                        ->title('Xoá không thành công')
+                                        ->body('Nhân viên đang được sử dụng trong: ' . implode(', ', $relationshipMessages) . '!')
+                                        ->send();
+
+                                    return;
+                                }
+
+                                $record->delete();
+                                Notification::make()
+                                    ->success()
+                                    ->title('Xoá thành công')
+                                    ->body('Nhân viên đã xoá thành công!')
+                                    ->send();
+                            }
+                        ),
                 ]),
             ])
             ->bulkActions([

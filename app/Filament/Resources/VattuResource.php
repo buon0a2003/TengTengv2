@@ -15,6 +15,7 @@ use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ExportBulkAction;
 use Filament\Tables\Actions\ViewAction;
+use Filament\Notifications\Notification;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -50,6 +51,7 @@ class VattuResource extends Resource implements HasShieldPermissions
             'view_any',
             'create',
             'update',
+            'delete',
         ];
     }
 
@@ -137,7 +139,7 @@ class VattuResource extends Resource implements HasShieldPermissions
                     ->label('Đặc điểm')
                     ->alignLeft()
                     ->limit(50)
-                    ->tooltip(fn ($record) => $record->DacDiem),
+                    ->tooltip(fn($record) => $record->DacDiem),
 
                 IconColumn::make('LaTP')
                     ->label('Là thành phẩm')
@@ -157,7 +159,54 @@ class VattuResource extends Resource implements HasShieldPermissions
                 ActionGroup::make([
                     ViewAction::make()->color('secondary'),
                     EditAction::make()->color('primary'),
-                    //                    DeleteAction::make(),
+                    DeleteAction::make()
+                        ->action(
+                            function ($record): void {
+                                $hasRelatedRecords = false;
+                                $relationshipMessages = [];
+
+                                // Check tonkho relationship
+                                if ($record->tonkho()->count() > 0) {
+                                    $hasRelatedRecords = true;
+                                    $relationshipMessages[] = 'tồn kho';
+                                }
+
+                                // Check chitietphieunhap relationship
+                                if ($record->chitietphieunhap()->count() > 0) {
+                                    $hasRelatedRecords = true;
+                                    $relationshipMessages[] = 'phiếu nhập';
+                                }
+
+                                // Check chitietphieuxuat relationship
+                                if ($record->chitietphieuxuat()->count() > 0) {
+                                    $hasRelatedRecords = true;
+                                    $relationshipMessages[] = 'phiếu xuất';
+                                }
+
+                                // Check chitietphieudieuchuyen relationship
+                                if ($record->chitietphieudieuchuyen()->count() > 0) {
+                                    $hasRelatedRecords = true;
+                                    $relationshipMessages[] = 'phiếu điều chuyển';
+                                }
+
+                                if ($hasRelatedRecords) {
+                                    Notification::make()
+                                        ->danger()
+                                        ->title('Xoá không thành công')
+                                        ->body('Vật tư đang được sử dụng trong: ' . implode(', ', $relationshipMessages) . '!')
+                                        ->send();
+
+                                    return;
+                                }
+
+                                $record->delete();
+                                Notification::make()
+                                    ->success()
+                                    ->title('Xoá thành công')
+                                    ->body('Vật tư đã xoá thành công!')
+                                    ->send();
+                            }
+                        ),
                 ]),
             ])
             ->bulkActions([

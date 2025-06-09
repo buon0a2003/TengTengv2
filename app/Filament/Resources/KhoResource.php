@@ -14,8 +14,11 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ExportBulkAction;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Notifications\Notification;
 
 class KhoResource extends Resource implements HasShieldPermissions
 {
@@ -47,6 +50,7 @@ class KhoResource extends Resource implements HasShieldPermissions
             'view_any',
             'create',
             'update',
+            'delete',
         ];
     }
 
@@ -103,14 +107,75 @@ class KhoResource extends Resource implements HasShieldPermissions
                     ->limit(50)
                     ->wrap()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->tooltip(fn ($record) => $record->GhiChu),
+                    ->tooltip(fn($record) => $record->GhiChu),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                EditAction::make(),
-                // DeleteAction::make(),
+                ActionGroup::make([
+                    EditAction::make()->color('amber'),
+                    DeleteAction::make()
+                        ->action(
+                            function ($record): void {
+                                $hasRelatedRecords = false;
+                                $relationshipMessages = [];
+
+                                // Check phieunhap relationship
+                                if ($record->phieunhap()->count() > 0) {
+                                    $hasRelatedRecords = true;
+                                    $relationshipMessages[] = 'phiếu nhập';
+                                }
+
+                                // Check phieuxuat relationship
+                                if ($record->phieuxuat()->count() > 0) {
+                                    $hasRelatedRecords = true;
+                                    $relationshipMessages[] = 'phiếu xuất';
+                                }
+
+                                // Check vitri relationship
+                                if ($record->vitri()->count() > 0) {
+                                    $hasRelatedRecords = true;
+                                    $relationshipMessages[] = 'vị trí';
+                                }
+
+                                // Check tonkho relationship
+                                if ($record->tonkho()->count() > 0) {
+                                    $hasRelatedRecords = true;
+                                    $relationshipMessages[] = 'tồn kho';
+                                }
+
+                                // Check phieudieuchuyennguon relationship
+                                if ($record->phieudieuchuyennguon()->count() > 0) {
+                                    $hasRelatedRecords = true;
+                                    $relationshipMessages[] = 'phiếu điều chuyển (kho nguồn)';
+                                }
+
+                                // Check phieudieuchuyendich relationship
+                                if ($record->phieudieuchuyendich()->count() > 0) {
+                                    $hasRelatedRecords = true;
+                                    $relationshipMessages[] = 'phiếu điều chuyển (kho đích)';
+                                }
+
+                                if ($hasRelatedRecords) {
+                                    Notification::make()
+                                        ->danger()
+                                        ->title('Xoá không thành công')
+                                        ->body('Kho đang được sử dụng trong: ' . implode(', ', $relationshipMessages) . '!')
+                                        ->send();
+
+                                    return;
+                                }
+
+                                $record->delete();
+                                Notification::make()
+                                    ->success()
+                                    ->title('Xoá thành công')
+                                    ->body('Kho đã xoá thành công!')
+                                    ->send();
+                            }
+                        ),
+                ])
             ])
             ->bulkActions([
                 ExportBulkAction::make()

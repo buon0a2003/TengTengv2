@@ -18,6 +18,7 @@ use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ExportBulkAction;
 use Filament\Tables\Actions\ViewAction;
+use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -52,6 +53,7 @@ class NhaCungCapResource extends Resource implements HasShieldPermissions
             'view_any',
             'create',
             'update',
+            'delete',
         ];
     }
 
@@ -152,7 +154,7 @@ class NhaCungCapResource extends Resource implements HasShieldPermissions
                     ->limit(50)
                     ->wrap()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->tooltip(fn ($record) => $record->GhiChu),
+                    ->tooltip(fn($record) => $record->GhiChu),
             ])
             ->striped()
             ->filters([
@@ -167,7 +169,26 @@ class NhaCungCapResource extends Resource implements HasShieldPermissions
                 ActionGroup::make([
                     ViewAction::make()->color('secondary'),
                     EditAction::make()->color('primary'),
-                    //                    DeleteAction::make(),
+                    DeleteAction::make()
+                        ->action(
+                            function ($record): void {
+                                if ($record->phieunhap()->count() > 0) {
+                                    Notification::make()
+                                        ->danger()
+                                        ->title('Xoá không thành công')
+                                        ->body('Nhà cung cấp đang được sử dụng trong phiếu nhập!')
+                                        ->send();
+
+                                    return;
+                                }
+                                $record->delete();
+                                Notification::make()
+                                    ->success()
+                                    ->title('Xoá thành công')
+                                    ->body('Nhà cung cấp đã xoá thành công!')
+                                    ->send();
+                            }
+                        ),
                 ]),
             ])
             ->bulkActions([

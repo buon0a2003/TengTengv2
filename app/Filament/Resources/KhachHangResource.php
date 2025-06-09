@@ -15,9 +15,11 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ExportBulkAction;
 use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Filament\Notifications\Notification;
 
 class KhachHangResource extends Resource implements HasShieldPermissions
 {
@@ -49,6 +51,7 @@ class KhachHangResource extends Resource implements HasShieldPermissions
             'view_any',
             'create',
             'update',
+            'delete',
         ];
     }
 
@@ -125,7 +128,7 @@ class KhachHangResource extends Resource implements HasShieldPermissions
                     ->wrap()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->limit(50)
-                    ->tooltip(fn ($record) => $record->GhiChu),
+                    ->tooltip(fn($record) => $record->GhiChu),
 
                 TextColumn::make('created_at')
                     ->label('Ngày tạo')
@@ -145,6 +148,26 @@ class KhachHangResource extends Resource implements HasShieldPermissions
                 ActionGroup::make([
                     ViewAction::make()->color('secondary'),
                     EditAction::make()->color('primary'),
+                    DeleteAction::make()
+                        ->action(
+                            function ($record): void {
+                                if ($record->phieuxuat()->count() > 0) {
+                                    Notification::make()
+                                        ->danger()
+                                        ->title('Xoá không thành công')
+                                        ->body('Khách hàng đang được sử dụng trong phiếu xuất!')
+                                        ->send();
+
+                                    return;
+                                }
+                                $record->delete();
+                                Notification::make()
+                                    ->success()
+                                    ->title('Xoá thành công')
+                                    ->body('Khách hàng đã xoá thành công!')
+                                    ->send();
+                            }
+                        ),
                 ]),
             ])
             ->bulkActions([

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
@@ -54,7 +55,15 @@ class xetai extends Model
      * @var array
      */
     protected $fillable = [
-        'BienSo', 'TenXe', 'HangXe', 'TaiTrong', 'MauSac', 'GhiChu', 'TrangThai', 'created_at', 'updated_at',
+        'BienSo',
+        'TenXe',
+        'HangXe',
+        'TaiTrong',
+        'MauSac',
+        'GhiChu',
+        'TrangThai',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -62,9 +71,7 @@ class xetai extends Model
      *
      * @var array
      */
-    protected $hidden = [
-
-    ];
+    protected $hidden = [];
 
     /**
      * The attributes that should be casted to native types.
@@ -72,7 +79,16 @@ class xetai extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'int', 'BienSo' => 'string', 'TenXe' => 'string', 'HangXe' => 'string', 'TaiTrong' => 'string', 'MauSac' => 'string', 'GhiChu' => 'string', 'TrangThai' => 'int', 'created_at' => 'timestamp', 'updated_at' => 'timestamp',
+        'id' => 'int',
+        'BienSo' => 'string',
+        'TenXe' => 'string',
+        'HangXe' => 'string',
+        'TaiTrong' => 'string',
+        'MauSac' => 'string',
+        'GhiChu' => 'string',
+        'TrangThai' => 'int',
+        'created_at' => 'timestamp',
+        'updated_at' => 'timestamp',
     ];
 
     /**
@@ -81,7 +97,8 @@ class xetai extends Model
      * @var array
      */
     protected $dates = [
-        'created_at', 'updated_at',
+        'created_at',
+        'updated_at',
     ];
 
     // Scopes...
@@ -89,4 +106,8 @@ class xetai extends Model
     // Functions ...
 
     // Relations ...
+    public function phieuvanchuyen(): HasMany
+    {
+        return $this->hasMany(phieuvanchuyen::class, 'xetai_id', 'id');
+    }
 }

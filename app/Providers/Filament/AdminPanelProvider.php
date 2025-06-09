@@ -140,6 +140,7 @@ class AdminPanelProvider extends PanelProvider
                     ->timestampColumn(),
                 \Hasnayeen\Themes\ThemesPlugin::make(),
                 FilamentSpatieLaravelBackupPlugin::make()
+                    ->timeout(30)
                     ->usingPage(Backups::class),
                 FilamentShieldPlugin::make()
                     ->gridColumns([
