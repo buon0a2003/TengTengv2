@@ -97,14 +97,14 @@ class XuatnhaptonPage extends Page implements HasForms
                 ->limit(1)
                 ->sum('SoLuong');
 
-            $closing = DB::table('tonkho')
-                ->where('vattu_id', $vt->id)
-                ->whereDate('NgayCapNhat', '<=', $end)
-                ->orderByDesc('NgayCapNhat')
-                ->limit(1)
-                ->sum('SoLuong');
+//            $closing = DB::table('tonkho')
+//                ->where('vattu_id', $vt->id)
+//                ->whereDate('NgayCapNhat', '<=', $end)
+//                ->orderByDesc('NgayCapNhat')
+//                ->limit(1)
+//                ->sum('SoLuong');
 
-            //            $closing = $opening + $import - $export;
+                        $closing = $opening + $import - $export;
 
             $records->push([
                 'MaVT' => $vt->MaVT,
